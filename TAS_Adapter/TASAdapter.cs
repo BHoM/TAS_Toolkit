@@ -9,8 +9,8 @@ using BH.Adapter.Queries;
 
 namespace BH.Adapter.TAS
 {
-    public partial class TASAdapter : BHoMAdapter
-    {
+    //public partial class TASAdapter : BHoMAdapter
+    //{
         /***************************************************/
         /**** Public fields                             ****/
         /***************************************************/
@@ -20,5 +20,5 @@ namespace BH.Adapter.TAS
         /**** Constructors                              ****/
         /***************************************************/
 
-    }
+    //}
 }

@@ -36,8 +36,30 @@
     <Reference Include="BHoM_Adapter">
       <HintPath>..\..\BHoM_Adapter\Build\BHoM_Adapter.dll</HintPath>
     </Reference>
+    <Reference Include="EDSL.Controls">
+      <HintPath>bin\EDSL.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="EDSL.ReportGenerator">
+      <HintPath>bin\EDSL.ReportGenerator.dll</HintPath>
+    </Reference>
     <Reference Include="Interop.TAS3D">
       <HintPath>bin\Interop.TAS3D.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.TasConv">
+      <HintPath>bin\Interop.TasConv.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.TBD">
+      <HintPath>bin\Interop.TBD.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.TPD">
+      <HintPath>bin\Interop.TPD.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Interop.TSD">
+      <HintPath>bin\Interop.TSD.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
@@ -53,7 +75,7 @@
     <Compile Include="Base\Enums.cs" />
     <Compile Include="Base\Label.cs" />
     <Compile Include="Base\Utils.cs" />
-    <Compile Include="Convert\FromTAS.cs" />
+    <Compile Include="Convert\ToBHoM.cs" />
     <Compile Include="Convert\ToTAS.cs" />
     <Compile Include="CRUD\Create.cs" />
     <Compile Include="CRUD\Delete.cs" />
@@ -67,9 +89,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /Y "$(TargetDir)*.*" "$(AppData)\Dynamo\Dynamo Core\1.3\packages\$(ProjectName)\bin\"
-xcopy /Y "$(ProjectDir)pkg.json" "$(AppData)\Dynamo\Dynamo Core\1.3\packages\$(ProjectName)"
-xcopy/Y "$(ProjectDir)Basilisk_DynamoCustomization.xml" "$(AppData)\Dynamo\Dynamo Core\1.3\packages\$(ProjectName)\bin"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
