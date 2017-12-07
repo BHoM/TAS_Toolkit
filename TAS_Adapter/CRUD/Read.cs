@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,13 @@ using System.Threading.Tasks;
 using BH.oM.Base;
 using BHE = BH.oM.Environmental;
 
-namespace TAS_Adapter.CRUD
+namespace BH.Adapter.TAS
 {
-    class Read
+    public partial class TasAdapter : BHoMAdapter
     {
+        protected override IEnumerable<BHoMObject> Read(Type type, IList ids)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

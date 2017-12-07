@@ -72,9 +72,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\Enums.cs" />
-    <Compile Include="Base\Label.cs" />
-    <Compile Include="Base\Utils.cs" />
     <Compile Include="Convert\ToBHoM.cs" />
     <Compile Include="Convert\ToTAS.cs" />
     <Compile Include="CRUD\Create.cs" />
@@ -86,7 +83,9 @@
     <Compile Include="Queries\DependencyTypes.cs" />
     <Compile Include="TASAdapter.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Base\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
