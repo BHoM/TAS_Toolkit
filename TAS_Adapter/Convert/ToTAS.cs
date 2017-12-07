@@ -9,9 +9,7 @@ using BHE = BH.oM.Environmental;
 using TAS3D;
 using TBD;
 using TSD;
-using TasConv;
 using TPD;
-using EDSL;
 
 namespace BH.Adapter.TAS
 {
@@ -22,36 +20,40 @@ namespace BH.Adapter.TAS
         //Geometry Converters
         /***************************************/
 
-        public static TBD.TasPointClass FromBHoMGeometry(BHG.Point BHoMPoint)
+        public static TBD.TasPointClass ToTas(this BHG.Point BHoMPoint)
         {
             TBD.TasPointClass TasPoint = new TBD.TasPointClass();
-            TasPoint.x = (BHoMPoint.X as dynamic);
-            TasPoint.y = (BHoMPoint.Y as dynamic);
-            TasPoint.z = (BHoMPoint.Z as dynamic);
+            TasPoint.x = (float)(BHoMPoint.X);
+            TasPoint.y = (float)(BHoMPoint.Y);
+            TasPoint.z = (float)(BHoMPoint.Z);
             return TasPoint;
         }
 
-        
+        /***************************************/
+
+        public static TBD.PolygonClass ToTas(BHG.Polyline BHoMPolyline)
+        {          
+       
+            TBD.PolygonClass TasPolygon = new TBD.PolygonClass();
+            List<BHG.Point> CoordList = BHoMPolyline.ControlPoints;
+
+            for (int i = 0; i < CoordList.Count; i++)
+            {
+                 TasPolygon.AddCoordinate((float)CoordList[i].X, (float)CoordList[i].Y, (float)CoordList[i].Z);
+            }
+               
+            return TasPolygon;
+        }
+
+        /***************************************/
+
+
+
         /***************************************/
         //Object Converters
         /***************************************/
 
-        
-                           
-        public static TasPoint getCoord(TBD.zoneSurface srf)
-        {
-            TBD.zoneSurface TasSrf = new TBD.zoneSurface();
-            TBD.Perimeter TasPerim = new TBD.Perimeter();
-            TBD.Polygon TasPolygon = new TBD.Polygon();
 
-            TasSrf.GetRoomSurface(1);
-            TasPerim.GetFace();
-            TasPolygon.GetPoint(1);
-
-            return TasPolygon.GetPoint(1);
-        }
-          
-      
         /***************************************/
         //Property converter
         /***************************************/
