@@ -14,19 +14,8 @@ using TPD;
 namespace BH.Adapter.TAS
 {
     public static partial class Convert
-    {
-
-        /***************************************/
-        //Object Converters - Interfaces
-        /***************************************/
-
-        public static TAS3D.IElement IToTas(this BHG.IBHoMGeometry geometry) //ToDo: change IElement to stn else
-        {
-            return Convert.ToTas(geometry as dynamic);
-        }
-        
-        
-
+    {   
+                       
         /***************************************/
         //Geometry Converters
         /***************************************/
@@ -57,6 +46,11 @@ namespace BH.Adapter.TAS
         }
 
         /***************************************/
+
+        //public static TBD.zoneSurfaceClass ToTas(BHE.Elements.Panel BHoMPanel)
+        //{
+
+        //}
                
 
 

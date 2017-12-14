@@ -5,15 +5,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BH.oM.Base;
+using BH.oM.Geometry;
 using BHE = BH.oM.Environmental;
+using BH.oM.Environmental.Elements;
 
 namespace BH.Adapter.TAS
 {
     public partial class TasAdapter : BHoMAdapter
     {
-        protected override IEnumerable<BHoMObject> Read(Type type, IList ids)
+        /***************************************************/
+        /**** Adapter Methods                           ****/
+        /***************************************************/
+
+        protected override IEnumerable<BHoMObject> Read(Type type, IList indices = null)
         {
-            throw new NotImplementedException();
+            if (type == typeof(Panel))
+                return ReadPanels();           
+            else
+                return null;
+        }
+
+        /***************************************************/
+        /**** Protected Methods                         ****/
+        /***************************************************/
+
+        public List<Panel> ReadPanels(List<string> ids = null)
+        {
+            List<Panel> bhomPanels = new List<Panel>();
+
+            return bhomPanels;
         }
     }
 }

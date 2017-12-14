@@ -29,7 +29,7 @@ namespace BH.Adapter.TAS
                     Convert.ToTas(obj as dynamic);
                 }
             }
-        return true;
+            return true;
         }
 
         /***************************************************/

@@ -7,6 +7,9 @@ using BH.oM.Base;
 using BHE = BH.oM.Environmental;
 using BH.Adapter.Queries;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using TBDFile;
+using T3DFile;
 
 namespace BH.Adapter.TAS
 {
@@ -15,41 +18,45 @@ namespace BH.Adapter.TAS
         /***************************************************/
         /**** Properties                                ****/
         /***************************************************/
-              
-
+        public const string ID = "TAS_id";
+        public string AdapterName = "TAS_name";
+        //private TBD.TBDDocument myTBDDocument;
+        //private TAS3D.T3DDocument myTAS3DDocument;    
+                
         /***************************************************/
         /**** Constructors                              ****/
         /***************************************************/
 
-        public TasAdapter (string TasFilePath, bool save)
+        public TasAdapter (string TBDFilePath = "", string T3DFilePath = "")
         {
-                try
-                {
-                    TBD.TBDDocument Document = new TBD.TBDDocument();
-                    Document.open(TasFilePath);
-                    if (save == true)
-                    {
-                        Document.save();
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine("Cannot load TAS, check that TAS is installed and a license is available");
-                }
+            AdapterId = ID;   
+
+            if (!String.IsNullOrEmpty(TBDFilePath) && System.IO.File.Exists(TBDFilePath))
+            {                
+                TASDocument.open(TBDFilePath);               
+                TAS3DDocument.Open(T3DFilePath);
+            }
+            else
+            {                
+                ErrorLog.Add("Cannot load TAS, check that TAS is installed and a license is available");
+            }
         }
 
-    
 
         /***************************************************/
         /**** Public Fields                             ****/
         /***************************************************/
-               
+
+        public TAS3D.T3DDocumentClass TAS3DDocument = new TAS3D.T3DDocumentClass();
+        public TBD.TBDDocumentClass TASDocument = new TBD.TBDDocumentClass();
+        
+       
 
         /***************************************************/
         /**** Public Getter Methods                     ****/
         /***************************************************/
 
-        
+
         /***************************************************/
         /**** Private Fileds                            ****/
         /***************************************************/
