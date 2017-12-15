@@ -22,14 +22,20 @@ namespace BH.Adapter.TAS
 
         protected override bool Create<T>(IEnumerable<T> objects, bool replaceAll = false)
         {
+            bool success = true;
+
+
             if (typeof(BHoMObject).IsAssignableFrom(typeof(T)))
             {
+                
                 foreach (T obj in objects)
                 {
                     Convert.ToTas(obj as dynamic);
                 }
+                                
             }
-            return true;
+
+            return success;
         }
 
         /***************************************************/

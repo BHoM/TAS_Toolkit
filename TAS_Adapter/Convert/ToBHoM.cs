@@ -15,7 +15,7 @@ namespace BH.Adapter.TAS
         //Geometry Converters
         /***************************************/
 
-        public static BHG.Point ToBHoMGeometry(TBD.TasPoint TASPoint)
+        public static BHG.Point ToBHoMGeometry(TBD.TasPointClass TASPoint)
         {
 
             BHG.Point BHoMPoint = new BHG.Point();
@@ -24,6 +24,16 @@ namespace BH.Adapter.TAS
             BHoMPoint.Z = (TASPoint.z);
             return BHoMPoint;
         }
-               
+
+        //***************************************/
+
+        public static BHE.Elements.Panel ToBHoM(TBD.zoneSurfaceClass TASSurface)
+        {
+            BHE.Elements.Panel BHoMPanel = new BHE.Elements.Panel();
+            BHoMPanel.Area = TASSurface.area;
+            return BHoMPanel;
+                       
+        }
+                
     }
 }

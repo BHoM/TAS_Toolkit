@@ -20,26 +20,36 @@ namespace BH.Adapter.TAS
         /***************************************************/
         public const string ID = "TAS_id";
         public string AdapterName = "TAS_name";
-        //private TBD.TBDDocument myTBDDocument;
-        //private TAS3D.T3DDocument myTAS3DDocument;    
-                
+
         /***************************************************/
         /**** Constructors                              ****/
         /***************************************************/
 
-        public TasAdapter (string TBDFilePath = "", string T3DFilePath = "")
+        public TasAdapter(string TBDFilePath = "", string T3DFilePath = "")
         {
-            AdapterId = ID;   
+            AdapterId = ID;
 
+            //TBD application
             if (!String.IsNullOrEmpty(TBDFilePath) && System.IO.File.Exists(TBDFilePath))
-            {                
-                TASDocument.open(TBDFilePath);               
-                TAS3DDocument.Open(T3DFilePath);
-            }
+               TBDDocument.open(TBDFilePath);
+            
+            else if (!String.IsNullOrEmpty(TBDFilePath))
+               TBDDocument.create(TBDFilePath); //TODO: what if an existing file has the same name? 
+            
             else
-            {                
-                ErrorLog.Add("Cannot load TAS, check that TAS is installed and a license is available");
-            }
+                ErrorLog.Add("The TBD file does not exist");
+
+
+            //T3D application
+            if (!String.IsNullOrEmpty(T3DFilePath) && System.IO.File.Exists(T3DFilePath))
+               TAS3DDocument.Open(T3DFilePath);
+
+            else if (!String.IsNullOrEmpty(T3DFilePath))
+                TAS3DDocument.Create(); //TODO: what if an existing file has the same name?
+            
+            else
+                ErrorLog.Add("The T3D file does not exist");
+            
         }
 
 
@@ -48,9 +58,11 @@ namespace BH.Adapter.TAS
         /***************************************************/
 
         public TAS3D.T3DDocumentClass TAS3DDocument = new TAS3D.T3DDocumentClass();
-        public TBD.TBDDocumentClass TASDocument = new TBD.TBDDocumentClass();
+        public TBD.TBDDocumentClass TBDDocument = new TBD.TBDDocumentClass();
         
        
+
+
 
         /***************************************************/
         /**** Public Getter Methods                     ****/

@@ -20,9 +20,11 @@ namespace BH.Adapter.TAS
         protected override IEnumerable<BHoMObject> Read(Type type, IList indices = null)
         {
             if (type == typeof(Panel))
-                return ReadPanels();           
+                return ReadPanels();
+            else if (type == typeof(BHE.Elements.Location))
+                return ReadLocation();
             else
-                return null;
+            return null;
         }
 
         /***************************************************/
@@ -32,8 +34,15 @@ namespace BH.Adapter.TAS
         public List<Panel> ReadPanels(List<string> ids = null)
         {
             List<Panel> bhomPanels = new List<Panel>();
-
             return bhomPanels;
         }
+
+
+        public List<BHE.Elements.Location> ReadLocation(List<string> ids = null)
+        {
+            List<BHE.Elements.Location> BHoMLocation = new List<BHE.Elements.Location>();
+            return BHoMLocation;
+        }
+
     }
 }
