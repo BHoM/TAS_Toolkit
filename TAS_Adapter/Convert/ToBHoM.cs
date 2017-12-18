@@ -6,11 +6,35 @@ using System.Threading.Tasks;
 using BH.oM.Base;
 using BHE = BH.oM.Environmental;
 using BHG = BH.oM.Geometry;
+using TBD;
 
 namespace BH.Adapter.TAS
 {
     public static partial class Convert
     {
+
+        ///***************************************/
+        ////Object Converters
+        ///***************************************/
+
+        public static BHE.Elements.Location ToBHoM(TBD.Building ITasBuilding)
+        {
+            BHE.Elements.Location BHoMLocation = new BHE.Elements.Location();
+            BHoMLocation.Latitude = ITasBuilding.latitude;
+            BHoMLocation.Longitude = ITasBuilding.longitude;
+            return BHoMLocation;
+        }
+
+
+        public static BHE.Elements.Location ToBHoM(this TBD.BuildingClass TasBuilding)
+        {
+            BHE.Elements.Location BHoMLocation = new BHE.Elements.Location();
+            BHoMLocation.Latitude = TasBuilding.latitude;
+            BHoMLocation.Longitude = TasBuilding.longitude;
+            return BHoMLocation;
+        }
+              
+        
         /***************************************/
         //Geometry Converters
         /***************************************/

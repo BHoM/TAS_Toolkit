@@ -26,7 +26,6 @@ namespace BH.Adapter.TAS
             TAS3D.BuildingClass TasLocation = new TAS3D.BuildingClass();
             TasLocation.latitude = (float)BHoMLocation.Latitude;
             TasLocation.longitude = (float)BHoMLocation.Longitude;
-            //TasLocation.maxBuildingAltitude = (float)BHoMLocation.Elevation;
             return TasLocation;
             
         }

@@ -31,10 +31,10 @@ namespace BH.Adapter.TAS
 
             //TBD application
             if (!String.IsNullOrEmpty(TBDFilePath) && System.IO.File.Exists(TBDFilePath))
-               TBDDocument.open(TBDFilePath);
+               TBDDocumentInstance.open(TBDFilePath);
             
             else if (!String.IsNullOrEmpty(TBDFilePath))
-               TBDDocument.create(TBDFilePath); //TODO: what if an existing file has the same name? 
+               TBDDocumentInstance.create(TBDFilePath); //TODO: what if an existing file has the same name? 
             
             else
                 ErrorLog.Add("The TBD file does not exist");
@@ -58,7 +58,7 @@ namespace BH.Adapter.TAS
         /***************************************************/
 
         public TAS3D.T3DDocumentClass TAS3DDocument = new TAS3D.T3DDocumentClass();
-        public TBD.TBDDocumentClass TBDDocument = new TBD.TBDDocumentClass();
+        public TBD.TBDDocumentClass TBDDocumentInstance = new TBD.TBDDocumentClass();
         
        
 

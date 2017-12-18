@@ -8,6 +8,10 @@ using BH.oM.Base;
 using BH.oM.Geometry;
 using BHE = BH.oM.Environmental;
 using BH.oM.Environmental.Elements;
+using BHG = BH.oM.Geometry;
+using BH.Adapter.TAS;
+using TBD;
+using TAS3D;
 
 namespace BH.Adapter.TAS
 {
@@ -27,6 +31,7 @@ namespace BH.Adapter.TAS
             return null;
         }
 
+        
         /***************************************************/
         /**** Protected Methods                         ****/
         /***************************************************/
@@ -37,12 +42,18 @@ namespace BH.Adapter.TAS
             return bhomPanels;
         }
 
+        /***************************************************/
 
         public List<BHE.Elements.Location> ReadLocation(List<string> ids = null)
         {
+            TBD.Building building = TBDDocumentInstance.Building;
             List<BHE.Elements.Location> BHoMLocation = new List<BHE.Elements.Location>();
+
+            BHoMLocation.Add(Convert.ToBHoM(building));
+                       
             return BHoMLocation;
         }
+
 
     }
 }
