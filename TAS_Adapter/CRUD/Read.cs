@@ -40,16 +40,19 @@ namespace BH.Adapter.TAS
 
         public List<Space> ReadZones(List<string> ids = null)
         {
-                                             
-            TBD.zone zone = TBDDocumentInstance.Building.GetZone(0);
             List<Space> BHoMSpace = new List<Space>();
-            BHoMSpace.Add(Convert.ToBHoM(zone));
-            
+
+            int zoneIndex = 0;
+            while (TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
+            {
+                TBD.zone zone = TBDDocumentInstance.Building.GetZone(zoneIndex);
+                BHoMSpace.Add(Convert.ToBHoM(zone));
+                zoneIndex++;
+            }                
+                       
             return BHoMSpace;
         }
-
-        
-
+                
         /***************************************************/
 
         public List<BHE.Elements.Location> ReadLocation(List<string> ids = null)
@@ -65,17 +68,22 @@ namespace BH.Adapter.TAS
                
         public List<Panel> ReadPanels(List<string> ids = null)
         {
-            TBD.zone zone = TBDDocumentInstance.Building.GetZone(0);
-            TBD.zoneSurface zonesurface = zone.GetSurface(0);
+
             List<Panel> BHoMPanels = new List<Panel>();
-            BHoMPanels.Add(Convert.ToBHoM(zonesurface));
+                                          
+                int panelIndex = 0;
+                while (TBDDocumentInstance.Building.GetZone(0).GetSurface(panelIndex) != null)
+                {
+                    TBD.zoneSurface zonesurface = TBDDocumentInstance.Building.GetZone(0).GetSurface(panelIndex);
+                    BHoMPanels.Add(Convert.ToBHoM(zonesurface));
+                    panelIndex++;
+                }
+
             return BHoMPanels;
         }
 
         /***************************************************/
 
         
-
-
     }
 }

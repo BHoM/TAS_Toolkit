@@ -40,6 +40,7 @@ namespace BH.Adapter.TAS
         {
             BHE.Elements.Panel BHoMPanel = new BHE.Elements.Panel();
             BHoMPanel.Area = ITasSurface.area;
+            BHoMPanel.Type = ITasSurface.type.ToString();
             return BHoMPanel;
                        
         }
