@@ -25,7 +25,6 @@ namespace BH.Adapter.TAS
             return BHoMLocation;
         }
                
-
         /***************************************/
 
         public static BHE.Elements.Space ToBHoM(TBD.zone ITasZone)
@@ -40,7 +39,7 @@ namespace BH.Adapter.TAS
         public static BHE.Elements.Panel ToBHoM(TBD.zoneSurface ITasSurface)
         {
             BHE.Elements.Panel BHoMPanel = new BHE.Elements.Panel();
-            BHoMPanel.Name = ITasSurface.area.ToString();
+            BHoMPanel.Area = ITasSurface.area;
             return BHoMPanel;
                        
         }

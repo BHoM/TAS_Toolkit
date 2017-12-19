@@ -42,10 +42,10 @@ namespace BH.Adapter.TAS
 
             //T3D application
             if (!String.IsNullOrEmpty(T3DFilePath) && System.IO.File.Exists(T3DFilePath))
-               TAS3DDocument.Open(T3DFilePath);
+               TAS3DDocumentInstance.Open(T3DFilePath);
 
             else if (!String.IsNullOrEmpty(T3DFilePath))
-                TAS3DDocument.Create(); //TODO: what if an existing file has the same name?
+                TAS3DDocumentInstance.Create(); //TODO: what if an existing file has the same name?
             
             else
                 ErrorLog.Add("The T3D file does not exist");
@@ -57,7 +57,7 @@ namespace BH.Adapter.TAS
         /**** Public Fields                             ****/
         /***************************************************/
 
-        public TAS3D.T3DDocumentClass TAS3DDocument = new TAS3D.T3DDocumentClass();
+        public TAS3D.T3DDocumentClass TAS3DDocumentInstance = new TAS3D.T3DDocumentClass();
         public TBD.TBDDocumentClass TBDDocumentInstance = new TBD.TBDDocumentClass();
         
        

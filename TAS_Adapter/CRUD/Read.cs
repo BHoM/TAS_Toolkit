@@ -27,7 +27,7 @@ namespace BH.Adapter.TAS
                 return ReadPanels();
             else if (type == typeof(BHE.Elements.Location))
                 return ReadLocation();
-            else if (type == typeof(BHE.Elements.Space))
+            else if (type == typeof(Space))
                 return ReadZones();
             else
                 return null;
@@ -40,13 +40,15 @@ namespace BH.Adapter.TAS
 
         public List<Space> ReadZones(List<string> ids = null)
         {
+                                             
             TBD.zone zone = TBDDocumentInstance.Building.GetZone(0);
             List<Space> BHoMSpace = new List<Space>();
             BHoMSpace.Add(Convert.ToBHoM(zone));
-
+            
             return BHoMSpace;
         }
 
+        
 
         /***************************************************/
 
@@ -69,6 +71,10 @@ namespace BH.Adapter.TAS
             BHoMPanels.Add(Convert.ToBHoM(zonesurface));
             return BHoMPanels;
         }
+
+        /***************************************************/
+
+        
 
 
     }
