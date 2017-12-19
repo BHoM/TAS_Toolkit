@@ -36,11 +36,13 @@ namespace BH.Adapter.TAS
 
         /***************************************/
 
-        public static BHE.Elements.Panel ToBHoM(TBD.zoneSurface ITasSurface)
+        public static BHE.Elements.Panel ToBHoM(TBD.zoneSurface ITasSurface, BHG.Point ControlPoint)
         {
             BHE.Elements.Panel BHoMPanel = new BHE.Elements.Panel();
             BHoMPanel.Area = ITasSurface.area;
             BHoMPanel.Type = ITasSurface.type.ToString();
+            BHoMPanel.ControlPoint = ControlPoint; 
+                        
             return BHoMPanel;
                        
         }
@@ -50,19 +52,36 @@ namespace BH.Adapter.TAS
         //Geometry Converters
         /***************************************/
 
-        public static BHG.Point ToBHoMGeometry(TBD.TasPointClass TASPoint)
+        public static BHG.Point ToBHoM(TBD.TasPoint TASPoint)
         {
 
             BHG.Point BHoMPoint = new BHG.Point();
-            BHoMPoint.X = (TASPoint.x);
-            BHoMPoint.Y = (TASPoint.y);
-            BHoMPoint.Z = (TASPoint.z);
+            BHoMPoint.X = TASPoint.x;
+            BHoMPoint.Y = TASPoint.y;
+            BHoMPoint.Z = TASPoint.z;
             return BHoMPoint;
         }
 
         //***************************************/
 
-       
-                
+        public static BHG.Polyline ToBHoM(TBD.Polygon ITasPolygon)
+        {
+
+            BHG.Polyline Edges = new BHG.Polyline();
+            TasPoint TasControlPoint = ITasPolygon.GetPoint(0); // TODO: loop through all of the edges
+            BHG.Point BHoMPoint = ToBHoM(TasControlPoint); //Convert the control points to BHoM Points
+
+            List<BHG.Point> BHoMPointList = new List<BHG.Point>();
+            BHoMPointList.Add(BHoMPoint);
+
+            Edges.ControlPoints = BHoMPointList;
+
+            return Edges;
+        }
+
+        //***************************************/
+
+
+
     }
 }
