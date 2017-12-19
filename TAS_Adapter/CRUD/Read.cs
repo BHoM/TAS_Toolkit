@@ -75,9 +75,25 @@ namespace BH.Adapter.TAS
                 while (TBDDocumentInstance.Building.GetZone(0).GetSurface(panelIndex) != null)
                 {
                     TBD.zoneSurface zonesurface = TBDDocumentInstance.Building.GetZone(0).GetSurface(panelIndex);
-                    BHoMPanels.Add(Convert.ToBHoM(zonesurface));
+                    
+
+
+                    //Read geometry for the panels
+                    TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(0);
+                    TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
+                    TBD.Polygon currPolygon = currPerimeter.GetFace();
+                                    
+                    TBD.TasPoint currPoint = currPolygon.GetPoint(0);
+                    BHG.Point controlPoint = Convert.ToBHoM(currPoint);
+                                  
+                    //---
+                    BHoMPanels.Add(Convert.ToBHoM(zonesurface, controlPoint));
+
                     panelIndex++;
                 }
+
+
+           
 
             return BHoMPanels;
         }
