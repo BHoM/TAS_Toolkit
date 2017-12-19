@@ -40,11 +40,16 @@ namespace BH.Adapter.TAS
 
         public List<Space> ReadZones(List<string> ids = null)
         {
-                                             
-            TBD.zone zone = TBDDocumentInstance.Building.GetZone(0);
             List<Space> BHoMSpace = new List<Space>();
-            BHoMSpace.Add(Convert.ToBHoM(zone));
-            
+
+            int index = 0;
+            while (TBDDocumentInstance.Building.GetZone(index) != null)
+            {
+                TBD.zone zone = TBDDocumentInstance.Building.GetZone(index);
+                BHoMSpace.Add(Convert.ToBHoM(zone));
+                index++;
+            }                
+                       
             return BHoMSpace;
         }
 
@@ -75,7 +80,5 @@ namespace BH.Adapter.TAS
         /***************************************************/
 
         
-
-
     }
 }
