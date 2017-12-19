@@ -27,20 +27,26 @@ namespace BH.Adapter.TAS
                 return ReadPanels();
             else if (type == typeof(BHE.Elements.Location))
                 return ReadLocation();
+            else if (type == typeof(BHE.Elements.Space))
+                return ReadZones();
             else
-            return null;
+                return null;
         }
 
-        
+
         /***************************************************/
         /**** Protected Methods                         ****/
         /***************************************************/
 
-        public List<Panel> ReadPanels(List<string> ids = null)
+        public List<Space> ReadZones(List<string> ids = null)
         {
-            List<Panel> bhomPanels = new List<Panel>();
-            return bhomPanels;
+            TBD.zone zone = TBDDocumentInstance.Building.GetZone(0);
+            List<Space> BHoMSpace = new List<Space>();
+            BHoMSpace.Add(Convert.ToBHoM(zone));
+
+            return BHoMSpace;
         }
+
 
         /***************************************************/
 
@@ -48,10 +54,20 @@ namespace BH.Adapter.TAS
         {
             TBD.Building building = TBDDocumentInstance.Building;
             List<BHE.Elements.Location> BHoMLocation = new List<BHE.Elements.Location>();
-
             BHoMLocation.Add(Convert.ToBHoM(building));
-                       
+                      
             return BHoMLocation;
+        }
+
+        /***************************************************/
+               
+        public List<Panel> ReadPanels(List<string> ids = null)
+        {
+            TBD.zone zone = TBDDocumentInstance.Building.GetZone(0);
+            TBD.zoneSurface zonesurface = zone.GetSurface(0);
+            List<Panel> BHoMPanels = new List<Panel>();
+            BHoMPanels.Add(Convert.ToBHoM(zonesurface));
+            return BHoMPanels;
         }
 
 

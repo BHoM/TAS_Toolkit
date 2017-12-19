@@ -24,16 +24,27 @@ namespace BH.Adapter.TAS
             BHoMLocation.Longitude = ITasBuilding.longitude;
             return BHoMLocation;
         }
+               
 
+        /***************************************/
 
-        public static BHE.Elements.Location ToBHoM(this TBD.BuildingClass TasBuilding)
+        public static BHE.Elements.Space ToBHoM(TBD.zone ITasZone)
         {
-            BHE.Elements.Location BHoMLocation = new BHE.Elements.Location();
-            BHoMLocation.Latitude = TasBuilding.latitude;
-            BHoMLocation.Longitude = TasBuilding.longitude;
-            return BHoMLocation;
+            BHE.Elements.Space BHoMSpace = new BHE.Elements.Space();
+            BHoMSpace.Name = ITasZone.name;
+            return BHoMSpace;
         }
-              
+
+        /***************************************/
+
+        public static BHE.Elements.Panel ToBHoM(TBD.zoneSurface ITasSurface)
+        {
+            BHE.Elements.Panel BHoMPanel = new BHE.Elements.Panel();
+            BHoMPanel.Name = ITasSurface.area.ToString();
+            return BHoMPanel;
+                       
+        }
+
         
         /***************************************/
         //Geometry Converters
@@ -51,13 +62,7 @@ namespace BH.Adapter.TAS
 
         //***************************************/
 
-        public static BHE.Elements.Panel ToBHoM(TBD.zoneSurfaceClass TASSurface)
-        {
-            BHE.Elements.Panel BHoMPanel = new BHE.Elements.Panel();
-            BHoMPanel.Area = TASSurface.area;
-            return BHoMPanel;
-                       
-        }
+       
                 
     }
 }
