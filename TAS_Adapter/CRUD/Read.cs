@@ -68,32 +68,32 @@ namespace BH.Adapter.TAS
                
         public List<Panel> ReadPanels(List<string> ids = null)
         {
-
+            
             List<Panel> BHoMPanels = new List<Panel>();
-                                          
-                int panelIndex = 0;
-                while (TBDDocumentInstance.Building.GetZone(0).GetSurface(panelIndex) != null)
-                {
-                    TBD.zoneSurface zonesurface = TBDDocumentInstance.Building.GetZone(0).GetSurface(panelIndex);
-                    
 
+            int zoneIndex = 0;
+            while (TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
+            {
+                int panelIndex = 0;
+                while (TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex) != null)
+                {
+                    TBD.zoneSurface zonesurface = TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex);
 
                     //Read geometry for the panels
                     TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(0);
                     TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
                     TBD.Polygon currPolygon = currPerimeter.GetFace();
-                                    
-                    TBD.TasPoint currPoint = currPolygon.GetPoint(0);
+
+                    TBD.TasPoint currPoint = currPolygon.GetPoint(0); // We need to loop through the points as well
                     BHG.Point controlPoint = Convert.ToBHoM(currPoint);
-                                  
-                    //---
+
                     BHoMPanels.Add(Convert.ToBHoM(zonesurface, controlPoint));
 
                     panelIndex++;
                 }
 
-
-           
+                zoneIndex++;                
+            }
 
             return BHoMPanels;
         }
