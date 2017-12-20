@@ -82,19 +82,11 @@ namespace BH.Adapter.TAS
                     //Get edges as polylines for the Tas Surfaces
                     TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(0);
                     TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
-                    TBD.Polygon currPolygon = currPerimeter.GetFace();
-
-                    int pointIndex = 0;
-                    while (currPolygon.GetPoint(pointIndex) != null)
-                    {
-                        TBD.TasPoint currPoint = currPolygon.GetPoint(pointIndex);
-                        BHG.Point controlPoint = Convert.ToBHoM(currPoint);
-                        pointIndex++;
-
-                        BHoMPanels.Add(Convert.ToBHoM(zonesurface, controlPoint)); //TODO: change input to polyline
-                    }
-             
-
+                    TBD.Polygon currPolygon = currPerimeter.GetFace();         
+                                                            
+                    BHG.Polyline edges = Convert.ToBHoM(currPolygon);
+                    BHoMPanels.Add(Convert.ToBHoM(zonesurface, edges));
+                                        
                     panelIndex++;
                 }
 
