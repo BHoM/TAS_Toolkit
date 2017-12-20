@@ -40,7 +40,7 @@ namespace BH.Adapter.TAS
         {
             BHE.Elements.Panel BHoMPanel = new BHE.Elements.Panel();
             BHoMPanel.Area = ITasSurface.area;
-            BHoMPanel.Type = ITasSurface.type.ToString();
+            //BHoMPanel.Type = ITasSurface.type.ToString();
             BHoMPanel.Edges = edges;
                         
             return BHoMPanel;
@@ -66,8 +66,9 @@ namespace BH.Adapter.TAS
 
         public static BHG.Polyline ToBHoM(TBD.Polygon ITasPolygon)
         {
+            //Returns a closed polyline
 
-            BHG.Polyline Edges = new BHG.Polyline();
+           
             List<BHG.Point> BHoMPointList = new List<BHG.Point>();
 
             int pointIndex = 0;
@@ -81,8 +82,9 @@ namespace BH.Adapter.TAS
                                 
             }
 
-            Edges.ControlPoints = BHoMPointList;
-            
+            BHoMPointList.Add(BHoMPointList[0]);
+            BHG.Polyline Edges = new BHG.Polyline(BHoMPointList);
+                                   
             return Edges;
         }
 

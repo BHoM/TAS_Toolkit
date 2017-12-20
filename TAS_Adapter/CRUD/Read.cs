@@ -79,13 +79,27 @@ namespace BH.Adapter.TAS
                 {
                     TBD.zoneSurface zonesurface = TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex);
 
-                    //Get edges as polylines for the Tas Surfaces
-                    TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(0);
-                    TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
-                    TBD.Polygon currPolygon = currPerimeter.GetFace();         
+                    try
+                    {
+                        //Get edges as polylines for the Tas Surfaces
+                        TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(0);
+                        TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
+                        TBD.Polygon currPolygon = currPerimeter.GetFace();
                                                             
-                    BHG.Polyline edges = Convert.ToBHoM(currPolygon);
-                    BHoMPanels.Add(Convert.ToBHoM(zonesurface, edges));
+                        BHG.Polyline edges = Convert.ToBHoM(currPolygon);
+                        BHoMPanels.Add(Convert.ToBHoM(zonesurface, edges));
+                    }
+
+                    //If we have air walls we will get a NullReferenceException. Tas does not count air walls as surfaces 
+                    catch (NullReferenceException e)
+                    {
+                        int error = panelIndex;
+                        Console.WriteLine(e);
+                        //throw e;
+                                               
+                    }
+
+                    
                                         
                     panelIndex++;
                 }
