@@ -79,15 +79,21 @@ namespace BH.Adapter.TAS
                 {
                     TBD.zoneSurface zonesurface = TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex);
 
-                    //Read geometry for the panels
+                    //Get edges as polylines for the Tas Surfaces
                     TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(0);
                     TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
                     TBD.Polygon currPolygon = currPerimeter.GetFace();
 
-                    TBD.TasPoint currPoint = currPolygon.GetPoint(0); // We need to loop through the points as well
-                    BHG.Point controlPoint = Convert.ToBHoM(currPoint);
+                    int pointIndex = 0;
+                    while (currPolygon.GetPoint(pointIndex) != null)
+                    {
+                        TBD.TasPoint currPoint = currPolygon.GetPoint(pointIndex);
+                        BHG.Point controlPoint = Convert.ToBHoM(currPoint);
+                        pointIndex++;
 
-                    BHoMPanels.Add(Convert.ToBHoM(zonesurface, controlPoint));
+                        BHoMPanels.Add(Convert.ToBHoM(zonesurface, controlPoint)); //TODO: change input to polyline
+                    }
+             
 
                     panelIndex++;
                 }
