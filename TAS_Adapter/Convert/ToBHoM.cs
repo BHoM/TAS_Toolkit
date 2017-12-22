@@ -36,12 +36,12 @@ namespace BH.Adapter.TAS
 
         /***************************************/
 
-        public static BHE.Elements.Panel ToBHoM(TBD.zoneSurface ITasSurface, BHG.Point ControlPoint)
+        public static BHE.Elements.Panel ToBHoM(TBD.zoneSurface ITasSurface, BHG.Polyline edges)
         {
             BHE.Elements.Panel BHoMPanel = new BHE.Elements.Panel();
             BHoMPanel.Area = ITasSurface.area;
-            BHoMPanel.Type = ITasSurface.type.ToString();
-            BHoMPanel.ControlPoint = ControlPoint; 
+            //BHoMPanel.Type = ITasSurface.type.ToString();
+            BHoMPanel.Edges = edges;
                         
             return BHoMPanel;
                        
@@ -66,16 +66,25 @@ namespace BH.Adapter.TAS
 
         public static BHG.Polyline ToBHoM(TBD.Polygon ITasPolygon)
         {
+            //Returns a closed polyline
 
-            BHG.Polyline Edges = new BHG.Polyline();
-            TasPoint TasControlPoint = ITasPolygon.GetPoint(0); // TODO: loop through all of the edges
-            BHG.Point BHoMPoint = ToBHoM(TasControlPoint); //Convert the control points to BHoM Points
-
+           
             List<BHG.Point> BHoMPointList = new List<BHG.Point>();
-            BHoMPointList.Add(BHoMPoint);
 
-            Edges.ControlPoints = BHoMPointList;
+            int pointIndex = 0;
+            while (ITasPolygon.GetPoint(pointIndex) != null)
+            {
+                TasPoint TasControlPoint = ITasPolygon.GetPoint(pointIndex);
+                BHG.Point BHoMPoint = ToBHoM(TasControlPoint);
+                                
+                BHoMPointList.Add(BHoMPoint);
+                pointIndex++;
+                                
+            }
 
+            BHoMPointList.Add(BHoMPointList[0]);
+            BHG.Polyline Edges = new BHG.Polyline(BHoMPointList);
+                                   
             return Edges;
         }
 

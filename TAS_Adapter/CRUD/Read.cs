@@ -68,33 +68,40 @@ namespace BH.Adapter.TAS
                
         public List<Panel> ReadPanels(List<string> ids = null)
         {
-
+            
             List<Panel> BHoMPanels = new List<Panel>();
-                                          
+
+            int zoneIndex = 0;
+            while (TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
+            {
                 int panelIndex = 0;
-                while (TBDDocumentInstance.Building.GetZone(0).GetSurface(panelIndex) != null)
+                while (TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex) != null)
                 {
-                    TBD.zoneSurface zonesurface = TBDDocumentInstance.Building.GetZone(0).GetSurface(panelIndex);
-                    
+                    TBD.zoneSurface zonesurface = TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex);
 
+                    try
+                    {
+                        //Get edges as polylines for the Tas Surfaces
+                        TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(0);
+                        TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
+                        TBD.Polygon currPolygon = currPerimeter.GetFace();
+                                                            
+                        BHG.Polyline edges = Convert.ToBHoM(currPolygon);
+                        BHoMPanels.Add(Convert.ToBHoM(zonesurface, edges));
+                    }
 
-                    //Read geometry for the panels
-                    TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(0);
-                    TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
-                    TBD.Polygon currPolygon = currPerimeter.GetFace();
-                                    
-                    TBD.TasPoint currPoint = currPolygon.GetPoint(0);
-                    BHG.Point controlPoint = Convert.ToBHoM(currPoint);
-                                  
-                    //---
-                    BHoMPanels.Add(Convert.ToBHoM(zonesurface, controlPoint));
-
+                    //If we have air walls we will get a NullReferenceException. Tas does not count air walls as surfaces 
+                    catch (NullReferenceException e)
+                    {
+                        int error = panelIndex;
+                        Console.WriteLine(e);
+                        //throw e;
+                                               
+                    }                                                     
                     panelIndex++;
                 }
-
-
-           
-
+                zoneIndex++;                
+            }
             return BHoMPanels;
         }
 
