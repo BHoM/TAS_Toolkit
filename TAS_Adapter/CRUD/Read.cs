@@ -97,16 +97,11 @@ namespace BH.Adapter.TAS
                         Console.WriteLine(e);
                         //throw e;
                                                
-                    }
-
-                    
-                                        
+                    }                                                     
                     panelIndex++;
                 }
-
                 zoneIndex++;                
             }
-
             return BHoMPanels;
         }
 
