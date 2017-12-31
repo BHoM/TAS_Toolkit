@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Convert\ToBHoM.cs" />
+    <Compile Include="Convert\AdapterID.cs" />
     <Compile Include="Convert\ToTAS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

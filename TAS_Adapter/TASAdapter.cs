@@ -7,22 +7,11 @@ namespace BH.Adapter.TAS
     public partial class TasAdapter : BHoMAdapter
     {
         /***************************************************/
-        /**** Properties                                ****/
-        /***************************************************/
-
-        public const string ID = "TAS_id";
-
-        public string AdapterName = "TAS_name";
-
-
-        /***************************************************/
         /**** Constructors                              ****/
         /***************************************************/
 
         public TasAdapter(string tBDFilePath = "", string t3DFilePath = "")
         {
-            AdapterId = ID;
-
             //TBD application
             if (!String.IsNullOrEmpty(tBDFilePath) && System.IO.File.Exists(tBDFilePath))
                m_TBDDocumentInstance.open(tBDFilePath);
