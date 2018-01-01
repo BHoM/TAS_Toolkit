@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BH.oM.Base;
-using BHE = BH.oM.Environmental;
+﻿using BH.Adapter;
 
-namespace TAS_Adapter.CRUD
+
+namespace BH.Adapter.TAS
 {
-    class Update
+    public partial class TasAdapter : BHoMAdapter
     {
+        /***************************************************/
+        /**** Public Methods                            ****/
+        /***************************************************/
+
+
+
+        /***************************************************/
     }
 }

@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using BH.oM.Base;
-using BHG = BH.oM.Geometry; 
-using BHE = BH.oM.Environmental;
+
 
 namespace BH.Adapter.TAS
 {
     public partial class TasAdapter : BHoMAdapter
     {
         /***************************************************/
-        /**** Adapter Methods                           ****/
-        /***************************************************/
-
-
-        /***************************************************/
-        /**** Protected Methods                         ****/
+        /**** Public Methods                            ****/
         /***************************************************/
 
         protected override bool Create<T>(IEnumerable<T> objects, bool replaceAll = false)
@@ -30,7 +20,7 @@ namespace BH.Adapter.TAS
                 
                 foreach (T obj in objects)
                 {
-                    Convert.ToTas(obj as dynamic);
+                    Engine.TAS.Convert.ToTas(obj as dynamic);
                 }
                                 
             }
@@ -38,8 +28,6 @@ namespace BH.Adapter.TAS
             return success;
         }
 
-        /***************************************************/
-        /**** Private Fields                            ****/
         /***************************************************/
     }
 }
