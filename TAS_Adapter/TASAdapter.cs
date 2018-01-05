@@ -8,8 +8,6 @@ using BHE = BH.oM.Environmental;
 using BH.Adapter.Queries;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using TBDFile;
-using T3DFile;
 
 namespace BH.Adapter.TAS
 {
@@ -25,7 +23,7 @@ namespace BH.Adapter.TAS
         /**** Constructors                              ****/
         /***************************************************/
 
-        public TasAdapter(string TBDFilePath = "", string T3DFilePath = "")
+        public TasAdapter(string TBDFilePath = "")
         {
             AdapterId = ID;
 
@@ -38,17 +36,6 @@ namespace BH.Adapter.TAS
             
             else
                 ErrorLog.Add("The TBD file does not exist");
-
-
-            //T3D application
-            if (!String.IsNullOrEmpty(T3DFilePath) && System.IO.File.Exists(T3DFilePath))
-               TAS3DDocumentInstance.Open(T3DFilePath);
-
-            else if (!String.IsNullOrEmpty(T3DFilePath))
-                TAS3DDocumentInstance.Create(); //TODO: what if an existing file has the same name?
-            
-            else
-                ErrorLog.Add("The T3D file does not exist");
             
         }
 
@@ -57,7 +44,6 @@ namespace BH.Adapter.TAS
         /**** Public Fields                             ****/
         /***************************************************/
 
-        public TAS3D.T3DDocumentClass TAS3DDocumentInstance = new TAS3D.T3DDocumentClass();
         public TBD.TBDDocumentClass TBDDocumentInstance = new TBD.TBDDocumentClass();
         
        

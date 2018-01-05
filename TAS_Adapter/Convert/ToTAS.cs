@@ -20,10 +20,10 @@ namespace BH.Adapter.TAS
         ////Object Converters
         ///***************************************/
         
-        public static TAS3D.BuildingClass ToTas(BHE.Elements.Location BHoMLocation)
+        public static TBD.BuildingClass ToTas(BHE.Elements.Location BHoMLocation)
         {
-            //TBD.BuildingClass TasLocation = new TBD.BuildingClass();
-            TAS3D.BuildingClass TasLocation = new TAS3D.BuildingClass();
+            
+            TBD.BuildingClass TasLocation = new TBD.BuildingClass();
             TasLocation.latitude = (float)BHoMLocation.Latitude;
             TasLocation.longitude = (float)BHoMLocation.Longitude;
             return TasLocation;

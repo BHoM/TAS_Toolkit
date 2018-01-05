@@ -30,7 +30,7 @@ namespace BH.Adapter.TAS
         public static BHE.Elements.Space ToBHoM(TBD.zone ITasZone)
         {
             BHE.Elements.Space BHoMSpace = new BHE.Elements.Space();
-            BHoMSpace.Name = ITasZone.name;
+            //BHoMSpace.Name = ITasZone.name;
             return BHoMSpace;
         }
 
