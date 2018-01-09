@@ -66,7 +66,7 @@ namespace BH.Adapter.TAS
         {
             TBD.zoneSurfaceClass TasSurface = new TBD.zoneSurfaceClass();
             //add points as properties to the surface
-            TasSurface.area = (float)BHoMPanel.Area;
+            //TasSurface.area = (float)BHoMPanel.Area;
             return TasSurface;
         }
                

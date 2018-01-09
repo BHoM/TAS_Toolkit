@@ -17,14 +17,40 @@ namespace BH.Adapter.TAS
         ////Object Converters
         ///***************************************/
 
-        public static BHE.Elements.Location ToBHoM(TBD.Building ITasBuilding)
+        public static BHE.Elements.Location ToBHoM(float latitude, float longitude)
         {
             BHE.Elements.Location BHoMLocation = new BHE.Elements.Location();
-            BHoMLocation.Latitude = ITasBuilding.latitude;
-            BHoMLocation.Longitude = ITasBuilding.longitude;
+            BHoMLocation.Latitude = latitude;
+            BHoMLocation.Longitude = longitude;
             return BHoMLocation;
         }
+
+
+        /***************************************/
+        public static BHE.Elements.BuildingElement ToBHoM(TBD.Building ITasBuilding, int BuildingElementIndex)
+        {
+                BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement();
+                BHoMBuildingElement.BEType = ITasBuilding.GetBuildingElement(BuildingElementIndex).BEType;
+                BHoMBuildingElement.Name = ITasBuilding.GetBuildingElement(BuildingElementIndex).name;
+                BHoMBuildingElement.Ghost = ITasBuilding.GetBuildingElement(BuildingElementIndex).ghost;
+                BHoMBuildingElement.Width = ITasBuilding.GetBuildingElement(BuildingElementIndex).width;
+                BHoMBuildingElement.Ground = ITasBuilding.GetBuildingElement(BuildingElementIndex).ground;
                
+                
+
+            return BHoMBuildingElement;
+        }
+
+        public static BHE.Elements.BuildingElement ToBHoM(TBD.zoneSurface ITasSurface)
+        {
+            BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement();
+            BHoMBuildingElement.BEType = ITasSurface.buildingElement.BEType;
+            BHoMBuildingElement.Name = ITasSurface.buildingElement.name;
+
+            return BHoMBuildingElement;
+        }
+
+
         /***************************************/
 
         public static BHE.Elements.Space ToBHoM(TBD.zone ITasZone)
@@ -39,9 +65,9 @@ namespace BH.Adapter.TAS
         public static BHE.Elements.Panel ToBHoM(TBD.zoneSurface ITasSurface, BHG.Polyline edges)
         {
             BHE.Elements.Panel BHoMPanel = new BHE.Elements.Panel();
-            BHoMPanel.Area = ITasSurface.area;
-            //BHoMPanel.Type = ITasSurface.type.ToString();
             BHoMPanel.Edges = edges;
+            BHE.Elements.BuildingElement BHoMBuildingElement= ToBHoM(ITasSurface);
+            BHoMPanel.BuildingElements.Name = BHoMBuildingElement.Name;
                         
             return BHoMPanel;
                        
@@ -54,7 +80,6 @@ namespace BH.Adapter.TAS
 
         public static BHG.Point ToBHoM(TBD.TasPoint TASPoint)
         {
-
             BHG.Point BHoMPoint = new BHG.Point();
             BHoMPoint.X = TASPoint.x;
             BHoMPoint.Y = TASPoint.y;
@@ -67,8 +92,6 @@ namespace BH.Adapter.TAS
         public static BHG.Polyline ToBHoM(TBD.Polygon ITasPolygon)
         {
             //Returns a closed polyline
-
-           
             List<BHG.Point> BHoMPointList = new List<BHG.Point>();
 
             int pointIndex = 0;

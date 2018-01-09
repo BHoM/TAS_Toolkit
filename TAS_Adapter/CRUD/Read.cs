@@ -29,6 +29,8 @@ namespace BH.Adapter.TAS
                 return ReadLocation();
             else if (type == typeof(Space))
                 return ReadZones();
+            else if (type == typeof(BHE.Elements.BuildingElement))
+                return ReadBuildingElements();
             else
                 return null;
         }
@@ -59,7 +61,7 @@ namespace BH.Adapter.TAS
         {
             TBD.Building building = TBDDocumentInstance.Building;
             List<BHE.Elements.Location> BHoMLocation = new List<BHE.Elements.Location>();
-            BHoMLocation.Add(Convert.ToBHoM(building));
+            BHoMLocation.Add(Convert.ToBHoM(building.latitude, building.longitude));
                       
             return BHoMLocation;
         }
@@ -107,6 +109,23 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        
+        public List<BHE.Elements.BuildingElement> ReadBuildingElements(List<string> ids = null)
+        {
+            TBD.Building building = TBDDocumentInstance.Building;
+            List<BHE.Elements.BuildingElement> BHoMBuildingElement = new List<BHE.Elements.BuildingElement>();
+
+            int BuildingElementIndex = 0;
+            while (building.GetBuildingElement(BuildingElementIndex) != null)
+            {
+
+                //List<BHE.Elements.BuildingElement> BHoMBuildingElement = new List<BHE.Elements.BuildingElement>();
+                BHoMBuildingElement.Add(Convert.ToBHoM(building, BuildingElementIndex));
+                BuildingElementIndex++;
+
+            }
+
+            return BHoMBuildingElement;
+        }
+
     }
 }
