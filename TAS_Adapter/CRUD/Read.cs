@@ -1,24 +1,17 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BH.oM.Base;
-using BH.oM.Geometry;
 using BHE = BH.oM.Environmental;
 using BH.oM.Environmental.Elements;
 using BHG = BH.oM.Geometry;
-using BH.Adapter.TAS;
-using TBD;
-using TAS3D;
 
 namespace BH.Adapter.TAS
 {
     public partial class TasAdapter : BHoMAdapter
     {
         /***************************************************/
-        /**** Adapter Methods                           ****/
+        /**** Public Methods                            ****/
         /***************************************************/
 
         protected override IEnumerable<BHoMObject> Read(Type type, IList indices = null)
@@ -37,27 +30,27 @@ namespace BH.Adapter.TAS
 
 
         /***************************************************/
-        /**** Protected Methods                         ****/
+        /**** Private Methods                           ****/
         /***************************************************/
 
-        public List<Space> ReadZones(List<string> ids = null)
+        private List<Space> ReadZones(List<string> ids = null)
         {
-            List<Space> BHoMSpace = new List<Space>();
+            List<Space> bHoMSpace = new List<Space>();
 
             int zoneIndex = 0;
             while (m_TAS3DDocumentInstance.Building.GetZone(zoneIndex) != null)
             {
                 TBD.zone zone = m_TBDDocumentInstance.Building.GetZone(zoneIndex);
-                BHoMSpace.Add(Engine.TAS.Convert.ToBHoM(zone));
+                bHoMSpace.Add(Engine.TAS.Convert.ToBHoM(zone));
                 zoneIndex++;
             }                
                        
-            return BHoMSpace;
+            return bHoMSpace;
         }
                 
         /***************************************************/
 
-        public List<BHE.Elements.Location> ReadLocation(List<string> ids = null)
+        private List<BHE.Elements.Location> ReadLocation(List<string> ids = null)
         {
             TBD.Building building = m_TBDDocumentInstance.Building;
             List<BHE.Elements.Location> BHoMLocation = new List<BHE.Elements.Location>();
@@ -68,10 +61,10 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
                
-        public List<Panel> ReadPanels(List<string> ids = null)
+        private List<Panel> ReadPanels(List<string> ids = null)
         {
             
-            List<Panel> BHoMPanels = new List<Panel>();
+            List<Panel> bHoMPanels = new List<Panel>();
 
             int zoneIndex = 0;
             while (m_TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
@@ -89,7 +82,7 @@ namespace BH.Adapter.TAS
                         TBD.Polygon currPolygon = currPerimeter.GetFace();
                                                             
                         BHG.Polyline edges = Engine.TAS.Convert.ToBHoM(currPolygon);
-                        BHoMPanels.Add(Engine.TAS.Convert.ToBHoM(zonesurface, edges));
+                        bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(zonesurface, edges));
                     }
 
                     //If we have air walls we will get a NullReferenceException. Tas does not count air walls as surfaces 
@@ -104,7 +97,7 @@ namespace BH.Adapter.TAS
                 }
                 zoneIndex++;                
             }
-            return BHoMPanels;
+            return bHoMPanels;
         }
 
         /***************************************************/
