@@ -8,7 +8,7 @@ using BHE = BH.oM.Environmental;
 
 namespace TAS_Adapter.Queries
 {
-    class Comparer
+    class Comparer  // If this is meant to compare objects, it needs to be moved in the Environmental Engine
     {
     }
 }

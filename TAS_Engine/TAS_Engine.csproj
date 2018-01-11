@@ -4,20 +4,19 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4A134184-DD14-4280-90E6-13210BBCF296}</ProjectGuid>
+    <ProjectGuid>{9938088D-650C-4C9B-B1FD-C0457357F836}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TAS_Adapter</RootNamespace>
-    <AssemblyName>TAS_Adapter</AssemblyName>
+    <RootNamespace>TAS_Engine</RootNamespace>
+    <AssemblyName>TAS_Engine</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\Build\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,26 +32,24 @@
   <ItemGroup>
     <Reference Include="BHoM">
       <HintPath>..\..\BHoM\Build\BHoM.dll</HintPath>
-      <Private>False</Private>
     </Reference>
-    <Reference Include="BHoM_Adapter">
-      <HintPath>..\..\BHoM_Adapter\Build\BHoM_Adapter.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Geometry_Engine">
+      <HintPath>..\..\BHoM_Engine\Build\Geometry_Engine.dll</HintPath>
     </Reference>
     <Reference Include="Interop.TAS3D">
-      <HintPath>bin\Interop.TAS3D.dll</HintPath>
+      <HintPath>..\lib\Interop.TAS3D.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Interop.TBD">
-      <HintPath>bin\Interop.TBD.dll</HintPath>
+      <HintPath>..\lib\Interop.TBD.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Interop.TPD">
-      <HintPath>bin\Interop.TPD.dll</HintPath>
+      <HintPath>..\lib\Interop.TPD.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Interop.TSD">
-      <HintPath>bin\Interop.TSD.dll</HintPath>
+      <HintPath>..\lib\Interop.TSD.dll</HintPath>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
@@ -65,26 +62,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CRUD\Create.cs" />
-    <Compile Include="CRUD\Delete.cs" />
-    <Compile Include="CRUD\Read.cs" />
-    <Compile Include="CRUD\Update.cs" />
+    <Compile Include="Convert\AdapterID.cs" />
+    <Compile Include="Convert\ToBHoM.cs" />
+    <Compile Include="Convert\ToTAS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types\Comparer.cs" />
-    <Compile Include="Types\DependencyTypes.cs" />
-    <Compile Include="TASAdapter.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TAS_Engine\TAS_Engine.csproj">
-      <Project>{9938088d-650c-4c9b-b1fd-c0457357f836}</Project>
-      <Name>TAS_Engine</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

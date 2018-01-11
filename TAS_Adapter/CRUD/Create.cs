@@ -1,21 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BH.oM.Base;
-using BHG = BH.oM.Geometry; 
-using BHE = BH.oM.Environmental;
 
 namespace BH.Adapter.TAS
 {
     public partial class TasAdapter : BHoMAdapter
     {
-        /***************************************************/
-        /**** Adapter Methods                           ****/
-        /***************************************************/
-
-
         /***************************************************/
         /**** Protected Methods                         ****/
         /***************************************************/
@@ -30,7 +21,7 @@ namespace BH.Adapter.TAS
                 
                 foreach (T obj in objects)
                 {
-                    Convert.ToTas(obj as dynamic);
+                    Engine.TAS.Convert.ToTas(obj as dynamic);
                 }
                                 
             }

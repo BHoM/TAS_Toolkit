@@ -45,10 +45,10 @@ namespace BH.Adapter.TAS
             List<Space> BHoMSpace = new List<Space>();
 
             int zoneIndex = 0;
-            while (TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
+            while (m_TAS3DDocumentInstance.Building.GetZone(zoneIndex) != null)
             {
-                TBD.zone zone = TBDDocumentInstance.Building.GetZone(zoneIndex);
-                BHoMSpace.Add(Convert.ToBHoM(zone));
+                TBD.zone zone = m_TBDDocumentInstance.Building.GetZone(zoneIndex);
+                BHoMSpace.Add(Engine.TAS.Convert.ToBHoM(zone));
                 zoneIndex++;
             }                
                        
@@ -59,9 +59,9 @@ namespace BH.Adapter.TAS
 
         public List<BHE.Elements.Location> ReadLocation(List<string> ids = null)
         {
-            TBD.Building building = TBDDocumentInstance.Building;
+            TBD.Building building = m_TBDDocumentInstance.Building;
             List<BHE.Elements.Location> BHoMLocation = new List<BHE.Elements.Location>();
-            BHoMLocation.Add(Convert.ToBHoM(building.latitude, building.longitude));
+            BHoMLocation.Add(Engine.TAS.Convert.ToBHoM(building));
                       
             return BHoMLocation;
         }
@@ -74,12 +74,12 @@ namespace BH.Adapter.TAS
             List<Panel> BHoMPanels = new List<Panel>();
 
             int zoneIndex = 0;
-            while (TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
+            while (m_TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
             {
                 int panelIndex = 0;
-                while (TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex) != null)
+                while (m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex) != null)
                 {
-                    TBD.zoneSurface zonesurface = TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex);
+                    TBD.zoneSurface zonesurface = m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex);
 
                     try
                     {
@@ -88,8 +88,8 @@ namespace BH.Adapter.TAS
                         TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
                         TBD.Polygon currPolygon = currPerimeter.GetFace();
                                                             
-                        BHG.Polyline edges = Convert.ToBHoM(currPolygon);
-                        BHoMPanels.Add(Convert.ToBHoM(zonesurface, edges));
+                        BHG.Polyline edges = Engine.TAS.Convert.ToBHoM(currPolygon);
+                        BHoMPanels.Add(Engine.TAS.Convert.ToBHoM(zonesurface, edges));
                     }
 
                     //If we have air walls we will get a NullReferenceException. Tas does not count air walls as surfaces 
@@ -111,7 +111,7 @@ namespace BH.Adapter.TAS
 
         public List<BHE.Elements.BuildingElement> ReadBuildingElements(List<string> ids = null)
         {
-            TBD.Building building = TBDDocumentInstance.Building;
+            TBD.Building building = m_TBDDocumentInstance.Building;
             List<BHE.Elements.BuildingElement> BHoMBuildingElement = new List<BHE.Elements.BuildingElement>();
 
             int BuildingElementIndex = 0;
@@ -119,7 +119,7 @@ namespace BH.Adapter.TAS
             {
 
                 //List<BHE.Elements.BuildingElement> BHoMBuildingElement = new List<BHE.Elements.BuildingElement>();
-                BHoMBuildingElement.Add(Convert.ToBHoM(building, BuildingElementIndex));
+                BHoMBuildingElement.Add(Engine.TAS.Convert.ToBHoM(building, BuildingElementIndex));
                 BuildingElementIndex++;
 
             }
