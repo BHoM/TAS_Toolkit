@@ -62,14 +62,11 @@ namespace BH.Engine.TAS
         // A TAS object must correspond just to one BHoMObject. If you feel things don't work and a duplicate appears plausible, the problem is in the BHoM, not in the converter
         public static BHE.Elements.Panel ToBHoM(TBD.zoneSurface ITasSurface, BHG.Polyline edges)
         {
-            //BHE.Elements.Panel bHoMPanel = new BHE.Elements.Panel()
-            //{
-
-            //};
-            // bHoMPanel.Area = tasSurface.area;         //TODO: This doesn't make sense. The surface of the panel needs to be defined instead
-            //BHoMPanel.Type = ITasSurface.type.ToString();
-            //bHoMPanel.Edges = edges;
-            return null;
+            BHE.Elements.Panel bHoMPanel = new BHE.Elements.Panel();
+                   
+            //bHoMPanel.Type = ITasSurface.type.ToString();
+            bHoMPanel.Edges = edges;
+            return bHoMPanel;
         }
 
 
@@ -104,6 +101,7 @@ namespace BH.Engine.TAS
                 bHoMPointList.Add(tasPt.ToBHoM());
                 pointIndex++;
             }
+            bHoMPointList.Add(bHoMPointList[0]);
             return new BHG.Polyline { ControlPoints = bHoMPointList };
         }
 

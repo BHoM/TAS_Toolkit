@@ -38,7 +38,7 @@ namespace BH.Adapter.TAS
             List<Space> bHoMSpace = new List<Space>();
 
             int zoneIndex = 0;
-            while (m_TAS3DDocumentInstance.Building.GetZone(zoneIndex) != null)
+            while (m_TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
             {
                 TBD.zone zone = m_TBDDocumentInstance.Building.GetZone(zoneIndex);
                 bHoMSpace.Add(Engine.TAS.Convert.ToBHoM(zone));
