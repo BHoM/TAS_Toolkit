@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_Adapter", "TAS_Adapter\TAS_Adapter.csproj", "{4A134184-DD14-4280-90E6-13210BBCF296}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_Engine", "TAS_Engine\TAS_Engine.csproj", "{9938088D-650C-4C9B-B1FD-C0457357F836}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4A134184-DD14-4280-90E6-13210BBCF296}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A134184-DD14-4280-90E6-13210BBCF296}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A134184-DD14-4280-90E6-13210BBCF296}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9938088D-650C-4C9B-B1FD-C0457357F836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9938088D-650C-4C9B-B1FD-C0457357F836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9938088D-650C-4C9B-B1FD-C0457357F836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9938088D-650C-4C9B-B1FD-C0457357F836}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
