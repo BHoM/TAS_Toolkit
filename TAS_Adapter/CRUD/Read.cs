@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using BH.oM.Base;
 using BHE = BH.oM.Environmental;
-using BH.oM.Environmental.Elements;
+using BHS = BH.oM.Structural;
+using BH.oM.Environmental.Elements_Legacy;
 using BHG = BH.oM.Geometry;
 
 namespace BH.Adapter.TAS
@@ -18,12 +19,16 @@ namespace BH.Adapter.TAS
         {
             if (type == typeof(Panel))
                 return ReadPanels();
-            else if (type == typeof(BHE.Elements.Location))
-                return ReadLocation();
+            //else if (type == typeof(BHE.Elements_Legacy.Location))
+            //    return ReadLocation();
+            else if (type == typeof(BHE.Elements.Building))
+                return ReadBuilding();
             else if (type == typeof(Space))
                 return ReadZones();
             else if (type == typeof(BHE.Elements.BuildingElement))
                 return ReadBuildingElements();
+            else if (type == typeof(BHS.Elements.Storey))
+                return ReadStorey();
             else
                 return null;
         }
@@ -50,17 +55,30 @@ namespace BH.Adapter.TAS
                 
         /***************************************************/
 
-        private List<BHE.Elements.Location> ReadLocation(List<string> ids = null)
-        {
-            TBD.Building building = m_TBDDocumentInstance.Building;
-            List<BHE.Elements.Location> BHoMLocation = new List<BHE.Elements.Location>();
-            BHoMLocation.Add(Engine.TAS.Convert.ToBHoM(building));
+        //private List<BHE.Elements_Legacy.Location> ReadLocation(List<string> ids = null)
+        //{
+        //    TBD.Building building = m_TBDDocumentInstance.Building;
+        //    List<BHE.Elements_Legacy.Location> BHoMLocation = new List<BHE.Elements_Legacy.Location>();
+        //    BHoMLocation.Add(Engine.TAS.Convert.ToBHoM(building));
                       
-            return BHoMLocation;
-        }
+        //    return BHoMLocation;
+        //}
+
 
         /***************************************************/
-               
+
+        private List<BHE.Elements.Building> ReadBuilding(List<string> ids = null)
+        {
+            TBD.Building building = m_TBDDocumentInstance.Building;
+            List<BHE.Elements.Building> BHoMBuilding = new List<BHE.Elements.Building>();
+            BHoMBuilding.Add(Engine.TAS.Convert.ToBHoM(building));
+
+            return BHoMBuilding;
+        }
+
+
+        /***************************************************/
+
         private List<Panel> ReadPanels(List<string> ids = null)
         {
             
@@ -102,10 +120,10 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        public List<BHE.Elements.BuildingElement> ReadBuildingElements(List<string> ids = null)
+        public List<BHE.Elements_Legacy.BuildingElement> ReadBuildingElements(List<string> ids = null)
         {
             TBD.Building building = m_TBDDocumentInstance.Building;
-            List<BHE.Elements.BuildingElement> BHoMBuildingElement = new List<BHE.Elements.BuildingElement>();
+            List<BHE.Elements_Legacy.BuildingElement> BHoMBuildingElement = new List<BHE.Elements_Legacy.BuildingElement>();
 
             int BuildingElementIndex = 0;
             while (building.GetBuildingElement(BuildingElementIndex) != null)
@@ -118,6 +136,17 @@ namespace BH.Adapter.TAS
             }
 
             return BHoMBuildingElement;
+        }
+
+        /***************************************************/
+
+        private List<BHS.Elements.Storey> ReadStorey(List<string> ids = null)
+        {
+            TBD.BuildingStorey tasStorey = m_TBDDocumentInstance.Building.GetStorey(0);
+            List<BHS.Elements.Storey> BHoMStorey = new List<BHS.Elements.Storey>();
+            BHoMStorey.Add(Engine.TAS.Convert.ToBHoM(tasStorey));
+
+            return BHoMStorey;
         }
 
     }

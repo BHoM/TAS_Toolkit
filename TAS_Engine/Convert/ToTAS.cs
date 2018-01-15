@@ -15,7 +15,7 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
-        public static TAS3D.BuildingClass ToTas(BHE.Elements.Location bHoMLocation) // Are you sure it is not better to return the Building interface? It seems like Tas works with interfaces. It for sure need a deeper look 
+        public static TAS3D.BuildingClass ToTas(BHE.Elements_Legacy.Location bHoMLocation) // Are you sure it is not better to return the Building interface? It seems like Tas works with interfaces. It for sure need a deeper look 
         {
             TAS3D.BuildingClass tasLocation = new TAS3D.BuildingClass();
             tasLocation.latitude = (float)bHoMLocation.Latitude;
@@ -55,7 +55,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.zoneSurfaceClass ToTas(BHE.Elements.Panel bHoMPanel)
+        public static TBD.zoneSurfaceClass ToTas(BHE.Elements_Legacy.Panel bHoMPanel)
         {
             TBD.zoneSurfaceClass tasSurface = new TBD.zoneSurfaceClass();
             //add points as properties to the surface

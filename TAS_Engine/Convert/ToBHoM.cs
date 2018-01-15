@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BHE = BH.oM.Environmental;
+using BHS = BH.oM.Structural;
 using BHG = BH.oM.Geometry;
 using TBD;
 
@@ -11,9 +12,9 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
-        public static BHE.Elements.BuildingElement ToBHoM(TBD.Building ITasBuilding, int BuildingElementIndex)
+        public static BHE.Elements_Legacy.BuildingElement ToBHoM(TBD.Building ITasBuilding, int BuildingElementIndex)
         {
-            BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement()
+            BHE.Elements_Legacy.BuildingElement BHoMBuildingElement = new BHE.Elements_Legacy.BuildingElement()
             {
                 BEType = ITasBuilding.GetBuildingElement(BuildingElementIndex).BEType,
                 Name = ITasBuilding.GetBuildingElement(BuildingElementIndex).name,
@@ -26,9 +27,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.BuildingElement ToBHoM(TBD.zoneSurface ITasSurface)
+        public static BHE.Elements_Legacy.BuildingElement ToBHoM(TBD.zoneSurface ITasSurface)
         {
-            BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement()
+            BHE.Elements_Legacy.BuildingElement BHoMBuildingElement = new BHE.Elements_Legacy.BuildingElement()
             {
                 BEType = ITasSurface.buildingElement.BEType,
                 Name = ITasSurface.buildingElement.name
@@ -38,21 +39,45 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.Location ToBHoM(this TBD.Building tasBuilding)
+        public static BHS.Elements.Storey ToBHoM(TBD.BuildingStorey TasStorey)
         {
-            BHE.Elements.Location bHoMLocation = new BHE.Elements.Location()
+            BHS.Elements.Storey BHoMStorey = new BHS.Elements.Storey()
             {
-                Latitude = tasBuilding.latitude,
-                Longitude = tasBuilding.longitude
+
             };
-            return bHoMLocation;
+            return BHoMStorey;
         }
 
         /***************************************************/
 
-        public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone)
+        //public static BHE.Elements_Legacy.Location ToBHoM(this TBD.Building tasBuilding)
+        //{
+        //    BHE.Elements_Legacy.Location bHoMLocation = new BHE.Elements_Legacy.Location()
+        //    {
+        //        Latitude = tasBuilding.latitude,
+        //        Longitude = tasBuilding.longitude
+        //    };
+        //    return bHoMLocation;
+        //}
+
+        /***************************************************/
+
+        public static BHE.Elements.Building ToBHoM(this TBD.Building tasBuilding)
         {
-            BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
+            BHE.Elements.Building bHoMBuilding = new BHE.Elements.Building()
+            {
+                Latitude = tasBuilding.latitude,
+                Longitude = tasBuilding.longitude,
+            };
+            return bHoMBuilding;
+        }
+
+        /***************************************************/
+
+
+        public static BHE.Elements_Legacy.Space ToBHoM(this TBD.zone tasZone)
+        {
+            BHE.Elements_Legacy.Space bHoMSpace = new BHE.Elements_Legacy.Space();
             bHoMSpace.Name = tasZone.name;
             return bHoMSpace;
         }
@@ -60,11 +85,10 @@ namespace BH.Engine.TAS
         /***************************************************/
 
         // A TAS object must correspond just to one BHoMObject. If you feel things don't work and a duplicate appears plausible, the problem is in the BHoM, not in the converter
-        public static BHE.Elements.Panel ToBHoM(TBD.zoneSurface ITasSurface, BHG.Polyline edges)
+        public static BHE.Elements_Legacy.Panel ToBHoM(TBD.zoneSurface ITasSurface, BHG.Polyline edges)
         {
-            BHE.Elements.Panel bHoMPanel = new BHE.Elements.Panel();
+            BHE.Elements_Legacy.Panel bHoMPanel = new BHE.Elements_Legacy.Panel();
                    
-            //bHoMPanel.Type = ITasSurface.type.ToString();
             bHoMPanel.Edges = edges;
             return bHoMPanel;
         }
