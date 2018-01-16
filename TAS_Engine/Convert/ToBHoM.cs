@@ -68,6 +68,8 @@ namespace BH.Engine.TAS
             {
                 Latitude = tasBuilding.latitude,
                 Longitude = tasBuilding.longitude,
+                Elevation = tasBuilding.maxBuildingAltitude,
+                
             };
             return bHoMBuilding;
         }
@@ -75,9 +77,9 @@ namespace BH.Engine.TAS
         /***************************************************/
 
 
-        public static BHE.Elements_Legacy.Space ToBHoM(this TBD.zone tasZone)
+        public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone)
         {
-            BHE.Elements_Legacy.Space bHoMSpace = new BHE.Elements_Legacy.Space();
+            BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
             bHoMSpace.Name = tasZone.name;
             return bHoMSpace;
         }

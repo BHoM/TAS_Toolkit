@@ -38,9 +38,9 @@ namespace BH.Adapter.TAS
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private List<Space> ReadZones(List<string> ids = null)
+        private List<BHE.Elements.Space> ReadZones(List<string> ids = null)
         {
-            List<Space> bHoMSpace = new List<Space>();
+            List<BHE.Elements.Space> bHoMSpace = new List<BHE.Elements.Space>();
 
             int zoneIndex = 0;
             while (m_TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
