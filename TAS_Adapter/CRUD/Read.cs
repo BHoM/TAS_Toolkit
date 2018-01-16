@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using BH.oM.Base;
 using BHE = BH.oM.Environmental;
 using BHS = BH.oM.Structural;
-using BH.oM.Environmental.Elements_Legacy;
+using BH.oM.Environmental.Elements;
+using BH.oM.Environmental.Properties;
 using BHG = BH.oM.Geometry;
+using BH.Engine;
 
 namespace BH.Adapter.TAS
 {
@@ -17,16 +19,14 @@ namespace BH.Adapter.TAS
 
         protected override IEnumerable<BHoMObject> Read(Type type, IList indices = null)
         {
-            if (type == typeof(Panel))
+            if (type == typeof(BuildingElementPanel))
                 return ReadPanels();
-            //else if (type == typeof(BHE.Elements_Legacy.Location))
-            //    return ReadLocation();
-            else if (type == typeof(BHE.Elements.Building))
+            else if (type == typeof(Building))
                 return ReadBuilding();
             else if (type == typeof(Space))
                 return ReadZones();
-            else if (type == typeof(BHE.Elements.BuildingElement))
-                return ReadBuildingElements();
+            else if (type == typeof(BuildingElementProperties))
+                return ReadBuildingElementsProperties();
             else if (type == typeof(BHS.Elements.Storey))
                 return ReadStorey();
             else
@@ -38,9 +38,9 @@ namespace BH.Adapter.TAS
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private List<BHE.Elements.Space> ReadZones(List<string> ids = null)
+        private List<Space> ReadZones(List<string> ids = null)
         {
-            List<BHE.Elements.Space> bHoMSpace = new List<BHE.Elements.Space>();
+            List<Space> bHoMSpace = new List<Space>();
 
             int zoneIndex = 0;
             while (m_TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
@@ -52,25 +52,13 @@ namespace BH.Adapter.TAS
                        
             return bHoMSpace;
         }
-                
-        /***************************************************/
-
-        //private List<BHE.Elements_Legacy.Location> ReadLocation(List<string> ids = null)
-        //{
-        //    TBD.Building building = m_TBDDocumentInstance.Building;
-        //    List<BHE.Elements_Legacy.Location> BHoMLocation = new List<BHE.Elements_Legacy.Location>();
-        //    BHoMLocation.Add(Engine.TAS.Convert.ToBHoM(building));
-                      
-        //    return BHoMLocation;
-        //}
-
 
         /***************************************************/
 
-        private List<BHE.Elements.Building> ReadBuilding(List<string> ids = null)
+        private List<Building> ReadBuilding(List<string> ids = null)
         {
             TBD.Building building = m_TBDDocumentInstance.Building;
-            List<BHE.Elements.Building> BHoMBuilding = new List<BHE.Elements.Building>();
+            List<Building> BHoMBuilding = new List<Building>();
             BHoMBuilding.Add(Engine.TAS.Convert.ToBHoM(building));
 
             return BHoMBuilding;
@@ -79,10 +67,10 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private List<Panel> ReadPanels(List<string> ids = null)
+        private List<BuildingElementPanel> ReadPanels(List<string> ids = null)
         {
             
-            List<Panel> bHoMPanels = new List<Panel>();
+            List<BuildingElementPanel> bHoMPanels = new List<BuildingElementPanel>();
 
             int zoneIndex = 0;
             while (m_TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
@@ -91,7 +79,7 @@ namespace BH.Adapter.TAS
                 while (m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex) != null)
                 {
                     TBD.zoneSurface zonesurface = m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex);
-
+                  
                     try
                     {
                         //Get edges as polylines for the Tas Surfaces
@@ -100,7 +88,9 @@ namespace BH.Adapter.TAS
                         TBD.Polygon currPolygon = currPerimeter.GetFace();
                                                             
                         BHG.Polyline edges = Engine.TAS.Convert.ToBHoM(currPolygon);
-                        bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(zonesurface, edges));
+                        BHG.PolyCurve crv_edges = BH.Engine.Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges }); //Can I solve this ina better way??
+
+                        bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(zonesurface, crv_edges));
                     }
 
                     //If we have air walls we will get a NullReferenceException. Tas does not count air walls as surfaces 
@@ -120,22 +110,21 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        public List<BHE.Elements_Legacy.BuildingElement> ReadBuildingElements(List<string> ids = null)
+        public List<BuildingElementProperties> ReadBuildingElementsProperties(List<string> ids = null)
         {
             TBD.Building building = m_TBDDocumentInstance.Building;
-            List<BHE.Elements_Legacy.BuildingElement> BHoMBuildingElement = new List<BHE.Elements_Legacy.BuildingElement>();
+            List<BuildingElementProperties> BHoMBuildingElementProperties = new List<BuildingElementProperties>();
 
             int BuildingElementIndex = 0;
             while (building.GetBuildingElement(BuildingElementIndex) != null)
             {
 
-                //List<BHE.Elements.BuildingElement> BHoMBuildingElement = new List<BHE.Elements.BuildingElement>();
-                BHoMBuildingElement.Add(Engine.TAS.Convert.ToBHoM(building, BuildingElementIndex));
+                BHoMBuildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(building, BuildingElementIndex));
                 BuildingElementIndex++;
 
             }
 
-            return BHoMBuildingElement;
+            return BHoMBuildingElementProperties;
         }
 
         /***************************************************/

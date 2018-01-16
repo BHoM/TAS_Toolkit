@@ -12,26 +12,27 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
-        public static BHE.Elements_Legacy.BuildingElement ToBHoM(TBD.Building ITasBuilding, int BuildingElementIndex)
+        public static BHE.Properties.BuildingElementProperties ToBHoM(TBD.Building ITasBuilding, int BuildingElementIndex)
         {
-            BHE.Elements_Legacy.BuildingElement BHoMBuildingElement = new BHE.Elements_Legacy.BuildingElement()
+            BHE.Properties.BuildingElementProperties BHoMBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
             {
-                BEType = ITasBuilding.GetBuildingElement(BuildingElementIndex).BEType,
                 Name = ITasBuilding.GetBuildingElement(BuildingElementIndex).name,
-                Ghost = ITasBuilding.GetBuildingElement(BuildingElementIndex).ghost,
-                Width = ITasBuilding.GetBuildingElement(BuildingElementIndex).width,
-                Ground = ITasBuilding.GetBuildingElement(BuildingElementIndex).ground
+                Thickness = ITasBuilding.GetBuildingElement(BuildingElementIndex).width,
+                //gValue = (double)ITasBuilding.GetBuildingElement(BuildingElementIndex).GetConstruction().GetGlazingValues(),
+                //LtValue = ITasBuilding.GetBuildingElement(BuildingElementIndex).GetConstruction().lightTransmittance,
+                //ThermalConductivity = ITasBuilding.GetBuildingElement(BuildingElementIndex).GetConstruction().conductance,
+                //UValue = (double)ITasBuilding.GetBuildingElement(BuildingElementIndex).GetConstruction().GetUValue(),
             };
-            return BHoMBuildingElement;
+            return BHoMBuildingElementProperties;
         }
 
         /***************************************************/
 
-        public static BHE.Elements_Legacy.BuildingElement ToBHoM(TBD.zoneSurface ITasSurface)
+        public static BHE.Properties.BuildingElementProperties ToBHoM(TBD.zoneSurface ITasSurface)
         {
-            BHE.Elements_Legacy.BuildingElement BHoMBuildingElement = new BHE.Elements_Legacy.BuildingElement()
+            BHE.Properties.BuildingElementProperties BHoMBuildingElement = new BHE.Properties.BuildingElementProperties()
             {
-                BEType = ITasSurface.buildingElement.BEType,
+                Thickness = ITasSurface.buildingElement.width,
                 Name = ITasSurface.buildingElement.name
             };
             return BHoMBuildingElement;
@@ -47,18 +48,6 @@ namespace BH.Engine.TAS
             };
             return BHoMStorey;
         }
-
-        /***************************************************/
-
-        //public static BHE.Elements_Legacy.Location ToBHoM(this TBD.Building tasBuilding)
-        //{
-        //    BHE.Elements_Legacy.Location bHoMLocation = new BHE.Elements_Legacy.Location()
-        //    {
-        //        Latitude = tasBuilding.latitude,
-        //        Longitude = tasBuilding.longitude
-        //    };
-        //    return bHoMLocation;
-        //}
 
         /***************************************************/
 
@@ -87,11 +76,12 @@ namespace BH.Engine.TAS
         /***************************************************/
 
         // A TAS object must correspond just to one BHoMObject. If you feel things don't work and a duplicate appears plausible, the problem is in the BHoM, not in the converter
-        public static BHE.Elements_Legacy.Panel ToBHoM(TBD.zoneSurface ITasSurface, BHG.Polyline edges)
+        public static BHE.Elements.BuildingElementPanel ToBHoM(TBD.zoneSurface ITasSurface, BHG.PolyCurve edges)
         {
-            BHE.Elements_Legacy.Panel bHoMPanel = new BHE.Elements_Legacy.Panel();
+            BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
                    
-            bHoMPanel.Edges = edges;
+            bHoMPanel.PolyCurve = edges;
+
             return bHoMPanel;
         }
 
