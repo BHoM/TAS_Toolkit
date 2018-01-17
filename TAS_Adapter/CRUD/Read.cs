@@ -69,7 +69,7 @@ namespace BH.Adapter.TAS
 
         private List<BuildingElementPanel> ReadPanels(List<string> ids = null)
         {
-            
+
             List<BuildingElementPanel> bHoMPanels = new List<BuildingElementPanel>();
 
             int zoneIndex = 0;
@@ -79,49 +79,37 @@ namespace BH.Adapter.TAS
                 while (m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex) != null)
                 {
                     TBD.zoneSurface zonesurface = m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex);
-                  
+
                     try
                     {
-                        //Get edges as polylines for the Tas Surfaces
-                        TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(0);
-                        TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
-                        TBD.Polygon currPolygon = currPerimeter.GetFace();
-                                                            
-                        BHG.Polyline edges = Engine.TAS.Convert.ToBHoM(currPolygon);
-                        BHG.PolyCurve crv_edges = BH.Engine.Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges }); //Can I solve this ina better way??
-
-                        bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(zonesurface, crv_edges));
+                         bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(zonesurface));
                     }
 
-                    //If we have air walls we will get a NullReferenceException. Tas does not count air walls as surfaces 
-                    catch (NullReferenceException e)
+                    catch (NullReferenceException e) //If we have air walls we will get a NullReferenceException. Tas does not count air walls as surfaces
                     {
                         int error = panelIndex;
                         Console.WriteLine(e);
-                        //throw e;
-                                               
-                    }                                                     
+                    }
                     panelIndex++;
                 }
-                zoneIndex++;                
+                zoneIndex++;
             }
             return bHoMPanels;
         }
-
         /***************************************************/
 
-        public List<BuildingElementProperties> ReadBuildingElementsProperties(List<string> ids = null)
+            public List<BuildingElementProperties> ReadBuildingElementsProperties(List<string> ids = null)
         {
             TBD.Building building = m_TBDDocumentInstance.Building;
+            
             List<BuildingElementProperties> BHoMBuildingElementProperties = new List<BuildingElementProperties>();
 
             int BuildingElementIndex = 0;
             while (building.GetBuildingElement(BuildingElementIndex) != null)
             {
-
-                BHoMBuildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(building, BuildingElementIndex));
+                TBD.buildingElement buildingelement = m_TBDDocumentInstance.Building.GetBuildingElement(BuildingElementIndex);
+                BHoMBuildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(buildingelement));
                 BuildingElementIndex++;
-
             }
 
             return BHoMBuildingElementProperties;
