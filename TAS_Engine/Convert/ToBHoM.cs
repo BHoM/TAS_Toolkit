@@ -12,14 +12,26 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
-        public static BHE.Properties.BuildingElementProperties ToBHoM(TBD.Building ITasBuilding, int BuildingElementIndex)
+        public static BHE.Elements.BuildingElement ToBHoM(TBD.buildingElement tasBuildingElement)
+        {
+            BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement()
+            {
+                Name = tasBuildingElement.name
+            };
+            return BHoMBuildingElement;
+        }
+
+        /***************************************************/
+
+
+        public static BHE.Properties.BuildingElementProperties ToBHoM(TBD.Building tasBuilding, int BuildingElementIndex)
         {
             BHE.Properties.BuildingElementProperties BHoMBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
             {
-                Name = ITasBuilding.GetBuildingElement(BuildingElementIndex).name,
-                Thickness = ITasBuilding.GetBuildingElement(BuildingElementIndex).width,
+                Name = tasBuilding.GetBuildingElement(BuildingElementIndex).name,
+                Thickness = tasBuilding.GetBuildingElement(BuildingElementIndex).width,
                 //gValue = (double)ITasBuilding.GetBuildingElement(BuildingElementIndex).GetConstruction().GetGlazingValues(),
-                //LtValue = ITasBuilding.GetBuildingElement(BuildingElementIndex).GetConstruction().lightTransmittance,
+                //LtValue = tasBuilding.GetBuildingElement(BuildingElementIndex).GetConstruction().lightTransmittance,
                 //ThermalConductivity = ITasBuilding.GetBuildingElement(BuildingElementIndex).GetConstruction().conductance,
                 //UValue = (double)ITasBuilding.GetBuildingElement(BuildingElementIndex).GetConstruction().GetUValue(),
             };
@@ -28,12 +40,12 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Properties.BuildingElementProperties ToBHoM(TBD.zoneSurface ITasSurface)
+        public static BHE.Properties.BuildingElementProperties ToBHoM(TBD.zoneSurface tasSurface)
         {
             BHE.Properties.BuildingElementProperties BHoMBuildingElement = new BHE.Properties.BuildingElementProperties()
             {
-                Thickness = ITasSurface.buildingElement.width,
-                Name = ITasSurface.buildingElement.name
+                Thickness = tasSurface.buildingElement.width,
+                Name = tasSurface.buildingElement.name
             };
             return BHoMBuildingElement;
         }
@@ -76,7 +88,7 @@ namespace BH.Engine.TAS
         /***************************************************/
 
         // A TAS object must correspond just to one BHoMObject. If you feel things don't work and a duplicate appears plausible, the problem is in the BHoM, not in the converter
-        public static BHE.Elements.BuildingElementPanel ToBHoM(TBD.zoneSurface ITasSurface, BHG.PolyCurve edges)
+        public static BHE.Elements.BuildingElementPanel ToBHoM(TBD.zoneSurface tasSurface, BHG.PolyCurve edges)
         {
             BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
                    
