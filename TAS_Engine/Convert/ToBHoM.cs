@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using BHE = BH.oM.Environmental;
 using BHS = BH.oM.Structural;
 using BHG = BH.oM.Geometry;
 using TBD;
+using BHEE = BH.Engine.Environment;
+using BH.oM.Environmental.Properties;
 
 namespace BH.Engine.TAS
 {
@@ -11,20 +14,49 @@ namespace BH.Engine.TAS
         /***************************************************/
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
-        
-        public static BHE.Properties.BuildingElementProperties ToBHoM(TBD.buildingElement tasBuildingElement)
+
+        public static BHE.Elements.BuildingElement ToBHoM(this TBD.buildingElement tasBuildingElement)
         {
-            BHE.Properties.BuildingElementProperties BHoMBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
+            if (tasBuildingElement == null)
+                return null;
+
+            Construction tasConstruction = tasBuildingElement.GetConstruction();
+            BuildingElementProperties aBuildingElementProperties = null;
+            if (tasConstruction != null)
+                aBuildingElementProperties = tasConstruction.ToBHoM();
+
+            BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement
             {
                 Name = tasBuildingElement.name,
-                Thickness = tasBuildingElement.width
+                BuildingElementProperties = aBuildingElementProperties
+
+            };
+            return BHoMBuildingElement;
+        }
+
+        /***************************************************/
+
+
+        public static BHE.Properties.BuildingElementProperties ToBHoM(this TBD.Construction tasConstruction)
+        {
+
+            BHE.Properties.BuildingElementProperties BHoMBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
+            {
+                Name = tasConstruction.name,
+                Thickness = tasConstruction.materialWidth[0],
+                LtValue = tasConstruction.lightTransmittance,
+                ThermalConductivity = tasConstruction.conductance,
+                //List<float> u= (tasConstruction.GetUValue() as IEnumerable<float>).ToList();
+                //BHoMBuildingElementProperties.UValue = u[0];
+                            
             };
             return BHoMBuildingElementProperties;
         }
 
         /***************************************************/
 
-        public static BHS.Elements.Storey ToBHoM(TBD.BuildingStorey tasStorey)
+
+        public static BHS.Elements.Storey ToBHoM(this TBD.BuildingStorey tasStorey)
         {
             BHS.Elements.Storey BHoMStorey = new BHS.Elements.Storey()
             {
@@ -42,7 +74,6 @@ namespace BH.Engine.TAS
                 Latitude = tasBuilding.latitude,
                 Longitude = tasBuilding.longitude,
                 Elevation = tasBuilding.maxBuildingAltitude,
-                
             };
             return bHoMBuilding;
         }
@@ -52,22 +83,34 @@ namespace BH.Engine.TAS
 
         public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone)
         {
+            List<BHE.Elements.BuildingElement> bHoMBuildingElements = new List<BHE.Elements.BuildingElement>();
+
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
             bHoMSpace.Name = tasZone.name;
+           
+
+            int buildingElementIndex = 0;
+            while (tasZone.GetSurface(buildingElementIndex) != null)
+            {
+                buildingElement tasBuildingElement = tasZone.GetSurface(buildingElementIndex).buildingElement;
+                bHoMSpace.BuildingElements.Add(tasBuildingElement.ToBHoM());
+                buildingElementIndex++;
+            }    
+                        
             return bHoMSpace;
         }
 
         /***************************************************/
 
        
-        public static BHE.Elements.BuildingElementPanel ToBHoM(TBD.zoneSurface zonesurface)
+        public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.zoneSurface zonesurface)
         {
             BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
 
             TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(0);
             TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
             TBD.Polygon currPolygon = currPerimeter.GetFace();
-
+                        
             BHG.Polyline edges = ToBHoM(currPolygon);
             BHG.PolyCurve crv_edges = Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges }); //Can I solve this in a better way??
 

@@ -25,6 +25,8 @@ namespace BH.Adapter.TAS
                 return ReadBuilding();
             else if (type == typeof(Space))
                 return ReadZones();
+            else if (type == typeof(BuildingElement))
+                return ReadBuildingElements();
             else if (type == typeof(BuildingElementProperties))
                 return ReadBuildingElementsProperties();
             else if (type == typeof(BHS.Elements.Storey))
@@ -60,7 +62,7 @@ namespace BH.Adapter.TAS
             TBD.Building building = m_TBDDocumentInstance.Building;
             List<Building> BHoMBuilding = new List<Building>();
             BHoMBuilding.Add(Engine.TAS.Convert.ToBHoM(building));
-
+  
             return BHoMBuilding;
         }
 
@@ -87,7 +89,7 @@ namespace BH.Adapter.TAS
 
                     catch (NullReferenceException e) //If we have air walls we will get a NullReferenceException. Tas does not count air walls as surfaces
                     {
-                        int error = panelIndex;
+                        bHoMPanels.Add(null);
                         Console.WriteLine(e);
                     }
                     panelIndex++;
@@ -98,17 +100,60 @@ namespace BH.Adapter.TAS
         }
         /***************************************************/
 
-            public List<BuildingElementProperties> ReadBuildingElementsProperties(List<string> ids = null)
+        public List<BuildingElement> ReadBuildingElements(List<string> ids = null)
         {
             TBD.Building building = m_TBDDocumentInstance.Building;
-            
-            List<BuildingElementProperties> BHoMBuildingElementProperties = new List<BuildingElementProperties>();
+
+            List<BuildingElement> BHoMBuildingElement = new List<BuildingElement>();
 
             int BuildingElementIndex = 0;
             while (building.GetBuildingElement(BuildingElementIndex) != null)
             {
-                TBD.buildingElement buildingelement = m_TBDDocumentInstance.Building.GetBuildingElement(BuildingElementIndex);
-                BHoMBuildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(buildingelement));
+                TBD.buildingElement tasBuildingElement = m_TBDDocumentInstance.Building.GetBuildingElement(BuildingElementIndex);
+                BHoMBuildingElement.Add(Engine.TAS.Convert.ToBHoM(tasBuildingElement));
+                BuildingElementIndex++;
+            }
+
+            return BHoMBuildingElement;
+        }
+
+        /***************************************************/
+
+        //private List<BuildingElement> ReadBuildingElements(List<string> ids = null)
+        //{
+        //    List<BuildingElement> bHoMBuildingElementList = new List<BuildingElement>();
+
+        //    int zoneIndex = 0;
+        //    while (m_TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
+        //    {
+        //        int buildingElementIndex = 0;
+        //        while (m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(buildingElementIndex) != null)
+        //        {
+        //            TBD.buildingElement buildingelement = m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(buildingElementIndex).buildingElement;
+        //            bHoMBuildingElementList.Add(Engine.TAS.Convert.ToBHoM(buildingelement));
+        //            buildingElementIndex++;
+        //        }
+        //        zoneIndex++;
+        //    }
+        //    return bHoMBuildingElementList;
+        //}
+
+
+
+        /***************************************************/
+
+        public List<BuildingElementProperties> ReadBuildingElementsProperties(List<string> ids = null)
+        {
+            TBD.Building building = m_TBDDocumentInstance.Building;
+
+            List<BuildingElementProperties> BHoMBuildingElementProperties = new List<BuildingElementProperties>();
+
+            int BuildingElementIndex = 0;
+            while (building.GetConstruction(BuildingElementIndex) != null)
+            {
+                //TBD.Construction construction = m_TBDDocumentInstance.Building.GetBuildingElement(BuildingElementIndex).GetConstruction();
+                TBD.Construction construction = m_TBDDocumentInstance.Building.GetConstruction(BuildingElementIndex);
+                BHoMBuildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction));
                 BuildingElementIndex++;
             }
 
