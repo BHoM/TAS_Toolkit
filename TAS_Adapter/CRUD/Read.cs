@@ -29,6 +29,8 @@ namespace BH.Adapter.TAS
                 return ReadBuildingElements();
             else if (type == typeof(BuildingElementProperties))
                 return ReadBuildingElementsProperties();
+            else if (type == typeof(OpaqueMaterial)|| type == typeof(TransaprentMaterial) || type == typeof(GasMaterial))
+                return ReadOpaqueMaterials();
             else if (type == typeof(BHS.Elements.Storey))
                 return ReadStorey();
             else
@@ -151,10 +153,11 @@ namespace BH.Adapter.TAS
             int BuildingElementIndex = 0;
             while (building.GetConstruction(BuildingElementIndex) != null)
             {
-                //TBD.Construction construction = m_TBDDocumentInstance.Building.GetBuildingElement(BuildingElementIndex).GetConstruction();
+               
                 TBD.Construction construction = m_TBDDocumentInstance.Building.GetConstruction(BuildingElementIndex);
                 BHoMBuildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction));
                 BuildingElementIndex++;
+                
             }
 
             return BHoMBuildingElementProperties;
@@ -171,5 +174,35 @@ namespace BH.Adapter.TAS
             return BHoMStorey;
         }
 
+        /***************************************************/
+
+        private List<OpaqueMaterial> ReadOpaqueMaterials(List<string> ids = null)
+        {
+            TBD.Building building = m_TBDDocumentInstance.Building;
+           
+            List<OpaqueMaterial> BHoMMaterial = new List<OpaqueMaterial>();
+
+            int ConstructionIndex = 0;
+            while (building.GetConstruction(ConstructionIndex) != null)
+            {
+                              
+                TBD.Construction currConstruction = building.GetConstruction(ConstructionIndex);
+
+               
+                int materialIndex = 1;
+                while (building.GetConstruction(ConstructionIndex).materials(materialIndex) != null)
+                {
+                    TBD.material tasMaterial = building.GetConstruction(ConstructionIndex).materials(materialIndex);
+                    BHoMMaterial.Add(Engine.TAS.Convert.ToBHoM(tasMaterial));
+                    materialIndex++;
+                }       
+              
+                ConstructionIndex++;
+            }
+            return BHoMMaterial;
+        }
+
+        
+        /***************************************************/
     }
 }
