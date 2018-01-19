@@ -38,7 +38,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.Polygon ToTas(BHG.Polyline bHoMPolyline)
+        public static TBD.Polygon ToTas(this BHG.Polyline bHoMPolyline)
         {
 
             TBD.Polygon tasPolygon = new TBD.Polygon();
@@ -54,7 +54,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.zoneSurface ToTas(BHE.Elements.BuildingElementPanel bHoMPanel)
+        public static TBD.zoneSurface ToTas(this BHE.Elements.BuildingElementPanel bHoMPanel)
         {
             TBD.zoneSurface tasSurface = new TBD.zoneSurface();
             //add points as properties to the surface

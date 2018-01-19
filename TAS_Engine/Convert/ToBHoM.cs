@@ -58,7 +58,7 @@ namespace BH.Engine.TAS
 
         public static BHS.Elements.Storey ToBHoM(this TBD.BuildingStorey tasStorey)
         {
-            BHS.Elements.Storey BHoMStorey = new BHS.Elements.Storey()
+            BHS.Elements.Storey BHoMStorey = new BHS.Elements.Storey
             {
 
             };
@@ -69,7 +69,7 @@ namespace BH.Engine.TAS
 
         public static BHE.Elements.Building ToBHoM(this TBD.Building tasBuilding)
         {
-            BHE.Elements.Building bHoMBuilding = new BHE.Elements.Building()
+            BHE.Elements.Building bHoMBuilding = new BHE.Elements.Building
             {
                 Latitude = tasBuilding.latitude,
                 Longitude = tasBuilding.longitude,
