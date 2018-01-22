@@ -27,11 +27,17 @@ namespace BH.Engine.TAS
             if (tasConstruction != null)
                 bHoMBuildingElementProperties = tasConstruction.ToBHoM();
 
+            //Error on this line
+            if (tasConstruction != null)
+                bHoMBuildingElementProperties.BuildingElementType = Enums.Enums.GetBuildingElementType(tasBuildingElement); // BEType on Construction 
+                
             BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement
             {
                 Name = tasBuildingElement.name,
                 BuildingElementProperties = bHoMBuildingElementProperties
-            };                 
+            };
+
+          
 
          return BHoMBuildingElement;
         }
@@ -44,21 +50,30 @@ namespace BH.Engine.TAS
             //List<float> u= (tasConstruction.GetUValue() as IEnumerable<float>).ToList();
             BHE.Properties.BuildingElementProperties BHoMBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
             {
-                //BuildingElementType type = Enums.Enums.GetBuildingElementType(tasConstruction.type)
-                //BuildingElementType = Enums.Enums.GetBuildingElementType(tasConstruction),Can I save this variable in the scope above and get itr from there????
-                //ConstructionLayers
+                //ConstructionLayers = ToBHoM(tasConstruction, tasMaterial),
                 Name = tasConstruction.name,
                 Thickness = tasConstruction.materialWidth[0],
                 LtValue = tasConstruction.lightTransmittance,
                 ThermalConductivity = tasConstruction.conductance,
+                //gValue = (double)tasConstruction.GetGlazingValues(),
                 //UValue = (double)u[0]
                             
             };
             return BHoMBuildingElementProperties;
         }
-                
+
         /***************************************************/
-        
+        public static BHE.Elements.ConstructionLayer ToBHoM(this TBD.Construction tasConstructionLayer, material tasMaterial)
+        {         
+            BHE.Elements.ConstructionLayer bHoMConstructionLayer = new BHE.Elements.ConstructionLayer()
+            {       
+               Thickness = tasMaterial.width
+            };
+            return bHoMConstructionLayer;
+        }
+
+        /***************************************************/
+
         public static BHS.Elements.Storey ToBHoM(this TBD.BuildingStorey tasStorey)
         {
             BHS.Elements.Storey BHoMStorey = new BHS.Elements.Storey

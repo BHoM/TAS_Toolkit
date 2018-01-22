@@ -17,7 +17,7 @@ namespace BH.Adapter.TAS
         /**** Public Methods                            ****/
         /***************************************************/
 
-        protected override IEnumerable<BHoMObject> Read(Type type, IList indices = null)
+        protected override IEnumerable<IObject> Read(Type type, IList indices = null)
         {
             if (type == typeof(BuildingElementPanel))
                 return ReadPanels();
@@ -29,7 +29,7 @@ namespace BH.Adapter.TAS
                 return ReadBuildingElements();
             else if (type == typeof(BuildingElementProperties))
                 return ReadBuildingElementsProperties();
-            else if (type == typeof(OpaqueMaterial)|| type == typeof(TransaprentMaterial) || type == typeof(GasMaterial))
+            else if (type == typeof(OpaqueMaterial))//|| type == typeof(TransparentMaterial) || type == typeof(GasMaterial))
                 return ReadOpaqueMaterials();
             else if (type == typeof(BHS.Elements.Storey))
                 return ReadStorey();
