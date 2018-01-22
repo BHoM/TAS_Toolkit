@@ -21,8 +21,9 @@ namespace BH.Engine.TAS
                 return null;
 
             Construction tasConstruction = tasBuildingElement.GetConstruction();
-           
+
             BuildingElementProperties bHoMBuildingElementProperties = null;
+
             if (tasConstruction != null)
                 bHoMBuildingElementProperties = tasConstruction.ToBHoM();
 
@@ -31,6 +32,7 @@ namespace BH.Engine.TAS
                 Name = tasBuildingElement.name,
                 BuildingElementProperties = bHoMBuildingElementProperties
             };                 
+
          return BHoMBuildingElement;
         }
 
@@ -42,7 +44,8 @@ namespace BH.Engine.TAS
             //List<float> u= (tasConstruction.GetUValue() as IEnumerable<float>).ToList();
             BHE.Properties.BuildingElementProperties BHoMBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
             {
-                //BuildingElementType = Helpers.Helper.GetBuildingElementType(tasConstruction),
+                //BuildingElementType type = Enums.Enums.GetBuildingElementType(tasConstruction.type)
+                //BuildingElementType = Enums.Enums.GetBuildingElementType(tasConstruction),Can I save this variable in the scope above and get itr from there????
                 //ConstructionLayers
                 Name = tasConstruction.name,
                 Thickness = tasConstruction.materialWidth[0],
@@ -179,7 +182,7 @@ namespace BH.Engine.TAS
                 BHE.Elements.OpaqueMaterial BHoMOpaqeMaterial = new BHE.Elements.OpaqueMaterial
                 {
                     Name = tasMaterial.name,
-                    MaterialType = Helpers.Helper.GetMaterialType(tasMaterial),
+                    MaterialType = Enums.Enums.GetMaterialType(tasMaterial),
                     Thickness = tasMaterial.width,
                     Conductivity = tasMaterial.conductivity,
                     VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
