@@ -187,12 +187,12 @@ namespace BH.Adapter.TAS
             {
                               
                 TBD.Construction currConstruction = building.GetConstruction(ConstructionIndex);
-
-               
+                               
                 int materialIndex = 1;
                 while (building.GetConstruction(ConstructionIndex).materials(materialIndex) != null)
                 {
                     TBD.material tasMaterial = building.GetConstruction(ConstructionIndex).materials(materialIndex);
+
                     BHoMMaterial.Add(Engine.TAS.Convert.ToBHoM(tasMaterial));
                     materialIndex++;
                 }       

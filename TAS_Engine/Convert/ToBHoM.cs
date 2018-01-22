@@ -21,6 +21,7 @@ namespace BH.Engine.TAS
                 return null;
 
             Construction tasConstruction = tasBuildingElement.GetConstruction();
+           
             BuildingElementProperties bHoMBuildingElementProperties = null;
             if (tasConstruction != null)
                 bHoMBuildingElementProperties = tasConstruction.ToBHoM();
@@ -29,9 +30,7 @@ namespace BH.Engine.TAS
             {
                 Name = tasBuildingElement.name,
                 BuildingElementProperties = bHoMBuildingElementProperties
-
-            };
-                      
+            };                 
          return BHoMBuildingElement;
         }
 
@@ -43,7 +42,8 @@ namespace BH.Engine.TAS
             //List<float> u= (tasConstruction.GetUValue() as IEnumerable<float>).ToList();
             BHE.Properties.BuildingElementProperties BHoMBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
             {
-                //ConstructionLayers = tasConstructionLayer,
+                //BuildingElementType = Helpers.Helper.GetBuildingElementType(tasConstruction),
+                //ConstructionLayers
                 Name = tasConstruction.name,
                 Thickness = tasConstruction.materialWidth[0],
                 LtValue = tasConstruction.lightTransmittance,
@@ -60,8 +60,7 @@ namespace BH.Engine.TAS
         {
             BHS.Elements.Storey BHoMStorey = new BHS.Elements.Storey
             {
-                
-
+                //TODO
             };
             return BHoMStorey;
         }
@@ -87,7 +86,6 @@ namespace BH.Engine.TAS
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
             bHoMSpace.Name = tasZone.name;
            
-
             int buildingElementIndex = 0;
             while (tasZone.GetSurface(buildingElementIndex) != null)
             {
@@ -177,8 +175,8 @@ namespace BH.Engine.TAS
         {
             if (tasMaterial == null)
                 return null;
-                        
-            BHE.Elements.OpaqueMaterial BHoMOpaqeMaterial = new BHE.Elements.OpaqueMaterial
+           
+                BHE.Elements.OpaqueMaterial BHoMOpaqeMaterial = new BHE.Elements.OpaqueMaterial
                 {
                     Name = tasMaterial.name,
                     MaterialType = Helpers.Helper.GetMaterialType(tasMaterial),
