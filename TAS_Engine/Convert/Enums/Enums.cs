@@ -67,6 +67,10 @@ namespace BH.Engine.TAS.Enums
         //SOLARPANEL = 18,
         //VEHICLEDOOR = 20
 
+        /***************************************************/
+        /****    Enum converter.Profile Types           ****/
+        /***************************************************/
 
+    
     }
 }

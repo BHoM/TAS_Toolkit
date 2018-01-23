@@ -130,7 +130,44 @@ namespace BH.Engine.TAS
         }
 
         /***************************************************/
-               
+
+        public static BHE.Elements.InternalCondition ToBHoM(this TBD.InternalCondition tasInternalCondition)
+        {
+            BHE.Elements.InternalCondition bHoMInternalCondition = new BHE.Elements.InternalCondition
+            {
+                //EmitterProperties = tasInternalCondition.GetCoolingEmitter().ToBHoM(),
+                //TODO: implement bHoMEmitterProperties and Profiles
+            };
+
+            return bHoMInternalCondition;
+        }
+
+        /***************************************************/
+
+        public static BHE.Elements.Emitter ToBHoM(this TBD.Emitter tasEmitterProperties)
+        {
+            BHE.Elements.Emitter bHoMEmitterProperties = new BHE.Elements.Emitter
+            {
+                //TODO!
+            };
+
+            return bHoMEmitterProperties;
+        }
+
+        /***************************************************/
+
+        public static BHE.Elements.Profile ToBHoM(this TBD.profile tasProfile) //Has no properties in BHoM yet...
+        {
+            BHE.Elements.Profile bHoMProfile = new BHE.Elements.Profile
+            {
+
+            };
+
+            return bHoMProfile;
+        }
+
+        /***************************************************/
+
         public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.zoneSurface zonesurface)
         {
             BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
