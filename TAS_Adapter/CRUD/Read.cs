@@ -120,30 +120,7 @@ namespace BH.Adapter.TAS
 
             return BHoMBuildingElement;
         }
-
-        /***************************************************/
-
-        //private List<BuildingElement> ReadBuildingElements(List<string> ids = null)
-        //{
-        //    List<BuildingElement> bHoMBuildingElementList = new List<BuildingElement>();
-
-        //    int zoneIndex = 0;
-        //    while (m_TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
-        //    {
-        //        int buildingElementIndex = 0;
-        //        while (m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(buildingElementIndex) != null)
-        //        {
-        //            TBD.buildingElement buildingelement = m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(buildingElementIndex).buildingElement;
-        //            bHoMBuildingElementList.Add(Engine.TAS.Convert.ToBHoM(buildingelement));
-        //            buildingElementIndex++;
-        //        }
-        //        zoneIndex++;
-        //    }
-        //    return bHoMBuildingElementList;
-        //}
-
-
-
+        
         /***************************************************/
 
         public List<BuildingElementProperties> ReadBuildingElementsProperties(List<string> ids = null)
@@ -234,7 +211,6 @@ namespace BH.Adapter.TAS
             return BHoMMaterial;
         }
 
-        
         /***************************************************/
     }
 }
