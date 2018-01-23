@@ -2,7 +2,6 @@
 using BHG = BH.oM.Geometry;
 using BHE = BH.oM.Environmental;
 using BH.Engine.Geometry;
-using TAS3D;
 using TBD;
 using TSD;
 using TPD;
@@ -15,22 +14,22 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
-        public static TAS3D.BuildingClass ToTas(BHE.Elements.Location bHoMLocation) // Are you sure it is not better to return the Building interface? It seems like Tas works with interfaces. It for sure need a deeper look 
-        {
-            TAS3D.BuildingClass tasLocation = new TAS3D.BuildingClass();
-            tasLocation.latitude = (float)bHoMLocation.Latitude;
-            tasLocation.longitude = (float)bHoMLocation.Longitude;
-            return tasLocation;
-        }
+        //public static TAS3D.Building ToTas(BHE.Elements_Legacy.Location bHoMLocation) // Are you sure it is not better to return the Building interface? It seems like Tas works with interfaces. It for sure need a deeper look 
+        //{
+        //    TAS3D.Building tasLocation = new TAS3D.Building();
+        //    tasLocation.latitude = (float)bHoMLocation.Latitude;
+        //    tasLocation.longitude = (float)bHoMLocation.Longitude;
+        //    return tasLocation;
+        //}
 
 
         /***************************************************/
         /**** Public Methods - Geometry                 ****/
         /***************************************************/
 
-        public static TBD.TasPointClass ToTas(this BHG.Point bHoMPoint)
+        public static TBD.TasPoint ToTas(this BHG.Point bHoMPoint)
         {
-            TBD.TasPointClass tasPoint = new TBD.TasPointClass();
+            TBD.TasPoint tasPoint = new TBD.TasPoint();
             tasPoint.x = (float)(bHoMPoint.X);
             tasPoint.y = (float)(bHoMPoint.Y);
             tasPoint.z = (float)(bHoMPoint.Z);
@@ -39,10 +38,10 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.PolygonClass ToTas(BHG.Polyline bHoMPolyline)
+        public static TBD.Polygon ToTas(this BHG.Polyline bHoMPolyline)
         {
 
-            TBD.PolygonClass tasPolygon = new TBD.PolygonClass();
+            TBD.Polygon tasPolygon = new TBD.Polygon();
             List<BHG.Point> coordList = bHoMPolyline.ControlPoints;
 
             for (int i = 0; i < coordList.Count; i++)
@@ -55,11 +54,11 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.zoneSurfaceClass ToTas(BHE.Elements.Panel bHoMPanel)
+        public static TBD.zoneSurface ToTas(this BHE.Elements.BuildingElementPanel bHoMPanel)
         {
-            TBD.zoneSurfaceClass tasSurface = new TBD.zoneSurfaceClass();
+            TBD.zoneSurface tasSurface = new TBD.zoneSurface();
             //add points as properties to the surface
-            tasSurface.area = (float)bHoMPanel.Surface.IArea();
+            //tasSurface.area = (float)bHoMPanel.Surface.IArea();
             return tasSurface;
         }
 

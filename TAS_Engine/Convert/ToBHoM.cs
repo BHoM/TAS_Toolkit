@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BHE = BH.oM.Environmental;
+using BHS = BH.oM.Structural;
 using BHG = BH.oM.Geometry;
 using TBD;
 
@@ -10,45 +11,44 @@ namespace BH.Engine.TAS
         /***************************************************/
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
-
-        public static BHE.Elements.BuildingElement ToBHoM(TBD.Building ITasBuilding, int BuildingElementIndex)
+        
+        public static BHE.Properties.BuildingElementProperties ToBHoM(TBD.buildingElement tasBuildingElement)
         {
-            BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement()
+            BHE.Properties.BuildingElementProperties BHoMBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
             {
-                BEType = ITasBuilding.GetBuildingElement(BuildingElementIndex).BEType,
-                Name = ITasBuilding.GetBuildingElement(BuildingElementIndex).name,
-                Ghost = ITasBuilding.GetBuildingElement(BuildingElementIndex).ghost,
-                Width = ITasBuilding.GetBuildingElement(BuildingElementIndex).width,
-                Ground = ITasBuilding.GetBuildingElement(BuildingElementIndex).ground
+                Name = tasBuildingElement.name,
+                Thickness = tasBuildingElement.width
             };
-            return BHoMBuildingElement;
+            return BHoMBuildingElementProperties;
         }
 
         /***************************************************/
 
-        public static BHE.Elements.BuildingElement ToBHoM(TBD.zoneSurface ITasSurface)
+        public static BHS.Elements.Storey ToBHoM(TBD.BuildingStorey tasStorey)
         {
-            BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement()
+            BHS.Elements.Storey BHoMStorey = new BHS.Elements.Storey
             {
-                BEType = ITasSurface.buildingElement.BEType,
-                Name = ITasSurface.buildingElement.name
+
             };
-            return BHoMBuildingElement;
+            return BHoMStorey;
         }
 
         /***************************************************/
 
-        public static BHE.Elements.Location ToBHoM(this TBD.Building tasBuilding)
+        public static BHE.Elements.Building ToBHoM(this TBD.Building tasBuilding)
         {
-            BHE.Elements.Location bHoMLocation = new BHE.Elements.Location()
+            BHE.Elements.Building bHoMBuilding = new BHE.Elements.Building
             {
                 Latitude = tasBuilding.latitude,
-                Longitude = tasBuilding.longitude
+                Longitude = tasBuilding.longitude,
+                Elevation = tasBuilding.maxBuildingAltitude,
+                
             };
-            return bHoMLocation;
+            return bHoMBuilding;
         }
 
         /***************************************************/
+
 
         public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone)
         {
@@ -59,13 +59,20 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        // A TAS object must correspond just to one BHoMObject. If you feel things don't work and a duplicate appears plausible, the problem is in the BHoM, not in the converter
-        public static BHE.Elements.Panel ToBHoM(TBD.zoneSurface ITasSurface, BHG.Polyline edges)
+       
+        public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.zoneSurface zonesurface)
         {
-            BHE.Elements.Panel bHoMPanel = new BHE.Elements.Panel();
-                   
-            //bHoMPanel.Type = ITasSurface.type.ToString();
-            bHoMPanel.Edges = edges;
+            BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
+
+            TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(0);
+            TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
+            TBD.Polygon currPolygon = currPerimeter.GetFace();
+
+            BHG.Polyline edges = ToBHoM(currPolygon);
+            BHG.PolyCurve crv_edges = Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges }); //Can I solve this in a better way??
+
+            bHoMPanel.PolyCurve = crv_edges;
+
             return bHoMPanel;
         }
 
