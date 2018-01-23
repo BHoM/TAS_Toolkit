@@ -161,6 +161,7 @@ namespace BH.Engine.TAS
                     BHE.Elements.OpaqueMaterial BHoMOpaqeMaterial = new BHE.Elements.OpaqueMaterial
                     {
                         Name = tasMaterial.name,
+                        Description = tasMaterial.description,
                         MaterialType = materialtype,
                         Thickness = tasMaterial.width,
                         Conductivity = tasMaterial.conductivity,
@@ -178,10 +179,12 @@ namespace BH.Engine.TAS
                     BHE.Elements.TransparentMaterial BHoMTransparentMaterial = new BHE.Elements.TransparentMaterial
                     {
                         Name = tasMaterial.name,
+                        Description = tasMaterial.description,
                         MaterialType = materialtype,
                         Thickness = tasMaterial.width,
                         Conductivity = tasMaterial.conductivity,
                         VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
+                        SolarTransmittance = tasMaterial.solarTransmittance,
                         SolarReflectanceExternal = tasMaterial.externalSolarReflectance,
                         SolarReflectanceInternal = tasMaterial.internalSolarReflectance,
                         LightReflectanceExternal = tasMaterial.externalLightReflectance,
