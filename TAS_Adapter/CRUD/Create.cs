@@ -16,7 +16,7 @@ namespace BH.Adapter.TAS
             bool success = true;
 
 
-            if (typeof(BHoMObject).IsAssignableFrom(typeof(T)))
+            if (typeof(IObject).IsAssignableFrom(typeof(T)))
             {
                 
                 foreach (T obj in objects)
@@ -27,6 +27,15 @@ namespace BH.Adapter.TAS
             }
 
             return success;
+        }
+
+        /***************************************************/
+
+        private bool Create(BH.oM.Environmental.Elements.OpaqueMaterial bHoMOpaqueMaterial)
+        {
+            bool sucess = true;
+            TBD.material tasMaterial = BH.Engine.TAS.Convert.ToTas(bHoMOpaqueMaterial);
+            return sucess;
         }
 
         /***************************************************/

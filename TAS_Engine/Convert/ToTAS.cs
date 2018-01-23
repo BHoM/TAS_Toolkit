@@ -64,5 +64,28 @@ namespace BH.Engine.TAS
 
 
         /***************************************************/
+
+        public static TBD.material ToTas(this BHE.Elements.OpaqueMaterial bHoMOpaqueMaterial)
+        {
+            TBD.material tasMaterial = new TBD.material
+            {
+                name = bHoMOpaqueMaterial.Name,
+                description = bHoMOpaqueMaterial.Description,
+                width = (float)bHoMOpaqueMaterial.Thickness,
+                conductivity = (float)bHoMOpaqueMaterial.Conductivity,
+                vapourDiffusionFactor = (float)bHoMOpaqueMaterial.VapourDiffusionFactor,
+                externalSolarReflectance = (float)bHoMOpaqueMaterial.SolarReflectanceExternal,
+                internalSolarReflectance = (float)bHoMOpaqueMaterial.SolarReflectanceInternal,
+                externalLightReflectance = (float)bHoMOpaqueMaterial.LightReflectanceExternal,
+                internalLightReflectance = (float)bHoMOpaqueMaterial.LightReflectanceInternal,
+                externalEmissivity = (float)bHoMOpaqueMaterial.EmissivityExternal,
+                internalEmissivity = (float)bHoMOpaqueMaterial.EmissivityInternal
+            };
+            
+                return tasMaterial;
+
+         
+        }
+
     }
 }
