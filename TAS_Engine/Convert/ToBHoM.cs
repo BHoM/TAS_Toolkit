@@ -57,6 +57,16 @@ namespace BH.Engine.TAS
                 //UValue = ?
             };
 
+            //Assign Construction Layer to the object
+            List<BHE.Elements.ConstructionLayer> bHoMConstructionLayer = new List<BHE.Elements.ConstructionLayer>();
+
+            int ConstructionLayerIndex = 1; //Cannot be 0 in TAS
+            while (tasConstruction.materials(ConstructionLayerIndex) != null)
+            {
+                BHoMBuildingElementProperties.ConstructionLayers.Add(ToBHoM(tasConstruction, tasConstruction.materials(ConstructionLayerIndex)));
+                ConstructionLayerIndex++;
+            }
+
             return BHoMBuildingElementProperties;
         }
 
