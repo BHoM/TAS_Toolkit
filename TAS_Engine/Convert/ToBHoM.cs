@@ -127,11 +127,11 @@ namespace BH.Engine.TAS
               
         /***************************************************/
              
-        public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.zoneSurface zonesurface)
+        public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.zoneSurface tasZoneSurface)
         {
             BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
 
-            TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(0);
+            TBD.RoomSurface currRoomSrf = tasZoneSurface.GetRoomSurface(0);
             TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
             TBD.Polygon currPolygon = currPerimeter.GetFace();
                         

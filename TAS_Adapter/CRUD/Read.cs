@@ -67,10 +67,10 @@ namespace BH.Adapter.TAS
         private List<Building> ReadBuilding(List<string> ids = null)
         {
             TBD.Building building = m_TBDDocumentInstance.Building;
-            List<Building> BHoMBuilding = new List<Building>();
-            BHoMBuilding.Add(Engine.TAS.Convert.ToBHoM(building));
+            List<Building> bHoMBuilding = new List<Building>();
+            bHoMBuilding.Add(Engine.TAS.Convert.ToBHoM(building));
   
-            return BHoMBuilding;
+            return bHoMBuilding;
         }
 
 
@@ -114,12 +114,12 @@ namespace BH.Adapter.TAS
 
             List<BuildingElement> BHoMBuildingElement = new List<BuildingElement>();
 
-            int BuildingElementIndex = 0;
-            while (building.GetBuildingElement(BuildingElementIndex) != null)
+            int buildingElementIndex = 0;
+            while (building.GetBuildingElement(buildingElementIndex) != null)
             {
-                TBD.buildingElement tasBuildingElement = m_TBDDocumentInstance.Building.GetBuildingElement(BuildingElementIndex);
+                TBD.buildingElement tasBuildingElement = m_TBDDocumentInstance.Building.GetBuildingElement(buildingElementIndex);
                 BHoMBuildingElement.Add(Engine.TAS.Convert.ToBHoM(tasBuildingElement));
-                BuildingElementIndex++;
+                buildingElementIndex++;
             }
 
             return BHoMBuildingElement;
@@ -131,19 +131,19 @@ namespace BH.Adapter.TAS
         {
             TBD.Building building = m_TBDDocumentInstance.Building;
 
-            List<BuildingElementProperties> BHoMBuildingElementProperties = new List<BuildingElementProperties>();
+            List<BuildingElementProperties> bHoMBuildingElementProperties = new List<BuildingElementProperties>();
 
-            int BuildingElementIndex = 0;
-            while (building.GetConstruction(BuildingElementIndex) != null)
+            int buildingElementIndex = 0;
+            while (building.GetConstruction(buildingElementIndex) != null)
             {
                
-                TBD.Construction construction = m_TBDDocumentInstance.Building.GetConstruction(BuildingElementIndex);
-                BHoMBuildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction));
-                BuildingElementIndex++;
+                TBD.Construction construction = m_TBDDocumentInstance.Building.GetConstruction(buildingElementIndex);
+                bHoMBuildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction));
+                buildingElementIndex++;
                 
             }
 
-            return BHoMBuildingElementProperties;
+            return bHoMBuildingElementProperties;
         }
 
         /***************************************************/
@@ -152,28 +152,28 @@ namespace BH.Adapter.TAS
         {
             TBD.Building building = m_TBDDocumentInstance.Building;
 
-            List<BuildingElementProperties> BHoMBuildingElementProperties = new List<BuildingElementProperties>();
-            List<ConstructionLayer> BHoMConstructionLayer = new List<ConstructionLayer>();
+            List<BuildingElementProperties> bHoMBuildingElementProperties = new List<BuildingElementProperties>();
+            List<ConstructionLayer> bHoMConstructionLayer = new List<ConstructionLayer>();
 
-            int BuildingElementIndex = 0;
-            while (building.GetConstruction(BuildingElementIndex) != null)
+            int buildingElementIndex = 0;
+            while (building.GetConstruction(buildingElementIndex) != null)
             {
 
-                TBD.Construction construction = m_TBDDocumentInstance.Building.GetConstruction(BuildingElementIndex);
+                TBD.Construction construction = m_TBDDocumentInstance.Building.GetConstruction(buildingElementIndex);
 
                 int MaterialIndex = 1; // TAS doesn't have any material at index 0
                 while (construction.materials(MaterialIndex) != null)
                 {
-                    TBD.material tasMaterial = m_TBDDocumentInstance.Building.GetConstruction(BuildingElementIndex).materials(MaterialIndex);
-                    BHoMConstructionLayer.Add(Engine.TAS.Convert.ToBHoM(construction, tasMaterial));
+                    TBD.material tasMaterial = m_TBDDocumentInstance.Building.GetConstruction(buildingElementIndex).materials(MaterialIndex);
+                    bHoMConstructionLayer.Add(Engine.TAS.Convert.ToBHoM(construction, tasMaterial));
                     MaterialIndex++;
                 }
 
-                BuildingElementIndex++;
+                buildingElementIndex++;
 
             }
 
-            return BHoMConstructionLayer;
+            return bHoMConstructionLayer;
         }
 
         /***************************************************/
@@ -181,10 +181,10 @@ namespace BH.Adapter.TAS
         private List<BHS.Elements.Storey> ReadStorey(List<string> ids = null)
         {
             TBD.BuildingStorey tasStorey = m_TBDDocumentInstance.Building.GetStorey(0);
-            List<BHS.Elements.Storey> BHoMStorey = new List<BHS.Elements.Storey>();
-            BHoMStorey.Add(Engine.TAS.Convert.ToBHoM(tasStorey));
+            List<BHS.Elements.Storey> bHoMStorey = new List<BHS.Elements.Storey>();
+            bHoMStorey.Add(Engine.TAS.Convert.ToBHoM(tasStorey));
 
-            return BHoMStorey;
+            return bHoMStorey;
         }
 
         /***************************************************/
@@ -193,26 +193,26 @@ namespace BH.Adapter.TAS
         {
             TBD.Building building = m_TBDDocumentInstance.Building;
            
-            List<BHE.Interface.IMaterial> BHoMMaterial = new List<BHE.Interface.IMaterial>();
+            List<BHE.Interface.IMaterial> bHoMMaterial = new List<BHE.Interface.IMaterial>();
 
-            int ConstructionIndex = 0;
-            while (building.GetConstruction(ConstructionIndex) != null)
+            int constructionIndex = 0;
+            while (building.GetConstruction(constructionIndex) != null)
             {
                               
-                TBD.Construction currConstruction = building.GetConstruction(ConstructionIndex);
+                TBD.Construction currConstruction = building.GetConstruction(constructionIndex);
                                
                 int materialIndex = 1; //TAS does not have any material at index 0
-                while (building.GetConstruction(ConstructionIndex).materials(materialIndex) != null)
+                while (building.GetConstruction(constructionIndex).materials(materialIndex) != null)
                 {
-                    TBD.material tasMaterial = building.GetConstruction(ConstructionIndex).materials(materialIndex);
+                    TBD.material tasMaterial = building.GetConstruction(constructionIndex).materials(materialIndex);
 
-                    BHoMMaterial.Add(Engine.TAS.Convert.ToBHoM(tasMaterial));
+                    bHoMMaterial.Add(Engine.TAS.Convert.ToBHoM(tasMaterial));
                     materialIndex++;
                 }       
               
-                ConstructionIndex++;
+                constructionIndex++;
             }
-            return BHoMMaterial;
+            return bHoMMaterial;
         }
 
         /***************************************************/
