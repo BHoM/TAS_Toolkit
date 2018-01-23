@@ -17,7 +17,7 @@ namespace BH.Adapter.TAS
         /**** Public Methods                            ****/
         /***************************************************/
 
-        protected override IEnumerable<BHoMObject> Read(Type type, IList indices = null)
+        protected override IEnumerable<IObject> Read(Type type, IList indices = null)
         {
             if (type == typeof(BuildingElementPanel))
                 return ReadPanels();
