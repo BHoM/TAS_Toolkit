@@ -6,6 +6,7 @@ using BHE = BH.oM.Environmental;
 using BHS = BH.oM.Structural;
 using BH.oM.Environmental.Elements;
 using BH.oM.Environmental.Properties;
+using BH.oM.Environmental.Interface;
 using BHG = BH.oM.Geometry;
 using BH.Engine;
 
@@ -29,7 +30,9 @@ namespace BH.Adapter.TAS
                 return ReadBuildingElements();
             else if (type == typeof(BuildingElementProperties))
                 return ReadBuildingElementsProperties();
-            else if (type == typeof(OpaqueMaterial) || type == typeof(GasMaterial) || type == typeof(TransparentMaterial))
+            //else if (typeof(IMaterial).IsAssignableFrom(type))
+            //    return ReadMaterials();
+            else if (type == typeof(OpaqueMaterial) || type == typeof(TransparentMaterial) || type == typeof(GasMaterial))
                 return ReadMaterials();
             else if (type == typeof(BHS.Elements.Storey))
                 return ReadStorey();

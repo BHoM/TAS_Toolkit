@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BHE = BH.oM.Environmental;
 using BHS = BH.oM.Structural;
@@ -121,11 +122,7 @@ namespace BH.Engine.TAS
 
         public static BHS.Elements.Storey ToBHoM(this TBD.BuildingStorey tasStorey)
         {
-            BHS.Elements.Storey BHoMStorey = new BHS.Elements.Storey
-            {
-                //TODO
-            };
-            return BHoMStorey;
+            throw new NotImplementedException();
         }
               
         /***************************************************/
@@ -226,24 +223,14 @@ namespace BH.Engine.TAS
 
         public static BHE.Elements.Emitter ToBHoM(this TBD.Emitter tasEmitterProperties)
         {
-            BHE.Elements.Emitter bHoMEmitterProperties = new BHE.Elements.Emitter
-            {
-                //TODO!
-            };
-
-            return bHoMEmitterProperties;
+            throw new NotImplementedException();
         }
 
         /***************************************************/
 
         public static BHE.Elements.Profile ToBHoM(this TBD.profile tasProfile) //Has no properties in BHoM yet...
         {
-            BHE.Elements.Profile bHoMProfile = new BHE.Elements.Profile
-            {
-
-            };
-
-            return bHoMProfile;
+            throw new NotImplementedException();
         }
 
         /***************************************************/
@@ -286,6 +273,12 @@ namespace BH.Engine.TAS
             return new BHG.Polyline { ControlPoints = bHoMPointList };
         }
 
+        /***************************************************/
+
+
+
+        /***************************************************/
+        /**** Enums                                     ****/
         /***************************************************/
     }
 }
