@@ -39,6 +39,8 @@ namespace BH.Engine.TAS
             };
 
          return BHoMBuildingElement;
+
+            //TODO: add storey and BuildingElementGeometry
         }
 
         /***************************************************/
@@ -53,8 +55,8 @@ namespace BH.Engine.TAS
                 Thickness = tasConstruction.materialWidth[0],
                 LtValue = tasConstruction.lightTransmittance,
                 ThermalConductivity = tasConstruction.conductance,
-                //gValue = ?
-                //UValue = ?
+                //TODO: gValue = ?
+                //TODO: UValue = ?
             };
 
             //Assign Construction Layer to the object
@@ -102,6 +104,8 @@ namespace BH.Engine.TAS
                 Latitude = tasBuilding.latitude,
                 Longitude = tasBuilding.longitude,
                 Elevation = tasBuilding.maxBuildingAltitude,
+
+                //TODO: location, equipment, spaces, storeys, profiles, IC, EquipmentProperties
             };
             return bHoMBuilding;
         }
@@ -141,6 +145,8 @@ namespace BH.Engine.TAS
             bHoMPanel.PolyCurve = crv_edges;
 
             return bHoMPanel;
+
+            //TODO: add surface data. (Not from the TBD namespace)
         }
 
         /***************************************************/
