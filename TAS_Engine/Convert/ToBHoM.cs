@@ -16,6 +16,40 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
+        public static BHE.Elements.Building ToBHoM(this TBD.Building tasBuilding)
+        {
+            BHE.Elements.Building bHoMBuilding = new BHE.Elements.Building
+            {
+                Latitude = tasBuilding.latitude,
+                Longitude = tasBuilding.longitude,
+                Elevation = tasBuilding.maxBuildingAltitude,
+
+                //TODO: location, equipment, spaces, storeys, profiles, IC, EquipmentProperties
+            };
+            return bHoMBuilding;
+        }
+
+        /***************************************************/
+
+        public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone)
+        {
+            List<BHE.Elements.BuildingElement> bHoMBuildingElements = new List<BHE.Elements.BuildingElement>();
+            BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
+            bHoMSpace.Name = tasZone.name;
+
+            int buildingElementIndex = 0;
+            while (tasZone.GetSurface(buildingElementIndex) != null)
+            {
+                buildingElement tasBuildingElement = tasZone.GetSurface(buildingElementIndex).buildingElement;
+                bHoMSpace.BuildingElements.Add(tasBuildingElement.ToBHoM());
+                buildingElementIndex++;
+            }
+
+            return bHoMSpace;
+        }
+
+        /***************************************************/
+
         public static BHE.Elements.BuildingElement ToBHoM(this TBD.buildingElement tasBuildingElement)
         {
             if (tasBuildingElement == null)
@@ -24,12 +58,10 @@ namespace BH.Engine.TAS
             Construction tasConstruction = tasBuildingElement.GetConstruction();
             BuildingElementProperties bHoMBuildingElementProperties = null;
             
-
-            if (tasConstruction != null) // The construction needs to exsist. 
+            if (tasConstruction != null)
             {
                 bHoMBuildingElementProperties = tasConstruction.ToBHoM();
                 bHoMBuildingElementProperties.BuildingElementType = Enums.Enums.GetBuildingElementType(tasBuildingElement); // BEType on Construction
-                
             }                          
                            
             BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement
@@ -73,6 +105,7 @@ namespace BH.Engine.TAS
         }
 
         /***************************************************/
+
         public static BHE.Elements.ConstructionLayer ToBHoM(this TBD.Construction tasConstructionLayer, material tasMaterial)
         {
             BHE.Elements.ConstructionLayer bHoMConstructionLayer = new BHE.Elements.ConstructionLayer()
@@ -94,80 +127,9 @@ namespace BH.Engine.TAS
             };
             return BHoMStorey;
         }
-
+              
         /***************************************************/
-
-        public static BHE.Elements.Building ToBHoM(this TBD.Building tasBuilding)
-        {
-            BHE.Elements.Building bHoMBuilding = new BHE.Elements.Building
-            {
-                Latitude = tasBuilding.latitude,
-                Longitude = tasBuilding.longitude,
-                Elevation = tasBuilding.maxBuildingAltitude,
-
-                //TODO: location, equipment, spaces, storeys, profiles, IC, EquipmentProperties
-            };
-            return bHoMBuilding;
-        }
-
-        /***************************************************/
-        
-        public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone)
-        {
-            List<BHE.Elements.BuildingElement> bHoMBuildingElements = new List<BHE.Elements.BuildingElement>();
-            BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
-            bHoMSpace.Name = tasZone.name;
-           
-            int buildingElementIndex = 0;
-            while (tasZone.GetSurface(buildingElementIndex) != null)
-            {
-                buildingElement tasBuildingElement = tasZone.GetSurface(buildingElementIndex).buildingElement;
-                bHoMSpace.BuildingElements.Add(tasBuildingElement.ToBHoM());
-                buildingElementIndex++;
-            }    
-                        
-            return bHoMSpace;
-        }
-
-        /***************************************************/
-
-        public static BHE.Elements.InternalCondition ToBHoM(this TBD.InternalCondition tasInternalCondition)
-        {
-            BHE.Elements.InternalCondition bHoMInternalCondition = new BHE.Elements.InternalCondition
-            {
-                //EmitterProperties = tasInternalCondition.GetCoolingEmitter().ToBHoM(),
-                //TODO: implement bHoMEmitterProperties and Profiles
-            };
-
-            return bHoMInternalCondition;
-        }
-
-        /***************************************************/
-
-        public static BHE.Elements.Emitter ToBHoM(this TBD.Emitter tasEmitterProperties)
-        {
-            BHE.Elements.Emitter bHoMEmitterProperties = new BHE.Elements.Emitter
-            {
-                //TODO!
-            };
-
-            return bHoMEmitterProperties;
-        }
-
-        /***************************************************/
-
-        public static BHE.Elements.Profile ToBHoM(this TBD.profile tasProfile) //Has no properties in BHoM yet...
-        {
-            BHE.Elements.Profile bHoMProfile = new BHE.Elements.Profile
-            {
-
-            };
-
-            return bHoMProfile;
-        }
-
-        /***************************************************/
-
+             
         public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.zoneSurface zonesurface)
         {
             BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
@@ -243,6 +205,48 @@ namespace BH.Engine.TAS
             }
             return null;
         }
+
+        /***************************************************/
+
+        public static BHE.Elements.InternalCondition ToBHoM(this TBD.InternalCondition tasInternalCondition)
+        {
+            BHE.Elements.InternalCondition bHoMInternalCondition = new BHE.Elements.InternalCondition
+            {
+                //EmitterProperties = tasInternalCondition.GetCoolingEmitter().ToBHoM(),
+                //TODO: implement bHoMEmitterProperties and Profiles
+            };
+
+            return bHoMInternalCondition;
+        }
+
+        /***************************************************/
+
+        public static BHE.Elements.Emitter ToBHoM(this TBD.Emitter tasEmitterProperties)
+        {
+            BHE.Elements.Emitter bHoMEmitterProperties = new BHE.Elements.Emitter
+            {
+                //TODO!
+            };
+
+            return bHoMEmitterProperties;
+        }
+
+        /***************************************************/
+
+        public static BHE.Elements.Profile ToBHoM(this TBD.profile tasProfile) //Has no properties in BHoM yet...
+        {
+            BHE.Elements.Profile bHoMProfile = new BHE.Elements.Profile
+            {
+
+            };
+
+            return bHoMProfile;
+        }
+
+        /***************************************************/
+
+
+
 
         /***************************************************/
         /**** Public Methods - Geometry                 ****/
