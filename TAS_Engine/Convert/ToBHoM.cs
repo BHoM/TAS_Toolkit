@@ -38,8 +38,6 @@ namespace BH.Engine.TAS
                 BuildingElementProperties = bHoMBuildingElementProperties
             };
 
-          
-
          return BHoMBuildingElement;
         }
 
@@ -55,18 +53,21 @@ namespace BH.Engine.TAS
                 Thickness = tasConstruction.materialWidth[0],
                 LtValue = tasConstruction.lightTransmittance,
                 ThermalConductivity = tasConstruction.conductance,
-                //gValue = (double)tasConstruction.GetGlazingValues(),
-                //UValue = (double)u[0]  
+                //gValue = ?
+                //UValue = ?
             };
+
             return BHoMBuildingElementProperties;
         }
 
         /***************************************************/
         public static BHE.Elements.ConstructionLayer ToBHoM(this TBD.Construction tasConstructionLayer, material tasMaterial)
-        {         
+        {
             BHE.Elements.ConstructionLayer bHoMConstructionLayer = new BHE.Elements.ConstructionLayer()
             {       
-               Thickness = tasMaterial.width
+               Thickness = tasMaterial.width,
+               Material = tasMaterial.ToBHoM()
+              
             };
             return bHoMConstructionLayer;
         }
@@ -134,84 +135,61 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        //public static BHE.Interface.IMaterial ToBHoM(this TBD.material tasMaterial)
-        //{
-
-        //    if (tasMaterial.type == 1) //1 = Opaque material (from TBD.MaterialType enum)
-        //    {
-        //        BHE.Elements.OpaqueMaterial BHoMOpaqeMaterial = new BHE.Elements.OpaqueMaterial
-        //        {
-        //            Name = tasMaterial.name,
-        //            Thickness = tasMaterial.width,
-        //            Conductivity = tasMaterial.conductivity,
-        //            VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
-        //            SolarReflectanceExternal = tasMaterial.externalSolarReflectance,
-        //            SolarReflectanceInternal = tasMaterial.internalSolarReflectance,
-        //            LightReflectanceExternal = tasMaterial.externalLightReflectance,
-        //            LightReflectanceInternal = tasMaterial.internalLightReflectance,
-        //            EmissivityExternal = tasMaterial.externalEmissivity,
-        //            EmissivityInternal = tasMaterial.internalEmissivity
-        //         };
-        //        return BHoMOpaqeMaterial;
-        //    }
-
-        //    else if (tasMaterial.type == 3) //3 = Transparent layer (from TBD.MaterialType enum)
-        //    {
-        //        BHE.Elements.TransaprentMaterial BHoMTransparentMaterial = new BHE.Elements.TransaprentMaterial
-        //        {
-        //            Name = tasMaterial.name,
-        //            Thickness = tasMaterial.width,
-        //            Conductivity = tasMaterial.conductivity,
-        //            VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
-        //            SolarReflectanceExternal = tasMaterial.externalSolarReflectance,
-        //            SolarReflectanceInternal = tasMaterial.internalSolarReflectance,
-        //            LightReflectanceExternal = tasMaterial.externalLightReflectance,
-        //            LightReflectanceInternal = tasMaterial.internalLightReflectance,
-        //            EmissivityExternal = tasMaterial.externalEmissivity,
-        //            EmissivityInternal = tasMaterial.internalEmissivity
-
-        //        };
-        //        return BHoMTransparentMaterial;
-        //    }
-        //    else if (tasMaterial.type == 4) //4 = Gas Layer (from TBD.MaterialType enum)
-        //    {
-        //        BHE.Elements.GasMaterial BHoMGasMaterial = new BHE.Elements.GasMaterial
-        //        {
-        //            Thickness = tasMaterial.width,
-        //            ConvectionCoefficient = tasMaterial.convectionCoefficient,
-        //            VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor
-        //        };
-
-        //    }
-        //        return null;
-        //    }
-
-        /***************************************************/
-
-        public static BHE.Elements.OpaqueMaterial ToBHoM(this TBD.material tasMaterial)
+        public static BHE.Interface.IMaterial ToBHoM(this TBD.material tasMaterial)
         {
-            if (tasMaterial == null)
-                return null;
-           
-                BHE.Elements.OpaqueMaterial BHoMOpaqeMaterial = new BHE.Elements.OpaqueMaterial
-                {
+           BHE.Elements.MaterialType materialtype = Enums.Enums.GetMaterialType(tasMaterial);
+
+           switch (materialtype)
+            {
+                case MaterialType.Opaque:
+
+                    BHE.Elements.OpaqueMaterial BHoMOpaqeMaterial = new BHE.Elements.OpaqueMaterial
+                    {
+                        Name = tasMaterial.name,
+                        MaterialType = materialtype,
+                        Thickness = tasMaterial.width,
+                        Conductivity = tasMaterial.conductivity,
+                        VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
+                        SolarReflectanceExternal = tasMaterial.externalSolarReflectance,
+                        SolarReflectanceInternal = tasMaterial.internalSolarReflectance,
+                        LightReflectanceExternal = tasMaterial.externalLightReflectance,
+                        LightReflectanceInternal = tasMaterial.internalLightReflectance,
+                        EmissivityExternal = tasMaterial.externalEmissivity,
+                        EmissivityInternal = tasMaterial.internalEmissivity
+                    };
+                    return BHoMOpaqeMaterial;
+
+                case MaterialType.Transparent:
+                    BHE.Elements.TransparentMaterial BHoMTransparentMaterial = new BHE.Elements.TransparentMaterial
+                    {
+                        Name = tasMaterial.name,
+                        MaterialType = materialtype,
+                        Thickness = tasMaterial.width,
+                        Conductivity = tasMaterial.conductivity,
+                        VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
+                        SolarReflectanceExternal = tasMaterial.externalSolarReflectance,
+                        SolarReflectanceInternal = tasMaterial.internalSolarReflectance,
+                        LightReflectanceExternal = tasMaterial.externalLightReflectance,
+                        LightReflectanceInternal = tasMaterial.internalLightReflectance,
+                        EmissivityExternal = tasMaterial.externalEmissivity,
+                        EmissivityInternal = tasMaterial.internalEmissivity
+
+                    };
+                    return BHoMTransparentMaterial;
+
+                case MaterialType.Gas:
+                    BHE.Elements.GasMaterial BHoMGasMaterial = new BHE.Elements.GasMaterial
+                    {
                     Name = tasMaterial.name,
-                    MaterialType = Enums.Enums.GetMaterialType(tasMaterial),
                     Thickness = tasMaterial.width,
-                    Conductivity = tasMaterial.conductivity,
-                    VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
-                    SolarReflectanceExternal = tasMaterial.externalSolarReflectance,
-                    SolarReflectanceInternal = tasMaterial.internalSolarReflectance,
-                    LightReflectanceExternal = tasMaterial.externalLightReflectance,
-                    LightReflectanceInternal = tasMaterial.internalLightReflectance,
-                    EmissivityExternal = tasMaterial.externalEmissivity,
-                    EmissivityInternal = tasMaterial.internalEmissivity
-                };
-                return BHoMOpaqeMaterial;
+                    ConvectionCoefficient = tasMaterial.convectionCoefficient,
+                    VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor
+                    };
+
+                    return BHoMGasMaterial;
+            }
+            return null;
         }
-
-        /***************************************************/
-
 
         /***************************************************/
         /**** Public Methods - Geometry                 ****/

@@ -29,8 +29,8 @@ namespace BH.Adapter.TAS
                 return ReadBuildingElements();
             else if (type == typeof(BuildingElementProperties))
                 return ReadBuildingElementsProperties();
-            else if (type == typeof(OpaqueMaterial))//|| type == typeof(TransparentMaterial) || type == typeof(GasMaterial))
-                return ReadOpaqueMaterials();
+            else if (type == typeof(OpaqueMaterial) || type == typeof(GasMaterial) || type == typeof(TransparentMaterial))
+                return ReadMaterials();
             else if (type == typeof(BHS.Elements.Storey))
                 return ReadStorey();
             else if (type == typeof(ConstructionLayer))
@@ -102,6 +102,7 @@ namespace BH.Adapter.TAS
             }
             return bHoMPanels;
         }
+
         /***************************************************/
 
         public List<BuildingElement> ReadBuildingElements(List<string> ids = null)
@@ -185,11 +186,11 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private List<OpaqueMaterial> ReadOpaqueMaterials(List<string> ids = null)
+        private List<BHE.Interface.IMaterial> ReadMaterials(List<string> ids = null)
         {
             TBD.Building building = m_TBDDocumentInstance.Building;
            
-            List<OpaqueMaterial> BHoMMaterial = new List<OpaqueMaterial>();
+            List<BHE.Interface.IMaterial> BHoMMaterial = new List<BHE.Interface.IMaterial>();
 
             int ConstructionIndex = 0;
             while (building.GetConstruction(ConstructionIndex) != null)
