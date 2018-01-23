@@ -33,6 +33,8 @@ namespace BH.Adapter.TAS
                 return ReadOpaqueMaterials();
             else if (type == typeof(BHS.Elements.Storey))
                 return ReadStorey();
+            else if (type == typeof(ConstructionLayer))
+                return ReadConstructionLayer();
             else
                 return null;
         }
@@ -165,6 +167,36 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
+        public List<ConstructionLayer> ReadConstructionLayer(List<string> ids = null)
+        {
+            TBD.Building building = m_TBDDocumentInstance.Building;
+
+            List<BuildingElementProperties> BHoMBuildingElementProperties = new List<BuildingElementProperties>();
+            List<ConstructionLayer> BHoMConstructionLayer = new List<ConstructionLayer>();
+
+            int BuildingElementIndex = 0;
+            while (building.GetConstruction(BuildingElementIndex) != null)
+            {
+
+                TBD.Construction construction = m_TBDDocumentInstance.Building.GetConstruction(BuildingElementIndex);
+
+                int MaterialIndex = 1; // TAS doesn't have any material at index 0
+                while (construction.materials(MaterialIndex) != null)
+                {
+                    TBD.material tasMaterial = m_TBDDocumentInstance.Building.GetConstruction(BuildingElementIndex).materials(MaterialIndex);
+                    BHoMConstructionLayer.Add(Engine.TAS.Convert.ToBHoM(construction, tasMaterial));
+                    MaterialIndex++;
+                }
+
+                BuildingElementIndex++;
+
+            }
+
+            return BHoMConstructionLayer;
+        }
+
+        /***************************************************/
+
         private List<BHS.Elements.Storey> ReadStorey(List<string> ids = null)
         {
             TBD.BuildingStorey tasStorey = m_TBDDocumentInstance.Building.GetStorey(0);
@@ -188,7 +220,7 @@ namespace BH.Adapter.TAS
                               
                 TBD.Construction currConstruction = building.GetConstruction(ConstructionIndex);
                                
-                int materialIndex = 1;
+                int materialIndex = 1; //TAS does not have any material at index 0
                 while (building.GetConstruction(ConstructionIndex).materials(materialIndex) != null)
                 {
                     TBD.material tasMaterial = building.GetConstruction(ConstructionIndex).materials(materialIndex);

@@ -6,6 +6,7 @@ using BHG = BH.oM.Geometry;
 using TBD;
 using BHEE = BH.Engine.Environment;
 using BH.oM.Environmental.Properties;
+using BH.oM.Environmental.Elements;
 
 namespace BH.Engine.TAS
 {
@@ -21,16 +22,16 @@ namespace BH.Engine.TAS
                 return null;
 
             Construction tasConstruction = tasBuildingElement.GetConstruction();
-
             BuildingElementProperties bHoMBuildingElementProperties = null;
+            
 
-            if (tasConstruction != null)
+            if (tasConstruction != null) // The construction needs to exsist. 
+            {
                 bHoMBuildingElementProperties = tasConstruction.ToBHoM();
-
-            //Error on this line
-            if (tasConstruction != null)
-                bHoMBuildingElementProperties.BuildingElementType = Enums.Enums.GetBuildingElementType(tasBuildingElement); // BEType on Construction 
+                bHoMBuildingElementProperties.BuildingElementType = Enums.Enums.GetBuildingElementType(tasBuildingElement); // BEType on Construction
                 
+            }                          
+                           
             BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement
             {
                 Name = tasBuildingElement.name,
@@ -50,14 +51,12 @@ namespace BH.Engine.TAS
             //List<float> u= (tasConstruction.GetUValue() as IEnumerable<float>).ToList();
             BHE.Properties.BuildingElementProperties BHoMBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
             {
-                //ConstructionLayers = ToBHoM(tasConstruction, tasMaterial),
                 Name = tasConstruction.name,
                 Thickness = tasConstruction.materialWidth[0],
                 LtValue = tasConstruction.lightTransmittance,
                 ThermalConductivity = tasConstruction.conductance,
                 //gValue = (double)tasConstruction.GetGlazingValues(),
-                //UValue = (double)u[0]
-                            
+                //UValue = (double)u[0]  
             };
             return BHoMBuildingElementProperties;
         }
