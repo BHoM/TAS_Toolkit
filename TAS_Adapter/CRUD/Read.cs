@@ -73,7 +73,6 @@ namespace BH.Adapter.TAS
             return bHoMBuilding;
         }
 
-
         /***************************************************/
 
         private List<BuildingElementPanel> ReadPanels(List<string> ids = null)
@@ -96,8 +95,7 @@ namespace BH.Adapter.TAS
 
                     catch (NullReferenceException e) //If we have air walls we will get a NullReferenceException. Tas does not count air walls as surfaces
                     {
-                        bHoMPanels.Add(null);
-                        Console.WriteLine(e);
+                         Console.WriteLine(e);
                     }
                     panelIndex++;
                 }
