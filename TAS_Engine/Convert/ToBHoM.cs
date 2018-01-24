@@ -65,13 +65,13 @@ namespace BH.Engine.TAS
                 bHoMBuildingElementProperties.BuildingElementType = ToBHoM((TBD.BuildingElementType)tasBuildingElement.BEType);// BEType on Construction
             }                          
                            
-            BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement
+            BHE.Elements.BuildingElement bhomBuildingElement = new BHE.Elements.BuildingElement
             {
                 Name = tasBuildingElement.name,
                 BuildingElementProperties = bHoMBuildingElementProperties
             };
 
-         return BHoMBuildingElement;
+         return bhomBuildingElement;
 
             //TODO: add storey and BuildingElementGeometry
         }
@@ -82,7 +82,7 @@ namespace BH.Engine.TAS
         {
            
             //List<float> u= (tasConstruction.GetUValue() as IEnumerable<float>).ToList();
-            BHE.Properties.BuildingElementProperties BHoMBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
+            BHE.Properties.BuildingElementProperties bhomBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
             {
                 Name = tasConstruction.name,
                 Thickness = tasConstruction.materialWidth[0],
@@ -95,27 +95,27 @@ namespace BH.Engine.TAS
             //Assign Construction Layer to the object
             List<BHE.Elements.ConstructionLayer> bHoMConstructionLayer = new List<BHE.Elements.ConstructionLayer>();
 
-            int ConstructionLayerIndex = 1; //Cannot be 0 in TAS
-            while (tasConstruction.materials(ConstructionLayerIndex) != null)
+            int constructionLayerIndex = 1; //Cannot be 0 in TAS
+            while (tasConstruction.materials(constructionLayerIndex) != null)
             {
-                BHoMBuildingElementProperties.ConstructionLayers.Add(ToBHoM(tasConstruction, tasConstruction.materials(ConstructionLayerIndex)));
-                ConstructionLayerIndex++;
+                bhomBuildingElementProperties.ConstructionLayers.Add(ToBHoM(tasConstruction, tasConstruction.materials(constructionLayerIndex)));
+                constructionLayerIndex++;
             }
 
-            return BHoMBuildingElementProperties;
+            return bhomBuildingElementProperties;
         }
 
         /***************************************************/
 
         public static BHE.Elements.ConstructionLayer ToBHoM(this TBD.Construction tasConstructionLayer, material tasMaterial)
         {
-            BHE.Elements.ConstructionLayer bHoMConstructionLayer = new BHE.Elements.ConstructionLayer()
+            BHE.Elements.ConstructionLayer bhomConstructionLayer = new BHE.Elements.ConstructionLayer()
             {       
                Thickness = tasMaterial.width,
                Material = tasMaterial.ToBHoM()
               
             };
-            return bHoMConstructionLayer;
+            return bhomConstructionLayer;
         }
 
         /***************************************************/
@@ -155,7 +155,7 @@ namespace BH.Engine.TAS
             {
                 case MaterialType.Opaque:
 
-                    BHE.Elements.OpaqueMaterial BHoMOpaqeMaterial = new BHE.Elements.OpaqueMaterial
+                    BHE.Elements.OpaqueMaterial bhomOpaqeMaterial = new BHE.Elements.OpaqueMaterial
                     {
                         Name = tasMaterial.name,
                         Description = tasMaterial.description,
@@ -170,10 +170,10 @@ namespace BH.Engine.TAS
                         EmissivityExternal = tasMaterial.externalEmissivity,
                         EmissivityInternal = tasMaterial.internalEmissivity
                     };
-                    return BHoMOpaqeMaterial;
+                    return bhomOpaqeMaterial;
 
                 case MaterialType.Transparent:
-                    BHE.Elements.TransparentMaterial BHoMTransparentMaterial = new BHE.Elements.TransparentMaterial
+                    BHE.Elements.TransparentMaterial bhomTransparentMaterial = new BHE.Elements.TransparentMaterial
                     {
                         Name = tasMaterial.name,
                         Description = tasMaterial.description,
@@ -190,10 +190,10 @@ namespace BH.Engine.TAS
                         EmissivityInternal = tasMaterial.internalEmissivity
 
                     };
-                    return BHoMTransparentMaterial;
+                    return bhomTransparentMaterial;
 
                 case MaterialType.Gas:
-                    BHE.Elements.GasMaterial BHoMGasMaterial = new BHE.Elements.GasMaterial
+                    BHE.Elements.GasMaterial bhomGasMaterial = new BHE.Elements.GasMaterial
                     {
                     Name = tasMaterial.name,
                     Thickness = tasMaterial.width,
@@ -201,7 +201,7 @@ namespace BH.Engine.TAS
                     VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor
                     };
 
-                    return BHoMGasMaterial;
+                    return bhomGasMaterial;
             }
             return null;
         }
