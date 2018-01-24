@@ -62,7 +62,7 @@ namespace BH.Engine.TAS
             if (tasConstruction != null)
             {
                 bHoMBuildingElementProperties = tasConstruction.ToBHoM();
-                bHoMBuildingElementProperties.BuildingElementType = Enums.Enums.GetBuildingElementType(tasBuildingElement); // BEType on Construction
+                bHoMBuildingElementProperties.BuildingElementType = ToBHoM((TBD.BuildingElementType)tasBuildingElement.BEType);// BEType on Construction
             }                          
                            
             BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement
@@ -149,7 +149,7 @@ namespace BH.Engine.TAS
 
         public static BHE.Interface.IMaterial ToBHoM(this TBD.material tasMaterial)
         {
-           BHE.Elements.MaterialType materialtype = Enums.Enums.GetMaterialType(tasMaterial);
+           BHE.Elements.MaterialType materialtype = ToBHoM((TBD.MaterialTypes)tasMaterial.type);
 
            switch (materialtype)
             {
@@ -280,5 +280,46 @@ namespace BH.Engine.TAS
         /***************************************************/
         /**** Enums                                     ****/
         /***************************************************/
+               
+        public static BHE.Elements.MaterialType ToBHoM(this TBD.MaterialTypes tasMaterialType)
+        {
+            switch (tasMaterialType)
+            {
+                case MaterialTypes.tcdOpaqueLayer:
+                case MaterialTypes.tcdOpaqueMaterial:
+                    return BHE.Elements.MaterialType.Opaque;
+                case MaterialTypes.tcdTransparentLayer:
+                    return BHE.Elements.MaterialType.Transparent;
+                case MaterialTypes.tcdGasLayer:
+                    return BHE.Elements.MaterialType.Gas;
+                default:
+                    return BHE.Elements.MaterialType.Opaque;
+            }
+        }
+
+        /***************************************************/
+
+        public static BHE.Elements.BuidingElementType ToBHoM(this TBD.BuildingElementType tasBuildingElementType)
+        {
+            switch (tasBuildingElementType)
+            {
+                case BuildingElementType.CURTAINWALL:
+                case BuildingElementType.EXTERNALWALL:
+                case BuildingElementType.INTERNALWALL:
+                    return BHE.Elements.BuidingElementType.Wall;
+                case BuildingElementType.ROOFELEMENT:
+                    return BHE.Elements.BuidingElementType.Roof;
+                case BuildingElementType.CEILING:
+                case BuildingElementType.UNDERGROUNDCEILING:
+                    return BHE.Elements.BuidingElementType.Ceiling;
+                case BuildingElementType.EXPOSEDFLOOR:
+                case BuildingElementType.INTERNALFLOOR:
+                case BuildingElementType.RAISEDFLOOR:
+                    return BHE.Elements.BuidingElementType.Floor;
+                default:
+                    return BHE.Elements.BuidingElementType.Wall;
+            }
+        }
+
     }
 }
