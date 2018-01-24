@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BHE = BH.oM.Environmental;
 using BHS = BH.oM.Structural;
@@ -61,7 +62,7 @@ namespace BH.Engine.TAS
             if (tasConstruction != null)
             {
                 bHoMBuildingElementProperties = tasConstruction.ToBHoM();
-                bHoMBuildingElementProperties.BuildingElementType = Enums.Enums.GetBuildingElementType(tasBuildingElement); // BEType on Construction
+                bHoMBuildingElementProperties.BuildingElementType = ToBHoM((TBD.BuildingElementType)tasBuildingElement.BEType);// BEType on Construction
             }                          
                            
             BHE.Elements.BuildingElement BHoMBuildingElement = new BHE.Elements.BuildingElement
@@ -121,20 +122,16 @@ namespace BH.Engine.TAS
 
         public static BHS.Elements.Storey ToBHoM(this TBD.BuildingStorey tasStorey)
         {
-            BHS.Elements.Storey BHoMStorey = new BHS.Elements.Storey
-            {
-                //TODO
-            };
-            return BHoMStorey;
+            throw new NotImplementedException();
         }
               
         /***************************************************/
              
-        public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.zoneSurface zonesurface)
+        public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.zoneSurface tasZoneSurface)
         {
             BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
 
-            TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(0);
+            TBD.RoomSurface currRoomSrf = tasZoneSurface.GetRoomSurface(0);
             TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
             TBD.Polygon currPolygon = currPerimeter.GetFace();
                         
@@ -152,7 +149,7 @@ namespace BH.Engine.TAS
 
         public static BHE.Interface.IMaterial ToBHoM(this TBD.material tasMaterial)
         {
-           BHE.Elements.MaterialType materialtype = Enums.Enums.GetMaterialType(tasMaterial);
+           BHE.Elements.MaterialType materialtype = ToBHoM((TBD.MaterialTypes)tasMaterial.type);
 
            switch (materialtype)
             {
@@ -226,24 +223,14 @@ namespace BH.Engine.TAS
 
         public static BHE.Elements.Emitter ToBHoM(this TBD.Emitter tasEmitterProperties)
         {
-            BHE.Elements.Emitter bHoMEmitterProperties = new BHE.Elements.Emitter
-            {
-                //TODO!
-            };
-
-            return bHoMEmitterProperties;
+            throw new NotImplementedException();
         }
 
         /***************************************************/
 
         public static BHE.Elements.Profile ToBHoM(this TBD.profile tasProfile) //Has no properties in BHoM yet...
         {
-            BHE.Elements.Profile bHoMProfile = new BHE.Elements.Profile
-            {
-
-            };
-
-            return bHoMProfile;
+            throw new NotImplementedException();
         }
 
         /***************************************************/
@@ -287,5 +274,52 @@ namespace BH.Engine.TAS
         }
 
         /***************************************************/
+
+
+
+        /***************************************************/
+        /**** Enums                                     ****/
+        /***************************************************/
+               
+        public static BHE.Elements.MaterialType ToBHoM(this TBD.MaterialTypes tasMaterialType)
+        {
+            switch (tasMaterialType)
+            {
+                case MaterialTypes.tcdOpaqueLayer:
+                case MaterialTypes.tcdOpaqueMaterial:
+                    return BHE.Elements.MaterialType.Opaque;
+                case MaterialTypes.tcdTransparentLayer:
+                    return BHE.Elements.MaterialType.Transparent;
+                case MaterialTypes.tcdGasLayer:
+                    return BHE.Elements.MaterialType.Gas;
+                default:
+                    return BHE.Elements.MaterialType.Opaque;
+            }
+        }
+
+        /***************************************************/
+
+        public static BHE.Elements.BuidingElementType ToBHoM(this TBD.BuildingElementType tasBuildingElementType)
+        {
+            switch (tasBuildingElementType)
+            {
+                case BuildingElementType.CURTAINWALL:
+                case BuildingElementType.EXTERNALWALL:
+                case BuildingElementType.INTERNALWALL:
+                    return BHE.Elements.BuidingElementType.Wall;
+                case BuildingElementType.ROOFELEMENT:
+                    return BHE.Elements.BuidingElementType.Roof;
+                case BuildingElementType.CEILING:
+                case BuildingElementType.UNDERGROUNDCEILING:
+                    return BHE.Elements.BuidingElementType.Ceiling;
+                case BuildingElementType.EXPOSEDFLOOR:
+                case BuildingElementType.INTERNALFLOOR:
+                case BuildingElementType.RAISEDFLOOR:
+                    return BHE.Elements.BuidingElementType.Floor;
+                default:
+                    return BHE.Elements.BuidingElementType.Wall;
+            }
+        }
+
     }
 }

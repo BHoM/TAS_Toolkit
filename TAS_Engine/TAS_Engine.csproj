@@ -75,7 +75,6 @@
     <Compile Include="Convert\AdapterID.cs" />
     <Compile Include="Convert\ToBHoM.cs" />
     <Compile Include="Convert\ToTAS.cs" />
-    <Compile Include="Convert\Enums\Enums.cs" />
     <Compile Include="Objects\EqualityComparers\Comparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
