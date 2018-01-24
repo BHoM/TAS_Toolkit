@@ -22,15 +22,15 @@ namespace BH.Adapter.TAS
             else
                 ErrorLog.Add("The TBD file does not exist");
 
+            AdapterId = BH.Engine.TAS.Convert.AdapterID;
+            Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
+            Config.ProcessInMemory = false;
+            Config.SeparateProperties = false;  //Set to true after Dependency types have been implemented
+            Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
+
         }
 
-
-
-        public override IEnumerable<object> Pull(IQuery query, Dictionary<string, object> config = null)
-        {
-
-            return base.Pull(query, config);
-        }
+       
 
 
         /***************************************************/

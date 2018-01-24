@@ -31,10 +31,10 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private bool Create(BH.oM.Environmental.Elements.OpaqueMaterial bHoMOpaqueMaterial)
+        private bool Create(BH.oM.Environmental.Properties.BuildingElementProperties bHoMBuildingElementProperties)
         {
             bool sucess = true;
-            TBD.material tasMaterial = BH.Engine.TAS.Convert.ToTas(bHoMOpaqueMaterial);
+            TBD.Construction tasConstruction = BH.Engine.TAS.Convert.ToTas(bHoMBuildingElementProperties);
             return sucess;
         }
 

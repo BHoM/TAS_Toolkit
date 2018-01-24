@@ -62,7 +62,11 @@ namespace BH.Engine.TAS
             return tasSurface;
         }
 
+        /***************************************************/
 
+
+        /***************************************************/
+        /**** Public Methods - Objects                  ****/
         /***************************************************/
 
         public static TBD.material ToTas(this BHE.Elements.OpaqueMaterial bHoMOpaqueMaterial)
@@ -83,9 +87,27 @@ namespace BH.Engine.TAS
             };
             
                 return tasMaterial;
-
-         
         }
+
+        /***************************************************/
+
+        public static TBD.Construction ToTas(this BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties)
+        {
+            TBD.Construction tasConstruction = new TBD.Construction
+            {
+                name = bHoMBuildingElementProperties.Name,
+            };
+
+            return tasConstruction;
+        }
+
+
+
+        /***************************************************/
+        /**** Public Methods - Enums                    ****/
+        /***************************************************/
+
+
 
     }
 }
