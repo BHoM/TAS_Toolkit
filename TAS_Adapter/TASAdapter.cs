@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using BH.oM.Queries;
 
 namespace BH.Adapter.TAS
 {
@@ -20,6 +22,14 @@ namespace BH.Adapter.TAS
             else
                 ErrorLog.Add("The TBD file does not exist");
 
+        }
+
+
+
+        public override IEnumerable<object> Pull(IQuery query, Dictionary<string, object> config = null)
+        {
+
+            return base.Pull(query, config);
         }
 
 
