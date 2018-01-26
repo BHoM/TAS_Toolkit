@@ -1,66 +1,73 @@
-﻿using System.Collections.Generic;
-using BHG = BH.oM.Geometry;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using BH.oM.Base;
 using BHE = BH.oM.Environmental;
-using BH.Engine.Geometry;
+using BHS = BH.oM.Structural;
+using BH.oM.Environmental.Elements;
+using BH.oM.Environmental.Properties;
+using BH.oM.Environmental.Interface;
+using BHG = BH.oM.Geometry;
+using BH.Engine;
 using TBD;
-using TSD;
-using TPD;
+using BH.Adapter.TAS;
 
 namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
         /***************************************************/
-        /**** Public Methods - BHoM Objects             ****/
+        /**** Public Methods                            ****/
         /***************************************************/
 
-        //public static TAS3D.Building ToTas(BHE.Elements_Legacy.Location bHoMLocation) // Are you sure it is not better to return the Building interface? It seems like Tas works with interfaces. It for sure need a deeper look 
+        //public static string ToTas(this Type type)
         //{
-        //    TAS3D.Building tasLocation = new TAS3D.Building();
-        //    tasLocation.latitude = (float)bHoMLocation.Latitude;
-        //    tasLocation.longitude = (float)bHoMLocation.Longitude;
-        //    return tasLocation;
+        //    if (type == typeof(Construction))
+        //        return "Construction";
+        //    return null;
         //}
+
+        /***************************************************/
 
 
         /***************************************************/
         /**** Public Methods - Geometry                 ****/
         /***************************************************/
 
-        public static TBD.TasPoint ToTas(this BHG.Point bHoMPoint)
-        {
-            TBD.TasPoint tasPoint = new TBD.TasPoint();
-            tasPoint.x = (float)(bHoMPoint.X);
-            tasPoint.y = (float)(bHoMPoint.Y);
-            tasPoint.z = (float)(bHoMPoint.Z);
-            return tasPoint;
-        }
+        //public static TBD.TasPoint ToTas(this BHG.Point bHoMPoint)
+        //{
+        //    TBD.TasPoint tasPoint = new TBD.TasPoint();
+        //    tasPoint.x = (float)(bHoMPoint.X);
+        //    tasPoint.y = (float)(bHoMPoint.Y);
+        //    tasPoint.z = (float)(bHoMPoint.Z);
+        //    return tasPoint;
+        //}
 
         /***************************************************/
 
-        public static TBD.Polygon ToTas(this BHG.Polyline bHoMPolyline)
-        {
+        //public static TBD.Polygon ToTas(this BHG.Polyline bHoMPolyline)
+        //{
 
-            TBD.Polygon tasPolygon = new TBD.Polygon();
-            List<BHG.Point> coordList = bHoMPolyline.ControlPoints;
+        //    TBD.Polygon tasPolygon = new TBD.Polygon();
+        //    List<BHG.Point> coordList = bHoMPolyline.ControlPoints;
 
-            for (int i = 0; i < coordList.Count; i++)
-            {
-                tasPolygon.AddCoordinate((float)coordList[i].X, (float)coordList[i].Y, (float)coordList[i].Z);
-            }
+        //    for (int i = 0; i < coordList.Count; i++)
+        //    {
+        //        tasPolygon.AddCoordinate((float)coordList[i].X, (float)coordList[i].Y, (float)coordList[i].Z);
+        //    }
 
-            return tasPolygon;
-        }
+        //    return tasPolygon;
+        //}
 
         /***************************************************/
 
-        public static TBD.zoneSurface ToTas(this BHE.Elements.BuildingElementPanel bHoMPanel)
-        {
-            TBD.zoneSurface tasSurface = new TBD.zoneSurface();
-            //add points as properties to the surface
-            //tasSurface.area = (float)bHoMPanel.Surface.IArea();
-            return tasSurface;
-        }
+        //public static TBD.zoneSurface ToTas(this BHE.Elements.BuildingElementPanel bHoMPanel)
+        //{
+        //    TBD.zoneSurface tasSurface = new TBD.zoneSurface();
+        //    //add points as properties to the surface
+        //    //tasSurface.area = (float)bHoMPanel.Surface.IArea();
+        //    return tasSurface;
+        //}
 
         /***************************************************/
 
@@ -69,43 +76,52 @@ namespace BH.Engine.TAS
         /**** Public Methods - Objects                  ****/
         /***************************************************/
 
-        public static TBD.material ToTas(this BHE.Elements.OpaqueMaterial bHoMOpaqueMaterial)
-        {
-            TBD.material tasMaterial = new TBD.material
-            {
-                name = bHoMOpaqueMaterial.Name,
-                description = bHoMOpaqueMaterial.Description,
-                width = (float)bHoMOpaqueMaterial.Thickness,
-                conductivity = (float)bHoMOpaqueMaterial.Conductivity,
-                vapourDiffusionFactor = (float)bHoMOpaqueMaterial.VapourDiffusionFactor,
-                externalSolarReflectance = (float)bHoMOpaqueMaterial.SolarReflectanceExternal,
-                internalSolarReflectance = (float)bHoMOpaqueMaterial.SolarReflectanceInternal,
-                externalLightReflectance = (float)bHoMOpaqueMaterial.LightReflectanceExternal,
-                internalLightReflectance = (float)bHoMOpaqueMaterial.LightReflectanceInternal,
-                externalEmissivity = (float)bHoMOpaqueMaterial.EmissivityExternal,
-                internalEmissivity = (float)bHoMOpaqueMaterial.EmissivityInternal
-            };
-            
-                return tasMaterial;
-        }
+        //public static TBD.material ToTas(this BHE.Elements.OpaqueMaterial bHoMOpaqueMaterial)
+        //{
+        //    TBD.material tasMaterial = new TBD.material
+        //    {
+        //        name = bHoMOpaqueMaterial.Name,
+        //        description = bHoMOpaqueMaterial.Description,
+        //        width = (float)bHoMOpaqueMaterial.Thickness,
+        //        conductivity = (float)bHoMOpaqueMaterial.Conductivity,
+        //        vapourDiffusionFactor = (float)bHoMOpaqueMaterial.VapourDiffusionFactor,
+        //        externalSolarReflectance = (float)bHoMOpaqueMaterial.SolarReflectanceExternal,
+        //        internalSolarReflectance = (float)bHoMOpaqueMaterial.SolarReflectanceInternal,
+        //        externalLightReflectance = (float)bHoMOpaqueMaterial.LightReflectanceExternal,
+        //        internalLightReflectance = (float)bHoMOpaqueMaterial.LightReflectanceInternal,
+        //        externalEmissivity = (float)bHoMOpaqueMaterial.EmissivityExternal,
+        //        internalEmissivity = (float)bHoMOpaqueMaterial.EmissivityInternal
+        //    };
+
+        //    return tasMaterial;
+        //}
 
         /***************************************************/
 
-        public static TBD.Construction ToTas(this BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties)
+        public static TBD.ConstructionClass ToTas(this BuildingElementProperties bHoMBuildingElementProperties)
         {
-            TBD.Construction tasConstruction = new TBD.Construction
+
+            
+            TBD.ConstructionClass tasConstruction = new TBD.ConstructionClass
             {
-                name = bHoMBuildingElementProperties.Name,
+                name = bHoMBuildingElementProperties.Name
             };
+
 
             return tasConstruction;
         }
 
 
+       
+
+        /***************************************************/
+
 
         /***************************************************/
         /**** Public Methods - Enums                    ****/
         /***************************************************/
+
+
 
 
 

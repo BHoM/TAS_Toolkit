@@ -15,29 +15,46 @@ namespace BH.Adapter.TAS
         {
             bool success = true;
 
-
             if (typeof(IObject).IsAssignableFrom(typeof(T)))
             {
-                
+
                 foreach (T obj in objects)
                 {
-                    Engine.TAS.Convert.ToTas(obj as dynamic);
+                    success &= Create(obj as dynamic);
                 }
-                                
             }
 
+            m_TBDDocumentInstance.save();
             return success;
+            
         }
 
+
+        /***************************************************/
+        /**** Create methods                            ****/
         /***************************************************/
 
-        private bool Create(BH.oM.Environmental.Properties.BuildingElementProperties bHoMBuildingElementProperties)
+        private bool Create(BH.oM.Environmental.Elements.Building bHoMBuilding)
         {
-            bool sucess = true;
-            TBD.Construction tasConstruction = BH.Engine.TAS.Convert.ToTas(bHoMBuildingElementProperties);
-            return sucess;
+            TBD.Building tasBuilding = m_TBDDocumentInstance.Building;
+            tasBuilding.latitude = (float)bHoMBuilding.Latitude;
+            tasBuilding.longitude = (float)bHoMBuilding.Longitude;
+            tasBuilding.name = "Test Name";
+
+            return true;
         }
 
         /***************************************************/
+
+        private bool Create(BH.oM.Environmental.Elements.BuildingElement bHoMBuildingElement)
+        {
+            TBD.buildingElement tasBuildingElement = m_TBDDocumentInstance.Building.AddBuildingElement();
+            tasBuildingElement.name = bHoMBuildingElement.Name;
+            return true;
+        }
+
+
+       
+
     }
 }
