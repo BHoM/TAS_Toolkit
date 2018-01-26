@@ -39,9 +39,11 @@ namespace BH.Engine.TAS
             bHoMSpace.Name = tasZone.name;
 
             int buildingElementIndex = 0;
-            while (tasZone.GetSurface(buildingElementIndex) != null)
+            //while (tasZone.GetSurface(buildingElementIndex) != null)
+            while (true)
             {
                 buildingElement tasBuildingElement = tasZone.GetSurface(buildingElementIndex).buildingElement;
+
                 bHoMSpace.BuildingElements.Add(tasBuildingElement.ToBHoM());
                 buildingElementIndex++;
             }

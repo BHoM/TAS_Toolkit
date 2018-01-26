@@ -16,19 +16,6 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        /***************************************************/
-        /**** Public Methods                            ****/
-        /***************************************************/
-
-        //public static string ToTas(this Type type)
-        //{
-        //    if (type == typeof(Construction))
-        //        return "Construction";
-        //    return null;
-        //}
-
-        /***************************************************/
-
 
         /***************************************************/
         /**** Public Methods - Geometry                 ****/
@@ -101,18 +88,16 @@ namespace BH.Engine.TAS
         public static TBD.ConstructionClass ToTas(this BuildingElementProperties bHoMBuildingElementProperties)
         {
 
-            
             TBD.ConstructionClass tasConstruction = new TBD.ConstructionClass
             {
                 name = bHoMBuildingElementProperties.Name
             };
 
-
             return tasConstruction;
         }
 
 
-       
+
 
         /***************************************************/
 
@@ -120,6 +105,40 @@ namespace BH.Engine.TAS
         /***************************************************/
         /**** Public Methods - Enums                    ****/
         /***************************************************/
+
+        public static TBD.MaterialTypes ToTAS(this BHE.Elements.MaterialType bHoMMaterialType)
+        {
+            switch (bHoMMaterialType)
+            {
+                case BHE.Elements.MaterialType.Opaque:
+                    return MaterialTypes.tcdOpaqueMaterial;
+                case BHE.Elements.MaterialType.Transparent:
+                    return MaterialTypes.tcdTransparentLayer;
+                case BHE.Elements.MaterialType.Gas:
+                    return MaterialTypes.tcdGasLayer;
+                default:
+                    return MaterialTypes.tcdOpaqueMaterial;
+            }
+        }
+
+        /***************************************************/
+
+        public static TBD.BuildingElementType ToTAS(this BHE.Elements.BuidingElementType bHoMBuildingElementType)
+        {
+            switch (bHoMBuildingElementType) // This is just a test, it doeas not match. We have more BETypes in Tas than in BHoM
+            {
+                case BHE.Elements.BuidingElementType.Wall:
+                    return BuildingElementType.EXTERNALWALL; //What about the other TBD Wall types??
+                case BHE.Elements.BuidingElementType.Roof:
+                    return BuildingElementType.ROOFELEMENT;
+                case BHE.Elements.BuidingElementType.Ceiling:
+                    return BuildingElementType.UNDERGROUNDCEILING;
+                case BHE.Elements.BuidingElementType.Floor:
+                    return BuildingElementType.INTERNALFLOOR;
+                default:
+                    return BuildingElementType.EXTERNALWALL;
+            }
+        }
 
 
 
