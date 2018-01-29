@@ -26,6 +26,8 @@ namespace BH.Adapter.TAS
             }
 
             m_TBDDocumentInstance.save();
+            m_TBDDocumentInstance.close();
+
             return success;
             
         }
@@ -40,7 +42,7 @@ namespace BH.Adapter.TAS
             TBD.Building tasBuilding = m_TBDDocumentInstance.Building;
             tasBuilding.latitude = (float)bHoMBuilding.Latitude;
             tasBuilding.longitude = (float)bHoMBuilding.Longitude;
-            tasBuilding.name = "Test Name";
+            tasBuilding.name = bHoMBuilding.Name;
 
             return true;
         }
@@ -67,12 +69,29 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        //private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel)
-        //{
-        //    TBD.zoneSurface tasZoneSurface = m_TBDDocumentInstance.Building.AddZone().AddSurface();
-        //    tasZoneSurface.area = 455;
-        //    return true;
-        //}
+        private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel)
+        {
+
+            TBD.zoneSurface tasZoneSurface = m_TBDDocumentInstance.Building.AddZone().AddSurface();
+            tasZoneSurface.area = 455;
+
+            //TBD.RoomSurface currRoomSrf = tasZoneSurface.GetRoomSurface(0);
+            //TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
+            //TBD.Polygon currPolygon = currPerimeter.GetFace();
+
+            return true;
+        }
+
+
+        /***************************************************/
+
+        private bool Create(BHE.Elements.InternalCondition bHoMInternalCondition)
+        {
+            TBD.InternalCondition tasInternalCondition = m_TBDDocumentInstance.Building.AddIC(null);
+            tasInternalCondition.name = bHoMInternalCondition.Name;
+
+            return true;
+        }
 
 
         /***************************************************/
@@ -83,9 +102,13 @@ namespace BH.Adapter.TAS
             tasZone.name = bHoMSpace.Name;
             tasZone.volume = (float)bHoMSpace.Volume;
             tasZone.floorArea = (float)bHoMSpace.Area;
-
+            tasZone.output = 1;
+            
             //TBD.zoneSurface tasZoneSurface = tasZone.AddSurface();
-            //tasZoneSurface.area = 225;
+            //TBD.RoomSurface roomSrf = tasZone.AddRoom().AddSurface();
+            //TBD.zoneSurface tasZoneSurface = (TBD.zoneSurface)roomSrf;
+            //TBD.zone currZone = tasZoneSurface.zone;
+            //roomSrf.area = 225;
 
             return true;
         }

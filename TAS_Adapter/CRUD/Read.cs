@@ -82,10 +82,10 @@ namespace BH.Adapter.TAS
 
             List<BuildingElementPanel> bHoMPanels = new List<BuildingElementPanel>();
 
-            int zoneIndex = 0;
+            int zoneIndex = 1;
             while (m_TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
             {
-                int panelIndex = 0;
+                int panelIndex = 1;
                 while (m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex) != null)
                 {
                     TBD.zoneSurface zonesurface = m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex);

@@ -38,7 +38,7 @@ namespace BH.Engine.TAS
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
             bHoMSpace.Name = tasZone.name;
 
-            int buildingElementIndex = 0;
+            int buildingElementIndex = 1;
             while (tasZone.GetSurface(buildingElementIndex) != null)
             {
                 buildingElement tasBuildingElement = tasZone.GetSurface(buildingElementIndex).buildingElement;
@@ -131,7 +131,7 @@ namespace BH.Engine.TAS
         {
             BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
 
-            TBD.RoomSurface currRoomSrf = tasZoneSurface.GetRoomSurface(0);
+            TBD.RoomSurface currRoomSrf = tasZoneSurface.GetRoomSurface(0); // We need to use all of the room surfaces in the model (Sofia)
             TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
             TBD.Polygon currPolygon = currPerimeter.GetFace();
                         
