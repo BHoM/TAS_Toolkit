@@ -56,19 +56,19 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        //private bool Create(this BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties)
-        //{
-        //    TBD.Construction tasConstruction = m_TBDDocumentInstance.Building.AddConstruction();
-        //    tasBuildingElement.name = bHoMBuildingElement.Name;
-        //    return true;
-        //}
+        private bool Create(BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties)
+        {
+            TBD.Construction tasConstruction = m_TBDDocumentInstance.Building.AddConstruction(null);
+            tasConstruction.name = bHoMBuildingElementProperties.Name;
+            return true;
+        }
 
         /***************************************************/
 
         //private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel)
         //{
         //    TBD.zoneSurface tasZoneSurface = m_TBDDocumentInstance.Building.AddZone().AddSurface();
-        //    tasZoneSurface.area = 45;
+        //    tasZoneSurface.area = 455;
         //    return true;
         //}
 
@@ -79,6 +79,12 @@ namespace BH.Adapter.TAS
         {
             TBD.zone tasZone = m_TBDDocumentInstance.Building.AddZone();
             tasZone.name = bHoMSpace.Name;
+            tasZone.volume = (float)bHoMSpace.Volume;
+            tasZone.floorArea = (float)bHoMSpace.Area;
+
+            //TBD.zoneSurface tasZoneSurface = tasZone.AddSurface();
+            //tasZoneSurface.area = 225;
+
             return true;
         }
 
