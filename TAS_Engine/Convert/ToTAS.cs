@@ -96,9 +96,7 @@ namespace BH.Engine.TAS
             return tasConstruction;
         }
 
-
-
-
+    
         /***************************************************/
 
 
@@ -106,7 +104,7 @@ namespace BH.Engine.TAS
         /**** Public Methods - Enums                    ****/
         /***************************************************/
 
-        public static TBD.MaterialTypes ToTAS(this BHE.Elements.MaterialType bHoMMaterialType)
+        public static TBD.MaterialTypes ToTas(this BHE.Elements.MaterialType bHoMMaterialType)
         {
             switch (bHoMMaterialType)
             {
@@ -123,7 +121,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.BuildingElementType ToTAS(this BHE.Elements.BuidingElementType bHoMBuildingElementType)
+        public static TBD.BuildingElementType ToTas(this BHE.Elements.BuidingElementType bHoMBuildingElementType)
         {
             switch (bHoMBuildingElementType) // This is just a test, it doeas not match. We have more BETypes in Tas than in BHoM
             {

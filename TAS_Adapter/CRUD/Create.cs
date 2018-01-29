@@ -51,9 +51,17 @@ namespace BH.Adapter.TAS
         {
             TBD.buildingElement tasBuildingElement = m_TBDDocumentInstance.Building.AddBuildingElement();
             tasBuildingElement.name = bHoMBuildingElement.Name;
-            //tasBuildingElement.BEType = bHoMBuildingElement.BuildingElementProperties.BuildingElementType
             return true;
         }
+
+        /***************************************************/
+
+        //private bool Create(this BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties)
+        //{
+        //    TBD.Construction tasConstruction = m_TBDDocumentInstance.Building.AddConstruction();
+        //    tasBuildingElement.name = bHoMBuildingElement.Name;
+        //    return true;
+        //}
 
         /***************************************************/
 
@@ -69,8 +77,8 @@ namespace BH.Adapter.TAS
 
         private bool Create(BHE.Elements.Space bHoMSpace)
         {
-            //TBD.zone tasZone = m_TBDDocumentInstance.Building.AddZone();
-            //tasZone.name = bHoMSpace.Name;
+            TBD.zone tasZone = m_TBDDocumentInstance.Building.AddZone();
+            tasZone.name = bHoMSpace.Name;
             return true;
         }
 
