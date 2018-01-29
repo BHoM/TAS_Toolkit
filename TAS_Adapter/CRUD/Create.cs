@@ -60,6 +60,8 @@ namespace BH.Adapter.TAS
         {
             TBD.Construction tasConstruction = m_TBDDocumentInstance.Building.AddConstruction(null);
             tasConstruction.name = bHoMBuildingElementProperties.Name;
+            tasConstruction.materialWidth[0] = (float)bHoMBuildingElementProperties.Thickness; //which value in the array shall we use??
+
             return true;
         }
 
