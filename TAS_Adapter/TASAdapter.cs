@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using BH.oM.Queries;
+using BH.oM.Base;
 
 namespace BH.Adapter.TAS
 {
@@ -30,8 +33,27 @@ namespace BH.Adapter.TAS
 
         }
 
-  
-        
+
+
+
+        public override bool Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
+        {
+            bool success = true;
+            MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
+            foreach (var typeGroup in objects.GroupBy(x => x.GetType()))
+            {
+                MethodInfo miListObject = miToList.MakeGenericMethod(new[] { typeGroup.Key });
+
+                var list = miListObject.Invoke(typeGroup, new object[] { typeGroup });
+
+                success &= Create(list as dynamic, false);
+            }
+
+
+
+            return success;
+        }
+
         /***************************************************/
         /**** Private Fields                            ****/
         /***************************************************/

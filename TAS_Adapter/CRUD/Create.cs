@@ -26,10 +26,9 @@ namespace BH.Adapter.TAS
             }
 
             m_TBDDocumentInstance.save();
-            m_TBDDocumentInstance.close();
-
             return success;
             
+
         }
 
 
@@ -72,8 +71,21 @@ namespace BH.Adapter.TAS
         private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel)
         {
 
-            TBD.zoneSurface tasZoneSurface = m_TBDDocumentInstance.Building.AddZone().AddSurface();
-            tasZoneSurface.area = 455;
+            //TBD.zone tasZone = m_TBDDocumentInstance.Building.AddZone();
+            TBD.zone tasZone = m_TBDDocumentInstance.Building.GetZone(1);
+            tasZone.name = "GetSpace";
+
+            TBD.room tasRoom = tasZone.AddRoom();
+            TBD.room testRoom = tasZone.GetRoom(0); 
+
+            TBD.RoomSurface roomsrf = testRoom.AddSurface();
+            TBD.RoomSurface roomsrftest = testRoom.GetSurface(0);
+           
+            TBD.zoneSurface tasZoneSurface = tasZone.AddSurface();
+            TBD.zoneSurface test = tasZone.GetSurface(0);
+
+            tasZoneSurface.altitude = 25;
+
 
             //TBD.RoomSurface currRoomSrf = tasZoneSurface.GetRoomSurface(0);
             //TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
@@ -81,6 +93,8 @@ namespace BH.Adapter.TAS
 
             return true;
         }
+
+
 
 
         /***************************************************/
@@ -104,6 +118,7 @@ namespace BH.Adapter.TAS
             tasZone.floorArea = (float)bHoMSpace.Area;
             tasZone.output = 1;
             
+
             //TBD.zoneSurface tasZoneSurface = tasZone.AddSurface();
             //TBD.RoomSurface roomSrf = tasZone.AddRoom().AddSurface();
             //TBD.zoneSurface tasZoneSurface = (TBD.zoneSurface)roomSrf;
