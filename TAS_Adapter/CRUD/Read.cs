@@ -85,21 +85,31 @@ namespace BH.Adapter.TAS
             int zoneIndex = 1;
             while (m_TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
             {
-                int panelIndex = 1;
+                int panelIndex = 0;
                 while (m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex) != null)
                 {
                     TBD.zoneSurface zonesurface = m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex);
 
-                    try
+                    int roomSurfaceIndex = 0;
+                    while (zonesurface.GetRoomSurface(roomSurfaceIndex) != null)
                     {
-                         bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(zonesurface));
+                        TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(roomSurfaceIndex);
+
+
+                        try
+                        {
+                            bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(currRoomSrf));
+                        }
+
+                        catch (NullReferenceException e) //If we have air walls we will get a NullReferenceException. Tas does not count air walls as surfaces
+                        {
+                            Console.WriteLine(e);
+                        }
+
+                        roomSurfaceIndex++;
                     }
 
-                    catch (NullReferenceException e) //If we have air walls we will get a NullReferenceException. Tas does not count air walls as surfaces
-                    {
-                         Console.WriteLine(e);
-                    }
-                    panelIndex++;
+                   panelIndex++;
                 }
                 zoneIndex++;
             }

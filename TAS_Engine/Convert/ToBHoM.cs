@@ -127,12 +127,12 @@ namespace BH.Engine.TAS
               
         /***************************************************/
              
-        public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.zoneSurface tasZoneSurface)
+        public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.RoomSurface tasRoomSrf)
         {
             BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
 
-            TBD.RoomSurface currRoomSrf = tasZoneSurface.GetRoomSurface(0); // We need to use all of the room surfaces in the model (Sofia)
-            TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
+            //TBD.RoomSurface currRoomSrf = tasZoneSurface.GetRoomSurface(0); // We need to use all of the room surfaces in the model (Sofia)
+            TBD.Perimeter currPerimeter = tasRoomSrf.GetPerimeter();
             TBD.Polygon currPolygon = currPerimeter.GetFace();
                         
             BHG.Polyline edges = ToBHoM(currPolygon);
