@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BH.oM.Base;
 using BHE = BH.oM.Environmental;
+using BHG = BH.oM.Geometry;
 
 namespace BH.Adapter.TAS
 {
@@ -71,25 +72,21 @@ namespace BH.Adapter.TAS
         private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel)
         {
 
-            //TBD.zone tasZone = m_TBDDocumentInstance.Building.AddZone();
-            TBD.zone tasZone = m_TBDDocumentInstance.Building.GetZone(1);
-            tasZone.name = "GetSpace";
+            TBD.zone tasZone = m_TBDDocumentInstance.Building.GetZone(0); //We have to create spaces before we can create its panels
 
             TBD.room tasRoom = tasZone.AddRoom();
-            TBD.room testRoom = tasZone.GetRoom(0); 
-
-            TBD.RoomSurface roomsrf = testRoom.AddSurface();
-            TBD.RoomSurface roomsrftest = testRoom.GetSurface(0);
-           
-            TBD.zoneSurface tasZoneSurface = tasZone.AddSurface();
-            TBD.zoneSurface test = tasZone.GetSurface(0);
-
-            tasZoneSurface.altitude = 25;
+            TBD.RoomSurface roomsrf = tasRoom.AddSurface();
+            TBD.Perimeter currPerimeter = roomsrf.CreatePerimeter();
+            TBD.Polygon currPolygon = currPerimeter.CreateFace();
+            TBD.TasPoint currPt1 = currPolygon.AddPoint();
 
 
-            //TBD.RoomSurface currRoomSrf = tasZoneSurface.GetRoomSurface(0);
-            //TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
-            //TBD.Polygon currPolygon = currPerimeter.GetFace();
+            List<BHG.Point> bHoMPoint = BH.Engine.Geometry.Query.ControlPoints(bHoMBuildingElementPanel.PolyCurve);
+            List<TBD.TasPoint> tasPointList = new List<TBD.TasPoint>();
+
+            
+            tasPointList.Add(Engine.TAS.Convert.ToTas(bHoMPoint[0], currPt1));
+
 
             return true;
         }
@@ -117,18 +114,30 @@ namespace BH.Adapter.TAS
             tasZone.volume = (float)bHoMSpace.Volume;
             tasZone.floorArea = (float)bHoMSpace.Area;
             tasZone.output = 1;
-            
-
-            //TBD.zoneSurface tasZoneSurface = tasZone.AddSurface();
-            //TBD.RoomSurface roomSrf = tasZone.AddRoom().AddSurface();
-            //TBD.zoneSurface tasZoneSurface = (TBD.zoneSurface)roomSrf;
-            //TBD.zone currZone = tasZoneSurface.zone;
-            //roomSrf.area = 225;
 
             return true;
         }
 
-      
+        /***************************************************/
+
+        private bool Create(BHG.Point bHoMPoint)
+        {
+
+            TBD.zone tasZone = m_TBDDocumentInstance.Building.GetZone(0); //We have to create spaces before we can create its panels
+
+            TBD.room tasRoom = tasZone.AddRoom();
+            TBD.RoomSurface tasRoomSrf = tasRoom.AddSurface();
+            TBD.Perimeter tasPerimeter = tasRoomSrf.CreatePerimeter();
+            TBD.Polygon tasPolygon = tasPerimeter.CreateFace();
+            TBD.TasPoint tasPt = tasPolygon.AddPoint();
+
+            List<TBD.TasPoint> tasPoint = new List<TBD.TasPoint>();
+            tasPoint.Add(Engine.TAS.Convert.ToTas(bHoMPoint, tasPt));
+
+            return true;
+        }
+
+
 
 
 

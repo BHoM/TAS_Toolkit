@@ -21,14 +21,13 @@ namespace BH.Engine.TAS
         /**** Public Methods - Geometry                 ****/
         /***************************************************/
 
-        //public static TBD.TasPoint ToTas(this BHG.Point bHoMPoint)
-        //{
-        //    TBD.TasPoint tasPoint = new TBD.TasPoint();
-        //    tasPoint.x = (float)(bHoMPoint.X);
-        //    tasPoint.y = (float)(bHoMPoint.Y);
-        //    tasPoint.z = (float)(bHoMPoint.Z);
-        //    return tasPoint;
-        //}
+        public static TBD.TasPoint ToTas(this BHG.Point bHoMPoint, TBD.TasPoint tasPoint)
+        {
+            tasPoint.x = (float)(bHoMPoint.X);
+            tasPoint.y = (float)(bHoMPoint.Y);
+            tasPoint.z = (float)(bHoMPoint.Z);
+            return tasPoint;
+        }
 
         /***************************************************/
 
