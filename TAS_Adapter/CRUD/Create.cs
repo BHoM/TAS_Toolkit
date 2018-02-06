@@ -76,16 +76,21 @@ namespace BH.Adapter.TAS
 
             TBD.room tasRoom = tasZone.AddRoom();
             TBD.RoomSurface roomsrf = tasRoom.AddSurface();
-            TBD.Perimeter currPerimeter = roomsrf.CreatePerimeter();
-            TBD.Polygon currPolygon = currPerimeter.CreateFace();
-            TBD.TasPoint currPt1 = currPolygon.AddPoint();
+
+            TBD.zoneSurface tasZoneSurface = Engine.TAS.Convert.ToTas(bHoMBuildingElementPanel, roomsrf.zoneSurface);
 
 
-            List<BHG.Point> bHoMPoint = BH.Engine.Geometry.Query.ControlPoints(bHoMBuildingElementPanel.PolyCurve);
-            List<TBD.TasPoint> tasPointList = new List<TBD.TasPoint>();
 
-            
-            tasPointList.Add(Engine.TAS.Convert.ToTas(bHoMPoint[0], currPt1));
+            //TBD.Perimeter currPerimeter = roomsrf.CreatePerimeter();
+            //TBD.Polygon currPolygon = currPerimeter.CreateFace();
+            //TBD.TasPoint currPt1 = currPolygon.AddPoint();
+
+
+            //List<BHG.Point> bHoMPoint = BH.Engine.Geometry.Query.ControlPoints(bHoMBuildingElementPanel.PolyCurve);
+            //List<TBD.TasPoint> tasPointList = new List<TBD.TasPoint>();
+
+
+            //tasPointList.Add(Engine.TAS.Convert.ToTas(bHoMPoint[0], currPt1));
 
 
             return true;

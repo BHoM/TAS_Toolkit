@@ -21,7 +21,7 @@ namespace BH.Engine.TAS
         /**** Public Methods - Geometry                 ****/
         /***************************************************/
 
-        public static TBD.TasPoint ToTas(this BHG.Point bHoMPoint, TBD.TasPoint tasPoint)
+        public static TBD.TasPoint ToTas(this BHG.Point bHoMPoint, TasPoint tasPoint)
         {
             tasPoint.x = (float)(bHoMPoint.X);
             tasPoint.y = (float)(bHoMPoint.Y);
@@ -30,6 +30,14 @@ namespace BH.Engine.TAS
         }
 
         /***************************************************/
+
+        public static TBD.zoneSurface ToTas(this BuildingElementPanel bHoMPanel, zoneSurface tasZoneSurface)
+        {
+            tasZoneSurface.GUID = bHoMPanel.BHoM_Guid.ToString();
+            tasZoneSurface.area = 120;
+            tasZoneSurface.number = 1;
+            return tasZoneSurface;
+        }
 
         //public static TBD.Polygon ToTas(this BHG.Polyline bHoMPolyline)
         //{
