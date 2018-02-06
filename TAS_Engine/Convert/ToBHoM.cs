@@ -38,26 +38,25 @@ namespace BH.Engine.TAS
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
             bHoMSpace.Name = tasZone.name;
 
-            int buildingElementIndex = 0;
+            //int buildingElementIndex = 0;
             int zoneSurfaceIndex = 0;
-            while (tasZone.GetSurface(buildingElementIndex) != null)
+            while (tasZone.GetSurface(zoneSurfaceIndex) != null)
             {
-                buildingElement tasBuildingElement = tasZone.GetSurface(buildingElementIndex).buildingElement;
-                bHoMSpace.BuildingElements.Add(tasBuildingElement.ToBHoM());
+                //buildingElement tasBuildingElement = tasZone.GetSurface(buildingElementIndex).buildingElement;
+                //bHoMSpace.BuildingElements.Add(tasBuildingElement.ToBHoM());
 
                 int roomSrfIndex = 0;
                 while (tasZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex) != null)
                 {
-                    zoneSurface tasZoneSrf = tasZone.GetSurface(zoneSurfaceIndex);
-                    RoomSurface tasRoomSrf = tasZoneSrf.GetRoomSurface(roomSrfIndex);
+                    RoomSurface tasRoomSrf = tasZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex);
 
-                    //if (tasRoomSrf != null)
+                    if (tasRoomSrf.GetPerimeter() != null) //sometimes we can have a srf object in tas without a geometry
                         bHoMSpace.BuildingElementPanel.Add(tasRoomSrf.ToBHoM());
 
                     roomSrfIndex++;
                 }
 
-                buildingElementIndex++;
+                //buildingElementIndex++;
                 zoneSurfaceIndex++;
             }
 
@@ -149,7 +148,11 @@ namespace BH.Engine.TAS
             //TBD.RoomSurface currRoomSrf = tasZoneSurface.GetRoomSurface(0); // We need to use all of the room surfaces in the model (Sofia)
 
             TBD.Perimeter currPerimeter = tasRoomSrf.GetPerimeter();
-            if (currPerimeter == null) return bHoMPanel;
+            if (currPerimeter == null)
+            {
+                bHoMPanel.Name = "Error";
+                return bHoMPanel; //Why do we want an empty panel?
+            }
             TBD.Polygon currPolygon = currPerimeter.GetFace();
                         
             BHG.Polyline edges = ToBHoM(currPolygon);

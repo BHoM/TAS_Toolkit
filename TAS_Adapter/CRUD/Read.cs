@@ -53,7 +53,7 @@ namespace BH.Adapter.TAS
 
             List<Space> bHoMSpace = new List<Space>();
 
-            int zoneIndex = 1;
+            int zoneIndex = 0;
             while (building.GetZone(zoneIndex) != null)
             {
                 TBD.zone zone = m_TBDDocumentInstance.Building.GetZone(zoneIndex);
@@ -82,7 +82,7 @@ namespace BH.Adapter.TAS
 
             List<BuildingElementPanel> bHoMPanels = new List<BuildingElementPanel>();
 
-            int zoneIndex = 1;
+            int zoneIndex = 0;
             while (m_TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
             {
                 int panelIndex = 0;
@@ -95,16 +95,8 @@ namespace BH.Adapter.TAS
                     {
                         TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(roomSurfaceIndex);
 
-
-                        try
-                        {
+                        if (currRoomSrf.GetPerimeter() != null) //sometimes we can have a srf object in tas without a geometry
                             bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(currRoomSrf));
-                        }
-
-                        catch (NullReferenceException e) //If we have air walls we will get a NullReferenceException. Tas does not count air walls as surfaces
-                        {
-                            Console.WriteLine(e);
-                        }
 
                         roomSurfaceIndex++;
                     }
