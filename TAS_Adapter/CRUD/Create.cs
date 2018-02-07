@@ -4,6 +4,7 @@ using System.Linq;
 using BH.oM.Base;
 using BHE = BH.oM.Environmental;
 using BHG = BH.oM.Geometry;
+using System.Runtime.InteropServices;
 
 namespace BH.Adapter.TAS
 {
@@ -27,10 +28,34 @@ namespace BH.Adapter.TAS
             }
 
             m_TBDDocumentInstance.save();
-            return success;
-            
+
+          
+     
+                if (m_TBDDocumentInstance != null)
+                {
+                    // issue with closing files and not closing 
+                    ClearCOMObject(m_TBDDocumentInstance);
+                    m_TBDDocumentInstance = null;
+                }
+
+
+            return success; 
 
         }
+
+
+        public static void ClearCOMObject(object Object)
+        {
+            if (Object == null) return;
+            int intrefcount = 0;
+            do
+            {
+                intrefcount = Marshal.FinalReleaseComObject(Object);
+            } while (intrefcount > 0);
+            Object = null;
+        }
+
+
 
 
         /***************************************************/
@@ -71,31 +96,14 @@ namespace BH.Adapter.TAS
 
         private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel)
         {
-
             TBD.zone tasZone = m_TBDDocumentInstance.Building.GetZone(0); //We have to create spaces before we can create its panels
-
-            TBD.room tasRoom = tasZone.AddRoom();
-            TBD.RoomSurface roomsrf = tasRoom.AddSurface();
-
-            TBD.zoneSurface tasZoneSurface = Engine.TAS.Convert.ToTas(bHoMBuildingElementPanel, roomsrf.zoneSurface);
-
-
-
-            //TBD.Perimeter currPerimeter = roomsrf.CreatePerimeter();
-            //TBD.Polygon currPolygon = currPerimeter.CreateFace();
-            //TBD.TasPoint currPt1 = currPolygon.AddPoint();
-
-
-            //List<BHG.Point> bHoMPoint = BH.Engine.Geometry.Query.ControlPoints(bHoMBuildingElementPanel.PolyCurve);
-            //List<TBD.TasPoint> tasPointList = new List<TBD.TasPoint>();
-
-
-            //tasPointList.Add(Engine.TAS.Convert.ToTas(bHoMPoint[0], currPt1));
-
+            //BD. tasRoom = tasZone.AddRoom();
+            //TBD.room tasRoom = tasZone.AddRoom();
+            //TBD.RoomSurface roomsrf = tasRoom.AddSurface();
+            //TBD.zoneSurface zonesrf = tasZone.AddSurface();
 
             return true;
         }
-
 
 
 
@@ -118,7 +126,9 @@ namespace BH.Adapter.TAS
             tasZone.name = bHoMSpace.Name;
             tasZone.volume = (float)bHoMSpace.Volume;
             tasZone.floorArea = (float)bHoMSpace.Area;
-            tasZone.output = 1;
+
+            TBD.TasPoint tasPt = tasZone.AddRoom().AddSurface().CreatePerimeter().CreateFace().AddPoint();
+            
 
             return true;
         }

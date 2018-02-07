@@ -95,7 +95,7 @@ namespace BH.Adapter.TAS
                     {
                         TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(roomSurfaceIndex);
 
-                        if (currRoomSrf.GetPerimeter() != null) //sometimes we can have a srf object in tas without a geometry
+                        if (currRoomSrf.GetPerimeter() != null)
                             bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(currRoomSrf));
 
                         roomSurfaceIndex++;

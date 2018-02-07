@@ -145,24 +145,16 @@ namespace BH.Engine.TAS
         {
             BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
 
-            //TBD.RoomSurface currRoomSrf = tasZoneSurface.GetRoomSurface(0); // We need to use all of the room surfaces in the model (Sofia)
-
-            TBD.Perimeter currPerimeter = tasRoomSrf.GetPerimeter();
-            if (currPerimeter == null)
-            {
-                bHoMPanel.Name = "Error";
-                return bHoMPanel; //Why do we want an empty panel?
-            }
+            TBD.Perimeter currPerimeter = tasRoomSrf.GetPerimeter();   
             TBD.Polygon currPolygon = currPerimeter.GetFace();
                         
             BHG.Polyline edges = ToBHoM(currPolygon);
-            BHG.PolyCurve crv_edges = Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges }); //Can I solve this in a better way??
+            BHG.PolyCurve crv_edges = Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges }); 
 
             bHoMPanel.PolyCurve = crv_edges;
 
             return bHoMPanel;
 
-            //TODO: add surface data. (Not from the TBD namespace)
         }
 
         /***************************************************/

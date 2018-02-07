@@ -31,12 +31,11 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.zoneSurface ToTas(this BuildingElementPanel bHoMPanel, zoneSurface tasZoneSurface)
+        public static TBD.RoomSurface ToTas(this BuildingElementPanel bHoMPanel, RoomSurface tasRoomSurface)
         {
-            tasZoneSurface.GUID = bHoMPanel.BHoM_Guid.ToString();
-            tasZoneSurface.area = 120;
-            tasZoneSurface.number = 1;
-            return tasZoneSurface;
+            tasRoomSurface.area = 120;
+            TBD.Perimeter tasPerimeter = tasRoomSurface.CreatePerimeter();
+            return tasRoomSurface;
         }
 
         //public static TBD.Polygon ToTas(this BHG.Polyline bHoMPolyline)
