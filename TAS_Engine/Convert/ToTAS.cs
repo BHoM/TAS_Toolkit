@@ -38,31 +38,19 @@ namespace BH.Engine.TAS
             return tasRoomSurface;
         }
 
-        //public static TBD.Polygon ToTas(this BHG.Polyline bHoMPolyline)
-        //{
-
-        //    TBD.Polygon tasPolygon = new TBD.Polygon();
-        //    List<BHG.Point> coordList = bHoMPolyline.ControlPoints;
-
-        //    for (int i = 0; i < coordList.Count; i++)
-        //    {
-        //        tasPolygon.AddCoordinate((float)coordList[i].X, (float)coordList[i].Y, (float)coordList[i].Z);
-        //    }
-
-        //    return tasPolygon;
-        //}
-
         /***************************************************/
 
-        //public static TBD.zoneSurface ToTas(this BHE.Elements.BuildingElementPanel bHoMPanel)
-        //{
-        //    TBD.zoneSurface tasSurface = new TBD.zoneSurface();
-        //    //add points as properties to the surface
-        //    //tasSurface.area = (float)bHoMPanel.Surface.IArea();
-        //    return tasSurface;
-        //}
-
-        /***************************************************/
+        public static TBD.zoneSurface ToTas(this BuildingElementPanel bHoMPanel, zoneSurface tasZoneSrf)
+        {
+            tasZoneSrf.orientation = BH.Engine.TAS.Query.Query.GetOrientation(bHoMPanel);
+            tasZoneSrf.inclination = 4;
+            tasZoneSrf.altitude = 3;
+            tasZoneSrf.altitudeRange = 2;
+            tasZoneSrf.GUID = bHoMPanel.BHoM_Guid.ToString();
+            tasZoneSrf.area = (float)BH.Engine.Geometry.Query.Area(bHoMPanel.PolyCurve);
+            
+            return tasZoneSrf;
+        }
 
 
         /***************************************************/

@@ -36,10 +36,7 @@ namespace BH.Adapter.TAS
                 ClearCOMObject(m_TBDDocumentInstance);
                 m_TBDDocumentInstance = null;
             }
-
-            
             return success; 
-
         }
 
         /***************************************************/
@@ -100,9 +97,7 @@ namespace BH.Adapter.TAS
 
             return true;
         }
-
         
-
         /***************************************************/
 
         private bool Create(BHE.Elements.InternalCondition bHoMInternalCondition)
@@ -112,7 +107,6 @@ namespace BH.Adapter.TAS
 
             return true;
         }
-
 
         /***************************************************/
 
@@ -136,25 +130,24 @@ namespace BH.Adapter.TAS
                     TBD.TasPoint tasPt = tasPolygon.AddPoint();
                     tasPt = Engine.TAS.Convert.ToTas(bHoMPoints[j], tasPt);
                 }
-
-                double test0 = tasZone.GetRoom(0).GetSurface(0).GetPerimeter().GetFace().GetPoint(0).x;
-                double test1 = tasZone.GetRoom(0).GetSurface(0).GetPerimeter().GetFace().GetPoint(1).x;
  
-                //We have to add exactly ALL of the properties to a zonesurface before we save the file. Otherwise we end up with a corruped file!
+                //We have to add a building element to the zonesurface before we save the file. Otherwise we end up with a corrupt file!
                 var myZoneSrf = tasZone.AddSurface();
+                myZoneSrf = Engine.TAS.Convert.ToTas(bHoMPanels[i], myZoneSrf);
+
                 myZoneSrf.number = i;
-                myZoneSrf.orientation = 270;
-                myZoneSrf.GUID = bHoMSpace.BHoM_Guid.ToString();
-                myZoneSrf.area = 150;
+               
                 TBD.buildingElement be = m_TBDDocumentInstance.Building.AddBuildingElement();
                 be.BEType = (int)TBD.BuildingElementType.INTERNALWALL;
                 myZoneSrf.buildingElement =be;
-                myZoneSrf.buildingElement.name = "External Wall";
-                myZoneSrf.GetRoomSurface(i);
 
+                if (myZoneSrf.orientation==0) // if floor
+                {
+                    tasZone.floorArea = (float)Engine.Geometry.Query.Area(bHoMPanels[i].PolyCurve);
+                }
+                
 
             }
-
             return true;
         }
 
