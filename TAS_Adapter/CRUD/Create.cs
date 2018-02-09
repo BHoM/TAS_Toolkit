@@ -113,6 +113,10 @@ namespace BH.Adapter.TAS
 
             TBD.zone tasZone = m_TBDDocumentInstance.Building.AddZone();
             TBD.room tasRoom = tasZone.AddRoom();
+            tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
+
+            //We have to add a building element to the zonesurface before we save the file. Otherwise we end up with a corrupt file!
+            TBD.buildingElement be = m_TBDDocumentInstance.Building.AddBuildingElement();
 
             List<BHE.Elements.BuildingElementPanel> bHoMPanels = bHoMSpace.BuildingElementPanel;
 
@@ -121,21 +125,18 @@ namespace BH.Adapter.TAS
                 //Add zoneSrf and convert it
                 TBD.zoneSurface tasZoneSrf = tasZone.AddSurface();
                 tasZoneSrf = Engine.TAS.Convert.ToTas(bHoMPanels[i], tasZoneSrf);
-                tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
-
+                
                 //Add roomSrf, create face, get its controlpoints and convert to TAS
                 TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
-                List<BHG.Point> bHoMPoints = BH.Engine.Geometry.Query.ControlPoints(bHoMPanels[i].PolyCurve);
+                List<BHG.Point> bHoMPoints = Engine.Geometry.Query.ControlPoints(bHoMPanels[i].PolyCurve);
 
                 for (int j = 0; j < bHoMPoints.Count - 1; j++)
                 {
                     TBD.TasPoint tasPt = tasPolygon.AddPoint();
                     tasPt = Engine.TAS.Convert.ToTas(bHoMPoints[j], tasPt);
                 }
- 
-                //We have to add a building element to the zonesurface before we save the file. Otherwise we end up with a corrupt file!
-                TBD.buildingElement be = m_TBDDocumentInstance.Building.AddBuildingElement();
-                be.BEType = (int)TBD.BuildingElementType.INTERNALWALL;
+
+                //Set the building Element
                 tasZoneSrf.buildingElement =be;               
             }
             return true;
@@ -148,7 +149,6 @@ namespace BH.Adapter.TAS
 
             TBD.zone tasZone = m_TBDDocumentInstance.Building.AddZone();
             TBD.room tasRoom = tasZone.AddRoom();
-
             TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().GetFace();
 
             
@@ -159,13 +159,7 @@ namespace BH.Adapter.TAS
                 tasPt = Engine.TAS.Convert.ToTas(bHoMPoint[pointIndex], tasPt);
             }
 
-
             return true;
         }
-
-
-
-
-
     }
 }

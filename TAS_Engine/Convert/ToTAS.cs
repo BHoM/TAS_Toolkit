@@ -11,7 +11,7 @@ using BHG = BH.oM.Geometry;
 using BH.Engine;
 using TBD;
 using BH.Adapter.TAS;
-using BH.Engine.TAS.Query;
+using BH.Engine.TAS;
 
 namespace BH.Engine.TAS
 {
@@ -34,10 +34,10 @@ namespace BH.Engine.TAS
 
         public static TBD.zoneSurface ToTas(this BuildingElementPanel bHoMPanel, zoneSurface tasZoneSrf)
         {
-            tasZoneSrf.orientation = Query.Query.GetOrientation(bHoMPanel);
-            tasZoneSrf.inclination = Query.Query.GetInclanation(bHoMPanel);
-            tasZoneSrf.altitude = Query.Query.GetAltitude(bHoMPanel);
-            tasZoneSrf.altitudeRange = Query.Query.GetAltitudeRange(bHoMPanel);
+            tasZoneSrf.orientation = Query.GetOrientation(bHoMPanel);
+            tasZoneSrf.inclination = Query.GetInclination(bHoMPanel);
+            tasZoneSrf.altitude = Query.GetAltitude(bHoMPanel);
+            tasZoneSrf.altitudeRange = Query.GetAltitudeRange(bHoMPanel);
             tasZoneSrf.GUID = bHoMPanel.BHoM_Guid.ToString();
             tasZoneSrf.area = (float)Geometry.Query.Area(bHoMPanel.PolyCurve);
             
@@ -49,10 +49,10 @@ namespace BH.Engine.TAS
         public static TBD.zone ToTas(this Space bHoMSpace, zone tasZone)
         {
             tasZone.name = bHoMSpace.Name;
-            tasZone.floorArea = (float)TAS.Query.Query.GetFloorArea(bHoMSpace);
+            tasZone.floorArea = Query.GetFloorArea(bHoMSpace);
             tasZone.description = bHoMSpace.Description;
             tasZone.GUID = bHoMSpace.BHoM_Guid.ToString();
-            tasZone.volume = (float)TAS.Query.Query.GetVolume(bHoMSpace);
+            tasZone.volume = Query.GetVolume(bHoMSpace);
             
             return tasZone;
         }

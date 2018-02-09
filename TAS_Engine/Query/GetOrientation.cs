@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using BHG = BH.oM.Geometry;
 using BHEE = BH.oM.Environmental.Elements;
 
-namespace BH.Engine.TAS.Query
+namespace BH.Engine.TAS
 {
     public static partial class Query
     {

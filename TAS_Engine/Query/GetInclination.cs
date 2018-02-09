@@ -6,26 +6,26 @@ using System.Threading.Tasks;
 using BHG = BH.oM.Geometry;
 using BHEE = BH.oM.Environmental.Elements;
 
-namespace BH.Engine.TAS.Query
+namespace BH.Engine.TAS
 {
     public static partial class Query
     {
         /***************************************************/
 
-        public static float GetInclanation(BHEE.BuildingElementPanel bHoMBuildingElementPanel)
+        public static float GetInclination(BHEE.BuildingElementPanel bHoMBuildingElementPanel)
         {
 
-            float inclanation; //TAS uses float and therefore we do that as well
+            float inclination;
             BHG.Vector normal = Geometry.Compute.FitPlane(bHoMBuildingElementPanel.PolyCurve).Normal;
 
-            if (normal.X == 0 && normal.Y == 0 && normal.Z == -1)
-                inclanation = 0; //ceiling
-            else if (normal.X == 0 && normal.Y == 0 && normal.Z == 1)
-                inclanation = 180; //floor
+            if (Math.Round(normal.X) == 0 && Math.Round(normal.Y) == 0 && Math.Round(normal.Z) == -1)
+                inclination = 0; //ceiling
+            else if (Math.Round(normal.X) == 0 && Math.Round(normal.Y) == 0 && Math.Round(normal.Z) == 1)
+                inclination = 180; //floor
             else
-                inclanation = 90; //walls
+                inclination = 90; //walls
 
-            return inclanation;
+            return inclination;
         }
 
         /***************************************************/
