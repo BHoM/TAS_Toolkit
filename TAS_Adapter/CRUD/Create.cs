@@ -93,9 +93,7 @@ namespace BH.Adapter.TAS
 
         private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel)
         {
-            
-
-            return true;
+            throw new NotImplementedException();
         }
         
         /***************************************************/
@@ -114,39 +112,31 @@ namespace BH.Adapter.TAS
         {
 
             TBD.zone tasZone = m_TBDDocumentInstance.Building.AddZone();
-            tasZone.name = bHoMSpace.Name;
-
             TBD.room tasRoom = tasZone.AddRoom();
 
             List<BHE.Elements.BuildingElementPanel> bHoMPanels = bHoMSpace.BuildingElementPanel;
+
             for (int i = 0; i< bHoMPanels.Count;i++)
             {
+                //Add zoneSrf and convert it
+                TBD.zoneSurface tasZoneSrf = tasZone.AddSurface();
+                tasZoneSrf = Engine.TAS.Convert.ToTas(bHoMPanels[i], tasZoneSrf);
+                tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
+
+                //Add roomSrf, create face, get its controlpoints and convert to TAS
                 TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
                 List<BHG.Point> bHoMPoints = BH.Engine.Geometry.Query.ControlPoints(bHoMPanels[i].PolyCurve);
 
                 for (int j = 0; j < bHoMPoints.Count - 1; j++)
                 {
-                    int tasCoord = tasPolygon.AddCoordinate((float)bHoMPoints[j].X, (float)bHoMPoints[j].Y, (float)bHoMPoints[j].Z);
                     TBD.TasPoint tasPt = tasPolygon.AddPoint();
                     tasPt = Engine.TAS.Convert.ToTas(bHoMPoints[j], tasPt);
                 }
  
                 //We have to add a building element to the zonesurface before we save the file. Otherwise we end up with a corrupt file!
-                var myZoneSrf = tasZone.AddSurface();
-                myZoneSrf = Engine.TAS.Convert.ToTas(bHoMPanels[i], myZoneSrf);
-
-                myZoneSrf.number = i;
-               
                 TBD.buildingElement be = m_TBDDocumentInstance.Building.AddBuildingElement();
                 be.BEType = (int)TBD.BuildingElementType.INTERNALWALL;
-                myZoneSrf.buildingElement =be;
-
-                if (myZoneSrf.orientation==0) // if floor
-                {
-                    tasZone.floorArea = (float)Engine.Geometry.Query.Area(bHoMPanels[i].PolyCurve);
-                }
-                
-
+                tasZoneSrf.buildingElement =be;               
             }
             return true;
         }

@@ -11,6 +11,7 @@ using BHG = BH.oM.Geometry;
 using BH.Engine;
 using TBD;
 using BH.Adapter.TAS;
+using BH.Engine.TAS.Query;
 
 namespace BH.Engine.TAS
 {
@@ -31,25 +32,29 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.RoomSurface ToTas(this BuildingElementPanel bHoMPanel, RoomSurface tasRoomSurface)
+        public static TBD.zoneSurface ToTas(this BuildingElementPanel bHoMPanel, zoneSurface tasZoneSrf)
         {
-            tasRoomSurface.area = 120;
-            TBD.Perimeter tasPerimeter = tasRoomSurface.CreatePerimeter();
-            return tasRoomSurface;
+            tasZoneSrf.orientation = Query.Query.GetOrientation(bHoMPanel);
+            tasZoneSrf.inclination = Query.Query.GetInclanation(bHoMPanel);
+            tasZoneSrf.altitude = Query.Query.GetAltitude(bHoMPanel);
+            tasZoneSrf.altitudeRange = Query.Query.GetAltitudeRange(bHoMPanel);
+            tasZoneSrf.GUID = bHoMPanel.BHoM_Guid.ToString();
+            tasZoneSrf.area = (float)Geometry.Query.Area(bHoMPanel.PolyCurve);
+            
+            return tasZoneSrf;
         }
 
         /***************************************************/
 
-        public static TBD.zoneSurface ToTas(this BuildingElementPanel bHoMPanel, zoneSurface tasZoneSrf)
+        public static TBD.zone ToTas(this Space bHoMSpace, zone tasZone)
         {
-            tasZoneSrf.orientation = BH.Engine.TAS.Query.Query.GetOrientation(bHoMPanel);
-            tasZoneSrf.inclination = 4;
-            tasZoneSrf.altitude = 3;
-            tasZoneSrf.altitudeRange = 2;
-            tasZoneSrf.GUID = bHoMPanel.BHoM_Guid.ToString();
-            tasZoneSrf.area = (float)BH.Engine.Geometry.Query.Area(bHoMPanel.PolyCurve);
+            tasZone.name = bHoMSpace.Name;
+            tasZone.floorArea = (float)TAS.Query.Query.GetFloorArea(bHoMSpace);
+            tasZone.description = bHoMSpace.Description;
+            tasZone.GUID = bHoMSpace.BHoM_Guid.ToString();
+            tasZone.volume = (float)TAS.Query.Query.GetVolume(bHoMSpace);
             
-            return tasZoneSrf;
+            return tasZone;
         }
 
 
