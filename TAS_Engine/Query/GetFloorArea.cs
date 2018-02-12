@@ -20,7 +20,7 @@ namespace BH.Engine.TAS
             List<double> areaSum = new List<double>();
             foreach (BHEE.BuildingElementPanel panel in bHoMPanels)
             {
-                if (GetInclanation(panel) == 180) // if floor
+                if (GetInclination(panel) == 180) // if floor
                 {
                     floorArea = (float)Engine.Geometry.Query.Area(panel.PolyCurve);
                     areaSum.Add(floorArea); //if we have many floor surfaces in the same space we ned to calculate the sum

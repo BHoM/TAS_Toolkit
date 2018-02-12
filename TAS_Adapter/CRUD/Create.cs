@@ -125,7 +125,7 @@ namespace BH.Adapter.TAS
                 //Add zoneSrf and convert it
                 TBD.zoneSurface tasZoneSrf = tasZone.AddSurface();
                 tasZoneSrf = Engine.TAS.Convert.ToTas(bHoMPanels[i], tasZoneSrf);
-                
+
                 //Add roomSrf, create face, get its controlpoints and convert to TAS
                 TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
                 List<BHG.Point> bHoMPoints = Engine.Geometry.Query.ControlPoints(bHoMPanels[i].PolyCurve);

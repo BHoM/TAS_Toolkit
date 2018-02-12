@@ -32,8 +32,23 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        public static TBD.Polygon ToTas(this BHG.PolyCurve bHoMPolyCurve, Polygon tasPolygon)
+        {            
+            List<BHG.Point> bHoMPoints = Engine.Geometry.Query.ControlPoints(bHoMPolyCurve);
+
+            for (int j = 0; j < bHoMPoints.Count - 1; j++)
+            {
+                TBD.TasPoint tasPt = tasPolygon.AddPoint();
+                tasPt = Engine.TAS.Convert.ToTas(bHoMPoints[j], tasPt);
+            }
+            return tasPolygon;
+        }
+
+        /***************************************************/
+
         public static TBD.zoneSurface ToTas(this BuildingElementPanel bHoMPanel, zoneSurface tasZoneSrf)
         {
+
             tasZoneSrf.orientation = Query.GetOrientation(bHoMPanel);
             tasZoneSrf.inclination = Query.GetInclination(bHoMPanel);
             tasZoneSrf.altitude = Query.GetAltitude(bHoMPanel);

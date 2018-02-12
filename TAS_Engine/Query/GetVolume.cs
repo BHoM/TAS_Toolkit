@@ -22,13 +22,13 @@ namespace BH.Engine.TAS
 
             foreach (BHEE.BuildingElementPanel panel in bHoMPanels)
             {
-                if (GetInclanation(panel) == 90) // if wall
+                if (GetInclination(panel) == 90) // if wall
                 {
                     verticalPanels.Add(panel);
                 }
             }
 
-            float volume = GetFloorArea(bHoMSpace) * GetAltitude(verticalPanels[0]);
+            float volume = GetFloorArea(bHoMSpace) * GetAltitudeRange(verticalPanels[0]);
             return volume;
         }
 
