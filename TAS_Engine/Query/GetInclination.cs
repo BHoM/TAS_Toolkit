@@ -15,17 +15,19 @@ namespace BH.Engine.TAS
         public static float GetInclination(BHEE.BuildingElementPanel bHoMBuildingElementPanel)
         {
 
-            float inclination;
-            BHG.Vector normal = Geometry.Compute.FitPlane(bHoMBuildingElementPanel.PolyCurve).Normal;
+            int inclination;
+            List<BHG.Point> pts = BH.Engine.Geometry.Query.ControlPoints(bHoMBuildingElementPanel.PolyCurve);
 
-            if (Math.Round(normal.X) == 0 && Math.Round(normal.Y) == 0 && Math.Round(normal.Z) == -1)
+            BHG.Plane plane = Geometry.Create.Plane(pts[0], pts[1], pts[2]);
+
+            if (plane.Normal.X == 0 && plane.Normal.Y == 0 && plane.Normal.Z == 1)
                 inclination = 0; //ceiling
-            else if (Math.Round(normal.X) == 0 && Math.Round(normal.Y) == 0 && Math.Round(normal.Z) == 1)
+            else if (plane.Normal.X == 0 && plane.Normal.Y == 0 && plane.Normal.Z == -1)
                 inclination = 180; //floor
             else
                 inclination = 90; //walls
 
-            return inclination;
+            return (float)inclination;
         }
 
         /***************************************************/

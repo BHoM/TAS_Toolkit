@@ -29,7 +29,8 @@ namespace BH.Engine.TAS
         /***************************************************/
 
         public static TBD.Polygon ToTas(this BHG.PolyCurve bHoMPolyCurve, Polygon tasPolygon)
-        {            
+        {
+            
             List<BHG.Point> bHoMPoints = Engine.Geometry.Query.ControlPoints(bHoMPolyCurve);
 
             for (int j = 0; j < bHoMPoints.Count - 1; j++)
@@ -37,6 +38,7 @@ namespace BH.Engine.TAS
                 TBD.TasPoint tasPt = tasPolygon.AddPoint();
                 tasPt = Engine.TAS.Convert.ToTas(bHoMPoints[j], tasPt);
             }
+
             return tasPolygon;
         }
 

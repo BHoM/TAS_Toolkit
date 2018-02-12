@@ -128,13 +128,7 @@ namespace BH.Adapter.TAS
 
                 //Add roomSrf, create face, get its controlpoints and convert to TAS
                 TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
-                List<BHG.Point> bHoMPoints = Engine.Geometry.Query.ControlPoints(bHoMPanels[i].PolyCurve);
-
-                for (int j = 0; j < bHoMPoints.Count - 1; j++)
-                {
-                    TBD.TasPoint tasPt = tasPolygon.AddPoint();
-                    tasPt = Engine.TAS.Convert.ToTas(bHoMPoints[j], tasPt);
-                }
+                tasPolygon = Engine.TAS.Convert.ToTas(bHoMPanels[i].PolyCurve, tasPolygon);
 
                 //Set the building Element
                 tasZoneSrf.buildingElement =be;               
