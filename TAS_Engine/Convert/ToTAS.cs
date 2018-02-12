@@ -3,15 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using BH.oM.Base;
 using BHE = BH.oM.Environmental;
-using BHS = BH.oM.Structural;
 using BH.oM.Environmental.Elements;
 using BH.oM.Environmental.Properties;
 using BH.oM.Environmental.Interface;
 using BHG = BH.oM.Geometry;
-using BH.Engine;
 using TBD;
-using BH.Adapter.TAS;
-using BH.Engine.TAS;
 
 namespace BH.Engine.TAS
 {
@@ -55,6 +51,7 @@ namespace BH.Engine.TAS
             tasZoneSrf.altitudeRange = Query.GetAltitudeRange(bHoMPanel);
             tasZoneSrf.GUID = bHoMPanel.BHoM_Guid.ToString();
             tasZoneSrf.area = (float)Geometry.Query.Area(bHoMPanel.PolyCurve);
+            tasZoneSrf.type = ToTas(bHoMPanel);
             
             return tasZoneSrf;
         }
@@ -152,9 +149,28 @@ namespace BH.Engine.TAS
             }
         }
 
+        /***************************************************/
 
+        public static TBD.SurfaceType ToTas(this BHE.Elements.BuildingElementPanel bHoMSurface)
+        {
+            //Should we implement an enum for surface types in BHoM?? 
 
+            if (bHoMSurface.Type == "Ground")
+                return SurfaceType.tbdGround;
+            else if (bHoMSurface.Type == "Exposed")
+                return SurfaceType.tbdExposed;
+            if (bHoMSurface.Type == "Internal")
+                return SurfaceType.tbdInternal;
+            else if (bHoMSurface.Type == "Link")
+                return SurfaceType.tbdLink;
+            if (bHoMSurface.Type == "Ground")
+                return SurfaceType.tbdGround;
+            else
+                return SurfaceType.tbdNullLink; //Adiabatic
 
+        }
+
+        /***************************************************/
 
     }
 }
