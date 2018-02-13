@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -38,10 +39,8 @@
       <HintPath>..\..\BHoM_Adapter\Build\BHoM_Adapter.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Environment_Engine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Environment_Engine">
       <HintPath>..\..\BHoM_Engine\Build\Environment_Engine.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Geometry_Engine">
       <HintPath>..\..\BHoM_Engine\Build\Geometry_Engine.dll</HintPath>
@@ -67,6 +66,12 @@
     <Compile Include="Convert\ToTAS.cs" />
     <Compile Include="Objects\EqualityComparers\Comparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\GetOrientation.cs" />
+    <Compile Include="Query\GetFloorArea.cs" />
+    <Compile Include="Query\GetInclination.cs" />
+    <Compile Include="Query\GetVolume.cs" />
+    <Compile Include="Query\GetAltitude.cs" />
+    <Compile Include="Query\GetAltitudeRange.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -38,12 +38,26 @@ namespace BH.Engine.TAS
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
             bHoMSpace.Name = tasZone.name;
 
-            int buildingElementIndex = 0;
-            while (tasZone.GetSurface(buildingElementIndex) != null)
+            //int buildingElementIndex = 0;
+            int zoneSurfaceIndex = 0;
+            while (tasZone.GetSurface(zoneSurfaceIndex) != null)
             {
-                buildingElement tasBuildingElement = tasZone.GetSurface(buildingElementIndex).buildingElement;
-                bHoMSpace.BuildingElements.Add(tasBuildingElement.ToBHoM());
-                buildingElementIndex++;
+                //buildingElement tasBuildingElement = tasZone.GetSurface(buildingElementIndex).buildingElement;
+                //bHoMSpace.BuildingElements.Add(tasBuildingElement.ToBHoM());
+
+                int roomSrfIndex = 0;
+                while (tasZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex) != null)
+                {
+                    RoomSurface tasRoomSrf = tasZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex);
+
+                    if (tasRoomSrf.GetPerimeter() != null) //sometimes we can have a srf object in tas without a geometry
+                        bHoMSpace.BuildingElementPanel.Add(tasRoomSrf.ToBHoM());
+
+                    roomSrfIndex++;
+                }
+
+                //buildingElementIndex++;
+                zoneSurfaceIndex++;
             }
 
             return bHoMSpace;
@@ -127,22 +141,20 @@ namespace BH.Engine.TAS
               
         /***************************************************/
              
-        public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.zoneSurface tasZoneSurface)
+        public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.RoomSurface tasRoomSrf)
         {
             BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
 
-            TBD.RoomSurface currRoomSrf = tasZoneSurface.GetRoomSurface(0);
-            TBD.Perimeter currPerimeter = currRoomSrf.GetPerimeter();
+            TBD.Perimeter currPerimeter = tasRoomSrf.GetPerimeter();   
             TBD.Polygon currPolygon = currPerimeter.GetFace();
                         
             BHG.Polyline edges = ToBHoM(currPolygon);
-            BHG.PolyCurve crv_edges = Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges }); //Can I solve this in a better way??
+            BHG.PolyCurve crv_edges = Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges }); 
 
             bHoMPanel.PolyCurve = crv_edges;
 
             return bHoMPanel;
 
-            //TODO: add surface data. (Not from the TBD namespace)
         }
 
         /***************************************************/

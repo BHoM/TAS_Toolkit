@@ -49,10 +49,12 @@ namespace BH.Adapter.TAS
 
         private List<Space> ReadZones(List<string> ids = null)
         {
+            TBD.Building building = m_TBDDocumentInstance.Building;
+
             List<Space> bHoMSpace = new List<Space>();
 
             int zoneIndex = 0;
-            while (m_TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
+            while (building.GetZone(zoneIndex) != null)
             {
                 TBD.zone zone = m_TBDDocumentInstance.Building.GetZone(zoneIndex);
                 bHoMSpace.Add(Engine.TAS.Convert.ToBHoM(zone));
@@ -88,16 +90,18 @@ namespace BH.Adapter.TAS
                 {
                     TBD.zoneSurface zonesurface = m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex);
 
-                    try
+                    int roomSurfaceIndex = 0;
+                    while (zonesurface.GetRoomSurface(roomSurfaceIndex) != null)
                     {
-                         bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(zonesurface));
+                        TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(roomSurfaceIndex);
+
+                        if (currRoomSrf.GetPerimeter() != null)
+                            bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(currRoomSrf));
+
+                        roomSurfaceIndex++;
                     }
 
-                    catch (NullReferenceException e) //If we have air walls we will get a NullReferenceException. Tas does not count air walls as surfaces
-                    {
-                         Console.WriteLine(e);
-                    }
-                    panelIndex++;
+                   panelIndex++;
                 }
                 zoneIndex++;
             }
