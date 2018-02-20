@@ -137,23 +137,6 @@ namespace BH.Adapter.TAS
         }
 
         /***************************************************/
-
-        private bool Create(List<BHG.Point> bHoMPoint)
-        {
-
-            TBD.zone tasZone = m_TBDDocumentInstance.Building.AddZone();
-            TBD.room tasRoom = tasZone.AddRoom();
-            TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().GetFace();
-
-            
-            int pointIndex = 0;
-            while (bHoMPoint[pointIndex] != null)
-            {
-                TBD.TasPoint tasPt = tasPolygon.AddPoint();
-                tasPt = Engine.TAS.Convert.ToTas(bHoMPoint[pointIndex], tasPt);
-            }
-
-            return true;
-        }
+       
     }
 }
