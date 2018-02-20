@@ -157,15 +157,15 @@ namespace BH.Engine.TAS
         {
             //Should we implement an enum for surface types in BHoM?? 
 
-            if (bHoMSurface.Type == "Ground")
+            if (bHoMSurface.ElementType == "Ground")
                 return SurfaceType.tbdGround;
-            else if (bHoMSurface.Type == "Exposed")
+            else if (bHoMSurface.ElementType == "Exposed")
                 return SurfaceType.tbdExposed;
-            if (bHoMSurface.Type == "Internal")
+            if (bHoMSurface.ElementType == "Internal")
                 return SurfaceType.tbdInternal;
-            else if (bHoMSurface.Type == "Link")
+            else if (bHoMSurface.ElementType == "Link")
                 return SurfaceType.tbdLink;
-            if (bHoMSurface.Type == "Ground")
+            if (bHoMSurface.ElementType == "Ground")
                 return SurfaceType.tbdGround;
             else
                 return SurfaceType.tbdNullLink; //Adiabatic
