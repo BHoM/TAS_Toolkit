@@ -25,7 +25,7 @@ namespace BH.Adapter.TAS
             else if (type == typeof(Building))
                 return ReadBuilding();
             else if (type == typeof(Space))
-                return ReadZones();
+                return ReadSpaces();
             else if (type == typeof(BuildingElement))
                 return ReadBuildingElements();
             else if (type == typeof(BuildingElementProperties))
@@ -47,7 +47,7 @@ namespace BH.Adapter.TAS
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private List<Space> ReadZones(List<string> ids = null)
+        private List<Space> ReadSpaces(List<string> ids = null)
         {
             TBD.Building building = m_TBDDocumentInstance.Building;
 

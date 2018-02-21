@@ -28,10 +28,10 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.Polygon ToTas(this BHG.PolyCurve bHoMPolyCurve, Polygon tasPolygon)
+        public static TBD.Polygon ToTas(this BHG.ICurve bHoMPolyCurve, Polygon tasPolygon)
         {
-            
-            List<BHG.Point> bHoMPoints = Engine.Geometry.Query.ControlPoints(bHoMPolyCurve);
+
+            List<BHG.Point> bHoMPoints = Engine.Geometry.Query.IControlPoints(bHoMPolyCurve);
 
             for (int j = 0; j < bHoMPoints.Count - 1; j++)
             {
@@ -44,7 +44,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.zoneSurface ToTas(this BuildingElementPanel bHoMPanel, zoneSurface tasZoneSrf)
+        public static TBD.zoneSurface ToTas(this IBuildingElementGeometry bHoMPanel, zoneSurface tasZoneSrf)
         {
 
             tasZoneSrf.orientation = Query.GetOrientation(bHoMPanel);
@@ -52,9 +52,9 @@ namespace BH.Engine.TAS
             tasZoneSrf.altitude = Query.GetAltitude(bHoMPanel);
             tasZoneSrf.altitudeRange = Query.GetAltitudeRange(bHoMPanel);
             tasZoneSrf.GUID = bHoMPanel.BHoM_Guid.ToString();
-            tasZoneSrf.area = (float)Geometry.Query.Area(bHoMPanel.PolyCurve);
-            tasZoneSrf.type = ToTas(bHoMPanel);
-            
+            //tasZoneSrf.area = (float)Geometry.Query.Area(bHoMPanel.PolyCurve);
+            tasZoneSrf.type = IToTas(bHoMPanel);
+
             return tasZoneSrf;
         }
 
@@ -67,7 +67,7 @@ namespace BH.Engine.TAS
             tasZone.description = bHoMSpace.Description;
             tasZone.GUID = bHoMSpace.BHoM_Guid.ToString();
             tasZone.volume = Query.GetVolume(bHoMSpace);
-            
+
             return tasZone;
         }
 
@@ -109,7 +109,7 @@ namespace BH.Engine.TAS
             return tasConstruction;
         }
 
-    
+
         /***************************************************/
 
 
@@ -134,20 +134,20 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.BuildingElementType ToTas(this BHE.Elements.BuidingElementType bHoMBuildingElementType)
+        public static TBD.BuildingElementType ToTas(this BHE.Elements.BuildingElementType bHoMBuildingElementType)
         {
             switch (bHoMBuildingElementType) // This is just a test, it doeas not match. We have more BETypes in Tas than in BHoM
             {
-                case BHE.Elements.BuidingElementType.Wall:
-                    return BuildingElementType.EXTERNALWALL; //What about the other TBD Wall types??
-                case BHE.Elements.BuidingElementType.Roof:
-                    return BuildingElementType.ROOFELEMENT;
-                case BHE.Elements.BuidingElementType.Ceiling:
-                    return BuildingElementType.UNDERGROUNDCEILING;
-                case BHE.Elements.BuidingElementType.Floor:
-                    return BuildingElementType.INTERNALFLOOR;
+                case BHE.Elements.BuildingElementType.Wall:
+                    return TBD.BuildingElementType.EXTERNALWALL; //What about the other TBD Wall types??
+                case BHE.Elements.BuildingElementType.Roof:
+                    return TBD.BuildingElementType.ROOFELEMENT;
+                case BHE.Elements.BuildingElementType.Ceiling:
+                    return TBD.BuildingElementType.UNDERGROUNDCEILING;
+                case BHE.Elements.BuildingElementType.Floor:
+                    return TBD.BuildingElementType.INTERNALFLOOR;
                 default:
-                    return BuildingElementType.EXTERNALWALL;
+                    return TBD.BuildingElementType.EXTERNALWALL;
             }
         }
 
@@ -172,7 +172,21 @@ namespace BH.Engine.TAS
 
         }
 
+
         /***************************************************/
 
+        public static TBD.SurfaceType ToTas(this BHE.Elements.BuildingElementCurve bHoMSurface)
+        {
+            return SurfaceType.tbdNullLink;
+        }
+
+        /***************************************************/
+
+        public static TBD.SurfaceType IToTas(this BHE.Interface.IBuildingElementGeometry bHoMSurface)
+        {
+            return ToTas(bHoMSurface as dynamic);
+        }
+
+        /***************************************************/
     }
 }

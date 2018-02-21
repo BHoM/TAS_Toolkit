@@ -5,6 +5,7 @@ using BH.oM.Base;
 using BHE = BH.oM.Environmental;
 using BHG = BH.oM.Geometry;
 using System.Runtime.InteropServices;
+using BH.Engine.Environment;
 
 namespace BH.Adapter.TAS
 {
@@ -118,17 +119,30 @@ namespace BH.Adapter.TAS
             //We have to add a building element to the zonesurface before we save the file. Otherwise we end up with a corrupt file!
             TBD.buildingElement be = m_TBDDocumentInstance.Building.AddBuildingElement();
 
-            List<BHE.Elements.BuildingElementPanel> bHoMPanels = bHoMSpace.BuildingElementPanel;
 
-            for (int i = 0; i< bHoMPanels.Count;i++)
+            //foreach (BHE.Elements.BuildingElement element in bHoMSpace.BuildingElements)
+            //{
+            //    //Add zoneSrf and convert it
+            //    TBD.zoneSurface tasZoneSrf = tasZone.AddSurface();
+            //    tasZoneSrf = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry, tasZoneSrf);
+
+            //    //Add roomSrf, create face, get its controlpoints and convert to TAS
+            //    TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
+            //    tasPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tasPolygon);
+
+            //    //Set the building Element
+            //    tasZoneSrf.buildingElement = be;
+            //}
+
+            for (int i = 0; i< bHoMSpace.BuildingElements.Count;i++)
             {
                 //Add zoneSrf and convert it
                 TBD.zoneSurface tasZoneSrf = tasZone.AddSurface();
-                tasZoneSrf = Engine.TAS.Convert.ToTas(bHoMPanels[i], tasZoneSrf);
+                tasZoneSrf = Engine.TAS.Convert.ToTas(bHoMSpace.BuildingElements[i].BuildingElementGeometry, tasZoneSrf);
 
                 //Add roomSrf, create face, get its controlpoints and convert to TAS
                 TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
-                tasPolygon = Engine.TAS.Convert.ToTas(bHoMPanels[i].PolyCurve, tasPolygon);
+                tasPolygon = Engine.TAS.Convert.ToTas(bHoMSpace.BuildingElements[i].BuildingElementGeometry.ICurve(), tasPolygon);
 
                 //Set the building Element
                 tasZoneSrf.buildingElement =be;               

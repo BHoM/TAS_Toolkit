@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using BHG = BH.oM.Geometry;
 using BHEE = BH.oM.Environmental.Elements;
+using BHEI = BH.oM.Environmental.Interface;
+using BH.Engine.Environment;
+using BH.Engine.Geometry;
 
 namespace BH.Engine.TAS
 {
@@ -13,16 +16,18 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static float GetFloorArea(BHEE.Space bHoMSpace)
+        public static float GetFloorArea(this BHEE.Space bHoMSpace)
         {
             float floorArea;
-            List<BHEE.BuildingElementPanel> bHoMPanels = bHoMSpace.BuildingElementPanel;
+            List<BHEE.BuildingElement> bHoMBuildingElement = bHoMSpace.BuildingElements;
+            //List<BHEE.BuildingElementPanel> bHoMPanels = bHoMSpace.BuildingElementPanel;
             List<double> areaSum = new List<double>();
-            foreach (BHEE.BuildingElementPanel panel in bHoMPanels)
+            foreach (BHEE.BuildingElement element in bHoMBuildingElement)
             {
-                if (GetInclination(panel) == 180) // if floor
+                
+                if (GetInclination(element.BuildingElementGeometry) == 180) // if floor
                 {
-                    floorArea = (float)Engine.Geometry.Query.Area(panel.PolyCurve);
+                    floorArea = (float)element.BuildingElementGeometry.ICurve().IArea();
                     areaSum.Add(floorArea); //if we have many floor surfaces in the same space we ned to calculate the sum
                 }
             }
