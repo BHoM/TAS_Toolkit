@@ -41,8 +41,8 @@ namespace BH.Engine.TAS
             int zoneSurfaceIndex = 0;
             while (tasZone.GetSurface(zoneSurfaceIndex) != null)
             {
-                buildingElement tasBuildingElement = tasZone.GetSurface(zoneSurfaceIndex).buildingElement;
-                bHoMSpace.BuildingElements.Add(tasBuildingElement.ToBHoM());
+                //buildingElement tasBuildingElement = tasZone.GetSurface(zoneSurfaceIndex).buildingElement;
+                //bHoMSpace.BuildingElements.Add(tasBuildingElement.ToBHoM());
 
                 int roomSrfIndex = 0;
                 while (tasZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex) != null)
@@ -147,9 +147,9 @@ namespace BH.Engine.TAS
 
             TBD.Perimeter currPerimeter = tasRoomSrf.GetPerimeter();   
             TBD.Polygon currPolygon = currPerimeter.GetFace();
-                        
+
             BHG.Polyline edges = ToBHoM(currPolygon);
-            BHG.PolyCurve crv_edges = Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges }); 
+            BHG.PolyCurve crv_edges = Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges });
 
             bHoMPanel.PolyCurve = crv_edges;
 
