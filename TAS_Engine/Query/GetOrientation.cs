@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using BHG = BH.oM.Geometry;
 using BHEE = BH.oM.Environmental.Elements;
+using BHEI = BH.oM.Environmental.Interface;
+using BH.Engine.Environment;
 
 namespace BH.Engine.TAS
 {
@@ -13,10 +15,10 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static float GetOrientation(BHEE.BuildingElementPanel bHoMPanel)
+        public static float GetOrientation(BHEI.IBuildingElementGeometry bHoMPanel)
         {
-            List<BHG.Point> controlpoints = BH.Engine.Geometry.Query.ControlPoints(bHoMPanel.PolyCurve);
-            BHG.Vector normal = Geometry.Compute.FitPlane(bHoMPanel.PolyCurve).Normal;
+            List<BHG.Point> controlpoints = BH.Engine.Geometry.Query.IControlPoints(bHoMPanel.ICurve());
+            BHG.Vector normal = Geometry.Compute.FitPlane(controlpoints).Normal;
 
             float orientation;
 

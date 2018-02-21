@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using BHG = BH.oM.Geometry;
 using BHEE = BH.oM.Environmental.Elements;
+using BHEI = BH.oM.Environmental.Interface;
+using BH.Engine.Environment;
 
 namespace BH.Engine.TAS
 {
@@ -12,11 +14,11 @@ namespace BH.Engine.TAS
     {
         /***************************************************/
 
-        public static float GetInclination(BHEE.BuildingElementPanel bHoMBuildingElementPanel)
+        public static float GetInclination(BHEI.IBuildingElementGeometry bHoMBuildingElementPanel)
         {
 
             int inclination;
-            List<BHG.Point> pts = BH.Engine.Geometry.Query.ControlPoints(bHoMBuildingElementPanel.PolyCurve);
+            List<BHG.Point> pts = BH.Engine.Geometry.Query.IControlPoints(bHoMBuildingElementPanel.ICurve());
 
             BHG.Plane plane = Geometry.Create.Plane(pts[0], pts[1], pts[2]);
 

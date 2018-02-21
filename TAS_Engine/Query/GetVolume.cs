@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using BHG = BH.oM.Geometry;
 using BHEE = BH.oM.Environmental.Elements;
+using BHEI = BH.oM.Environmental.Interface;
+using BH.Engine.Environment;
 
 namespace BH.Engine.TAS
 {
@@ -17,18 +19,20 @@ namespace BH.Engine.TAS
         {
             //This does only work for a space where all of the building element panels have the same height. Will change this later
 
-            List<BHEE.BuildingElementPanel> bHoMPanels = bHoMSpace.BuildingElementPanel;
+            List<BHEE.BuildingElement> bHoMBuildingElement = bHoMSpace.BuildingElements;
             List<BHEE.BuildingElementPanel> verticalPanels = new List<BHEE.BuildingElementPanel>();
 
-            foreach (BHEE.BuildingElementPanel panel in bHoMPanels)
+            float roomheight = 0;
+            foreach (BHEE.BuildingElement element in bHoMBuildingElement)
             {
-                if (GetInclination(panel) == 90) // if wall
+                if (GetInclination(element.BuildingElementGeometry) == 90) // if wall
                 {
-                    verticalPanels.Add(panel);
+                    roomheight = GetAltitudeRange(element.BuildingElementGeometry);
+                    break;
                 }
             }
-
-            float volume = GetFloorArea(bHoMSpace) * GetAltitudeRange(verticalPanels[0]);
+           
+            float volume = GetFloorArea(bHoMSpace) * roomheight;
             return volume;
         }
 

@@ -38,12 +38,11 @@ namespace BH.Engine.TAS
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
             bHoMSpace.Name = tasZone.name;
 
-            //int buildingElementIndex = 0;
             int zoneSurfaceIndex = 0;
             while (tasZone.GetSurface(zoneSurfaceIndex) != null)
             {
-                //buildingElement tasBuildingElement = tasZone.GetSurface(buildingElementIndex).buildingElement;
-                //bHoMSpace.BuildingElements.Add(tasBuildingElement.ToBHoM());
+                buildingElement tasBuildingElement = tasZone.GetSurface(zoneSurfaceIndex).buildingElement;
+                bHoMSpace.BuildingElements.Add(tasBuildingElement.ToBHoM());
 
                 int roomSrfIndex = 0;
                 while (tasZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex) != null)
@@ -51,12 +50,13 @@ namespace BH.Engine.TAS
                     RoomSurface tasRoomSrf = tasZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex);
 
                     if (tasRoomSrf.GetPerimeter() != null) //sometimes we can have a srf object in tas without a geometry
-                        bHoMSpace.BuildingElementPanel.Add(tasRoomSrf.ToBHoM());
-
+                    {
+                        bHoMSpace.BuildingElements.Add(new BuildingElement() { BuildingElementGeometry = tasRoomSrf.ToBHoM() });
+                    }
+   
                     roomSrfIndex++;
                 }
 
-                //buildingElementIndex++;
                 zoneSurfaceIndex++;
             }
 
@@ -171,7 +171,6 @@ namespace BH.Engine.TAS
                     {
                         Name = tasMaterial.name,
                         Description = tasMaterial.description,
-                        MaterialType = materialtype,
                         Thickness = tasMaterial.width,
                         Conductivity = tasMaterial.conductivity,
                         VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
@@ -189,7 +188,6 @@ namespace BH.Engine.TAS
                     {
                         Name = tasMaterial.name,
                         Description = tasMaterial.description,
-                        MaterialType = materialtype,
                         Thickness = tasMaterial.width,
                         Conductivity = tasMaterial.conductivity,
                         VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
@@ -311,25 +309,25 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.BuidingElementType ToBHoM(this TBD.BuildingElementType tasBuildingElementType)
+        public static BHE.Elements.BuildingElementType ToBHoM(this TBD.BuildingElementType tasBuildingElementType)
         {
             switch (tasBuildingElementType)
             {
-                case BuildingElementType.CURTAINWALL:
-                case BuildingElementType.EXTERNALWALL:
-                case BuildingElementType.INTERNALWALL:
-                    return BHE.Elements.BuidingElementType.Wall;
-                case BuildingElementType.ROOFELEMENT:
-                    return BHE.Elements.BuidingElementType.Roof;
-                case BuildingElementType.CEILING:
-                case BuildingElementType.UNDERGROUNDCEILING:
-                    return BHE.Elements.BuidingElementType.Ceiling;
-                case BuildingElementType.EXPOSEDFLOOR:
-                case BuildingElementType.INTERNALFLOOR:
-                case BuildingElementType.RAISEDFLOOR:
-                    return BHE.Elements.BuidingElementType.Floor;
+                case TBD.BuildingElementType.CURTAINWALL:
+                case TBD.BuildingElementType.EXTERNALWALL:
+                case TBD.BuildingElementType.INTERNALWALL:
+                    return BHE.Elements.BuildingElementType.Wall;
+                case TBD.BuildingElementType.ROOFELEMENT:
+                    return BHE.Elements.BuildingElementType.Roof;
+                case TBD.BuildingElementType.CEILING:
+                case TBD.BuildingElementType.UNDERGROUNDCEILING:
+                    return BHE.Elements.BuildingElementType.Ceiling;
+                case TBD.BuildingElementType.EXPOSEDFLOOR:
+                case TBD.BuildingElementType.INTERNALFLOOR:
+                case TBD.BuildingElementType.RAISEDFLOOR:
+                    return BHE.Elements.BuildingElementType.Floor;
                 default:
-                    return BHE.Elements.BuidingElementType.Wall;
+                    return BHE.Elements.BuildingElementType.Wall;
             }
         }
 
