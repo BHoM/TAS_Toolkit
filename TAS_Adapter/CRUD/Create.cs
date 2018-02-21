@@ -120,33 +120,20 @@ namespace BH.Adapter.TAS
             TBD.buildingElement be = m_TBDDocumentInstance.Building.AddBuildingElement();
 
 
-            //foreach (BHE.Elements.BuildingElement element in bHoMSpace.BuildingElements)
-            //{
-            //    //Add zoneSrf and convert it
-            //    TBD.zoneSurface tasZoneSrf = tasZone.AddSurface();
-            //    tasZoneSrf = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry, tasZoneSrf);
-
-            //    //Add roomSrf, create face, get its controlpoints and convert to TAS
-            //    TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
-            //    tasPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tasPolygon);
-
-            //    //Set the building Element
-            //    tasZoneSrf.buildingElement = be;
-            //}
-
-            for (int i = 0; i< bHoMSpace.BuildingElements.Count;i++)
+            foreach (BHE.Elements.BuildingElement element in bHoMSpace.BuildingElements)
             {
                 //Add zoneSrf and convert it
                 TBD.zoneSurface tasZoneSrf = tasZone.AddSurface();
-                tasZoneSrf = Engine.TAS.Convert.ToTas(bHoMSpace.BuildingElements[i].BuildingElementGeometry, tasZoneSrf);
+                tasZoneSrf = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry, tasZoneSrf);
 
                 //Add roomSrf, create face, get its controlpoints and convert to TAS
                 TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
-                tasPolygon = Engine.TAS.Convert.ToTas(bHoMSpace.BuildingElements[i].BuildingElementGeometry.ICurve(), tasPolygon);
+                tasPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tasPolygon);
 
                 //Set the building Element
-                tasZoneSrf.buildingElement =be;               
+                tasZoneSrf.buildingElement = be;
             }
+
             return true;
         }
 
