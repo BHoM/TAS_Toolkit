@@ -19,7 +19,7 @@ namespace BH.Adapter.TAS
         {
             bool success = true;
 
-            if (typeof(IObject).IsAssignableFrom(typeof(T)))
+            if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
             {
 
                 foreach (T obj in objects)
