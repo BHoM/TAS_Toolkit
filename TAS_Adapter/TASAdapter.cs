@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BH.oM.Queries;
+using BH.oM.DataManipulation.Queries;
 using BH.oM.Base;
 
 namespace BH.Adapter.TAS
