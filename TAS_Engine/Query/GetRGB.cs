@@ -14,15 +14,13 @@ namespace BH.Engine.TAS
     {
         /***************************************************/
 
-        public static byte [] GetRGB(uint UInt)
+        public static System.Drawing.Color GetRGB(uint UInt)
         {
             byte b = (byte)(UInt >> 16);
             byte g = (byte)(UInt >> 8);
             byte r = (byte)(UInt >> 0);
 
-            byte[] RGB = new byte[] { r, g, b };
-
-            return RGB;
+            return System.Drawing.Color.FromArgb(r, b, g);
 
         }
 
