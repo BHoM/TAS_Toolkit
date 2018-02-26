@@ -34,40 +34,33 @@ namespace BH.Engine.TAS
 
         public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone)
         {
-            List<BHE.Elements.BuildingElement> bHoMBuildingElements = new List<BHE.Elements.BuildingElement>();
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
             bHoMSpace.Name = tasZone.name;
 
             int zoneSurfaceIndex = 0;
             while (tasZone.GetSurface(zoneSurfaceIndex) != null)
             {
-                //buildingElement tasBuildingElement = tasZone.GetSurface(zoneSurfaceIndex).buildingElement;
-                //bHoMSpace.BuildingElements.Add(tasBuildingElement.ToBHoM());
-
                 int roomSrfIndex = 0;
                 while (tasZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex) != null)
                 {
                     RoomSurface tasRoomSrf = tasZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex);
-
                     if (tasRoomSrf.GetPerimeter() != null) //sometimes we can have a srf object in tas without a geometry
                     {
-                        bHoMSpace.BuildingElements.Add(new BuildingElement() { BuildingElementGeometry = tasRoomSrf.ToBHoM() });
+                        BHE.Elements.BuildingElement bHoMBuildingElement = ToBHoM(tasZone.GetSurface(zoneSurfaceIndex).buildingElement);
+                        bHoMBuildingElement.BuildingElementGeometry = tasRoomSrf.ToBHoM();
+                        bHoMSpace.BuildingElements.Add(bHoMBuildingElement);
                     }
-   
+
                     roomSrfIndex++;
                 }
 
                 zoneSurfaceIndex++;
             }
 
-            //Space custom data
-            //bHoMSpace.CustomData.Add("colour", new byte[] { 1, 2, 3 });
-          
-            byte[] RGB = Query.GetRGB(tasZone.colour);
-            bHoMSpace.CustomData.Add("colour", RGB);
-         
-            
-
+            //Space Custom Data
+            System.Drawing.Color spaceRGB = Query.GetRGB(tasZone.colour);
+            //bHoMSpace.CustomData["Colour"] = spaceRGB;
+            bHoMSpace.CustomData.Add("Colour", spaceRGB);
 
             return bHoMSpace;
         }
@@ -92,11 +85,15 @@ namespace BH.Engine.TAS
             {
                 Name = tasBuildingElement.name,
                 BuildingElementProperties = bHoMBuildingElementProperties
+
             };
 
-         return bhomBuildingElement;
+           //BuildingElement Custom Data
+            System.Drawing.Color buildingElementRGB = Query.GetRGB(tasBuildingElement.colour);
+            bhomBuildingElement.CustomData.Add("colour", buildingElementRGB);
 
-            //TODO: add storey and BuildingElementGeometry
+            return bhomBuildingElement;
+
         }
 
         /***************************************************/
