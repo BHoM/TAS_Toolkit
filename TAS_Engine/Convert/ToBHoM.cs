@@ -60,11 +60,14 @@ namespace BH.Engine.TAS
                 zoneSurfaceIndex++;
             }
 
-            //Space Custom Data
-            Dictionary<string, object> colourDictionary = new Dictionary<string, object>();
-            colourDictionary.Add("colour", Query.GetRGB(tasZone.colour));
-            bHoMSpace.CustomData = colourDictionary;
+            //Space custom data
+            //bHoMSpace.CustomData.Add("colour", new byte[] { 1, 2, 3 });
+          
+            byte[] RGB = Query.GetRGB(tasZone.colour);
+            bHoMSpace.CustomData.Add("colour", RGB);
+         
             
+
 
             return bHoMSpace;
         }
