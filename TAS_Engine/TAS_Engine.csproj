@@ -67,6 +67,7 @@
     <Compile Include="Convert\ToTAS.cs" />
     <Compile Include="Objects\EqualityComparers\Comparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\GetRGB.cs" />
     <Compile Include="Query\GetOrientation.cs" />
     <Compile Include="Query\GetFloorArea.cs" />
     <Compile Include="Query\GetInclination.cs" />
