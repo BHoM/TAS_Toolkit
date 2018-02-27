@@ -35,8 +35,17 @@ namespace BH.Engine.TAS
         public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone)
         {
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
-            bHoMSpace.Name = tasZone.name;
 
+            //Space Data
+            bHoMSpace.Name = tasZone.name;
+            int internalConditionIndex = 0;
+            while(tasZone.GetIC(internalConditionIndex) != null)
+            {
+                bHoMSpace.InternalConditions.Add(ToBHoM(tasZone.GetIC(0)));
+                internalConditionIndex++;
+            }
+           
+            //Geometry
             int zoneSurfaceIndex = 0;
             while (tasZone.GetSurface(zoneSurfaceIndex) != null)
             {
@@ -48,18 +57,15 @@ namespace BH.Engine.TAS
                     {
                         BHE.Elements.BuildingElement bHoMBuildingElement = ToBHoM(tasZone.GetSurface(zoneSurfaceIndex).buildingElement);
                         bHoMBuildingElement.BuildingElementGeometry = tasRoomSrf.ToBHoM();
-                        bHoMSpace.BuildingElements.Add(bHoMBuildingElement);
+                        bHoMSpace.BuildingElements.Add(bHoMBuildingElement); 
                     }
-
                     roomSrfIndex++;
                 }
-
                 zoneSurfaceIndex++;
             }
 
             //Space Custom Data
             System.Drawing.Color spaceRGB = Query.GetRGB(tasZone.colour);
-
             bHoMSpace.CustomData.Add("Colour", spaceRGB);
 
             return bHoMSpace;
@@ -158,7 +164,6 @@ namespace BH.Engine.TAS
             BHG.PolyCurve crv_edges = Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges });
 
             bHoMPanel.PolyCurve = crv_edges;
-            //bHoMPanel.ElementType = TBD.BuildingElementType.CEILING.ToString();
             bHoMPanel.ElementType = ((TBD.BuildingElementType)tasRoomSrf.zoneSurface.buildingElement.BEType).ToString();
 
             return bHoMPanel;
@@ -228,10 +233,12 @@ namespace BH.Engine.TAS
 
         public static BHE.Elements.InternalCondition ToBHoM(this TBD.InternalCondition tasInternalCondition)
         {
+            if (tasInternalCondition == null)
+                return null;
+    
             BHE.Elements.InternalCondition bHoMInternalCondition = new BHE.Elements.InternalCondition
             {
-                //EmitterProperties = tasInternalCondition.GetCoolingEmitter().ToBHoM(),
-                //TODO: implement bHoMEmitterProperties and Profiles
+                Name = tasInternalCondition.name
             };
 
             return bHoMInternalCondition;
