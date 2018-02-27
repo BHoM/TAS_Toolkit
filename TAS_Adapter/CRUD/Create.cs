@@ -116,12 +116,14 @@ namespace BH.Adapter.TAS
             TBD.room tasRoom = tasZone.AddRoom();
             tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
 
-            //We have to add a building element to the zonesurface before we save the file. Otherwise we end up with a corrupt file!
-            TBD.buildingElement be = m_TBDDocumentInstance.Building.AddBuildingElement();
+           
 
 
             foreach (BHE.Elements.BuildingElement element in bHoMSpace.BuildingElements)
             {
+                //We have to add a building element to the zonesurface before we save the file. Otherwise we end up with a corrupt file!
+                TBD.buildingElement be = m_TBDDocumentInstance.Building.AddBuildingElement();
+
                 //Add zoneSrf and convert it
                 TBD.zoneSurface tasZoneSrf = tasZone.AddSurface();
                 tasZoneSrf = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry, tasZoneSrf);
@@ -131,7 +133,6 @@ namespace BH.Adapter.TAS
                 tasPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tasPolygon);
 
                 //Set the building Element
-                //tasZoneSrf.buildingElement = be;
                 tasZoneSrf.buildingElement = Engine.TAS.Convert.ToTas(element, be);
 
             }
