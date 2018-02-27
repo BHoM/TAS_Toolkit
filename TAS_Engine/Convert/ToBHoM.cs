@@ -59,7 +59,7 @@ namespace BH.Engine.TAS
 
             //Space Custom Data
             System.Drawing.Color spaceRGB = Query.GetRGB(tasZone.colour);
-            //bHoMSpace.CustomData["Colour"] = spaceRGB;
+
             bHoMSpace.CustomData.Add("Colour", spaceRGB);
 
             return bHoMSpace;
@@ -88,7 +88,7 @@ namespace BH.Engine.TAS
 
             };
 
-           //BuildingElement Custom Data
+            //BuildingElement Custom Data
             System.Drawing.Color buildingElementRGB = Query.GetRGB(tasBuildingElement.colour);
             bhomBuildingElement.CustomData.Add("colour", buildingElementRGB);
 
@@ -158,6 +158,8 @@ namespace BH.Engine.TAS
             BHG.PolyCurve crv_edges = Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges });
 
             bHoMPanel.PolyCurve = crv_edges;
+            //bHoMPanel.ElementType = TBD.BuildingElementType.CEILING.ToString();
+            bHoMPanel.ElementType = ((TBD.BuildingElementType)tasRoomSrf.zoneSurface.buildingElement.BEType).ToString();
 
             return bHoMPanel;
 
