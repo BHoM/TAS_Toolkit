@@ -52,7 +52,7 @@ namespace BH.Engine.TAS
             tasZoneSrf.altitude = Query.GetAltitude(bHoMPanel);
             tasZoneSrf.altitudeRange = Query.GetAltitudeRange(bHoMPanel);
             tasZoneSrf.GUID = bHoMPanel.BHoM_Guid.ToString();
-            //tasZoneSrf.area = (float)Geometry.Query.Area(bHoMPanel.PolyCurve);
+            tasZoneSrf.area = (float)Geometry.Query.Area((bHoMPanel as BuildingElementPanel).PolyCurve);
             tasZoneSrf.type = IToTas(bHoMPanel);
 
             return tasZoneSrf;
@@ -69,6 +69,22 @@ namespace BH.Engine.TAS
             tasZone.volume = Query.GetVolume(bHoMSpace);
 
             return tasZone;
+        }
+
+        /***************************************************/
+
+        public static TBD.InternalCondition ToTas(this BHE.Elements.InternalCondition bHoMIC, TBD.InternalCondition tasIC)
+        {
+            tasIC.name = bHoMIC.Name;
+            return tasIC;
+        }
+
+        /***************************************************/
+
+        public static TBD.buildingElement ToTas(this BHE.Elements.BuildingElement bHoMBuildingElement, TBD.buildingElement tasBuildingElement)
+        {
+            tasBuildingElement.name = bHoMBuildingElement.Name;
+            return tasBuildingElement;
         }
 
 

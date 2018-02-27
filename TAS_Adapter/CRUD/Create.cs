@@ -131,7 +131,9 @@ namespace BH.Adapter.TAS
                 tasPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tasPolygon);
 
                 //Set the building Element
-                tasZoneSrf.buildingElement = be;
+                //tasZoneSrf.buildingElement = be;
+                tasZoneSrf.buildingElement = Engine.TAS.Convert.ToTas(element, be);
+
             }
 
             return true;
