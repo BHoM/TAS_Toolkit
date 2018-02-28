@@ -8,6 +8,7 @@ using BH.oM.Environmental.Properties;
 using BH.oM.Environmental.Interface;
 using BHG = BH.oM.Geometry;
 using TBD;
+using BH.Engine.Environment;
 
 namespace BH.Engine.TAS
 {
@@ -52,7 +53,7 @@ namespace BH.Engine.TAS
             tasZoneSrf.altitude = Query.GetAltitude(bHoMPanel);
             tasZoneSrf.altitudeRange = Query.GetAltitudeRange(bHoMPanel);
             tasZoneSrf.GUID = bHoMPanel.BHoM_Guid.ToString();
-            tasZoneSrf.area = (float)Geometry.Query.Area((bHoMPanel as BuildingElementPanel).PolyCurve);
+            tasZoneSrf.area = (float)Geometry.Query.IArea((bHoMPanel.ICurve()));
             tasZoneSrf.type = IToTas(bHoMPanel);
 
             return tasZoneSrf;

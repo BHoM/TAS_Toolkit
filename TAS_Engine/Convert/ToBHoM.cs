@@ -96,7 +96,7 @@ namespace BH.Engine.TAS
 
             //BuildingElement Custom Data
             System.Drawing.Color buildingElementRGB = Query.GetRGB(tasBuildingElement.colour);
-            bhomBuildingElement.CustomData.Add("colour", buildingElementRGB);
+            bhomBuildingElement.CustomData.Add("Colour", buildingElementRGB);
 
             return bhomBuildingElement;
 
