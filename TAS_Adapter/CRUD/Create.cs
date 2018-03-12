@@ -116,6 +116,8 @@ namespace BH.Adapter.TAS
             TBD.room tasRoom = tasZone.AddRoom();
             tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
 
+            //if (bHoMSpace.BuildingElements == null)
+             //   return false;
            
 
 
@@ -131,7 +133,7 @@ namespace BH.Adapter.TAS
                 //Add roomSrf, create face, get its controlpoints and convert to TAS
                 TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
                 tasPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tasPolygon);
-
+                
                 //Set the building Element
                 tasZoneSrf.buildingElement = Engine.TAS.Convert.ToTas(element, be);
 
