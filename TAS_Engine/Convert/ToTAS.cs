@@ -54,7 +54,8 @@ namespace BH.Engine.TAS
             tasZoneSrf.altitudeRange = Query.GetAltitudeRange(bHoMPanel);
             tasZoneSrf.GUID = bHoMPanel.BHoM_Guid.ToString();
             tasZoneSrf.area = (float)Geometry.Query.IArea((bHoMPanel.ICurve()));
-            tasZoneSrf.type = IToTas(bHoMPanel);
+            //tasZoneSrf.type = IToTas(bHoMPanel);
+            tasZoneSrf.type = Query.GetSurfaceType(bHoMPanel);
 
             return tasZoneSrf;
         }
