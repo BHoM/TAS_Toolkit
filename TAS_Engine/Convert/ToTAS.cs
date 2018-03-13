@@ -55,7 +55,10 @@ namespace BH.Engine.TAS
             tasZoneSrf.GUID = bHoMPanel.BHoM_Guid.ToString();
             tasZoneSrf.area = (float)Geometry.Query.IArea((bHoMPanel.ICurve()));
             //tasZoneSrf.type = IToTas(bHoMPanel);
-            tasZoneSrf.type = Query.GetSurfaceType(bHoMPanel);
+            //tasZoneSrf.type = SurfaceType.tbdLink;
+            
+           
+
 
             return tasZoneSrf;
         }
