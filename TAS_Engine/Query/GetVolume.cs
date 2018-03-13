@@ -25,7 +25,7 @@ namespace BH.Engine.TAS
             float roomheight = 0;
             foreach (BHEE.BuildingElement element in bHoMBuildingElement)
             {
-                if (GetInclination(element.BuildingElementGeometry) == 90) // if wall
+                if (GetInclination(element.BuildingElementGeometry, bHoMSpace) == 90) // if wall
                 {
                     roomheight = GetAltitudeRange(element.BuildingElementGeometry);
                     break;
