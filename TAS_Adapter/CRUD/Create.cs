@@ -21,11 +21,11 @@ namespace BH.Adapter.TAS
 
             if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
             {
-
-                foreach (T obj in objects)
-                {
-                    success &= Create(obj as dynamic);
-                }
+                success = CreateCollection(objects as dynamic);
+                //foreach (T obj in objects)
+                //{
+                //    success &= Create(obj as dynamic);
+                //}
             }
 
             m_TBDDocumentInstance.save();
@@ -58,6 +58,34 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
         /**** Create methods                            ****/
+        /***************************************************/
+
+        private bool CreateCollection(IEnumerable<IBHoMObject> objects)
+        {
+            bool success = true;
+            foreach (IBHoMObject obj in objects)
+            {
+                success &= Create(obj as dynamic);
+            }
+            return success;
+        }
+
+        /***************************************************/
+
+        private bool CreateCollection(IEnumerable<BHE.Elements.Space> spaces)
+        {
+            bool success = true;
+            foreach (BHE.Elements.Space space in spaces)
+            {
+                success &= Create(space, spaces);
+                
+            }
+
+            
+            //Add adjecency stuff here
+            return success;
+        }
+
         /***************************************************/
 
         private bool Create(BHE.Elements.Building bHoMBuilding)
@@ -109,9 +137,9 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private bool Create(BHE.Elements.Space bHoMSpace)
+        private bool Create(BHE.Elements.Space bHoMSpace, IEnumerable<BHE.Elements.Space> spaces)
         {
-
+            
             TBD.zone tasZone = m_TBDDocumentInstance.Building.AddZone();
             TBD.room tasRoom = tasZone.AddRoom();
             tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
@@ -137,7 +165,10 @@ namespace BH.Adapter.TAS
                 //Set the building Element
                 tasZoneSrf.buildingElement = Engine.TAS.Convert.ToTas(element, be);
 
+                tasZoneSrf.type = BH.Engine.TAS.Query.GetSurfaceType(element, spaces);
             }
+
+           
 
             return true;
         }
