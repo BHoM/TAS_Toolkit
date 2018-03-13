@@ -22,6 +22,7 @@ namespace BH.Engine.TAS
 
             BHE.Elements.BuildingElementPanel panel = bHoMBuildingElementPanel as BHE.Elements.BuildingElementPanel;
             BHG.Polyline pline = new BHG.Polyline {ControlPoints = BH.Engine.Geometry.Query.IControlPoints(panel.PolyCurve) };
+
             List<BHG.Point> pts = BH.Engine.Geometry.Query.DiscontinuityPoints(pline);
             BHG.Plane plane = BH.Engine.Geometry.Create.Plane(pts[0], pts[1], pts[2]);
 

@@ -76,6 +76,7 @@
     <Compile Include="Query\GetVolume.cs" />
     <Compile Include="Query\GetAltitude.cs" />
     <Compile Include="Query\GetAltitudeRange.cs" />
+    <Compile Include="Query\PlanPerimeter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

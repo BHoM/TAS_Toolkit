@@ -144,10 +144,6 @@ namespace BH.Adapter.TAS
             TBD.room tasRoom = tasZone.AddRoom();
             tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
 
-            //if (bHoMSpace.BuildingElements == null)
-             //   return false;
-           
-
 
             foreach (BHE.Elements.BuildingElement element in bHoMSpace.BuildingElements)
             {
