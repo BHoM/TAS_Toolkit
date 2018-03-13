@@ -72,6 +72,7 @@ namespace BH.Engine.TAS
             tasZone.description = bHoMSpace.Description;
             tasZone.GUID = bHoMSpace.BHoM_Guid.ToString();
             tasZone.volume = Query.GetVolume(bHoMSpace);
+            tasZone.exposedPerimeter = (float)Query.PlanPerimeter(bHoMSpace);
 
             return tasZone;
         }
