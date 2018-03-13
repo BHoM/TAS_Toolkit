@@ -15,24 +15,19 @@ namespace BH.Engine.TAS
     {
         /***************************************************/
 
-        public static float GetInclination(BHEI.IBuildingElementGeometry bHoMBuildingElementPanel)
+        public static float GetInclination(BHEI.IBuildingElementGeometry bHoMBuildingElementPanel, BHE.Elements.Space bHoMSpace)
         {
 
             double inclination;
-            List<BHG.Point> pts = BH.Engine.Geometry.Query.IControlPoints(bHoMBuildingElementPanel.ICurve());
 
+            BHE.Elements.BuildingElementPanel panel = bHoMBuildingElementPanel as BHE.Elements.BuildingElementPanel;
+            BHG.Polyline pline = new BHG.Polyline {ControlPoints = BH.Engine.Geometry.Query.IControlPoints(panel.PolyCurve) };
+            List<BHG.Point> pts = BH.Engine.Geometry.Query.DiscontinuityPoints(pline);
+            BHG.Plane plane = BH.Engine.Geometry.Create.Plane(pts[0], pts[1], pts[2]);
 
-            BHG.Plane plane = BH.Engine.Geometry.Compute.FitPlane(pts);
-               // Geometry.Create.Plane(pts[0], pts[1], pts[2]);
+            BHG.Vector xyNormal = BH.Engine.Geometry.Create.Vector(0, 0, 1);
+            inclination = BH.Engine.Geometry.Query.Angle(plane.Normal, xyNormal)* (180 / Math.PI);
 
-            inclination = Math.Asin(plane.Normal.X)*(180/Math.PI);
-
-            //if (plane.Normal.X == 0 && plane.Normal.Y == 0 && plane.Normal.Z == 1)
-            //    inclination = 0; //ceiling
-            //else if (plane.Normal.X == 0 && plane.Normal.Y == 0 && plane.Normal.Z == -1)
-            //    inclination = 180; //floor
-            //else
-            //    inclination = 90; //walls
 
             return (float)inclination;
         }

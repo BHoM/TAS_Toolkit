@@ -48,8 +48,8 @@ namespace BH.Engine.TAS
         public static TBD.zoneSurface ToTas(this IBuildingElementGeometry bHoMPanel, zoneSurface tasZoneSrf)
         {
 
-            tasZoneSrf.orientation = Query.GetOrientation(bHoMPanel);
-            tasZoneSrf.inclination = Query.GetInclination(bHoMPanel);
+            //tasZoneSrf.orientation = Query.GetOrientation(bHoMPanel);
+            //tasZoneSrf.inclination = Query.GetInclination(bHoMPanel);
             tasZoneSrf.altitude = Query.GetAltitude(bHoMPanel);
             tasZoneSrf.altitudeRange = Query.GetAltitudeRange(bHoMPanel);
             tasZoneSrf.GUID = bHoMPanel.BHoM_Guid.ToString();
