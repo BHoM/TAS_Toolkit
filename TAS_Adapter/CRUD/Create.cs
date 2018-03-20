@@ -30,14 +30,14 @@ namespace BH.Adapter.TAS
 
             m_TBDDocumentInstance.save();
             m_TBDDocumentInstance.close();
-     
+
             if (m_TBDDocumentInstance != null)
             {
                 // issue with closing files and not closing 
                 ClearCOMObject(m_TBDDocumentInstance);
                 m_TBDDocumentInstance = null;
             }
-            return success; 
+            return success;
         }
 
         /***************************************************/
@@ -78,11 +78,7 @@ namespace BH.Adapter.TAS
             foreach (BHE.Elements.Space space in spaces)
             {
                 success &= Create(space, spaces);
-                
             }
-
-            
-            //Add adjecency stuff here
             return success;
         }
 
@@ -124,7 +120,14 @@ namespace BH.Adapter.TAS
         {
             throw new NotImplementedException();
         }
-        
+
+        /***************************************************/
+
+        private bool Create(BHE.Elements.BuildingElementOpening bHoMBuildingElementOpening)
+        {
+            throw new NotImplementedException();
+        }
+
         /***************************************************/
 
         private bool Create(BHE.Elements.InternalCondition bHoMInternalCondition)
@@ -139,7 +142,7 @@ namespace BH.Adapter.TAS
 
         private bool Create(BHE.Elements.Space bHoMSpace, IEnumerable<BHE.Elements.Space> spaces)
         {
-            
+
             TBD.zone tasZone = m_TBDDocumentInstance.Building.AddZone();
             TBD.room tasRoom = tasZone.AddRoom();
             tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
@@ -157,21 +160,21 @@ namespace BH.Adapter.TAS
                 //Add roomSrf, create face, get its controlpoints and convert to TAS
                 TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
                 tasPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tasPolygon);
-                
+
                 //Set the building Element
                 tasZoneSrf.buildingElement = Engine.TAS.Convert.ToTas(element, be);
 
                 tasZoneSrf.type = BH.Engine.TAS.Query.GetSurfaceType(element, spaces);
-                tasZoneSrf.orientation = BH.Engine.TAS.Query.GetOrientation(element.BuildingElementGeometry, bHoMSpace);
-                tasZoneSrf.inclination = BH.Engine.TAS.Query.GetInclination(element.BuildingElementGeometry, bHoMSpace);
+                tasZoneSrf.orientation = (float)BH.Engine.Environment.Query.Orientation(element.BuildingElementGeometry);
+                //tasZoneSrf.orientation = BH.Engine.TAS.Query.GetOrientation(element.BuildingElementGeometry, bHoMSpace);
+                tasZoneSrf.inclination = (float)BH.Engine.Environment.Query.Inclination(element.BuildingElementGeometry);
+                //tasZoneSrf.inclination = BH.Engine.TAS.Query.GetInclination(element.BuildingElementGeometry, bHoMSpace);
             }
-
-           
 
             return true;
         }
 
         /***************************************************/
-       
+        
     }
 }
