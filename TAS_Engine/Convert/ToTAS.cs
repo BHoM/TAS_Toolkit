@@ -50,16 +50,15 @@ namespace BH.Engine.TAS
 
             //tasZoneSrf.orientation = Query.GetOrientation(bHoMPanel);
             //tasZoneSrf.inclination = Query.GetInclination(bHoMPanel);
-            tasZoneSrf.altitude = Query.GetAltitude(bHoMPanel);
-            tasZoneSrf.altitudeRange = Query.GetAltitudeRange(bHoMPanel);
+
+            tasZoneSrf.altitude = (float)BH.Engine.Environment.Query.Altitude(bHoMPanel);
+            tasZoneSrf.altitudeRange = (float)BH.Engine.Environment.Query.AltitudeRange(bHoMPanel);
             tasZoneSrf.GUID = bHoMPanel.BHoM_Guid.ToString();
             tasZoneSrf.area = (float)Geometry.Query.IArea((bHoMPanel.ICurve()));
+
             //tasZoneSrf.type = IToTas(bHoMPanel);
             //tasZoneSrf.type = SurfaceType.tbdLink;
             
-           
-
-
             return tasZoneSrf;
         }
 
@@ -72,7 +71,6 @@ namespace BH.Engine.TAS
             tasZone.description = bHoMSpace.Description;
             tasZone.GUID = bHoMSpace.BHoM_Guid.ToString();
             tasZone.volume = Query.GetVolume(bHoMSpace);
-            tasZone.exposedPerimeter = (float)Query.PlanPerimeter(bHoMSpace);
 
             return tasZone;
         }
