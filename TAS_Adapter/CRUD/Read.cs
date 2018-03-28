@@ -34,8 +34,8 @@ namespace BH.Adapter.TAS
             //    return ReadMaterials();
             else if (type == typeof(OpaqueMaterial) || type == typeof(TransparentMaterial) || type == typeof(GasMaterial))
                 return ReadMaterials();
-            else if (type == typeof(BHS.Elements.Storey))
-                return ReadStorey();
+            //else if (type == typeof(BHS.Elements.Storey))
+            //    return ReadStorey();
             else if (type == typeof(ConstructionLayer))
                 return ReadConstructionLayer();
             else
@@ -180,14 +180,14 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private List<BHS.Elements.Storey> ReadStorey(List<string> ids = null)
-        {
-            TBD.BuildingStorey tasStorey = m_TBDDocumentInstance.Building.GetStorey(0);
-            List<BHS.Elements.Storey> bHoMStorey = new List<BHS.Elements.Storey>();
-            bHoMStorey.Add(Engine.TAS.Convert.ToBHoM(tasStorey));
+        //private List<BHS.Elements.Storey> ReadStorey(List<string> ids = null)
+        //{
+        //    TBD.BuildingStorey tasStorey = m_TBDDocumentInstance.Building.GetStorey(0);
+        //    List<BHS.Elements.Storey> bHoMStorey = new List<BHS.Elements.Storey>();
+        //    bHoMStorey.Add(Engine.TAS.Convert.ToBHoM(tasStorey));
 
-            return bHoMStorey;
-        }
+        //    return bHoMStorey;
+        //}
 
         /***************************************************/
 
