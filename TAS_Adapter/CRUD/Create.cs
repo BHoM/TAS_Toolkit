@@ -164,7 +164,7 @@ namespace BH.Adapter.TAS
                 //Set the building Element
                 tasZoneSrf.buildingElement = Engine.TAS.Convert.ToTas(element, be);
 
-                tasZoneSrf.type = BH.Engine.TAS.Query.GetSurfaceType(element, spaces);
+                //tasZoneSrf.type = BH.Engine.TAS.Query.GetSurfaceType(element, spaces);
                 tasZoneSrf.orientation = (float)BH.Engine.Environment.Query.Orientation(element.BuildingElementGeometry);
                 //tasZoneSrf.orientation = BH.Engine.TAS.Query.GetOrientation(element.BuildingElementGeometry, bHoMSpace);
                 tasZoneSrf.inclination = (float)BH.Engine.Environment.Query.Inclination(element.BuildingElementGeometry);
