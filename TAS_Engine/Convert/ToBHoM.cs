@@ -146,10 +146,10 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHS.Elements.Storey ToBHoM(this TBD.BuildingStorey tasStorey)
-        {
-            throw new NotImplementedException();
-        }
+        //public static BHS.Elements.Storey ToBHoM(this TBD.BuildingStorey tasStorey)
+        //{
+        //    throw new NotImplementedException();
+        //}
               
         /***************************************************/
              
