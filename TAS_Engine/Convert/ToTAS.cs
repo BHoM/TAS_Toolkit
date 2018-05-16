@@ -68,7 +68,6 @@ namespace BH.Engine.TAS
         {
             tasZone.name = bHoMSpace.Name;
             tasZone.floorArea = Query.GetFloorArea(bHoMSpace);
-            tasZone.description = bHoMSpace.Description;
             tasZone.GUID = bHoMSpace.BHoM_Guid.ToString();
             tasZone.volume = Query.GetVolume(bHoMSpace);
 
