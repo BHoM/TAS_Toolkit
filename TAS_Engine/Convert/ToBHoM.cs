@@ -8,6 +8,7 @@ using TBD;
 using BHEE = BH.Engine.Environment;
 using BH.oM.Environmental.Properties;
 using BH.oM.Environmental.Elements;
+using System.Collections;
 
 namespace BH.Engine.TAS
 {
@@ -19,11 +20,58 @@ namespace BH.Engine.TAS
 
         public static BHE.Elements.Building ToBHoM(this TBD.Building tasBuilding)
         {
+            //List<BHE.Elements.ConstructionLayer> bHoMConstructionLayer = new List<BHE.Elements.ConstructionLayer>();
+
+            //int constructionLayerIndex = 1; //Cannot be 0 in TAS
+            //while (tasConstruction.materials(constructionLayerIndex) != null)
+            //{
+            //    bhomBuildingElementProperties.ConstructionLayers.Add(ToBHoM(tasConstruction, tasConstruction.materials(constructionLayerIndex)));
+            //    constructionLayerIndex++;
+            //}
+
+
+
+            // get BuildingElements from TBD in TAS TBD index start from 0 
+            List<BHE.Properties.BuildingElementProperties> BuildingElementPropertiesList = new List<BHE.Properties.BuildingElementProperties>();
+
+            int buildingElementIndex = 0;
+            TBD.buildingElement aBuildingElement = tasBuilding.GetBuildingElement(buildingElementIndex);
+            while (aBuildingElement != null)
+            {
+                //bhomBuildingElement.Add();
+                BHE.Properties.BuildingElementProperties aBHoMBuildingElementProperties;
+                aBHoMBuildingElementProperties = ToBHoM(aBuildingElement);
+                BuildingElementPropertiesList.Add(aBHoMBuildingElementProperties);
+                buildingElementIndex++;
+                aBuildingElement = tasBuilding.GetBuildingElement(buildingElementIndex);
+
+            }
+
+            // get Spaces in TAS t from TBD in TAS TBD index start from 0 
+            List<BHE.Elements.Space> SpaceList = new List<BHE.Elements.Space>();
+
+            int spaceIndex = 0;
+            TBD.zone aSpace = tasBuilding.GetZone(spaceIndex);
+            while (aSpace != null)
+            {
+                //bhomBuildingElement.Add();
+                BHE.Elements.Space aBHoMBuildingSpace;
+                aBHoMBuildingSpace = ToBHoM(aSpace);
+                SpaceList.Add(aBHoMBuildingSpace);
+                spaceIndex++;
+                aSpace = tasBuilding.GetZone(spaceIndex);
+
+            }
+
             BHE.Elements.Building bHoMBuilding = new BHE.Elements.Building
             {
                 Latitude = tasBuilding.latitude,
                 Longitude = tasBuilding.longitude,
                 Elevation = tasBuilding.maxBuildingAltitude,
+                BuildingElementProperties = BuildingElementPropertiesList,
+                Spaces = SpaceList,
+
+
 
                 //TODO: location, equipment, spaces, storeys, profiles, IC, EquipmentProperties
             };
@@ -55,8 +103,18 @@ namespace BH.Engine.TAS
                     RoomSurface tasRoomSrf = tasZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex);
                     if (tasRoomSrf.GetPerimeter() != null) //sometimes we can have a srf object in tas without a geometry
                     {
-                        BHE.Elements.BuildingElement bHoMBuildingElement = ToBHoM(tasZone.GetSurface(zoneSurfaceIndex).buildingElement);
-                        bHoMBuildingElement.BuildingElementGeometry = tasRoomSrf.ToBHoM();
+                        //BHE.Elements.BuildingElement bHoMBuildingElement = ToBHoM(tasZone.GetSurface(zoneSurfaceIndex).buildingElement);
+                        BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = ToBHoM(tasZone.GetSurface(zoneSurfaceIndex).buildingElement);
+                        BHE.Elements.BuildingElement bHoMBuildingElement = new BuildingElement()
+                       // tasZone.GetSurface(zoneSurfaceIndex).
+
+                        {
+
+                            Name = bHoMBuildingElementProperties.Name,
+                            BuildingElementGeometry = tasRoomSrf.ToBHoM(),
+                            BuildingElementProperties = bHoMBuildingElementProperties
+                        };
+
                         bHoMSpace.BuildingElements.Add(bHoMBuildingElement); 
                     }
                     roomSrfIndex++;
@@ -72,51 +130,106 @@ namespace BH.Engine.TAS
         }
 
         /***************************************************/
+        // IN TAS Building Element is type with property and does not have geometry. 
+        // IN BHoM Building element  is instance including geometry and property
+        // BuildingProperty is Type with all data for this type
 
-        public static BHE.Elements.BuildingElement ToBHoM(this TBD.buildingElement tasBuildingElement)
+        public static BuildingElementProperties ToBHoM(this TBD.buildingElement tasBuildingElement)
         {
             if (tasBuildingElement == null)
                 return null;
 
-            Construction tasConstruction = tasBuildingElement.GetConstruction();
             BuildingElementProperties bHoMBuildingElementProperties = null;
-            
-            if (tasConstruction != null)
-            {
-                bHoMBuildingElementProperties = tasConstruction.ToBHoM();
-                bHoMBuildingElementProperties.BuildingElementType = ToBHoM((TBD.BuildingElementType)tasBuildingElement.BEType);// BEType on Construction
-            }                          
-                           
-            BHE.Elements.BuildingElement bhomBuildingElement = new BHE.Elements.BuildingElement
-            {
-                Name = tasBuildingElement.name,
-                BuildingElementProperties = bHoMBuildingElementProperties
 
-            };
+            BHE.Elements.BuildingElementType aBuildingElementType = ToBHoM((TBD.BuildingElementType)tasBuildingElement.BEType);
+            string aName = tasBuildingElement.name;
+
+            Construction tasConstruction = tasBuildingElement.GetConstruction();
+            if (tasConstruction != null)
+                bHoMBuildingElementProperties = tasConstruction.ToBHoM(aName, aBuildingElementType);
+
+            if (bHoMBuildingElementProperties == null)
+                bHoMBuildingElementProperties = new BuildingElementProperties();
+
+            bHoMBuildingElementProperties.BuildingElementType = aBuildingElementType;
+            bHoMBuildingElementProperties.Name = aName;
+            bHoMBuildingElementProperties.Thickness = tasBuildingElement.width;
 
             //BuildingElement Custom Data
             System.Drawing.Color buildingElementRGB = Query.GetRGB(tasBuildingElement.colour);
-            bhomBuildingElement.CustomData.Add("Colour", buildingElementRGB);
+            bHoMBuildingElementProperties.CustomData.Add("Colour", buildingElementRGB);
 
-            return bhomBuildingElement;
+            return bHoMBuildingElementProperties;
 
         }
 
         /***************************************************/
-        
-        public static BHE.Properties.BuildingElementProperties ToBHoM(this TBD.Construction tasConstruction)
+
+
+
+
+        /***************************************************/
+
+        public static BuildingElementProperties ToBHoM(this TBD.Construction tasConstruction, string name, BHE.Elements.BuildingElementType buildingElementType) //double thickness = 0, bool Internal = true, BHE.Elements.BuildingElementType buildingElementType = BHE.Elements.BuildingElementType.Wall)
         {
-           
-            //List<float> u= (tasConstruction.GetUValue() as IEnumerable<float>).ToList();
-            BHE.Properties.BuildingElementProperties bhomBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
+            // by MD - there 6 values in TBDTas for Uvalue, we have BuildingElement BE that have construction and then material layers
+            // form BE we can get geometrical thickness that is used for Volume calculations, in tas there are 6 Uvalues:
+            //0.Uexternalhorizontal 1.Uexternalupwards  2.Uexternaldownwards
+            //3.Uinternalhorizontal 4.Uinternaupwards  5.Uinternadownwards
+            IEnumerable<float> aUValues = (tasConstruction.GetUValue() as IEnumerable).Cast<float>();
+
+            double aUvalue = 0;
+            double agValue = 0;
+            double aLtValue = 0;
+            if (tasConstruction.type == ConstructionTypes.tcdTransparentConstruction)
             {
-                Name = tasConstruction.name,
-                Thickness = tasConstruction.materialWidth[0],
-                LtValue = tasConstruction.lightTransmittance,
+                // gValue 6 position
+                IEnumerable<float> aGlazingValueList = (tasConstruction.GetGlazingValues() as IEnumerable).Cast<float>();
+                agValue = aGlazingValueList.ElementAt(6);
+                aLtValue = aGlazingValueList.ElementAt(1);
+                aUvalue = aGlazingValueList.ElementAt(7);
+            }
+            else
+            {
+                bool Internal = name.ToUpper().Contains("_INT");
+
+                switch (buildingElementType)
+                {
+                    case BHE.Elements.BuildingElementType.Ceiling:
+                        aUvalue = aUValues.ElementAt(4);
+                        break;
+                    case BHE.Elements.BuildingElementType.Door:
+                    case BHE.Elements.BuildingElementType.Wall:
+                    case BHE.Elements.BuildingElementType.Window:
+                        if (Internal == true)
+                            aUvalue = aUValues.ElementAt(3);
+                        else
+                            aUvalue = aUValues.ElementAt(0);
+                        break;
+                    case BHE.Elements.BuildingElementType.Floor:
+                        if (Internal == true)
+                            aUvalue = aUValues.ElementAt(5);
+                        else
+                            aUvalue = aUValues.ElementAt(2);
+                        break;
+                    case BHE.Elements.BuildingElementType.Roof:
+                        aUvalue = aUValues.ElementAt(1);
+                        break;
+                    case BHE.Elements.BuildingElementType.Undefined:
+                        break;
+                }
+            }
+
+            // we pulling BEProperties
+            BuildingElementProperties bhomBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
+            {
+                UValue = aUvalue,
+                LtValue = aLtValue,
+                gValue = agValue,
                 ThermalConductivity = tasConstruction.conductance,
-                //TODO: gValue = ?
-                //TODO: UValue = ?
-            };
+                BuildingElementType = buildingElementType,
+
+           };
 
             //Assign Construction Layer to the object
             List<BHE.Elements.ConstructionLayer> bHoMConstructionLayer = new List<BHE.Elements.ConstructionLayer>();
@@ -127,6 +240,19 @@ namespace BH.Engine.TAS
                 bhomBuildingElementProperties.ConstructionLayers.Add(ToBHoM(tasConstruction, tasConstruction.materials(constructionLayerIndex)));
                 constructionLayerIndex++;
             }
+
+            double aThickness_Analytical = 0;
+            int aindex = 0;
+            material amaterial = tasConstruction.materials(aindex);
+            while (amaterial != null)
+            {
+                aThickness_Analytical += tasConstruction.materialWidth[aindex];
+                aindex++;
+                amaterial = tasConstruction.materials(aindex);
+
+            }
+
+            bhomBuildingElementProperties.CustomData.Add("Thickness Analytical", aThickness_Analytical);
 
             return bhomBuildingElementProperties;
         }
