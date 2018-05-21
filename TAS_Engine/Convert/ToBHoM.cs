@@ -20,25 +20,16 @@ namespace BH.Engine.TAS
 
         public static BHE.Elements.Building ToBHoM(this TBD.Building tasBuilding)
         {
-            //List<BHE.Elements.ConstructionLayer> bHoMConstructionLayer = new List<BHE.Elements.ConstructionLayer>();
 
-            //int constructionLayerIndex = 1; //Cannot be 0 in TAS
-            //while (tasConstruction.materials(constructionLayerIndex) != null)
-            //{
-            //    bhomBuildingElementProperties.ConstructionLayers.Add(ToBHoM(tasConstruction, tasConstruction.materials(constructionLayerIndex)));
-            //    constructionLayerIndex++;
-            //}
-
-
-
-            // get BuildingElements from TBD in TAS TBD index start from 0 
+            // by MD 2018-05-21 get BuildingElementsProperties  - in BHoM Building element it contrail geomety and building element property
+            // in TAS BuildingElement is just an object with BuildingElement propoerties so please avoid confusion
             List<BHE.Properties.BuildingElementProperties> BuildingElementPropertiesList = new List<BHE.Properties.BuildingElementProperties>();
 
             int buildingElementIndex = 0;
             TBD.buildingElement aBuildingElement = tasBuilding.GetBuildingElement(buildingElementIndex);
             while (aBuildingElement != null)
             {
-                //bhomBuildingElement.Add();
+
                 BHE.Properties.BuildingElementProperties aBHoMBuildingElementProperties;
                 aBHoMBuildingElementProperties = ToBHoM(aBuildingElement);
                 BuildingElementPropertiesList.Add(aBHoMBuildingElementProperties);
@@ -63,6 +54,7 @@ namespace BH.Engine.TAS
 
             }
 
+            // here we outputing Building data 
             BHE.Elements.Building bHoMBuilding = new BHE.Elements.Building
             {
                 Latitude = tasBuilding.latitude,
@@ -70,7 +62,6 @@ namespace BH.Engine.TAS
                 Elevation = tasBuilding.maxBuildingAltitude,
                 BuildingElementProperties = BuildingElementPropertiesList,
                 Spaces = SpaceList,
-
 
 
                 //TODO: location, equipment, spaces, storeys, profiles, IC, EquipmentProperties
@@ -130,7 +121,7 @@ namespace BH.Engine.TAS
         }
 
         /***************************************************/
-        // IN TAS Building Element is type with property and does not have geometry. 
+        //  by MD 2018-05-21 IN TAS Building Element is type with property and does not have geometry. 
         // IN BHoM Building element  is instance including geometry and property
         // BuildingProperty is Type with all data for this type
 
@@ -172,7 +163,7 @@ namespace BH.Engine.TAS
 
         public static BuildingElementProperties ToBHoM(this TBD.Construction tasConstruction, string name, BHE.Elements.BuildingElementType buildingElementType) //double thickness = 0, bool Internal = true, BHE.Elements.BuildingElementType buildingElementType = BHE.Elements.BuildingElementType.Wall)
         {
-            // by MD - there 6 values in TBDTas for Uvalue, we have BuildingElement BE that have construction and then material layers
+            //  by MD 2018-05-21 - there 6 values in TBDTas for Uvalue, we have BuildingElement BE that have construction and then material layers
             // form BE we can get geometrical thickness that is used for Volume calculations, in tas there are 6 Uvalues:
             //0.Uexternalhorizontal 1.Uexternalupwards  2.Uexternaldownwards
             //3.Uinternalhorizontal 4.Uinternaupwards  5.Uinternadownwards
@@ -181,16 +172,23 @@ namespace BH.Engine.TAS
             double aUvalue = 0;
             double agValue = 0;
             double aLtValue = 0;
+
+            // here we checking if Building Element is transparent to get correct Uvalue and properties, there is different source for Uvalue
             if (tasConstruction.type == ConstructionTypes.tcdTransparentConstruction)
             {
-                // gValue 6 position
+                //tas exposes tranparent building element all value as list  
+                //1. LtValuegValue,  7. Uvalue,  6. gValue
                 IEnumerable<float> aGlazingValueList = (tasConstruction.GetGlazingValues() as IEnumerable).Cast<float>();
                 agValue = aGlazingValueList.ElementAt(6);
                 aLtValue = aGlazingValueList.ElementAt(1);
                 aUvalue = aGlazingValueList.ElementAt(7);
             }
             else
-            {
+            {   //  by MD 2018-05-21 here we selecting Opaque surfaces
+                // currently we need to recognized if is innternal or not - BE by name in this case SAM model are following specific naming,
+                // _EXT or _INT in code below we filter Internal element to be able to get correct Uvalue
+                // in TAS all six value are presented becuase are not used for calculation just for display
+                // here we try to 
                 bool Internal = name.ToUpper().Contains("_INT");
 
                 switch (buildingElementType)
