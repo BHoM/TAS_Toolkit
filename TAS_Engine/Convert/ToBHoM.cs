@@ -310,6 +310,8 @@ namespace BH.Engine.TAS
                         Description = tasMaterial.description,
                         Thickness = tasMaterial.width,
                         Conductivity = tasMaterial.conductivity,
+                        SpecificHeat = tasMaterial.specificHeat,
+                        Density = tasMaterial.density,
                         VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
                         SolarReflectanceExternal = tasMaterial.externalSolarReflectance,
                         SolarReflectanceInternal = tasMaterial.internalSolarReflectance,
@@ -331,6 +333,7 @@ namespace BH.Engine.TAS
                         SolarTransmittance = tasMaterial.solarTransmittance,
                         SolarReflectanceExternal = tasMaterial.externalSolarReflectance,
                         SolarReflectanceInternal = tasMaterial.internalSolarReflectance,
+                        LightTransmittance = tasMaterial.lightTransmittance,
                         LightReflectanceExternal = tasMaterial.externalLightReflectance,
                         LightReflectanceInternal = tasMaterial.internalLightReflectance,
                         EmissivityExternal = tasMaterial.externalEmissivity,
@@ -343,6 +346,7 @@ namespace BH.Engine.TAS
                     BHE.Elements.GasMaterial bhomGasMaterial = new BHE.Elements.GasMaterial
                     {
                     Name = tasMaterial.name,
+                    Description = tasMaterial.description,
                     Thickness = tasMaterial.width,
                     ConvectionCoefficient = tasMaterial.convectionCoefficient,
                     VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor
