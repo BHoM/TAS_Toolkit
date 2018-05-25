@@ -49,14 +49,14 @@ namespace BH.Adapter.TAS
 
         private List<Space> ReadSpaces(List<string> ids = null)
         {
-            TBD.Building building = m_TBDDocumentInstance.Building;
+            TBD.Building building = m_TBDDocument.Building;
 
             List<Space> bHoMSpace = new List<Space>();
 
             int zoneIndex = 0;
             while (building.GetZone(zoneIndex) != null)
             {
-                TBD.zone zone = m_TBDDocumentInstance.Building.GetZone(zoneIndex);
+                TBD.zone zone = m_TBDDocument.Building.GetZone(zoneIndex);
                 bHoMSpace.Add(Engine.TAS.Convert.ToBHoM(zone));
                 zoneIndex++;
             }                
@@ -68,7 +68,7 @@ namespace BH.Adapter.TAS
 
         private List<Building> ReadBuilding(List<string> ids = null)
         {
-            TBD.Building building = m_TBDDocumentInstance.Building;
+            TBD.Building building = m_TBDDocument.Building;
             List<Building> bHoMBuilding = new List<Building>();
             bHoMBuilding.Add(Engine.TAS.Convert.ToBHoM(building));
   
@@ -83,12 +83,12 @@ namespace BH.Adapter.TAS
             List<BuildingElementPanel> bHoMPanels = new List<BuildingElementPanel>();
 
             int zoneIndex = 0;
-            while (m_TBDDocumentInstance.Building.GetZone(zoneIndex) != null)
+            while (m_TBDDocument.Building.GetZone(zoneIndex) != null)
             {
                 int panelIndex = 0;
-                while (m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex) != null)
+                while (m_TBDDocument.Building.GetZone(zoneIndex).GetSurface(panelIndex) != null)
                 {
-                    TBD.zoneSurface zonesurface = m_TBDDocumentInstance.Building.GetZone(zoneIndex).GetSurface(panelIndex);
+                    TBD.zoneSurface zonesurface = m_TBDDocument.Building.GetZone(zoneIndex).GetSurface(panelIndex);
 
                     int roomSurfaceIndex = 0;
                     while (zonesurface.GetRoomSurface(roomSurfaceIndex) != null)
@@ -112,7 +112,7 @@ namespace BH.Adapter.TAS
 
         public List<BuildingElement> ReadBuildingElements(List<string> ids = null)
         {
-            TBD.Building building = m_TBDDocumentInstance.Building;
+            TBD.Building building = m_TBDDocument.Building;
 
             List<BuildingElement> BHoMBuildingElements = new List<BuildingElement>();
 
@@ -159,16 +159,16 @@ namespace BH.Adapter.TAS
 
         public List<BuildingElementProperties> ReadBuildingElementsProperties(List<string> ids = null)
         {
-            TBD.Building building = m_TBDDocumentInstance.Building;
+            TBD.Building building = m_TBDDocument.Building;
 
             List<BuildingElementProperties> bHoMBuildingElementProperties = new List<BuildingElementProperties>();
 
             int buildingElementIndex = 0;
             while (building.GetConstruction(buildingElementIndex) != null)
             {
-                TBD.buildingElement buildingElement = m_TBDDocumentInstance.Building.GetBuildingElement(buildingElementIndex);
+                TBD.buildingElement buildingElement = m_TBDDocument.Building.GetBuildingElement(buildingElementIndex);
                 BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)buildingElement.BEType);
-                TBD.Construction construction = m_TBDDocumentInstance.Building.GetConstruction(buildingElementIndex);
+                TBD.Construction construction = m_TBDDocument.Building.GetConstruction(buildingElementIndex);
                 bHoMBuildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction, buildingElement.name, aBuildingElementType));
                 buildingElementIndex++;
 
@@ -181,7 +181,7 @@ namespace BH.Adapter.TAS
 
         public List<ConstructionLayer> ReadConstructionLayer(List<string> ids = null)
         {
-            TBD.Building building = m_TBDDocumentInstance.Building;
+            TBD.Building building = m_TBDDocument.Building;
 
             List<BuildingElementProperties> bHoMBuildingElementProperties = new List<BuildingElementProperties>();
             List<ConstructionLayer> bHoMConstructionLayer = new List<ConstructionLayer>();
@@ -190,12 +190,12 @@ namespace BH.Adapter.TAS
             while (building.GetConstruction(buildingElementIndex) != null)
             {
 
-                TBD.Construction construction = m_TBDDocumentInstance.Building.GetConstruction(buildingElementIndex);
+                TBD.Construction construction = m_TBDDocument.Building.GetConstruction(buildingElementIndex);
 
                 int MaterialIndex = 1; // TAS doesn't have any material at index 0
                 while (construction.materials(MaterialIndex) != null)
                 {
-                    TBD.material tasMaterial = m_TBDDocumentInstance.Building.GetConstruction(buildingElementIndex).materials(MaterialIndex);
+                    TBD.material tasMaterial = m_TBDDocument.Building.GetConstruction(buildingElementIndex).materials(MaterialIndex);
                     bHoMConstructionLayer.Add(Engine.TAS.Convert.ToBHoM(construction, tasMaterial));
                     MaterialIndex++;
                 }
@@ -222,7 +222,7 @@ namespace BH.Adapter.TAS
 
         private List<BHE.Interface.IMaterial> ReadMaterials(List<string> ids = null)
         {
-            TBD.Building building = m_TBDDocumentInstance.Building;
+            TBD.Building building = m_TBDDocument.Building;
            
             List<BHE.Interface.IMaterial> bHoMMaterial = new List<BHE.Interface.IMaterial>();
 
