@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environmental;
-using BHS = BH.oM.Structural;
 using BHG = BH.oM.Geometry;
 using TBD;
+using TAS3D;
 using BHEE = BH.Engine.Environment;
 using BH.oM.Environmental.Properties;
 using BH.oM.Environmental.Elements;
@@ -71,22 +72,23 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone)
+        public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone, out double minElevation)
         {
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
 
             //Space Data
             bHoMSpace.Name = tasZone.name;
             int internalConditionIndex = 0;
-            while(tasZone.GetIC(internalConditionIndex) != null)
+            while (tasZone.GetIC(internalConditionIndex) != null)
             {
                 bHoMSpace.InternalConditions.Add(ToBHoM(tasZone.GetIC(0)));
                 internalConditionIndex++;
             }
-           
+
             //Geometry
             int zoneSurfaceIndex = 0;
-            while (tasZone.GetSurface(zoneSurfaceIndex) != null)
+            minElevation = float.MaxValue;
+                while (tasZone.GetSurface(zoneSurfaceIndex) != null)
             {
                 int roomSrfIndex = 0;
                 while (tasZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex) != null)
@@ -97,7 +99,7 @@ namespace BH.Engine.TAS
                         //BHE.Elements.BuildingElement bHoMBuildingElement = ToBHoM(tasZone.GetSurface(zoneSurfaceIndex).buildingElement);
                         BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = ToBHoM(tasZone.GetSurface(zoneSurfaceIndex).buildingElement);
                         BHE.Elements.BuildingElement bHoMBuildingElement = new BuildingElement()
-                       // tasZone.GetSurface(zoneSurfaceIndex).
+                        // tasZone.GetSurface(zoneSurfaceIndex).
 
                         {
 
@@ -106,7 +108,12 @@ namespace BH.Engine.TAS
                             BuildingElementProperties = bHoMBuildingElementProperties
                         };
 
-                        bHoMSpace.BuildingElements.Add(bHoMBuildingElement); 
+                        float aminElevation = BH.Engine.TAS.Query.MinElevation(tasRoomSrf.GetPerimeter());
+
+                        if (aminElevation < minElevation)
+                            minElevation = aminElevation;
+
+                        bHoMSpace.BuildingElements.Add(bHoMBuildingElement);
                     }
                     roomSrfIndex++;
                 }
@@ -117,7 +124,14 @@ namespace BH.Engine.TAS
             System.Drawing.Color spaceRGB = Query.GetRGB(tasZone.colour);
             bHoMSpace.CustomData.Add("Colour", spaceRGB);
 
+       
             return bHoMSpace;
+        }
+
+        public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone)
+        {
+            double aminElevation;
+            return ToBHoM(tasZone, out aminElevation);
         }
 
         /***************************************************/
@@ -270,14 +284,20 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        //public static BHS.Elements.Storey ToBHoM(this TBD.BuildingStorey tasStorey)
-        //{
-        //    throw new NotImplementedException();
-        //}
-              
-        /***************************************************/
-             
-        public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.RoomSurface tasRoomSrf)
+        public static BHA.Elements.Level ToBHoM(this TAS3D.Floor tasFloor)
+        {
+            BHA.Elements.Level aLevel = new BHA.Elements.Level()
+            {
+                Elevation = tasFloor.level,
+                Name = tasFloor.name,
+                                
+             };
+            return aLevel;
+        }
+
+    /***************************************************/
+
+    public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.RoomSurface tasRoomSrf)
         {
             BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
 
