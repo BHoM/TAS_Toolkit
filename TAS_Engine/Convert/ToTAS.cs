@@ -66,7 +66,7 @@ namespace BH.Engine.TAS
 
         public static TBD.zone ToTas(this Space bHoMSpace, zone tasZone)
         {
-            tasZone.name = bHoMSpace.Name;
+            tasZone.name = bHoMSpace.Number + " " + bHoMSpace.Name;
             tasZone.floorArea = Query.GetFloorArea(bHoMSpace);
             tasZone.GUID = bHoMSpace.BHoM_Guid.ToString();
             tasZone.volume = Query.GetVolume(bHoMSpace);
@@ -87,6 +87,7 @@ namespace BH.Engine.TAS
         public static TBD.buildingElement ToTas(this BHE.Elements.BuildingElement bHoMBuildingElement, TBD.buildingElement tasBuildingElement)
         {
             tasBuildingElement.name = bHoMBuildingElement.Name;
+
             return tasBuildingElement;
         }
 
