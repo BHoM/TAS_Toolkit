@@ -84,11 +84,16 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.buildingElement ToTas(this BHE.Elements.BuildingElement bHoMBuildingElement, TBD.buildingElement tasBuildingElement)
+        public static TBD.buildingElement ToTas(this BHE.Elements.BuildingElement bHoMBuildingElement, TBD.buildingElement tasBuildingElement, TBD.Building building)
         {
+    
             tasBuildingElement.name = bHoMBuildingElement.Name;
-
+            //TAS.Adapter
+            tasBuildingElement.BEType = BH.Engine.TAS.Convert.ToTBDBEType(bHoMBuildingElement);
+            //tasBuildingElement.colour = bHoMBuildingElement
+            tasBuildingElement.AssignConstruction(BH.Engine.TAS.Convert.ToTBDBEConstruction(bHoMBuildingElement, building));
             return tasBuildingElement;
+
         }
 
 
@@ -118,6 +123,18 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        //public static TBD.ConstructionClass ToTas(this BuildingElementProperties bHoMBuildingElementProperties)
+        //{
+
+        //    TBD.ConstructionClass tasConstruction = new TBD.ConstructionClass
+        //    {
+        //        name = bHoMBuildingElementProperties.Name
+        //    };
+
+        //    return tasConstruction;
+        //}
+
+        // if we use TBD template assign construction
         public static TBD.ConstructionClass ToTas(this BuildingElementProperties bHoMBuildingElementProperties)
         {
 
