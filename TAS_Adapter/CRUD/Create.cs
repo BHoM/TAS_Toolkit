@@ -45,8 +45,6 @@ namespace BH.Adapter.TAS
         }
 
 
-
-
         /***************************************************/
         /**** Create methods                            ****/
         /***************************************************/
@@ -159,7 +157,7 @@ namespace BH.Adapter.TAS
                 tasPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tasPolygon);
 
                 //Set the building Element
-                tasZoneSrf.buildingElement = Engine.TAS.Convert.ToTas(element, be);
+                tasZoneSrf.buildingElement = Engine.TAS.Convert.ToTas(element, be, m_TBDDocument.Building);
 
                 //tasZoneSrf.type = BH.Engine.TAS.Query.GetSurfaceType(element, spaces);
                 tasZoneSrf.orientation = (float)BH.Engine.Environment.Query.Azimuth(element.BuildingElementGeometry, new BHG.Vector());
@@ -185,7 +183,8 @@ namespace BH.Adapter.TAS
                 //Add zoneSrf and convert it
                 TBD.zoneSurface tasZoneSrf = tasZone.AddSurface();
                 tasZoneSrf = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry, tasZoneSrf);
-                //tasZoneSrf.
+                //MD assign type to be fixed!
+                tasZoneSrf.type = BH.Engine.TAS.Query.SurfaceType(element); 
 
                 //Add roomSrf, create face, get its controlpoints and convert to TAS
                 TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
@@ -197,7 +196,7 @@ namespace BH.Adapter.TAS
                 {
                     be = m_TBDDocument.Building.AddBuildingElement();
                     //Set the building Element
-                     Engine.TAS.Convert.ToTas(element, be);
+                     Engine.TAS.Convert.ToTas(element, be, m_TBDDocument.Building);
                 }
                 tasZoneSrf.buildingElement = be;
 
