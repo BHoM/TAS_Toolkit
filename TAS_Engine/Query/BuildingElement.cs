@@ -17,17 +17,13 @@ namespace BH.Engine.TAS
 
         public static TBD.buildingElement BuildingElement(TBD.Building building, string name)
         {
-
-
             int index = 0;
-            TBD.buildingElement BuildingElement = building.GetBuildingElement(index);
-            while (BuildingElement != null)
+            TBD.buildingElement buildingElement = null;
+            while ((buildingElement = building.GetBuildingElement(index)) != null)
             {
-                if (BuildingElement.name == name)
-                    return BuildingElement;
+                if (buildingElement.name == name)
+                    return buildingElement;
                 index++;
-                BuildingElement = building.GetBuildingElement(index);
-
             }
 
             return null;

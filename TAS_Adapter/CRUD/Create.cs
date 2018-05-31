@@ -22,10 +22,6 @@ namespace BH.Adapter.TAS
             if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
             {
                 success = CreateCollection(objects as dynamic);
-                //foreach (T obj in objects)
-                //{
-                //    success &= Create(obj as dynamic);
-                //}
             }
 
             return success;

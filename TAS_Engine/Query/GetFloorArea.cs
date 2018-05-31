@@ -18,7 +18,7 @@ namespace BH.Engine.TAS
 
         public static float GetFloorArea(this BHEE.Space bHoMSpace)
         {
-            float floorArea;
+            float floorArea = 0;
             List<BHEE.BuildingElement> bHoMBuildingElement = bHoMSpace.BuildingElements;
             List<double> areaSum = new List<double>();
             foreach (BHEE.BuildingElement element in bHoMBuildingElement)
