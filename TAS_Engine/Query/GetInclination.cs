@@ -17,8 +17,7 @@ namespace BH.Engine.TAS
 
         public static float GetInclination(BHEI.IBuildingElementGeometry bHoMBuildingElementPanel, BHE.Elements.Space bHoMSpace)
         {
-
-            double inclination;
+            double inclination = 0;
 
             BHE.Elements.BuildingElementPanel panel = bHoMBuildingElementPanel as BHE.Elements.BuildingElementPanel;
             BHG.Polyline pline = new BHG.Polyline {ControlPoints = BH.Engine.Geometry.Query.IControlPoints(panel.PolyCurve) };
@@ -28,7 +27,6 @@ namespace BH.Engine.TAS
 
             BHG.Vector xyNormal = BH.Engine.Geometry.Create.Vector(0, 0, 1);
             inclination = BH.Engine.Geometry.Query.Angle(plane.Normal, xyNormal)* (180 / Math.PI);
-
 
             return (float)inclination;
         }

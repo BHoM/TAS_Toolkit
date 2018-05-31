@@ -22,7 +22,6 @@ namespace BH.Engine.TAS
             List<double> perimeters = new List<double>();
             foreach (BHEE.BuildingElement element in bHoMBuildingElement)
             {
-
                 BHE.Elements.BuildingElementPanel panel = bHoMSpace.BuildingElements[0].BuildingElementGeometry as BHE.Elements.BuildingElementPanel;
                 BHG.Polyline pline = new BHG.Polyline { ControlPoints = BH.Engine.Geometry.Query.IControlPoints(panel.PolyCurve) };
 
