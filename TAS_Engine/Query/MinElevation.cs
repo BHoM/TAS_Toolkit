@@ -17,7 +17,6 @@ namespace BH.Engine.TAS
 
         public static float MinElevation(TBD.Perimeter perimeter)
         {
-
             TBD.Polygon currPolygon = perimeter.GetFace();
             int indexepoints = 0;
             float currenZvaluet = float.MaxValue;
@@ -28,11 +27,9 @@ namespace BH.Engine.TAS
                     currenZvaluet = TasPoint.z;
                 indexepoints++;
                 TasPoint = currPolygon.GetPoint(indexepoints);
-
             }
 
             return currenZvaluet;
-
         }
 
         /***************************************************/

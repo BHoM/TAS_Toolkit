@@ -23,7 +23,7 @@ namespace BH.Engine.TAS
             {
                 object aObject = bHoMBuildingElement.BuildingElementProperties.CustomData["SAM_BuildingElementType"];
                 if (aObject != null)
-                    type = ToTBDSurfaceType(aObject.ToString()); //modifies the string
+                    type = ToTBDSurfaceType(aObject.ToString()); //convert the string
             }
 
             //else if (bHoMBuildingElement != null)
