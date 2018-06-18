@@ -82,6 +82,12 @@ namespace BH.Engine.TAS
             return tasIC;
         }
 
+        public static TBD.InternalCondition ToTas(this string icName, TBD.InternalCondition tasIC)
+        {
+            tasIC.name = icName;
+            return tasIC;
+        }
+
         /***************************************************/
 
         public static TBD.buildingElement ToTas(this BHE.Elements.BuildingElement bHoMBuildingElement, TBD.buildingElement tasBuildingElement, TBD.Building building)

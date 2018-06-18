@@ -137,6 +137,8 @@ namespace BH.Adapter.TAS
             TBD.zone tasZone = m_TBDDocument.Building.AddZone();
             TBD.room tasRoom = tasZone.AddRoom();
             tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
+            TBD.InternalCondition tic = m_TBDDocument.Building.AddIC(null);
+            tasZone.AssignIC(Engine.TAS.Convert.ToTas(Engine.TAS.Convert.ToTBDIC(bHoMSpace), tic), true);
 
 
             foreach (BHE.Elements.BuildingElement element in bHoMSpace.BuildingElements)
@@ -171,7 +173,8 @@ namespace BH.Adapter.TAS
             TBD.zone tasZone = m_TBDDocument.Building.AddZone();
             TBD.room tasRoom = tasZone.AddRoom();
             tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
-
+            TBD.InternalCondition tic = m_TBDDocument.Building.AddIC(null);
+            tasZone.AssignIC(Engine.TAS.Convert.ToTas(Engine.TAS.Convert.ToTBDIC(bHoMSpace), tic), true);
 
             foreach (BHE.Elements.BuildingElement element in Query.BuildingElements(building, bHoMSpace))
             {

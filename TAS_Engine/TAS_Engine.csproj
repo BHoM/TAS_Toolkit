@@ -68,6 +68,7 @@
     <Compile Include="Convert\ToTBDBEConstruction.cs" />
     <Compile Include="Convert\ToTBDBEType.cs" />
     <Compile Include="Convert\ToTAS.cs" />
+    <Compile Include="Convert\ToTBDIC.cs" />
     <Compile Include="Objects\EqualityComparers\Comparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\BuildingElement.cs" />
