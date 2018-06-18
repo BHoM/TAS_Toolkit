@@ -156,7 +156,7 @@ namespace BH.Adapter.TAS
                 tasZoneSrf.buildingElement = Engine.TAS.Convert.ToTas(element, be, m_TBDDocument.Building);
 
                 //tasZoneSrf.type = BH.Engine.TAS.Query.GetSurfaceType(element, spaces);
-                tasZoneSrf.orientation = (float)BH.Engine.Environment.Query.Azimuth(element.BuildingElementGeometry, new BHG.Vector());
+                tasZoneSrf.orientation = (float)BH.Engine.Environment.Query.Azimuth(element.BuildingElementGeometry, new BHG.Vector() { Y = 1 }); //The orientation depends on the norht vector. The default value is (0,1,0). TODO: use the true north vector as input. 
                 //tasZoneSrf.orientation = BH.Engine.TAS.Query.GetOrientation(element.BuildingElementGeometry, bHoMSpace);
                 tasZoneSrf.inclination = (float)BH.Engine.Environment.Query.Tilt(element.BuildingElementGeometry);
                 //tasZoneSrf.inclination = BH.Engine.TAS.Query.GetInclination(element.BuildingElementGeometry, bHoMSpace);
