@@ -77,7 +77,7 @@ namespace BH.Adapter.TAS
             tasBuilding.name = bHoMBuilding.Name;
             bool success = true;
 
-            foreach (BH.oM.Environmental.Elements.Space  aSpace in bHoMBuilding.Spaces)
+            foreach (BH.oM.Environmental.Elements.Space aSpace in bHoMBuilding.Spaces)
             {
                 success &= Create(aSpace, bHoMBuilding);
             }
@@ -158,7 +158,7 @@ namespace BH.Adapter.TAS
                 tasZoneSrf.buildingElement = Engine.TAS.Convert.ToTas(element, be, m_TBDDocument.Building);
 
                 //tasZoneSrf.type = BH.Engine.TAS.Query.GetSurfaceType(element, spaces);
-                tasZoneSrf.orientation = (float)BH.Engine.Environment.Query.Azimuth(element.BuildingElementGeometry, new BHG.Vector());
+                tasZoneSrf.orientation = (float)BH.Engine.Environment.Query.Azimuth(element.BuildingElementGeometry, new BHG.Vector() { Y = 1 });
                 //tasZoneSrf.orientation = BH.Engine.TAS.Query.GetOrientation(element.BuildingElementGeometry, bHoMSpace);
                 tasZoneSrf.inclination = (float)BH.Engine.Environment.Query.Tilt(element.BuildingElementGeometry);
                 //tasZoneSrf.inclination = BH.Engine.TAS.Query.GetInclination(element.BuildingElementGeometry, bHoMSpace);
@@ -169,7 +169,6 @@ namespace BH.Adapter.TAS
 
         private bool Create(BHE.Elements.Space bHoMSpace, BHE.Elements.Building building)
         {
-            
             TBD.zone tasZone = m_TBDDocument.Building.AddZone();
             TBD.room tasRoom = tasZone.AddRoom();
             tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
@@ -183,7 +182,26 @@ namespace BH.Adapter.TAS
                 TBD.zoneSurface tasZoneSrf = tasZone.AddSurface();
                 tasZoneSrf = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry, tasZoneSrf);
                 //MD assign type to be fixed!
-                tasZoneSrf.type = BH.Engine.TAS.Query.SurfaceType(element); 
+                tasZoneSrf.type = BH.Engine.TAS.Query.SurfaceType(element);
+
+                //if tbdLink: get the second ajdacent space in for the building element. 
+                if (tasZoneSrf.type == TBD.SurfaceType.tbdLink)
+                {
+                    List<BHE.Elements.Space> adjSpaces = BH.Engine.TAS.Query.GetAdjacentSpace(element, building.Spaces);
+                    BHE.Elements.Space adjSpace = adjSpaces.Find(x => x.BHoM_Guid != bHoMSpace.BHoM_Guid);
+                    BHE.Elements.BuildingElement linkedBe = adjSpace.BuildingElements.Find(x => x.BHoM_Guid == element.BHoM_Guid);
+
+                    TBD.zoneSurface aZoneSurface = Engine.TAS.Convert.ToTas(linkedBe.BuildingElementGeometry, tasZoneSrf);
+                    //string aName = System.IO.File.ReadAllText(@"C:\Users\smalmste\Desktop\TEST.txt");
+                    //if (aName == aZoneSurface.zone.name)
+                    //    continue;
+                    tasZoneSrf.linkSurface = aZoneSurface;
+                    string type = tasZoneSrf.linkSurface.type.ToString();
+
+                    tasZoneSrf.linkSurface.zone = Engine.TAS.Convert.ToTas(adjSpace, tasZone);
+
+                    //string name = tasZoneSrf.linkSurface.zone.name;
+                }
 
                 //Add roomSrf, create face, get its controlpoints and convert to TAS
                 TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
@@ -195,12 +213,12 @@ namespace BH.Adapter.TAS
                 {
                     be = m_TBDDocument.Building.AddBuildingElement();
                     //Set the building Element
-                     Engine.TAS.Convert.ToTas(element, be, m_TBDDocument.Building);
+                    Engine.TAS.Convert.ToTas(element, be, m_TBDDocument.Building);
                 }
                 tasZoneSrf.buildingElement = be;
 
                 //tasZoneSrf.type = BH.Engine.TAS.Query.GetSurfaceType(element, spaces);
-                tasZoneSrf.orientation = (float)BH.Engine.Environment.Query.Azimuth(element.BuildingElementGeometry, new BHG.Vector());
+                tasZoneSrf.orientation = (float)BH.Engine.Environment.Query.Azimuth(element.BuildingElementGeometry, new BHG.Vector() { Y = 1 });
                 //tasZoneSrf.orientation = BH.Engine.TAS.Query.GetOrientation(element.BuildingElementGeometry, bHoMSpace);
                 tasZoneSrf.inclination = (float)BH.Engine.Environment.Query.Tilt(element.BuildingElementGeometry);
                 //tasZoneSrf.inclination = BH.Engine.TAS.Query.GetInclination(element.BuildingElementGeometry, bHoMSpace);
