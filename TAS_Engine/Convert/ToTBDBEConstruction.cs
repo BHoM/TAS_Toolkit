@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using BHG = BH.oM.Geometry;
-using BHE = BH.oM.Environmental;
-using BHEE = BH.oM.Environmental.Elements;
+using BHE = BH.oM.Environment;
+using BHEE = BH.oM.Environment.Elements;
 using BH.Engine.Geometry;
 using TBD;
 

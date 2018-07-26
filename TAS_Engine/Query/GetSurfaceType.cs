@@ -4,9 +4,9 @@
 //using System.Text;
 //using System.Threading.Tasks;
 //using BHG = BH.oM.Geometry;
-//using BHE = BH.oM.Environmental;
-//using BHEE = BH.oM.Environmental.Elements;
-//using BHEI = BH.oM.Environmental.Interface;
+//using BHE = BH.oM.Environment;
+//using BHEE = BH.oM.Environment.Elements;
+//using BHEI = BH.oM.Environment.Interface;
 //using BH.Engine.Environment;
 
 //namespace BH.Engine.TAS

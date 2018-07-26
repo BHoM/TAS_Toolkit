@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BH.oM.Base;
-using BHE = BH.oM.Environmental;
+using BHE = BH.oM.Environment;
 using BHG = BH.oM.Geometry;
 using System.Runtime.InteropServices;
 using BH.Engine.Environment;

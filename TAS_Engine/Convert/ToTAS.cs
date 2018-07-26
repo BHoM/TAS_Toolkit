@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using BH.oM.Base;
-using BHE = BH.oM.Environmental;
-using BH.oM.Environmental.Elements;
-using BH.oM.Environmental.Properties;
-using BH.oM.Environmental.Interface;
+using BHE = BH.oM.Environment;
+using BH.oM.Environment.Elements;
+using BH.oM.Environment.Properties;
+using BH.oM.Environment.Interface;
 using BHG = BH.oM.Geometry;
 using TBD;
 using BH.Engine.Environment;

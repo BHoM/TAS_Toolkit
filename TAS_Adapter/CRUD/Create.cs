@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BH.oM.Base;
-using BHE = BH.oM.Environmental;
+using BHE = BH.oM.Environment;
 using BHG = BH.oM.Geometry;
 using System.Runtime.InteropServices;
 using BH.Engine.Environment;
@@ -77,7 +77,7 @@ namespace BH.Adapter.TAS
             tasBuilding.name = bHoMBuilding.Name;
             bool success = true;
 
-            foreach (BH.oM.Environmental.Elements.Space  aSpace in bHoMBuilding.Spaces)
+            foreach (BH.oM.Environment.Elements.Space  aSpace in bHoMBuilding.Spaces)
             {
                 success &= Create(aSpace, bHoMBuilding);
             }
