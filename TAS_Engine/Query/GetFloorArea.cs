@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BHG = BH.oM.Geometry;
-using BHEE = BH.oM.Environmental.Elements;
-using BHEI = BH.oM.Environmental.Interface;
+using BHEE = BH.oM.Environment.Elements;
+using BHEI = BH.oM.Environment.Interface;
 using BH.Engine.Environment;
 using BH.Engine.Geometry;
 

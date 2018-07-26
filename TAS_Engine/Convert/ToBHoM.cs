@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using BHA = BH.oM.Architecture;
-using BHE = BH.oM.Environmental;
+using BHE = BH.oM.Environment;
 using BHG = BH.oM.Geometry;
 using TBD;
 using TAS3D;
 using BHEE = BH.Engine.Environment;
-using BH.oM.Environmental.Properties;
-using BH.oM.Environmental.Elements;
+using BH.oM.Environment.Properties;
+using BH.oM.Environment.Elements;
 using System.Collections;
 
 namespace BH.Engine.TAS
