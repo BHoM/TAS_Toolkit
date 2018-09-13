@@ -21,7 +21,6 @@ namespace BH.Engine.TAS
             byte r = (byte)(UInt >> 0);
 
             return System.Drawing.Color.FromArgb(r, b, g);
-
         }
 
         /***************************************************/
