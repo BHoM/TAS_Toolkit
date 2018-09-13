@@ -25,7 +25,7 @@ namespace BH.Engine.TAS
                 BHE.Elements.BuildingElementPanel panel = bHoMSpace.BuildingElements[0].BuildingElementGeometry as BHE.Elements.BuildingElementPanel;
                 BHG.Polyline pline = new BHG.Polyline { ControlPoints = BH.Engine.Geometry.Query.IControlPoints(panel.PolyCurve) };
 
-                if (GetInclination(element.BuildingElementGeometry, bHoMSpace) == 180 || GetInclination(element.BuildingElementGeometry, bHoMSpace) == 0)
+                if (BH.Engine.Environment.Query.Inclination(element.BuildingElementGeometry) == 180 || BH.Engine.Environment.Query.Inclination(element.BuildingElementGeometry) == 0)
                 {
                     perimeters.Add(pline.Length()); //TODO: join perimeters
                 }

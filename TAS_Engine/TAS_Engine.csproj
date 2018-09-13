@@ -73,12 +73,6 @@
     <Compile Include="Query\BuildingElement.cs" />
     <Compile Include="Query\GetSurfaceType.cs" />
     <Compile Include="Query\GetRGB.cs" />
-    <Compile Include="Query\GetOrientation.cs" />
-    <Compile Include="Query\GetFloorArea.cs" />
-    <Compile Include="Query\GetInclination.cs" />
-    <Compile Include="Query\GetVolume.cs" />
-    <Compile Include="Query\GetAltitude.cs" />
-    <Compile Include="Query\GetAltitudeRange.cs" />
     <Compile Include="Query\MinElevation.cs" />
     <Compile Include="Query\PlanPerimeter.cs" />
     <Compile Include="Query\SurfaceType.cs" />
