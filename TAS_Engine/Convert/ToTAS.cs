@@ -45,7 +45,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.zoneSurface ToTas(this IBuildingElementGeometry bHoMPanel, zoneSurface tasZoneSrf)
+        public static TBD.zoneSurface ToTas(this IBuildingObject bHoMPanel, zoneSurface tasZoneSrf)
         {
 
             //tasZoneSrf.orientation = Query.GetOrientation(bHoMPanel);
@@ -191,7 +191,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.SurfaceType ToTas(this BHE.Elements.BuildingElementPanel bHoMSurface)
+        public static TBD.SurfaceType ToTas(this BHE.Elements.Panel bHoMSurface)
         {
             //Should we implement an enum for surface types in BHoM?? 
 

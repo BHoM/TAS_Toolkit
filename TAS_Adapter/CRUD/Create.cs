@@ -107,14 +107,14 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private bool Create(BHE.Elements.BuildingElementPanel bHoMBuildingElementPanel)
+        private bool Create(BHE.Elements.Panel bHoMBuildingElementPanel)
         {
             throw new NotImplementedException();
         }
 
         /***************************************************/
 
-        private bool Create(BHE.Elements.BuildingElementOpening bHoMBuildingElementOpening)
+        private bool Create(BHE.Elements.Opening bHoMBuildingElementOpening)
         {
             throw new NotImplementedException();
         }
