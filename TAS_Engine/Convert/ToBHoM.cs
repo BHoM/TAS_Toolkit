@@ -218,11 +218,14 @@ namespace BH.Engine.TAS
             BuildingElementProperties bhomBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
             {
                 UValue = aUvalue,
+                BuildingElementType = buildingElementType,
+           };
+            GlazingMaterialProperties bhomGlazingMaterialProperties = new BHE.Properties.GlazingMaterialProperties()
+            {
                 LtValue = aLtValue,
                 gValue = agValue,
                 ThermalConductivity = tasConstruction.conductance,
-                BuildingElementType = buildingElementType,
-           };
+            };
 
             //Assign Construction Layer to the object
             List<BHE.Elements.ConstructionLayer> bHoMConstructionLayer = new List<BHE.Elements.ConstructionLayer>();
@@ -275,9 +278,9 @@ namespace BH.Engine.TAS
 
     /***************************************************/
 
-    public static BHE.Elements.BuildingElementPanel ToBHoM(this TBD.RoomSurface tasRoomSrf)
+    public static BHE.Elements.Panel ToBHoM(this TBD.RoomSurface tasRoomSrf)
         {
-            BHE.Elements.BuildingElementPanel bHoMPanel = new BHE.Elements.BuildingElementPanel();
+            BHE.Elements.Panel bHoMPanel = new BHE.Elements.Panel();
 
             TBD.Perimeter currPerimeter = tasRoomSrf.GetPerimeter();   
             TBD.Polygon currPolygon = currPerimeter.GetFace();
@@ -285,7 +288,7 @@ namespace BH.Engine.TAS
             BHG.Polyline edges = ToBHoM(currPolygon);
             BHG.PolyCurve crv_edges = Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges });
 
-            bHoMPanel.PolyCurve = crv_edges;
+            bHoMPanel.PanelCurve = crv_edges;
             bHoMPanel.ElementType = ((TBD.BuildingElementType)tasRoomSrf.zoneSurface.buildingElement.BEType).ToString();
 
             return bHoMPanel;
@@ -302,7 +305,7 @@ namespace BH.Engine.TAS
             {
                 case MaterialType.Opaque:
 
-                    BHE.Elements.OpaqueMaterial bhomOpaqeMaterial = new BHE.Elements.OpaqueMaterial
+                    BHE.Materials.OpaqueMaterials bhomOpaqeMaterial = new BHE.Materials.OpaqueMaterials
                     {
                         Name = tasMaterial.name,
                         Description = tasMaterial.description,
@@ -321,11 +324,11 @@ namespace BH.Engine.TAS
                     return bhomOpaqeMaterial;
 
                 case MaterialType.Transparent:
-                    BHE.Elements.TransparentMaterial bhomTransparentMaterial = new BHE.Elements.TransparentMaterial
+                    BHE.Materials.TransparentMaterial bhomTransparentMaterial = new BHE.Materials.TransparentMaterial
                     {
                         Name = tasMaterial.name,
                         Description = tasMaterial.description,
-                        Thickness = tasMaterial.width,
+                        Thickness = tasMaterial.width, //Elements, ConstructionLayer?
                         Conductivity = tasMaterial.conductivity,
                         VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
                         SolarTransmittance = tasMaterial.solarTransmittance,
@@ -341,7 +344,7 @@ namespace BH.Engine.TAS
                     return bhomTransparentMaterial;
 
                 case MaterialType.Gas:
-                    BHE.Elements.GasMaterial bhomGasMaterial = new BHE.Elements.GasMaterial
+                    BHE.Materials.GasMaterial bhomGasMaterial = new BHE.Materials.GasMaterial
                     {
                     Name = tasMaterial.name,
                     Description = tasMaterial.description,
