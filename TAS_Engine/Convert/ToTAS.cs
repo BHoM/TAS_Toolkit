@@ -191,7 +191,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.SurfaceType ToTas(this BHE.Elements.Panel bHoMSurface)
+        public static TBD.SurfaceType ToTas(this BHE.Elements.BuildingElementPanel bHoMSurface)
         {
             //Should we implement an enum for surface types in BHoM?? 
 
