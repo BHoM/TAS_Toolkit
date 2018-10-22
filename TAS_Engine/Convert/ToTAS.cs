@@ -191,10 +191,12 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.SurfaceType ToTas(this BHE.Elements.BuildingElementPanel bHoMSurface)
+        public static TBD.SurfaceType ToTas(this BHE.Elements.BuildingElement bHoMSurface)
         {
-            //Should we implement an enum for surface types in BHoM?? 
+            //TODO: Fix the Object Model and link the right kind of Elementtypes 
 
+            //Should we implement an enum for surface types in BHoM?? 
+            /*
             if (bHoMSurface.ElementType == "Ground")
                 return SurfaceType.tbdGround;
             else if (bHoMSurface.ElementType == "Exposed")
@@ -207,13 +209,15 @@ namespace BH.Engine.TAS
                 return SurfaceType.tbdGround;
             else
                 return SurfaceType.tbdNullLink; //Adiabatic
+            */
+            return SurfaceType.tbdNullLink;
 
         }
 
 
         /***************************************************/
 
-        public static TBD.SurfaceType ToTas(this BHE.Elements.BuildingElementCurve bHoMSurface)
+        public static TBD.SurfaceType ToTas(this BHE.Elements.Panel bHoMSurface)
         {
             return SurfaceType.tbdNullLink;
         }

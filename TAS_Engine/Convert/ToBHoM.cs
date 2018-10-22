@@ -51,13 +51,13 @@ namespace BH.Engine.TAS
                 Latitude = tasBuilding.latitude,
                 Longitude = tasBuilding.longitude,
                 Elevation = tasBuilding.maxBuildingAltitude,
-                BuildingElementProperties = buildingElementPropertiesList,
-                Spaces = spaceList,
+                //BuildingElementProperties = buildingElementPropertiesList,
+                //Spaces = spaceList,
 
 
                 //TODO: location, equipment, spaces, storeys, profiles, IC, EquipmentProperties
             };
-            return bHoMBuilding;
+          return bHoMBuilding;
         }
 
         /***************************************************/
@@ -68,12 +68,12 @@ namespace BH.Engine.TAS
 
             //Space Data
             bHoMSpace.Name = tasZone.name;
-            int internalConditionIndex = 0;
+            /*int internalConditionIndex = 0;
             while (tasZone.GetIC(internalConditionIndex) != null)
-            {
-                bHoMSpace.InternalConditions.Add(ToBHoM(tasZone.GetIC(0)));
-                internalConditionIndex++;
-            }
+                {
+                    bHoMSpace.InternalConditions.Add(ToBHoM(tasZone.GetIC(0)));
+                    internalConditionIndex++;
+                }*/
 
             //Geometry
             int zoneSurfaceIndex = 0;
@@ -91,12 +91,12 @@ namespace BH.Engine.TAS
                         BHE.Elements.BuildingElement bHoMBuildingElement = new BuildingElement()
                         {
                             Name = bHoMBuildingElementProperties.Name,
-                            BuildingElementGeometry = tasRoomSrf.ToBHoM(),
+                            //BuildingElementGeometry = tasRoomSrf.ToBHoM(),
                             BuildingElementProperties = bHoMBuildingElementProperties
                         };
 
                         minElevation = Math.Min(minElevation, BH.Engine.TAS.Query.MinElevation(tasRoomSrf.GetPerimeter()));
-                        bHoMSpace.BuildingElements.Add(bHoMBuildingElement);
+                        //bHoMSpace.BuildingElements.Add(bHoMBuildingElement);
                     }
                     roomSrfIndex++;
                 }
@@ -140,7 +140,7 @@ namespace BH.Engine.TAS
 
             bHoMBuildingElementProperties.BuildingElementType = aBuildingElementType;
             bHoMBuildingElementProperties.Name = aName;
-            bHoMBuildingElementProperties.Thickness = tasBuildingElement.width;
+            //bHoMBuildingElementProperties.Thickness = tasBuildingElement.width;
 
             //BuildingElement Custom Data
             System.Drawing.Color buildingElementRGB = Query.GetRGB(tasBuildingElement.colour);
@@ -217,7 +217,7 @@ namespace BH.Engine.TAS
             // we pulling BEProperties
             BuildingElementProperties bhomBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
             {
-                UValue = aUvalue,
+                //UValue = aUvalue,
                 BuildingElementType = buildingElementType,
            };
             GlazingMaterialProperties bhomGlazingMaterialProperties = new BHE.Properties.GlazingMaterialProperties()
@@ -289,7 +289,7 @@ namespace BH.Engine.TAS
             BHG.PolyCurve crv_edges = Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges });
 
             bHoMPanel.PanelCurve = crv_edges;
-            bHoMPanel.ElementType = ((TBD.BuildingElementType)tasRoomSrf.zoneSurface.buildingElement.BEType).ToString();
+            //bHoMPanel.ElementType = ((TBD.BuildingElementType)tasRoomSrf.zoneSurface.buildingElement.BEType).ToString();
 
             return bHoMPanel;
 
@@ -305,11 +305,11 @@ namespace BH.Engine.TAS
             {
                 case MaterialType.Opaque:
 
-                    BHE.Materials.OpaqueMaterials bhomOpaqeMaterial = new BHE.Materials.OpaqueMaterials
+                    BHE.Materials.OpaqueMaterial bhomOpaqeMaterial = new BHE.Materials.OpaqueMaterial
                     {
                         Name = tasMaterial.name,
                         Description = tasMaterial.description,
-                        Thickness = tasMaterial.width,
+                        //Thickness = tasMaterial.width,
                         Conductivity = tasMaterial.conductivity,
                         SpecificHeat = tasMaterial.specificHeat,
                         Density = tasMaterial.density,
@@ -328,7 +328,7 @@ namespace BH.Engine.TAS
                     {
                         Name = tasMaterial.name,
                         Description = tasMaterial.description,
-                        Thickness = tasMaterial.width, //Elements, ConstructionLayer?
+                        //Thickness = tasMaterial.width, //Elements, ConstructionLayer?
                         Conductivity = tasMaterial.conductivity,
                         VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
                         SolarTransmittance = tasMaterial.solarTransmittance,
@@ -348,7 +348,7 @@ namespace BH.Engine.TAS
                     {
                     Name = tasMaterial.name,
                     Description = tasMaterial.description,
-                    Thickness = tasMaterial.width,
+                    //Thickness = tasMaterial.width,
                     ConvectionCoefficient = tasMaterial.convectionCoefficient,
                     VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor
                     };
