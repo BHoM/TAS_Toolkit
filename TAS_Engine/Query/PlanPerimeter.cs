@@ -22,7 +22,7 @@ namespace BH.Engine.TAS
             List<double> perimeters = new List<double>();
             foreach (BHEE.BuildingElement element in bHoMBuildingElement)
             {
-                BHE.Elements.BuildingElementPanel panel = bHoMSpace.BuildingElements[0].BuildingElementGeometry as BHE.Elements.BuildingElementPanel;
+                BHE.Elements.BuildingElement panel = bHoMSpace.BuildingElements[0].BuildingElementGeometry as BHE.Elements.BuildingElement;
                 BHG.Polyline pline = new BHG.Polyline { ControlPoints = BH.Engine.Geometry.Query.IControlPoints(panel.PolyCurve) };
 
                 if (BH.Engine.Environment.Query.Inclination(element.BuildingElementGeometry) == 180 || BH.Engine.Environment.Query.Inclination(element.BuildingElementGeometry) == 0)
