@@ -61,29 +61,29 @@ namespace BH.Adapter.TAS
         {
             bool success = true;
             foreach (BHE.Elements.Space space in spaces)
-            {
-                success &= Create(space, spaces);
+            { 
+                //success &= Create(space, spaces);
             }
             return success;
         }
 
         /***************************************************/
-
-        private bool Create(BHE.Elements.Building bHoMBuilding)
+        
+        private bool Create(BH.oM.Environment.Elements.Building bHoMBuilding)
         {
             TBD.Building tasBuilding = m_TBDDocument.Building;
             tasBuilding.latitude = (float)bHoMBuilding.Latitude;
             tasBuilding.longitude = (float)bHoMBuilding.Longitude;
             tasBuilding.name = bHoMBuilding.Name;
             bool success = true;
-
+            
             foreach (BH.oM.Environment.Elements.Space  aSpace in bHoMBuilding.Spaces)
             {
                 success &= Create(aSpace, bHoMBuilding);
             }
 
             return success;
-        }
+    }*/
 
         /***************************************************/
 
@@ -100,7 +100,7 @@ namespace BH.Adapter.TAS
         {
             TBD.Construction tasConstruction = m_TBDDocument.Building.AddConstruction(null);
             tasConstruction.name = bHoMBuildingElementProperties.Name;
-            tasConstruction.materialWidth[0] = (float)bHoMBuildingElementProperties.Thickness; //which value in the array shall we use??
+            //tasConstruction.materialWidth[0] = (float)bHoMBuildingElementProperties.Thickness; //which value in the array shall we use??
 
             return true;
         }
@@ -130,15 +130,15 @@ namespace BH.Adapter.TAS
         }
 
         /***************************************************/
-
-        private bool Create(BHE.Elements.Space bHoMSpace, IEnumerable<BHE.Elements.Space> spaces)
+                    
+        /*private bool Create(BHE.Elements.Space bHoMSpace, IEnumerable<BHE.Elements.Space> spaces)
         {
 
             TBD.zone tasZone = m_TBDDocument.Building.AddZone();
             TBD.room tasRoom = tasZone.AddRoom();
             tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
 
-
+            /*
             foreach (BHE.Elements.BuildingElement element in bHoMSpace.BuildingElements)
             {
                 //We have to add a building element to the zonesurface before we save the file. Otherwise we end up with a corrupt file!
@@ -162,8 +162,9 @@ namespace BH.Adapter.TAS
                 //tasZoneSrf.inclination = BH.Engine.TAS.Query.GetInclination(element.BuildingElementGeometry, bHoMSpace);
             }
 
-            return true;
+            return true;*/
         }
+    /*
 
         private bool Create(BHE.Elements.Space bHoMSpace, BHE.Elements.Building building)
         {
@@ -205,8 +206,8 @@ namespace BH.Adapter.TAS
 
             return true;
         }
-
+        */
         /***************************************************/
 
     }
-}
+
