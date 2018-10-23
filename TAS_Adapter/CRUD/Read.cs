@@ -19,7 +19,7 @@ namespace BH.Adapter.TAS
 
         protected override IEnumerable<IBHoMObject> Read(Type type, IList indices = null)
         {
-            if (type == typeof(BuildingElementPanel))
+            if (type == typeof(BuildingElement))
                 return ReadPanels();
             else if (type == typeof(Building))
                 return ReadBuilding();
@@ -31,7 +31,7 @@ namespace BH.Adapter.TAS
                 return ReadBuildingElementsProperties();
             //else if (typeof(IMaterial).IsAssignableFrom(type))
             //    return ReadMaterials();
-            else if (type == typeof(OpaqueMaterial) || type == typeof(TransparentMaterial) || type == typeof(GasMaterial))
+            else if (type == typeof(BH.oM.Environment.Materials.OpaqueMaterial) || type == typeof(BH.oM.Environment.Materials.TransparentMaterial) || type == typeof(BH.oM.Environment.Materials.GasMaterial))
                 return ReadMaterials();
             //else if (type == typeof(BHS.Elements.Storey))
             //    return ReadStorey();
@@ -76,10 +76,10 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private List<BuildingElementPanel> ReadPanels(List<string> ids = null)
+        private List<BuildingElement> ReadPanels(List<string> ids = null)
         {
 
-            List<BuildingElementPanel> bHoMPanels = new List<BuildingElementPanel>();
+            List<BuildingElement> bHoMPanels = new List<BuildingElement>();
 
             int zoneIndex = 0;
             while (m_TBDDocument.Building.GetZone(zoneIndex) != null)
