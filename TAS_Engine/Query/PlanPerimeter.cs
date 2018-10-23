@@ -15,9 +15,11 @@ namespace BH.Engine.TAS
     public static partial class Query
     {
         /***************************************************/
-
+        /*
         public static double PlanPerimeter(BH.oM.Environment.Elements.Space bHoMSpace)
-        {
+        { 
+            //TODO: Fixes needed for the space to have properties.
+
             List<BH.oM.Environment.Elements.BuildingElement> bHoMBuildingElement = bHoMSpace.BuildingElements;
             List<double> perimeters = new List<double>();
             foreach (BHEE.BuildingElement element in bHoMBuildingElement)
@@ -29,10 +31,10 @@ namespace BH.Engine.TAS
                 {
                     perimeters.Add(pline.Length()); //TODO: join perimeters
                 }
-            }
+         
 
-            return perimeters.Sum();
-        }
+            return perimeters.Sum();   
+        }*/
 
         /***************************************************/
     }

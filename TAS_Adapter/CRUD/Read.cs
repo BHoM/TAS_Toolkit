@@ -95,7 +95,7 @@ namespace BH.Adapter.TAS
                         TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(roomSurfaceIndex);
 
                         if (currRoomSrf.GetPerimeter() != null)
-                            bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(currRoomSrf));
+                            //bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(currRoomSrf));
 
                         roomSurfaceIndex++;
                     }
@@ -136,7 +136,7 @@ namespace BH.Adapter.TAS
                             {
 
                                 Name = bHoMBuildingElementProperties.Name,
-                                BuildingElementGeometry = Engine.TAS.Convert.ToBHoM(tasRoomSrf),
+                                //BuildingElementGeometry = Engine.TAS.Convert.ToBHoM(tasRoomSrf),
                                 BuildingElementProperties = bHoMBuildingElementProperties
                             };
 

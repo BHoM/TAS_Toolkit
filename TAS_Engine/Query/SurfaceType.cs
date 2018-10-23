@@ -23,8 +23,8 @@ namespace BH.Engine.TAS
                 if(aValue is string)
                 {
                     string aSurfaceTypeString = (string)aValue;
-
-                    if (buildingElement.AdjacentSpaces.Count == 0)
+                    //TODO: AdjacentSpaces needs to be brought back to BuildingElement for this to work.
+                    //if (buildingElement.AdjacentSpaces.Count == 0)
                     {
                         if (aSurfaceTypeString == "Shade")
                             return TBD.SurfaceType.tbdExposed;
@@ -45,8 +45,8 @@ namespace BH.Engine.TAS
                         //if (aSurfaceTypeString == "Solar / PV Panel")
                         //    return TBD.SurfaceType.;
                     }
-
-                    if (buildingElement.AdjacentSpaces.Count == 1)
+                    //TODO: AdjacentSpaces needs to be brought back to BuildingElement for this to work.
+                    //if (buildingElement.AdjacentSpaces.Count == 1)
                     {
 
                         if (aSurfaceTypeString == "No Type")
@@ -73,8 +73,8 @@ namespace BH.Engine.TAS
                         if (aSurfaceTypeString == "Underground Wall")
                             return TBD.SurfaceType.tbdGround;
                     }
-
-                    if (buildingElement.AdjacentSpaces.Count > 1)
+                    //TODO: AdjacentSpaces needs to be brought back to BuildingElement for this to work.
+                    //if (buildingElement.AdjacentSpaces.Count > 1)
                     {
                         if (aSurfaceTypeString == "No Type")
                             return TBD.SurfaceType.tbdNullLink;
