@@ -15,11 +15,9 @@ namespace BH.Engine.TAS
     public static partial class Query
     {
         /***************************************************/
-        /*
+        /* //TODO: Fixes needed for the space to have properties.
         public static double PlanPerimeter(BH.oM.Environment.Elements.Space bHoMSpace)
-        { 
-            //TODO: Fixes needed for the space to have properties.
-
+        {
             List<BH.oM.Environment.Elements.BuildingElement> bHoMBuildingElement = bHoMSpace.BuildingElements;
             List<double> perimeters = new List<double>();
             foreach (BHEE.BuildingElement element in bHoMBuildingElement)

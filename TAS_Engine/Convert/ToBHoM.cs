@@ -140,6 +140,7 @@ namespace BH.Engine.TAS
 
             bHoMBuildingElementProperties.BuildingElementType = aBuildingElementType;
             bHoMBuildingElementProperties.Name = aName;
+            //BuildingElementProperties do not handle Thickness.
             //bHoMBuildingElementProperties.Thickness = tasBuildingElement.width;
 
             //BuildingElement Custom Data

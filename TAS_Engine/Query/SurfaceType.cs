@@ -23,7 +23,7 @@ namespace BH.Engine.TAS
                 if(aValue is string)
                 {
                     string aSurfaceTypeString = (string)aValue;
-                    //TODO: AdjacentSpaces needs to be brought back to BuildingElement for this to work.
+                    //AdjacentSpaces needs to be brought back to BuildingElement for this to work.TODO: 
                     //if (buildingElement.AdjacentSpaces.Count == 0)
                     {
                         if (aSurfaceTypeString == "Shade")
