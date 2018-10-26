@@ -15,14 +15,14 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static TBD.buildingElement BuildingElement(TBD.Building building, string name)
+        public static TBD.buildingElement BuildingElement(TBD.Building tbdBuilding, string name)
         {
             int index = 0;
-            TBD.buildingElement buildingElement = null;
-            while ((buildingElement = building.GetBuildingElement(index)) != null)
+            TBD.buildingElement tbdBuildingElement = null;
+            while ((tbdBuildingElement = tbdBuilding.GetBuildingElement(index)) != null)
             {
-                if (buildingElement.name == name)
-                    return buildingElement;
+                if (tbdBuildingElement.name == name)
+                    return tbdBuildingElement;
                 index++;
             }
 

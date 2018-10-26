@@ -10,13 +10,13 @@ namespace BH.Engine.TAS
     public static partial class Convert
     {
 
-        public static TBD.Construction ToTBDBEConstruction(BHEE.BuildingElement buildingElement, TBD.Building building)
+        public static TBD.Construction ToTBDBEConstruction(BHEE.BuildingElement buildingElement, TBD.Building tbdBuilding)
         {
-            TBD.Construction aConstruction = null;
+            TBD.Construction tbdConstruction = null;
             //TBD.Building aBuilding = new TBD.Building();  // HOW TO GET OUR CURRENT BUILDING???
             if (buildingElement != null)
-                aConstruction = building.GetConstructionByName(ToTBDSurfaceType(buildingElement.ToTBDBEType()));
-            return aConstruction;
+                tbdConstruction = tbdBuilding.GetConstructionByName(ToTBDSurfaceType(buildingElement.ToTBDBEType()));
+            return tbdConstruction;
 
         }
 
