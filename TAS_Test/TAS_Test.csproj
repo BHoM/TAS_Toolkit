@@ -35,7 +35,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BHoM">
+      <HintPath>..\..\BHoM\Build\BHoM.dll</HintPath>
+    </Reference>
+    <Reference Include="Environment_Engine">
+      <HintPath>..\..\BHoM_Engine\Build\Environment_Engine.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="TAS_Adapter">
+      <HintPath>..\Build\TAS_Adapter.dll</HintPath>
+    </Reference>
+    <Reference Include="TAS_Engine">
+      <HintPath>..\Build\TAS_Engine.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -50,8 +62,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Adapter\" />
+    <Folder Include="Engine\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
