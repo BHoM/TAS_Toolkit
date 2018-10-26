@@ -68,18 +68,18 @@ namespace BH.Adapter.TAS
         }
 
         /***************************************************/
-        /* //TODO: Can not use Spaces from Building, (line 80 bHoMBuilding.Spaces)
-        private bool Create(BH.oM.Environment.Elements.Building bHoMBuilding)
+        /*//TODO: Can not use Spaces from Building, (line 80 bHoMBuilding.Spaces)
+        private bool Create(BH.oM.Environment.Elements.Building building)
         {
-            TBD.Building tasBuilding = m_TBDDocument.Building;
-            tasBuilding.latitude = (float)bHoMBuilding.Latitude;
-            tasBuilding.longitude = (float)bHoMBuilding.Longitude;
-            tasBuilding.name = bHoMBuilding.Name;
+            TBD.Building tbdBuilding = m_TBDDocument.Building;
+            tbdBuilding.latitude = (float)building.Latitude;
+            tbdBuilding.longitude = (float)building.Longitude;
+            tbdBuilding.name = building.Name;
             bool success = true;
             
-            foreach (BH.oM.Environment.Elements.Space  aSpace in bHoMBuilding.Spaces)
+            foreach (BH.oM.Environment.Elements.Space  aSpace in building.Spaces)
             {
-                success &= Create(aSpace, bHoMBuilding);
+                success &= Create(aSpace, building);
             }
 
             return success;
@@ -87,105 +87,103 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private bool Create(BHE.Elements.BuildingElement bHoMBuildingElement)
+        private bool Create(BHE.Elements.BuildingElement buildingElement)
         {
-            TBD.buildingElement tasBuildingElement = m_TBDDocument.Building.AddBuildingElement();
-            tasBuildingElement.name = bHoMBuildingElement.Name;
+            TBD.buildingElement tbdBuildingElement = tbdDocument.Building.AddBuildingElement();
+            tbdBuildingElement.name = buildingElement.Name;
             return true;
         }
 
         /***************************************************/
 
-        private bool Create(BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties)
+        private bool Create(BHE.Properties.BuildingElementProperties buildingElementProperties)
         {
-            TBD.Construction tasConstruction = m_TBDDocument.Building.AddConstruction(null);
-            tasConstruction.name = bHoMBuildingElementProperties.Name;
+            TBD.Construction tbdConstruction = tbdDocument.Building.AddConstruction(null);
+            tbdConstruction.name = buildingElementProperties.Name;
             //TODO: BuildingElementProperties can not handle Thickness
-            //tasConstruction.materialWidth[0] = (float)bHoMBuildingElementProperties.Thickness; //which value in the array shall we use??
+            //tbdConstruction.materialWidth[0] = (float)buildingElementProperties.Thickness; //which value in the array shall we use??
 
             return true;
         }
 
         /***************************************************/
 
-        private bool Create(BHE.Elements.Panel bHoMBuildingElementPanel)
+        private bool Create(BHE.Elements.Panel buildingElementPanel)
         {
             throw new NotImplementedException();
         }
 
         /***************************************************/
 
-        private bool Create(BHE.Elements.Opening bHoMBuildingElementOpening)
+        private bool Create(BHE.Elements.Opening buildingElementOpening)
         {
             throw new NotImplementedException();
         }
 
         /***************************************************/
 
-        private bool Create(BHE.Elements.InternalCondition bHoMInternalCondition)
+        private bool Create(BHE.Elements.InternalCondition internalCondition)
         {
-            TBD.InternalCondition tasInternalCondition = m_TBDDocument.Building.AddIC(null);
-            tasInternalCondition.name = bHoMInternalCondition.Name;
+            TBD.InternalCondition tbdInternalCondition = tbdDocument.Building.AddIC(null);
+            tbdInternalCondition.name = internalCondition.Name;
 
             return true;
         }
 
         /***************************************************/
-        /*            
-        private bool Create(BHE.Elements.Space bHoMSpace, IEnumerable<BHE.Elements.Space> spaces)
-        {
+        /*           
+       private bool Create(BHE.Elements.Space space, IEnumerable<BHE.Elements.Space> spaces)
+       {
+           TBD.zone tbdZone = m_TBDDocument.Building.AddZone();
+           TBD.room tbdRoom = tbdZone.AddRoom();
+           tbdZone = Engine.TAS.Convert.ToTas(space, tbdZone);
 
-            TBD.zone tasZone = m_TBDDocument.Building.AddZone();
-            TBD.room tasRoom = tasZone.AddRoom();
-            tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
+           //TODO: Can not use BuildingElement from Spaces, (line 80 bHoMSpace.BuildingElements)
+           //foreach (BHE.Elements.BuildingElement element in bHoMSpace.BuildingElements)
+           {
+               //We have to add a building element to the zonesurface before we save the file. Otherwise we end up with a corrupt file!
+               TBD.buildingElement be = m_TBDDocument.Building.AddBuildingElement();
 
-            //TODO: Can not use BuildingElement from Spaces, (line 80 bHoMSpace.BuildingElements)
-            //foreach (BHE.Elements.BuildingElement element in bHoMSpace.BuildingElements)
-            {
-                //We have to add a building element to the zonesurface before we save the file. Otherwise we end up with a corrupt file!
-                TBD.buildingElement be = m_TBDDocument.Building.AddBuildingElement();
+               //Add zoneSrf and convert it
+               TBD.zoneSurface tbdZoneSrf = tbdZone.AddSurface();
+               tbdZoneSrf = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry, tbdZoneSrf);
 
-                //Add zoneSrf and convert it
-                TBD.zoneSurface tasZoneSrf = tasZone.AddSurface();
-                tasZoneSrf = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry, tasZoneSrf);
+               //Add roomSrf, create face, get its controlpoints and convert to TAS
+               TBD.Polygon tbdPolygon = tbdRoom.AddSurface().CreatePerimeter().CreateFace();
+               tbdPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tbdPolygon);
 
-                //Add roomSrf, create face, get its controlpoints and convert to TAS
-                TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
-                tasPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tasPolygon);
+               //Set the building Element
+               tbdZoneSrf.buildingElement = Engine.TAS.Convert.ToTas(element, be, m_TBDDocument.Building);
 
-                //Set the building Element
-                tasZoneSrf.buildingElement = Engine.TAS.Convert.ToTas(element, be, m_TBDDocument.Building);
+               //tasZoneSrf.type = BH.Engine.TAS.Query.GetSurfaceType(element, spaces);
+               tbdZoneSrf.orientation = (float)BH.Engine.Environment.Query.Azimuth(element.BuildingElementGeometry, new BHG.Vector());
+               //tasZoneSrf.orientation = BH.Engine.TAS.Query.GetOrientation(element.BuildingElementGeometry, bHoMSpace);
+               tbdZoneSrf.inclination = (float)BH.Engine.Environment.Query.Tilt(element.BuildingElementGeometry);
+               //tasZoneSrf.inclination = BH.Engine.TAS.Query.GetInclination(element.BuildingElementGeometry, bHoMSpace);
+           }
 
-                //tasZoneSrf.type = BH.Engine.TAS.Query.GetSurfaceType(element, spaces);
-                tasZoneSrf.orientation = (float)BH.Engine.Environment.Query.Azimuth(element.BuildingElementGeometry, new BHG.Vector());
-                //tasZoneSrf.orientation = BH.Engine.TAS.Query.GetOrientation(element.BuildingElementGeometry, bHoMSpace);
-                tasZoneSrf.inclination = (float)BH.Engine.Environment.Query.Tilt(element.BuildingElementGeometry);
-                //tasZoneSrf.inclination = BH.Engine.TAS.Query.GetInclination(element.BuildingElementGeometry, bHoMSpace);
-            }
-
-            return true;
-        }
-        */
+           return true;
+       }
+       */
         /*
-        private bool Create(BHE.Elements.Space bHoMSpace, BHE.Elements.Building building)
-        {
-            
-            TBD.zone tasZone = m_TBDDocument.Building.AddZone();
-            TBD.room tasRoom = tasZone.AddRoom();
-            tasZone = Engine.TAS.Convert.ToTas(bHoMSpace, tasZone);
+        private bool Create(BHE.Elements.Space space, BHE.Elements.Building building)
+        { 
+            TBD.zone tbdZone = m_TBDDocument.Building.AddZone();
+            TBD.room tbdRoom = tbdZone.AddRoom();
+            tbdZone = Engine.TAS.Convert.ToTas(space, tbdZone);
             //TODO: Change BuildingElements to depend on a list of objects
-            foreach (BHE.Elements.BuildingElement element in Query.BuildingElements(building, bHoMSpace))
+            foreach (BHE.Elements.BuildingElement element in Query.BuildingElements(building, space))
             {
                 //Add zoneSrf and convert it
-                TBD.zoneSurface tasZoneSrf = tasZone.AddSurface();
+                TBD.zoneSurface tbdZoneSrf = tbdZone.AddSurface();
                 //BuildingElementGeometry is removed from element.
-                tasZoneSrf = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry, tasZoneSrf);
+                tbdZoneSrf = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry, tbdZoneSrf);
                 //MD assign type to be fixed!
-                tasZoneSrf.type = BH.Engine.TAS.Query.SurfaceType(element); 
+                tbdZoneSrf.type = BH.Engine.TAS.Query.SurfaceType(element); 
 
                 //Add roomSrf, create face, get its controlpoints and convert to TAS
-                TBD.Polygon tasPolygon = tasRoom.AddSurface().CreatePerimeter().CreateFace();
-                tasPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tasPolygon);
+                TBD.Polygon tbdPolygon = tbdRoom.AddSurface().CreatePerimeter().CreateFace();
+                tbdPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tbdPolygon);
 
                 //We have to add a building element to the zonesurface before we save the file. Otherwise we end up with a corrupt file!
                 TBD.buildingElement be = BH.Engine.TAS.Query.BuildingElement(m_TBDDocument.Building, element.Name);
@@ -195,12 +193,12 @@ namespace BH.Adapter.TAS
                     //Set the building Element
                      Engine.TAS.Convert.ToTas(element, be, m_TBDDocument.Building);
                 }
-                tasZoneSrf.buildingElement = be;
+                tbdZoneSrf.buildingElement = be;
 
                 //tasZoneSrf.type = BH.Engine.TAS.Query.GetSurfaceType(element, spaces);
-                tasZoneSrf.orientation = (float)BH.Engine.Environment.Query.Azimuth(element.BuildingElementGeometry, new BHG.Vector());
+                tbdZoneSrf.orientation = (float)BH.Engine.Environment.Query.Azimuth(element.BuildingElementGeometry, new BHG.Vector());
                 //tasZoneSrf.orientation = BH.Engine.TAS.Query.GetOrientation(element.BuildingElementGeometry, bHoMSpace);
-                tasZoneSrf.inclination = (float)BH.Engine.Environment.Query.Tilt(element.BuildingElementGeometry);
+                tbdZoneSrf.inclination = (float)BH.Engine.Environment.Query.Tilt(element.BuildingElementGeometry);
                 //tasZoneSrf.inclination = BH.Engine.TAS.Query.GetInclination(element.BuildingElementGeometry, bHoMSpace);
             }
 

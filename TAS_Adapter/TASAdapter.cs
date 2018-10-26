@@ -16,7 +16,7 @@ namespace BH.Adapter.TAS
         public TasAdapter(string tBDFilePath = "")
         {
             //TBD application
-            m_TBDFilePath = tBDFilePath;
+            tbdFilePath = tBDFilePath;
 
             AdapterId = BH.Engine.TAS.Convert.AdapterID;
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
@@ -27,7 +27,7 @@ namespace BH.Adapter.TAS
 
         public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
         {
-            GetTBDDocument();
+            GetTbdDocument();
 
             bool success = true;
             MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
@@ -40,7 +40,7 @@ namespace BH.Adapter.TAS
                 success &= Create(list as dynamic, false);
             }
 
-            CloseTBDDocument();
+            CloseTbdDocument();
             return success ? objects.ToList() : new List<IObject>();
 
         }
@@ -49,42 +49,42 @@ namespace BH.Adapter.TAS
         /**** Private Fields                            ****/
         /***************************************************/
 
-        private TBD.TBDDocument m_TBDDocument = null;
-        private string m_TBDFilePath = null;
+        private TBD.TBDDocument tbdDocument = null;
+        private string tbdFilePath = null;
 
         /***************************************************/
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private TBD.TBDDocument GetTBDDocument()
+        private TBD.TBDDocument GetTbdDocument()
         {
-            m_TBDDocument = new TBD.TBDDocument();
-            if (!String.IsNullOrEmpty(m_TBDFilePath) && System.IO.File.Exists(m_TBDFilePath))
-                m_TBDDocument.open(m_TBDFilePath);
+            tbdDocument = new TBD.TBDDocument();
+            if (!String.IsNullOrEmpty(tbdFilePath) && System.IO.File.Exists(tbdFilePath))
+                tbdDocument.open(tbdFilePath);
 
-            else if (!String.IsNullOrEmpty(m_TBDFilePath))
-                m_TBDDocument.create(m_TBDFilePath); //TODO: what if an existing file has the same name? 
+            else if (!String.IsNullOrEmpty(tbdFilePath))
+                tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
 
             else
                 ErrorLog.Add("The TBD file does not exist");
-            return m_TBDDocument;
+            return tbdDocument;
         }
 
         // we close and save TBD
-        private void CloseTBDDocument(bool save = true)
+        private void CloseTbdDocument(bool save = true)
         {
-            if (m_TBDDocument != null)
+            if (tbdDocument != null)
             {
                 if (save == true)
-                    m_TBDDocument.save();
+                    tbdDocument.save();
 
-                m_TBDDocument.close();
+                tbdDocument.close();
 
-                if (m_TBDDocument != null)
+                if (tbdDocument != null)
                 {
                     // issue with closing files and not closing 
-                    ClearCOMObject(m_TBDDocument);
-                    m_TBDDocument = null;
+                    ClearCOMObject(tbdDocument);
+                    tbdDocument = null;
                 }
 
             }
