@@ -18,81 +18,88 @@ namespace BH.Engine.TAS
         /***************************************************/
         /**** Public Methods - Geometry                 ****/
         /***************************************************/
+        // first three letters inparameters refers to type of TAS files: 
+        // .t3d TAS 3D Modeler
+        // .tbd TAS Building Designer
+        // .tsd TAS Results Viewer
+        // .tpd TAS HVAC System
+        // .tcd TAS Construction
+        // ie. tbdIC - TAS Building Designer Internal Condition
 
-        public static TBD.TasPoint ToTas(this BHG.Point bHoMPoint, TasPoint tasPoint)
+        public static TBD.TasPoint ToTas(this BHG.Point bHoMPoint, TasPoint tbdPoint)
         {
-            tasPoint.x = (float)(bHoMPoint.X);
-            tasPoint.y = (float)(bHoMPoint.Y);
-            tasPoint.z = (float)(bHoMPoint.Z);
-            return tasPoint;
+            tbdPoint.x = (float)(bHoMPoint.X);
+            tbdPoint.y = (float)(bHoMPoint.Y);
+            tbdPoint.z = (float)(bHoMPoint.Z);
+            return tbdPoint;
         }
 
         /***************************************************/
 
-        public static TBD.Polygon ToTas(this BHG.ICurve bHoMPolyCurve, Polygon tasPolygon)
+        public static TBD.Polygon ToTas(this BHG.ICurve bHoMPolyCurve, Polygon tbdPolygon)
         {
 
             List<BHG.Point> bHoMPoints = Engine.Geometry.Query.IControlPoints(bHoMPolyCurve);
 
             for (int j = 0; j < bHoMPoints.Count - 1; j++)
             {
-                TBD.TasPoint tasPt = tasPolygon.AddPoint();
+                TBD.TasPoint tasPt = tbdPolygon.AddPoint();
                 tasPt = Engine.TAS.Convert.ToTas(bHoMPoints[j], tasPt);
             }
 
-            return tasPolygon;
+            return tbdPolygon;
         }
 
         /***************************************************/
 
-        public static TBD.zoneSurface ToTas(this IBuildingObject bHoMPanel, zoneSurface tasZoneSrf)
+        public static TBD.zoneSurface ToTas(this IBuildingObject bHoMPanel, zoneSurface tbdZoneSurface)
         {
 
             //tasZoneSrf.orientation = Query.GetOrientation(bHoMPanel);
             //tasZoneSrf.inclination = Query.GetInclination(bHoMPanel);
 
-            tasZoneSrf.altitude = (float)BH.Engine.Environment.Query.Altitude(bHoMPanel);
-            tasZoneSrf.altitudeRange = (float)BH.Engine.Environment.Query.AltitudeRange(bHoMPanel);
-            tasZoneSrf.GUID = bHoMPanel.BHoM_Guid.ToString();
-            tasZoneSrf.area = (float)Geometry.Query.IArea((bHoMPanel.ICurve()));
+            tbdZoneSurface.altitude = (float)BH.Engine.Environment.Query.Altitude(bHoMPanel);
+            tbdZoneSurface.altitudeRange = (float)BH.Engine.Environment.Query.AltitudeRange(bHoMPanel);
+            tbdZoneSurface.GUID = bHoMPanel.BHoM_Guid.ToString();
+            tbdZoneSurface.area = (float)Geometry.Query.IArea((bHoMPanel.ICurve()));
 
             //tasZoneSrf.type = IToTas(bHoMPanel);
             //tasZoneSrf.type = SurfaceType.tbdLink;
             
-            return tasZoneSrf;
+            return tbdZoneSurface;
         }
 
         /***************************************************/
 
-        public static TBD.zone ToTas(this Space bHoMSpace, zone tasZone)
+        public static TBD.zone ToTas(this Space bHoMSpace, zone tbdZone)
         {
-            tasZone.name = bHoMSpace.Number + " " + bHoMSpace.Name;
-            tasZone.floorArea = (float)BH.Engine.Environment.Query.FloorArea(bHoMSpace);
-            tasZone.GUID = bHoMSpace.BHoM_Guid.ToString();
-            tasZone.volume = (float)BH.Engine.Environment.Query.Volume(bHoMSpace);
+            tbdZone.name = bHoMSpace.Number + " " + bHoMSpace.Name;
+            tbdZone.floorArea = (float)BH.Engine.Environment.Query.FloorArea(bHoMSpace);
+            tbdZone.GUID = bHoMSpace.BHoM_Guid.ToString();
+            tbdZone.volume = (float)BH.Engine.Environment.Query.Volume(bHoMSpace);
 
-            return tasZone;
+            return tbdZone;
         }
 
         /***************************************************/
 
-        public static TBD.InternalCondition ToTas(this BHE.Elements.InternalCondition bHoMIC, TBD.InternalCondition tasIC)
+        public static TBD.InternalCondition ToTas(this BHE.Elements.InternalCondition bHoMIC, TBD.InternalCondition tbdIC)
         {
-            tasIC.name = bHoMIC.Name;
-            return tasIC;
+            tbdIC.name = bHoMIC.Name;
+            return tbdIC;
         }
 
         /***************************************************/
 
-        public static TBD.buildingElement ToTas(this BHE.Elements.BuildingElement bHoMBuildingElement, TBD.buildingElement tasBuildingElement, TBD.Building building)
+        public static TBD.buildingElement ToTas(this BHE.Elements.BuildingElement bHoMBuildingElement, TBD.buildingElement tbdBuildingElement, TBD.Building tbdBuilding)
         {
     
-            tasBuildingElement.name = bHoMBuildingElement.Name;
+            tbdBuildingElement.name = bHoMBuildingElement.Name;
             //TAS.Adapter
-            tasBuildingElement.BEType = BH.Engine.TAS.Convert.ToTBDBEType(bHoMBuildingElement);
+            tbdBuildingElement.BEType = BH.Engine.TAS.Convert.ToTBDBEType(bHoMBuildingElement);
             //tasBuildingElement.colour = bHoMBuildingElement
-            tasBuildingElement.AssignConstruction(BH.Engine.TAS.Convert.ToTBDBEConstruction(bHoMBuildingElement, building));
-            return tasBuildingElement;
+            tbdBuildingElement.AssignConstruction(BH.Engine.TAS.Convert.ToTBDBEConstruction(bHoMBuildingElement, tbdBuilding));
+            return tbdBuildingElement;
 
         }
 
