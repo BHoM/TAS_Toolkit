@@ -15,21 +15,21 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static float MinElevation(TBD.Perimeter perimeter)
+        public static float MinElevation(TBD.Perimeter tbdPerimeter)
         {
-            TBD.Polygon currPolygon = perimeter.GetFace();
+            TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
             int indexepoints = 0;
-            float currenZvaluet = float.MaxValue;
-            TBD.TasPoint TasPoint = currPolygon.GetPoint(indexepoints);
+            float aZvalue = float.MaxValue;
+            TBD.TasPoint TasPoint = tbdPolygon.GetPoint(indexepoints);
             while (TasPoint != null)
             {
-                if (TasPoint.z < currenZvaluet)
-                    currenZvaluet = TasPoint.z;
+                if (TasPoint.z < aZvalue)
+                    aZvalue = TasPoint.z;
                 indexepoints++;
-                TasPoint = currPolygon.GetPoint(indexepoints);
+                TasPoint = tbdPolygon.GetPoint(indexepoints);
             }
 
-            return currenZvaluet;
+            return aZvalue;
         }
 
         /***************************************************/

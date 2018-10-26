@@ -19,7 +19,7 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
-        public static BHE.Elements.Building ToBHoM(this TBD.Building tasBuilding)
+        public static BHE.Elements.Building ToBHoM(this TBD.Building tbdBuilding)
         {
 
             // by MD 2018-05-21 get BuildingElementsProperties  - in BHoM Building element it contrail geomety and building element property
@@ -28,7 +28,7 @@ namespace BH.Engine.TAS
 
             int buildingElementIndex = 0;
             TBD.buildingElement aBuildingElement = null;
-            while ((aBuildingElement = tasBuilding.GetBuildingElement(buildingElementIndex)) != null)
+            while ((aBuildingElement = tbdBuilding.GetBuildingElement(buildingElementIndex)) != null)
             {
                 buildingElementPropertiesList.Add(ToBHoM(aBuildingElement));
                 buildingElementIndex++;
@@ -39,7 +39,7 @@ namespace BH.Engine.TAS
 
             int spaceIndex = 0;
             TBD.zone aSpace = null;
-            while ((aSpace = tasBuilding.GetZone(spaceIndex)) != null)
+            while ((aSpace = tbdBuilding.GetZone(spaceIndex)) != null)
             {
                 spaceList.Add(ToBHoM(aSpace));
                 spaceIndex++;
@@ -48,9 +48,9 @@ namespace BH.Engine.TAS
             // here we outputing Building data 
             BHE.Elements.Building bHoMBuilding = new BHE.Elements.Building
             {
-                Latitude = tasBuilding.latitude,
-                Longitude = tasBuilding.longitude,
-                Elevation = tasBuilding.maxBuildingAltitude,
+                Latitude = tbdBuilding.latitude,
+                Longitude = tbdBuilding.longitude,
+                Elevation = tbdBuilding.maxBuildingAltitude,
                 //BuildingElementProperties = buildingElementPropertiesList,
                 //Spaces = spaceList,
 
@@ -62,12 +62,12 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone, out double minElevation)
+        public static BHE.Elements.Space ToBHoM(this TBD.zone tbdZone, out double minElevation)
         {
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
 
             //Space Data
-            bHoMSpace.Name = tasZone.name;
+            bHoMSpace.Name = tbdZone.name;
             /*int internalConditionIndex = 0;
             while (tasZone.GetIC(internalConditionIndex) != null)
                 {
@@ -76,18 +76,18 @@ namespace BH.Engine.TAS
                 }*/
 
             //Geometry
-            int zoneSurfaceIndex = 0;
+            int tbdZoneSurfaceIndex = 0;
             minElevation = double.MaxValue;
-            zoneSurface tasSrf = null;
-            while ((tasSrf = tasZone.GetSurface(zoneSurfaceIndex)) != null)
+            zoneSurface tbdZoneSurface = null;
+            while ((tbdZoneSurface = tbdZone.GetSurface(tbdZoneSurfaceIndex)) != null)
             {
-                int roomSrfIndex = 0;
-                RoomSurface tasRoomSrf = null;
-                while ((tasRoomSrf = tasSrf.GetRoomSurface(roomSrfIndex)) != null)
+                int tbdRoomSurfaceIndex = 0;
+                RoomSurface tbdRoomSurface = null;
+                while ((tbdRoomSurface = tbdZoneSurface.GetRoomSurface(tbdRoomSurfaceIndex)) != null)
                 {
-                    if (tasRoomSrf.GetPerimeter() != null)
+                    if (tbdRoomSurface.GetPerimeter() != null)
                     {
-                        BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = ToBHoM(tasSrf.buildingElement);
+                        BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = ToBHoM(tbdZoneSurface.buildingElement);
                         BHE.Elements.BuildingElement bHoMBuildingElement = new BuildingElement()
                         {
                             Name = bHoMBuildingElementProperties.Name,
@@ -95,16 +95,16 @@ namespace BH.Engine.TAS
                             BuildingElementProperties = bHoMBuildingElementProperties
                         };
 
-                        minElevation = Math.Min(minElevation, BH.Engine.TAS.Query.MinElevation(tasRoomSrf.GetPerimeter()));
+                        minElevation = Math.Min(minElevation, BH.Engine.TAS.Query.MinElevation(tbdRoomSurface.GetPerimeter()));
                         //bHoMSpace.BuildingElements.Add(bHoMBuildingElement);
                     }
-                    roomSrfIndex++;
+                    tbdRoomSurfaceIndex++;
                 }
-                zoneSurfaceIndex++;
+                tbdZoneSurfaceIndex++;
             }
 
             //Space Custom Data
-            System.Drawing.Color spaceRGB = Query.GetRGB(tasZone.colour);
+            System.Drawing.Color spaceRGB = Query.GetRGB(tbdZone.colour);
             bHoMSpace.CustomData.Add("Colour", spaceRGB);
 
             return bHoMSpace;
@@ -118,22 +118,22 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BuildingElementProperties ToBHoM(this TBD.buildingElement tasBuildingElement)
+        public static BuildingElementProperties ToBHoM(this TBD.buildingElement tbdBuildingElement)
         {
         //  by MD 2018-05-21 IN TAS Building Element is type with property and does not have geometry. 
         // IN BHoM Building element  is instance including geometry and property
         // BuildingProperty is Type with all data for this type
-            if (tasBuildingElement == null)
+            if (tbdBuildingElement == null)
                 return null;
 
             BuildingElementProperties bHoMBuildingElementProperties = null;
 
-            BHE.Elements.BuildingElementType aBuildingElementType = ToBHoM((TBD.BuildingElementType)tasBuildingElement.BEType);
-            string aName = tasBuildingElement.name;
+            BHE.Elements.BuildingElementType aBuildingElementType = ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
+            string aName = tbdBuildingElement.name;
 
-            Construction tasConstruction = tasBuildingElement.GetConstruction();
-            if (tasConstruction != null)
-                bHoMBuildingElementProperties = tasConstruction.ToBHoM(aName, aBuildingElementType);
+            Construction tbdConstruction = tbdBuildingElement.GetConstruction();
+            if (tbdConstruction != null)
+                bHoMBuildingElementProperties = tbdConstruction.ToBHoM(aName, aBuildingElementType);
 
             if (bHoMBuildingElementProperties == null)
                 bHoMBuildingElementProperties = new BuildingElementProperties();
@@ -144,7 +144,7 @@ namespace BH.Engine.TAS
             //bHoMBuildingElementProperties.Thickness = tasBuildingElement.width;
 
             //BuildingElement Custom Data
-            System.Drawing.Color buildingElementRGB = Query.GetRGB(tasBuildingElement.colour);
+            System.Drawing.Color buildingElementRGB = Query.GetRGB(tbdBuildingElement.colour);
             bHoMBuildingElementProperties.CustomData.Add("Colour", buildingElementRGB);
 
             return bHoMBuildingElementProperties;
@@ -158,24 +158,25 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BuildingElementProperties ToBHoM(this TBD.Construction tasConstruction, string name, BHE.Elements.BuildingElementType buildingElementType) //double thickness = 0, bool Internal = true, BHE.Elements.BuildingElementType buildingElementType = BHE.Elements.BuildingElementType.Wall)
+        public static BuildingElementProperties ToBHoM(this TBD.Construction tbdConstruction, string name, BHE.Elements.BuildingElementType buildingElementType) //double thickness = 0, bool Internal = true, BHE.Elements.BuildingElementType buildingElementType = BHE.Elements.BuildingElementType.Wall)
         {
             //  by MD 2018-05-21 - there 6 values in TBDTas for Uvalue, we have BuildingElement BE that have construction and then material layers
             // form BE we can get geometrical thickness that is used for Volume calculations, in tas there are 6 Uvalues:
             //0.Uexternalhorizontal 1.Uexternalupwards  2.Uexternaldownwards
             //3.Uinternalhorizontal 4.Uinternaupwards  5.Uinternadownwards
-            List<float> aUValues = (tasConstruction.GetUValue() as List<float>);
+            //Here we use aUvalue as this is special case where we want to see caputal U to be clear
+            List<float> aUValues = (tbdConstruction.GetUValue() as List<float>);
 
             double aUvalue = 0;
             double agValue = 0;
             double aLtValue = 0;
 
             // here we checking if Building Element is transparent to get correct Uvalue and properties, there is different source for Uvalue
-            if (tasConstruction.type == ConstructionTypes.tcdTransparentConstruction)
+            if (tbdConstruction.type == ConstructionTypes.tcdTransparentConstruction)
             {
                 //tas exposes tranparent building element all value as list  
                 //1. LtValuegValue,  7. Uvalue,  6. gValue
-                List<float> aGlazingValueList = (tasConstruction.GetGlazingValues() as List<float>);
+                List<float> aGlazingValueList = (tbdConstruction.GetGlazingValues() as List<float>);
                 agValue = aGlazingValueList[6];
                 aLtValue = aGlazingValueList[1];
                 aUvalue = aGlazingValueList[7];
@@ -225,7 +226,7 @@ namespace BH.Engine.TAS
             {
                 LtValue = aLtValue,
                 gValue = agValue,
-                ThermalConductivity = tasConstruction.conductance,
+                ThermalConductivity = tbdConstruction.conductance,
             };
 
             //Assign Construction Layer to the object
@@ -233,18 +234,18 @@ namespace BH.Engine.TAS
 
             int constructionLayerIndex = 1; //Cannot be 0 in TAS
             material tasMat = null;
-            while ((tasMat = tasConstruction.materials(constructionLayerIndex)) != null)
+            while ((tasMat = tbdConstruction.materials(constructionLayerIndex)) != null)
             {
-                bhomBuildingElementProperties.ConstructionLayers.Add(ToBHoM(tasConstruction, tasMat));
+                bhomBuildingElementProperties.ConstructionLayers.Add(ToBHoM(tbdConstruction, tasMat));
                 constructionLayerIndex++;
             }
 
             double aThicknessAnalytical = 0;
             int aIndex = 0;
             material aMaterial = null;
-            while ((aMaterial = tasConstruction.materials(aIndex)) != null)
+            while ((aMaterial = tbdConstruction.materials(aIndex)) != null)
             {
-                aThicknessAnalytical += tasConstruction.materialWidth[aIndex];
+                aThicknessAnalytical += tbdConstruction.materialWidth[aIndex];
                 aIndex++;
             }
 
@@ -255,12 +256,12 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.ConstructionLayer ToBHoM(this TBD.Construction tasConstructionLayer, material tasMaterial)
+        public static BHE.Elements.ConstructionLayer ToBHoM(this TBD.Construction tbdConstructionLayer, material tbdMaterial)
         {
             BHE.Elements.ConstructionLayer bhomConstructionLayer = new BHE.Elements.ConstructionLayer()
             {       
-               Thickness = tasMaterial.width,
-               Material = tasMaterial.ToBHoM()
+               Thickness = tbdMaterial.width,
+               Material = tbdMaterial.ToBHoM()
               
             };
             return bhomConstructionLayer;
@@ -268,28 +269,29 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHA.Elements.Level ToBHoM(this TAS3D.Floor tasFloor)
+        public static BHA.Elements.Level ToBHoM(this TAS3D.Floor t3dFloor)
         {
             return new BHA.Elements.Level()
             {
-                Elevation = tasFloor.level,
-                Name = tasFloor.name,                 
+                Elevation = t3dFloor.level,
+                Name = t3dFloor.name,                 
              };
         }
 
     /***************************************************/
 
-    public static BHE.Elements.Panel ToBHoM(this TBD.RoomSurface tasRoomSrf)
+    public static BHE.Elements.Panel ToBHoM(this TBD.RoomSurface tbdRoomSurface)
+
         {
             BHE.Elements.Panel bHoMPanel = new BHE.Elements.Panel();
 
-            TBD.Perimeter currPerimeter = tasRoomSrf.GetPerimeter();   
-            TBD.Polygon currPolygon = currPerimeter.GetFace();
+            TBD.Perimeter tbdPerimeter = tbdRoomSurface.GetPerimeter();   
+            TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
 
-            BHG.Polyline edges = ToBHoM(currPolygon);
-            BHG.PolyCurve crv_edges = Geometry.Create.PolyCurve(new List<BHG.Polyline> { edges });
+            BHG.ICurve curve = ToBHoM(tbdPolygon);
+            BHG.PolyCurve polyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
 
-            bHoMPanel.PanelCurve = crv_edges;
+            bHoMPanel.PanelCurve = polyCurve;
             //bHoMPanel.ElementType = ((TBD.BuildingElementType)tasRoomSrf.zoneSurface.buildingElement.BEType).ToString();
 
             return bHoMPanel;
@@ -298,9 +300,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Interface.IMaterial ToBHoM(this TBD.material tasMaterial)
+        public static BHE.Interface.IMaterial ToBHoM(this TBD.material tbdMaterial)
         {
-           BHE.Elements.MaterialType materialtype = ToBHoM((TBD.MaterialTypes)tasMaterial.type);
+           BHE.Elements.MaterialType materialtype = ToBHoM((TBD.MaterialTypes)tbdMaterial.type);
 
            switch (materialtype)
             {
@@ -308,38 +310,38 @@ namespace BH.Engine.TAS
 
                     BHE.Materials.OpaqueMaterial bhomOpaqeMaterial = new BHE.Materials.OpaqueMaterial
                     {
-                        Name = tasMaterial.name,
-                        Description = tasMaterial.description,
+                        Name = tbdMaterial.name,
+                        Description = tbdMaterial.description,
                         //Thickness = tasMaterial.width,
-                        Conductivity = tasMaterial.conductivity,
-                        SpecificHeat = tasMaterial.specificHeat,
-                        Density = tasMaterial.density,
-                        VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
-                        SolarReflectanceExternal = tasMaterial.externalSolarReflectance,
-                        SolarReflectanceInternal = tasMaterial.internalSolarReflectance,
-                        LightReflectanceExternal = tasMaterial.externalLightReflectance,
-                        LightReflectanceInternal = tasMaterial.internalLightReflectance,
-                        EmissivityExternal = tasMaterial.externalEmissivity,
-                        EmissivityInternal = tasMaterial.internalEmissivity
+                        Conductivity = tbdMaterial.conductivity,
+                        SpecificHeat = tbdMaterial.specificHeat,
+                        Density = tbdMaterial.density,
+                        VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor,
+                        SolarReflectanceExternal = tbdMaterial.externalSolarReflectance,
+                        SolarReflectanceInternal = tbdMaterial.internalSolarReflectance,
+                        LightReflectanceExternal = tbdMaterial.externalLightReflectance,
+                        LightReflectanceInternal = tbdMaterial.internalLightReflectance,
+                        EmissivityExternal = tbdMaterial.externalEmissivity,
+                        EmissivityInternal = tbdMaterial.internalEmissivity
                     };
                     return bhomOpaqeMaterial;
 
                 case MaterialType.Transparent:
                     BHE.Materials.TransparentMaterial bhomTransparentMaterial = new BHE.Materials.TransparentMaterial
                     {
-                        Name = tasMaterial.name,
-                        Description = tasMaterial.description,
+                        Name = tbdMaterial.name,
+                        Description = tbdMaterial.description,
                         //Thickness = tasMaterial.width, //Elements, ConstructionLayer?
-                        Conductivity = tasMaterial.conductivity,
-                        VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor,
-                        SolarTransmittance = tasMaterial.solarTransmittance,
-                        SolarReflectanceExternal = tasMaterial.externalSolarReflectance,
-                        SolarReflectanceInternal = tasMaterial.internalSolarReflectance,
-                        LightTransmittance = tasMaterial.lightTransmittance,
-                        LightReflectanceExternal = tasMaterial.externalLightReflectance,
-                        LightReflectanceInternal = tasMaterial.internalLightReflectance,
-                        EmissivityExternal = tasMaterial.externalEmissivity,
-                        EmissivityInternal = tasMaterial.internalEmissivity
+                        Conductivity = tbdMaterial.conductivity,
+                        VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor,
+                        SolarTransmittance = tbdMaterial.solarTransmittance,
+                        SolarReflectanceExternal = tbdMaterial.externalSolarReflectance,
+                        SolarReflectanceInternal = tbdMaterial.internalSolarReflectance,
+                        LightTransmittance = tbdMaterial.lightTransmittance,
+                        LightReflectanceExternal = tbdMaterial.externalLightReflectance,
+                        LightReflectanceInternal = tbdMaterial.internalLightReflectance,
+                        EmissivityExternal = tbdMaterial.externalEmissivity,
+                        EmissivityInternal = tbdMaterial.internalEmissivity
 
                     };
                     return bhomTransparentMaterial;
@@ -347,11 +349,11 @@ namespace BH.Engine.TAS
                 case MaterialType.Gas:
                     BHE.Materials.GasMaterial bhomGasMaterial = new BHE.Materials.GasMaterial
                     {
-                    Name = tasMaterial.name,
-                    Description = tasMaterial.description,
+                    Name = tbdMaterial.name,
+                    Description = tbdMaterial.description,
                     //Thickness = tasMaterial.width,
-                    ConvectionCoefficient = tasMaterial.convectionCoefficient,
-                    VapourDiffusionFactor = tasMaterial.vapourDiffusionFactor
+                    ConvectionCoefficient = tbdMaterial.convectionCoefficient,
+                    VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor
                     };
 
                     return bhomGasMaterial;
@@ -361,14 +363,14 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.InternalCondition ToBHoM(this TBD.InternalCondition tasInternalCondition)
+        public static BHE.Elements.InternalCondition ToBHoM(this TBD.InternalCondition tbdInternalCondition)
         {
-            if (tasInternalCondition == null)
+            if (tbdInternalCondition == null)
                 return null;
     
             BHE.Elements.InternalCondition bHoMInternalCondition = new BHE.Elements.InternalCondition
             {
-                Name = tasInternalCondition.name
+                Name = tbdInternalCondition.name
             };
 
             return bHoMInternalCondition;
@@ -397,20 +399,20 @@ namespace BH.Engine.TAS
         /**** Public Methods - Geometry                 ****/
         /***************************************************/
 
-        public static BHG.Point ToBHoM(this TBD.TasPoint tasPoint)
+        public static BHG.Point ToBHoM(this TBD.TasPoint tbdPoint)
         {
             BHG.Point bHoMPoint = new BHG.Point()
             {
-                X = tasPoint.x,
-                Y = tasPoint.y,
-                Z = tasPoint.z
+                X = tbdPoint.x,
+                Y = tbdPoint.y,
+                Z = tbdPoint.z
             };
             return bHoMPoint;
         }
 
         /***************************************************/
 
-        public static BHG.Polyline ToBHoM(this TBD.Polygon tasPolygon)  // TODO : When BH.oM.Geometry.Contour is implemented, Polyline can be replaced with Contour
+        public static BHG.Polyline ToBHoM(this TBD.Polygon tbdPolygon)  // TODO : When BH.oM.Geometry.Contour is implemented, Polyline can be replaced with Contour
         {
             //
             //  Not sure how this is working but that's a very strange way of getting points for Tas. Are you sure it is the only way?
@@ -419,9 +421,9 @@ namespace BH.Engine.TAS
             int pointIndex = 0;
             while (true)
             {
-                TasPoint tasPt= tasPolygon.GetPoint(pointIndex);
-                if (tasPt == null) { break; }
-                bHoMPointList.Add(tasPt.ToBHoM());
+                TasPoint tasPoint= tbdPolygon.GetPoint(pointIndex);
+                if (tasPoint == null) { break; }
+                bHoMPointList.Add(tasPoint.ToBHoM());
                 pointIndex++;
             }
             bHoMPointList.Add(bHoMPointList[0]);
@@ -436,9 +438,9 @@ namespace BH.Engine.TAS
         /**** Enums                                     ****/
         /***************************************************/
                
-        public static BHE.Elements.MaterialType ToBHoM(this TBD.MaterialTypes tasMaterialType)
+        public static BHE.Elements.MaterialType ToBHoM(this TBD.MaterialTypes tbdMaterialType)
         {
-            switch (tasMaterialType)
+            switch (tbdMaterialType)
             {
                 case MaterialTypes.tcdOpaqueLayer:
                 case MaterialTypes.tcdOpaqueMaterial:
@@ -454,9 +456,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.BuildingElementType ToBHoM(this TBD.BuildingElementType tasBuildingElementType)
+        public static BHE.Elements.BuildingElementType ToBHoM(this TBD.BuildingElementType tbdBuildingElementType)
         {
-            switch (tasBuildingElementType)
+            switch (tbdBuildingElementType)
             {
                 case TBD.BuildingElementType.CURTAINWALL:
                 case TBD.BuildingElementType.EXTERNALWALL:
