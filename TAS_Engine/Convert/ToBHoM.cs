@@ -34,7 +34,7 @@ namespace BH.Engine.TAS
                 buildingElementIndex++;
             }
 
-            // get Spaces in TAS t from TBD in TAS TBD index start from 0 
+            // get Spaces from TAS TBD in TAS TBD Spaces index start from 0 
             List<BHE.Elements.Space> spaceList = new List<BHE.Elements.Space>();
 
             int spaceIndex = 0;
