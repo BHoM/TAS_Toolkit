@@ -47,4 +47,6 @@ namespace TAS_Test
 
             //Polygon is a polyline where the end points join */
         }
+    }
 }
+
