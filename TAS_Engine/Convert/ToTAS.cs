@@ -28,6 +28,7 @@ namespace BH.Engine.TAS
 
         public static TBD.TasPoint ToTas(this BHG.Point bHoMPoint, TasPoint tbdPoint)
         {
+            //Check were we are refering this to
             tbdPoint.x = (float)(bHoMPoint.X);
             tbdPoint.y = (float)(bHoMPoint.Y);
             tbdPoint.z = (float)(bHoMPoint.Z);
@@ -38,13 +39,13 @@ namespace BH.Engine.TAS
 
         public static TBD.Polygon ToTas(this BHG.ICurve bHoMPolyCurve, Polygon tbdPolygon)
         {
-
+            //Check were we are refering this to
             List<BHG.Point> bHoMPoints = Engine.Geometry.Query.IControlPoints(bHoMPolyCurve);
 
             for (int j = 0; j < bHoMPoints.Count - 1; j++)
             {
-                TBD.TasPoint tasPt = tbdPolygon.AddPoint();
-                tasPt = Engine.TAS.Convert.ToTas(bHoMPoints[j], tasPt);
+                TBD.TasPoint tasPoint = tbdPolygon.AddPoint();
+                tasPoint = Engine.TAS.Convert.ToTas(bHoMPoints[j], tasPoint);
             }
 
             return tbdPolygon;
@@ -54,18 +55,23 @@ namespace BH.Engine.TAS
 
         public static TBD.zoneSurface ToTas(this IBuildingObject bHoMPanel, zoneSurface tbdZoneSurface)
         {
-
-            //tasZoneSrf.orientation = Query.GetOrientation(bHoMPanel);
-            //tasZoneSrf.inclination = Query.GetInclination(bHoMPanel);
-
+            //Check were we are refering this to
             tbdZoneSurface.altitude = (float)BH.Engine.Environment.Query.Altitude(bHoMPanel);
             tbdZoneSurface.altitudeRange = (float)BH.Engine.Environment.Query.AltitudeRange(bHoMPanel);
-            tbdZoneSurface.GUID = bHoMPanel.BHoM_Guid.ToString();
             tbdZoneSurface.area = (float)Geometry.Query.IArea((bHoMPanel.ICurve()));
-
-            //tasZoneSrf.type = IToTas(bHoMPanel);
+            //tbdZoneSurface.buildingElement=
+            tbdZoneSurface.GUID = bHoMPanel.BHoM_Guid.ToString();
+            //tasZoneSrf.inclination = Query.GetInclination(bHoMPanel);
+            //tbdZoneSurface.internalArea
+            //tbdZoneSurface.linkSurface
+            //tbdZoneSurface.number
+            //tasZoneSrf.orientation = Query.GetOrientation(bHoMPanel);
+            //tbdZoneSurface.planHydraulicDiameter
+            //tbdZoneSurface.reversed
+            //tasZoneSrf.type = IToTas(bHoMPanel); 
             //tasZoneSrf.type = SurfaceType.tbdLink;
-            
+            //tbdZoneSurface.zone
+
             return tbdZoneSurface;
         }
 
@@ -73,10 +79,30 @@ namespace BH.Engine.TAS
 
         public static TBD.zone ToTas(this Space bHoMSpace, zone tbdZone)
         {
-            tbdZone.name = bHoMSpace.Number + " " + bHoMSpace.Name;
+            //Check were we are refering this to
+            //tbdZone.colour=
+            //tbdZone.daylightFactor=
+            //tbdZone.description=
+            //tbdZone.exposedPerimeter=
+            //tbdZone.external=
+            //tbdZone.facadeLength=
+            //tbdZone.fixedConvectionCoefficient=
             tbdZone.floorArea = (float)BH.Engine.Environment.Query.FloorArea(bHoMSpace);
             tbdZone.GUID = bHoMSpace.BHoM_Guid.ToString();
+            //tbdZone.length=
+            //tbdZone.markDelete=
+            //tbdZone.maxCoolingLoad=
+            //tbdZone.maxHeatingLoad=
+            tbdZone.name = bHoMSpace.Number + " " + bHoMSpace.Name;
+            //tbdZone.number=
+            //tbdZone.output=
+            //tbdZone.peakFlowCool=
+            //tbdZone.peakFlowHeat=
+            //tbdZone.sizeCooling=
+            //tbdZone.sizeHeating=
+            //tbdZone.variableConvectionCoefficient=
             tbdZone.volume = (float)BH.Engine.Environment.Query.Volume(bHoMSpace);
+            //tbdZone.wallFloorAreaRatio=
 
             return tbdZone;
         }
@@ -85,6 +111,9 @@ namespace BH.Engine.TAS
 
         public static TBD.InternalCondition ToTas(this BHE.Elements.InternalCondition bHoMIC, TBD.InternalCondition tbdIC)
         {
+            //Check were we are refering this to
+            //tbdIC.description=
+            //tbdIC.includeSolarInMRT =
             tbdIC.name = bHoMIC.Name;
             return tbdIC;
         }
@@ -93,14 +122,20 @@ namespace BH.Engine.TAS
 
         public static TBD.buildingElement ToTas(this BHE.Elements.BuildingElement bHoMBuildingElement, TBD.buildingElement tbdBuildingElement, TBD.Building tbdBuilding)
         {
-    
-            tbdBuildingElement.name = bHoMBuildingElement.Name;
-            //TAS.Adapter
+            //Check were we are refering this to
+            //tbdBuildingElement.AssignConstruction(BH.Engine.TAS.Convert.ToTBDBEConstruction(bHoMBuildingElement, tbdBuilding)); Are we keeping this one?
             tbdBuildingElement.BEType = BH.Engine.TAS.Convert.ToTBDBEType(bHoMBuildingElement);
-            //tasBuildingElement.colour = bHoMBuildingElement
-            tbdBuildingElement.AssignConstruction(BH.Engine.TAS.Convert.ToTBDBEConstruction(bHoMBuildingElement, tbdBuilding));
+            //tbdBuildingElement.colour=
+            //tbdBuildingElement.description=
+            //tbdBuildingElement.ghost=
+            //tbdBuildingElement.ground=
+            //tbdBuildingElement.GUID=
+            //tbdBuildingElement.markDelete=
+            //TAS.Adapter
+            tbdBuildingElement.name = bHoMBuildingElement.Name;
+            //tbdBuildingElement.width=
+            
             return tbdBuildingElement;
-
         }
 
 
@@ -108,51 +143,67 @@ namespace BH.Engine.TAS
         /**** Public Methods - Objects                  ****/
         /***************************************************/
 
-        //public static TBD.material ToTas(this BHE.Elements.OpaqueMaterial bHoMOpaqueMaterial)
-        //{
-        //    TBD.material tasMaterial = new TBD.material
-        //    {
-        //        name = bHoMOpaqueMaterial.Name,
-        //        description = bHoMOpaqueMaterial.Description,
-        //        width = (float)bHoMOpaqueMaterial.Thickness,
-        //        conductivity = (float)bHoMOpaqueMaterial.Conductivity,
-        //        vapourDiffusionFactor = (float)bHoMOpaqueMaterial.VapourDiffusionFactor,
-        //        externalSolarReflectance = (float)bHoMOpaqueMaterial.SolarReflectanceExternal,
-        //        internalSolarReflectance = (float)bHoMOpaqueMaterial.SolarReflectanceInternal,
-        //        externalLightReflectance = (float)bHoMOpaqueMaterial.LightReflectanceExternal,
-        //        internalLightReflectance = (float)bHoMOpaqueMaterial.LightReflectanceInternal,
-        //        externalEmissivity = (float)bHoMOpaqueMaterial.EmissivityExternal,
-        //        internalEmissivity = (float)bHoMOpaqueMaterial.EmissivityInternal
-        //    };
+        public static TBD.material ToTas(this BHE.Materials.OpaqueMaterial bHoMOpaqueMaterial)
+        {
+            TBD.material tasMaterial = new TBD.material
+            {
+                //Check were we are refering this to
+                conductivity = (float)bHoMOpaqueMaterial.Conductivity,
+                //convectionCoefficient = (float)bHoMOpaqueMaterial.convectionCoefficient,
+                density=(float)bHoMOpaqueMaterial.Density,
+                description = bHoMOpaqueMaterial.Description,
+                externalEmissivity = (float)bHoMOpaqueMaterial.EmissivityExternal,
+                externalLightReflectance = (float)bHoMOpaqueMaterial.LightReflectanceExternal,
+                externalSolarReflectance = (float)bHoMOpaqueMaterial.SolarReflectanceExternal,
+                internalEmissivity = (float)bHoMOpaqueMaterial.EmissivityInternal,
+                //internalLightReflectance = (float)bHoMOpaqueMaterial.LightReflectanceInternal,
+                //internalSolarReflectance = (float)bHoMOpaqueMaterial.SolarReflectanceInternal,
+                //isBlind=(float)bHoMOpaqueMaterial.IsBlind,
+                //lightTransmittance=(float)bHoMOpaqueMaterial.LightTransmittance,
+                name = bHoMOpaqueMaterial.Name,
+                //solarTransmittance=bHoMOpaqueMaterial.SolarTransmittance,
+                //specificHeat=bHoMOpaqueMaterial.SpecificHeat,
+                //type=bHoMOpaqueMaterial.Type,
+                vapourDiffusionFactor = (float)bHoMOpaqueMaterial.VapourDiffusionFactor,
+                //width = (float)bHoMOpaqueMaterial.Thickness,
+            };
 
-        //    return tasMaterial;
-        //}
+            return tasMaterial;
+        }
 
         /***************************************************/
-
-        //public static TBD.ConstructionClass ToTas(this BuildingElementProperties bHoMBuildingElementProperties)
-        //{
-
-        //    TBD.ConstructionClass tasConstruction = new TBD.ConstructionClass
-        //    {
-        //        name = bHoMBuildingElementProperties.Name
-        //    };
-
-        //    return tasConstruction;
-        //}
-
-        // if we use TBD template assign construction
+        /*
         public static TBD.ConstructionClass ToTas(this BuildingElementProperties bHoMBuildingElementProperties)
         {
 
             TBD.ConstructionClass tasConstruction = new TBD.ConstructionClass
             {
-                name = bHoMBuildingElementProperties.Name
-            };
+                //Check were we are refering this to
+                additionalHeatTransfer=bHoMBuildingElementProperties.additionalHeatTransfer,
+                conductance=bHoMBuildingElementProperties.Conductance,
+                description=bHoMBuildingElementProperties.Description,
+                externalBlind=bHoMBuildingElementProperties.ExternalBlind,
+                externalEmissivity=bHoMBuildingElementProperties.ExternalEmissivity,
+                externalSolarAbsorptanceExtSurf=bHoMBuildingElementProperties.ExternalSolarAbsorptanceExtSurf,
+                externalSolarAbsorptanceIntSurf = bHoMBuildingElementProperties.ExternalSolarAbsorptanceIntSurf,
+                FFactor=bHoMBuildingElementProperties.FFactor,
+                GUID=bHoMBuildingElementProperties.GUID,
+                internalBlind=bHoMBuildingElementProperties.InternalBlind,
+                internalEmissivity = bHoMBuildingElementProperties.InternalEmissivity,
+                internalSolarAbsorptanceExtSurf = bHoMBuildingElementProperties.InternalSolarAbsorptanceExtSurf,
+                internalSolarAbsorptanceIntSurf = bHoMBuildingElementProperties.InternalSolarAbsorptanceIntSurf,
+                lightReflectance=bHoMBuildingElementProperties.LightReflectance,
+                lightTransmittance=bHoMBuildingElementProperties.LightTransmittance,
+                //materialWidth=bHoMBuildingElementProperties.MaterialWidth,
+                name = bHoMBuildingElementProperties.Name,
+                solarTransmittance=bHoMBuildingElementProperties.SolarTransmittance,
+                timeConstant=bHoMBuildingElementProperties.TimeConstant,
+                type=bHoMBuildingElementProperties.Type,
+                ;
+            }
 
             return tasConstruction;
-        }
-
+    }*/
 
         /***************************************************/
 
@@ -165,6 +216,7 @@ namespace BH.Engine.TAS
         {
             switch (bHoMMaterialType)
             {
+                //Check were we are refering this to
                 case BHE.Elements.MaterialType.Opaque:
                     return MaterialTypes.tcdOpaqueMaterial;
                 case BHE.Elements.MaterialType.Transparent:
@@ -179,10 +231,11 @@ namespace BH.Engine.TAS
         /***************************************************/
 
         public static TBD.BuildingElementType ToTas(this BHE.Elements.BuildingElementType bHoMBuildingElementType)
-        {
+        { 
             switch (bHoMBuildingElementType) // This is just a test, it doeas not match. We have more BETypes in Tas than in BHoM
             // here we will need to have two levels or recognision ASHRAEBuilidingElementType as per new idraw graph
             {
+                //Check were we are refering this to
                 case BHE.Elements.BuildingElementType.Wall:
                     return TBD.BuildingElementType.EXTERNALWALL; //What about the other TBD Wall types??
                 case BHE.Elements.BuildingElementType.Roof:
@@ -204,6 +257,8 @@ namespace BH.Engine.TAS
 
             //Should we implement an enum for surface types in BHoM?? 
             /*
+             * //Check were we are refering this to
+             * 
             if (bHoMSurface.ElementType == "Ground")
                 return SurfaceType.tbdGround;
             else if (bHoMSurface.ElementType == "Exposed")
@@ -226,6 +281,7 @@ namespace BH.Engine.TAS
 
         public static TBD.SurfaceType ToTas(this BHE.Elements.Panel bHoMSurface)
         {
+            //Check were we are refering this to
             return SurfaceType.tbdNullLink;
         }
 
@@ -233,6 +289,7 @@ namespace BH.Engine.TAS
 
         public static TBD.SurfaceType IToTas(this BHE.Interface.IBuildingElementGeometry bHoMSurface)
         {
+            //Check were we are refering this to
             return ToTas(bHoMSurface as dynamic);
         }
 

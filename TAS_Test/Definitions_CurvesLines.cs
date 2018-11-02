@@ -3,10 +3,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BH.oM.Environment.Elements;
 using BH.oM.Environment.Properties;
 using BH.oM.Geometry;
-using BH.Engine.Environment;
-using BH.Engine.Geometry;
+//using BH.Engine.Environment;
+//using BH.Engine.Geometry;
 using System.Collections.Generic;
-
+/*
 namespace TAS_Test
 {
     [TestClass]
@@ -14,7 +14,7 @@ namespace TAS_Test
     {
         [TestMethod]
         public void TestMethod1()
-        {/*
+        {
             //Input
             Point pt1 = new Point();
             Point pt2 = new Point();
@@ -45,8 +45,8 @@ namespace TAS_Test
 
             //Edge is just a variable name of a line that is a Boundary line. See the Query Edges in Geometry_Engine.
 
-            //Polygon is a polyline where the end points join */
+            //Polygon is a polyline where the end points join 
         }
     }
-}
+}*/
 
