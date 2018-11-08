@@ -43,7 +43,9 @@ namespace BH.Adapter.TAS
 
         public List<IBHoMObject> Read()
         {
-            return new List<IBHoMObject>();
+            List<IBHoMObject> bhomObjects = new List<IBHoMObject>();
+
+            return bhomObjects;
         }
 
 
