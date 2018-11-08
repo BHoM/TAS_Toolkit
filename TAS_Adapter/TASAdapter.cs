@@ -48,7 +48,7 @@ namespace BH.Adapter.TAS
         {
             List<IBHoMObject> returnObjs = new List<IBHoMObject>();
 
-            TBD.TBDDocument tbdDocument = GetTbdDocument(); //Open the TBD Document for pulling data from
+            GetTbdDocument(); //Open the TBD Document for pulling data from
 
             returnObjs.AddRange(Read());
 
