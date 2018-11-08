@@ -62,46 +62,67 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.Space ToBHoM(this TBD.zone tbdZone, out double minElevation)
+        public static BHE.Elements.Space ToBHoM(this TBD.zone tbdZone)
         {
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
 
             //Space Data
             bHoMSpace.Name = tbdZone.name;
-            /*int internalConditionIndex = 0;
-            while (tasZone.GetIC(internalConditionIndex) != null)
+            bHoMSpace.CoolingLoad = tbdZone.maxCoolingLoad;
+            bHoMSpace.HeatingLoad = tbdZone.maxHeatingLoad;
+
+            string tbdDescription = tbdZone.description;
+            bHoMSpace.CustomData.Add("tbdDescription", tbdDescription);
+
+            double tbdDaylightFactor = tbdZone.daylightFactor;
+            bHoMSpace.CustomData.Add("tbdDaylightFactor", tbdDaylightFactor);
+
+            double tbdExposedPerimeter = tbdZone.exposedPerimeter;
+            bHoMSpace.CustomData.Add("tbdExposedPerimeter", tbdExposedPerimeter);
+
+            double tbdFloorArea = tbdZone.floorArea;
+            bHoMSpace.CustomData.Add("tbdFloorArea", tbdFloorArea);
+
+            //add all remaining properties into Custom Data
+
+            int internalConditionIndex = 0;
+
+            TBD.InternalCondition tbdInternalCondition = null;
+            
+            while ((tbdInternalCondition = tbdZone.GetIC(internalConditionIndex)) != null)
                 {
-                    bHoMSpace.InternalConditions.Add(ToBHoM(tasZone.GetIC(0)));
+ 
+                    bHoMSpace.InternalConditions.Add(ToBHoM(tbdInternalCondition));
                     internalConditionIndex++;
-                }*/
-
-            //Geometry
-            int tbdZoneSurfaceIndex = 0;
-            minElevation = double.MaxValue;
-            zoneSurface tbdZoneSurface = null;
-            while ((tbdZoneSurface = tbdZone.GetSurface(tbdZoneSurfaceIndex)) != null)
-            {
-                int tbdRoomSurfaceIndex = 0;
-                RoomSurface tbdRoomSurface = null;
-                while ((tbdRoomSurface = tbdZoneSurface.GetRoomSurface(tbdRoomSurfaceIndex)) != null)
-                {
-                    if (tbdRoomSurface.GetPerimeter() != null)
-                    {
-                        BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = ToBHoM(tbdZoneSurface.buildingElement);
-                        BHE.Elements.BuildingElement bHoMBuildingElement = new BuildingElement()
-                        {
-                            Name = bHoMBuildingElementProperties.Name,
-                            //BuildingElementGeometry = tasRoomSrf.ToBHoM(),
-                            BuildingElementProperties = bHoMBuildingElementProperties
-                        };
-
-                        minElevation = Math.Min(minElevation, BH.Engine.TAS.Query.MinElevation(tbdRoomSurface.GetPerimeter()));
-                        //bHoMSpace.BuildingElements.Add(bHoMBuildingElement);
-                    }
-                    tbdRoomSurfaceIndex++;
                 }
-                tbdZoneSurfaceIndex++;
-            }
+
+            ////Geometry
+            //int tbdZoneSurfaceIndex = 0;
+            //minElevation = double.MaxValue;
+            //zoneSurface tbdZoneSurface = null;
+            //while ((tbdZoneSurface = tbdZone.GetSurface(tbdZoneSurfaceIndex)) != null)
+            //{
+            //    int tbdRoomSurfaceIndex = 0;
+            //    RoomSurface tbdRoomSurface = null;
+            //    while ((tbdRoomSurface = tbdZoneSurface.GetRoomSurface(tbdRoomSurfaceIndex)) != null)
+            //    {
+            //        if (tbdRoomSurface.GetPerimeter() != null)
+            //        {
+            //            BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = ToBHoM(tbdZoneSurface.buildingElement);
+            //            BHE.Elements.BuildingElement bHoMBuildingElement = new BuildingElement()
+            //            {
+            //                Name = bHoMBuildingElementProperties.Name,
+            //                //BuildingElementGeometry = tasRoomSrf.ToBHoM(),
+            //                BuildingElementProperties = bHoMBuildingElementProperties
+            //            };
+
+            //            minElevation = Math.Min(minElevation, BH.Engine.TAS.Query.MinElevation(tbdRoomSurface.GetPerimeter()));
+            //            //bHoMSpace.BuildingElements.Add(bHoMBuildingElement);
+            //        }
+            //        tbdRoomSurfaceIndex++;
+            //    }
+            //    tbdZoneSurfaceIndex++;
+            //}
 
             //Space Custom Data
             System.Drawing.Color spaceRGB = Query.GetRGB(tbdZone.colour);
@@ -110,11 +131,12 @@ namespace BH.Engine.TAS
             return bHoMSpace;
         }
 
-        public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone)
-        {
-            double aMinElevation;
-            return ToBHoM(tasZone, out aMinElevation);
-        }
+        // we do not need aMin Elecation
+        //public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone)
+        //{
+        //    double aMinElevation;
+        //    return ToBHoM(tasZone, out aMinElevation);
+        //}
 
         /***************************************************/
 
@@ -138,7 +160,7 @@ namespace BH.Engine.TAS
             if (bHoMBuildingElementProperties == null)
                 bHoMBuildingElementProperties = new BuildingElementProperties();
 
-            bHoMBuildingElementProperties.BuildingElementType = aBuildingElementType;
+            //bHoMBuildingElementProperties.BuildingElementType = aBuildingElementType;
             bHoMBuildingElementProperties.Name = aName;
             //BuildingElementProperties do not handle Thickness.
             //bHoMBuildingElementProperties.Thickness = tasBuildingElement.width;
@@ -367,14 +389,99 @@ namespace BH.Engine.TAS
         {
             if (tbdInternalCondition == null)
                 return null;
-    
+
+            //BHE.Elements.InternalCondition bHoMInternalCondition = new BHE.Elements.InternalCondition;
+            //{
+            //    string Name = tbdInternalCondition.name;
+
+            //    string tbdICDescription = tbdInternalCondition.description;
+            //    bHoMInternalCondition.CustomData.Add("tbdICDescription", tbdICDescription);
+
+            //    int tbdICIncludeSolarInMRT= tbdInternalCondition.includeSolarInMRT;
+
+            //    int GetTypeIndex = 0;
+            //    while ( tbdICDayType = tbdInternalCondition.GetDayType(GetTypeIndex) != null )
+            //    {
+            //        bHoMInternalCondition.DayTypes = tbdICDayType;
+            //    }
+
+            //}
+
             BHE.Elements.InternalCondition bHoMInternalCondition = new BHE.Elements.InternalCondition
             {
-                Name = tbdInternalCondition.name
+                Name = tbdInternalCondition.name, 
             };
+
+            int GetTypeIndex = 0;
+            TBD.dayType tbdICDayType = null;
+            while ((tbdICDayType = tbdInternalCondition.GetDayType(GetTypeIndex)) != null)
+            {
+                bHoMInternalCondition.DayTypes.Add(tbdICDayType.ToBHoM());
+                GetTypeIndex++;
+            }
+
+            //get internal Gain
+            TBD.IInternalGain tbdICInternalGain = null;
+            tbdICInternalGain = tbdInternalCondition.GetInternalGain();
+
+            bHoMInternalCondition.InternalGain.Illuminance = tbdICInternalGain.targetIlluminance;
+
+            TBD.Emitter tbdEmitter = null;
+            tbdEmitter = tbdInternalCondition.GetHeatingEmitter();
+            bHoMInternalCondition.Emitter.EmitterType = EmitterType.Heating;
+            bHoMInternalCondition.Emitter.Name = tbdEmitter.name;
+            bHoMInternalCondition.Emitter.EmitterProperties.RadiantProportion = tbdEmitter.radiantProportion;
+
+            tbdEmitter = tbdInternalCondition.GetCoolingEmitter();
+            bHoMInternalCondition.Emitter.EmitterType = EmitterType.Cooling;
+            bHoMInternalCondition.Emitter.Name = tbdEmitter.name;
+            bHoMInternalCondition.Emitter.EmitterProperties.RadiantProportion = tbdEmitter.radiantProportion;
+            //add all remaining properies
+
+            //get internal Gain
+            TBD.Thermostat tbdICThermostat = null;
+            tbdICThermostat = tbdInternalCondition.GetThermostat();
+
+            bHoMInternalCondition.Thermostat.Name = tbdICThermostat.name;
+
+            float upperLimit = tbdInternalCondition.GetUpperLimit();
+            bHoMInternalCondition.Thermostat.CustomData.Add("upperLimit", upperLimit);
+
 
             return bHoMInternalCondition;
         }
+
+        /***************************************************/
+        public static BHE.Elements.SimulationDayType ToBHoM(this TBD.dayType type)
+        {
+            if (type.name.Equals("Weekday"))
+                return SimulationDayType.Weekday;
+            if (type.name.Equals("Monday"))
+                return SimulationDayType.Monday;
+            if (type.name.Equals("Tuesday"))
+                return SimulationDayType.Tuesday;
+            if (type.name.Equals("Wednesday"))
+                return SimulationDayType.Wednesday;
+            if (type.name.Equals("Thursday"))
+                return SimulationDayType.Thursday;
+            if (type.name.Equals("Friday"))
+                return SimulationDayType.Friday;
+            if (type.name.Equals("Saturday"))
+                return SimulationDayType.Saturday;
+            if (type.name.Equals("Sunday"))
+                return SimulationDayType.Sunday;
+            if (type.name.Equals("Public Holiday"))
+                return SimulationDayType.PublicHoliday;
+            if (type.name.Equals("CDD"))
+                return SimulationDayType.CoolingDesignDay;
+            if (type.name.Equals("HDD"))
+                return SimulationDayType.HeatingDesignDay;
+            if (type.name.Equals("Weekend"))
+                return SimulationDayType.Weekend;
+
+            return SimulationDayType.Undefined;
+        }
+        
 
         /***************************************************/
 
