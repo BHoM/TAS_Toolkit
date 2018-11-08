@@ -9,6 +9,8 @@ using BH.oM.Environment.Interface;
 using BHG = BH.oM.Geometry;
 using BH.Engine;
 
+using BH.Engine.TAS;
+
 namespace BH.Adapter.TAS
 {
     public partial class TasAdapter : BHoMAdapter
@@ -44,7 +46,10 @@ namespace BH.Adapter.TAS
         public List<IBHoMObject> Read()
         {
             List<IBHoMObject> bhomObjects = new List<IBHoMObject>();
+
             bhomObjects.AddRange(ReadSpaces());
+            bhomObjects.AddRange(ReadBuildingElements());
+            bhomObjects.AddRange(ReadConstructionLayer());
 
             return bhomObjects;
         }
@@ -120,16 +125,54 @@ namespace BH.Adapter.TAS
         public List<BuildingElement> ReadBuildingElements(List<string> ids = null)
         {
             TBD.Building building = tbdDocument.Building;
-
+            TBD.buildingElement buildingElement = null;
             List<BuildingElement> buildingElements = new List<BuildingElement>();
 
-            int aIndex = 0;
-            TBD.zone aZone = building.GetZone(aIndex);
-            while(aZone != null)
+            /*int elementIndex = 0;
+
+            while ((buildingElement = building.GetBuildingElement(elementIndex)) != null)
+            {
+                buildingElements.Add(buildingElement.ToBHoM()); //Convert element...
+                elementIndex++;
+            }*/
+
+            int zoneIndex = 0;
+            TBD.zone zone = null;
+
+            while((zone = building.GetZone(zoneIndex)) != null)
             {
                 int zoneSurfaceIndex = 0;
+                TBD.zoneSurface zoneSrf = null;
+                while((zoneSrf = zone.GetSurface(zoneSurfaceIndex)) != null)
+                {
+                    int roomSrfIndex = 0;
+                    TBD.RoomSurface roomSrf = null;
+                    while((roomSrf = zoneSrf.GetRoomSurface(roomSrfIndex)) != null)
+                    {
+                        if(roomSrf.GetPerimeter() != null)
+                        {
+                            //Sometimes we can have a srf object in TAS without a geometry
+                            buildingElements.Add(zoneSrf.buildingElement.ToBHoM(roomSrf));
+                        }
+                        roomSrfIndex++;
+                    }
+                    zoneSurfaceIndex++;
+                }
+                zoneIndex++;
+            }
+
+
+            //Reading Zones
+            //TBD.zone aZone = building.GetZone(aIndex);
+
+            /*while(aZone != null)
+            {
+                //Reading ZoneSurfaces
+                int zoneSurfaceIndex = 0;
+                TBD.zoneSurface zoneSurface = new TBD.zoneSurface();
                 while (aZone.GetSurface(zoneSurfaceIndex) != null)
                 {
+                    //Reading RoomSurfaces
                     int roomSrfIndex = 0;
                     while (aZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex) != null)
                     {
@@ -158,7 +201,7 @@ namespace BH.Adapter.TAS
                 aIndex++;
                 aZone = building.GetZone(aIndex);
             }
-
+            */
             return buildingElements;
         }
         
@@ -190,25 +233,21 @@ namespace BH.Adapter.TAS
         {
             TBD.Building building = tbdDocument.Building;
 
-            List<BuildingElementProperties> buildingElementProperties = new List<BuildingElementProperties>();
             List<ConstructionLayer> constructionLayer = new List<ConstructionLayer>();
 
             int buildingElementIndex = 0;
             while (building.GetConstruction(buildingElementIndex) != null)
             {
-
                 TBD.Construction construction = tbdDocument.Building.GetConstruction(buildingElementIndex);
-
-                int MaterialIndex = 1; // TAS doesn't have any material at index 0
-                while (construction.materials(MaterialIndex) != null)
+                TBD.material material = null;
+                int materialIndex = 1; // TAS doesn't have any material at index 0
+                while ((material = construction.materials(materialIndex)) != null)
                 {
-                    TBD.material material = tbdDocument.Building.GetConstruction(buildingElementIndex).materials(MaterialIndex);
                     constructionLayer.Add(Engine.TAS.Convert.ToBHoM(construction, material));
-                    MaterialIndex++;
+                    materialIndex++;
                 }
 
                 buildingElementIndex++;
-
             }
 
             return constructionLayer;

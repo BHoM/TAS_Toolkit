@@ -19,6 +19,87 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
+        public static BHE.Elements.BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement, TBD.RoomSurface geometry)
+        {
+            BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
+            bHoMBuildingElement.Name = tbdBuildingElement.name;
+
+            bHoMBuildingElement.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdBuildingElement.BEType).ToBHoM();
+
+            List<BH.oM.Geometry.ICurve> panelCurves = new List<BH.oM.Geometry.ICurve>();
+            
+            TBD.Perimeter tbdPerimeter = geometry.GetPerimeter();
+            TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
+
+            BHG.ICurve curve = ToBHoM(tbdPolygon);
+            BHG.PolyCurve polyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
+
+            panelCurves.Add(polyCurve);
+
+            bHoMBuildingElement.PanelCurve = BH.Engine.Geometry.Create.PolyCurve(panelCurves);
+
+            bHoMBuildingElement.CustomData.Add("TAS_Description", tbdBuildingElement.description);
+            //bHoMBuildingElement.Construction = tbdBuildingElement.construction;
+
+            //Geometry
+            /*int tbdZoneSurfaceIndex = 0;
+            minElevation = double.MaxValue;
+            zoneSurface tbdZoneSurface = null;
+            while ((tbdZoneSurface = tbdZone.GetSurface(tbdZoneSurfaceIndex)) != null)
+            {
+                int tbdRoomSurfaceIndex = 0;
+                RoomSurface tbdRoomSurface = null;
+                while ((tbdRoomSurface = tbdZoneSurface.GetRoomSurface(tbdRoomSurfaceIndex)) != null)
+                {
+                    if (tbdRoomSurface.GetPerimeter() != null)
+                    {
+                        BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = ToBHoM(tbdZoneSurface.buildingElement);
+                        BHE.Elements.BuildingElement bHoMBuildingElement = new BuildingElement()
+                        {
+                            Name = bHoMBuildingElementProperties.Name,
+                            //BuildingElementGeometry = tasRoomSrf.ToBHoM(),
+                            BuildingElementProperties = bHoMBuildingElementProperties
+                        };
+
+                        minElevation = Math.Min(minElevation, BH.Engine.TAS.Query.MinElevation(tbdRoomSurface.GetPerimeter()));
+                        //bHoMSpace.BuildingElements.Add(bHoMBuildingElement);
+                    }
+                    tbdRoomSurfaceIndex++;
+                }
+                tbdZoneSurfaceIndex++;
+            }
+            /*TBD.zone tbdZone = new TBD.zone();
+            zoneSurface tbdZoneSurface = null;
+            int tbdZoneSurfaceIndex = 0;
+            while ((tbdZoneSurface = tbdZone.GetSurface(tbdZoneSurfaceIndex)) != null)
+            {
+                int tbdRoomSurfaceIndex = 0;
+                RoomSurface tbdRoomSurface = null;
+                while ((tbdRoomSurface = tbdZoneSurface.GetRoomSurface(tbdRoomSurfaceIndex)) != null)
+                {
+                    if (tbdRoomSurface.GetPerimeter() != null)
+                    {
+                        BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = BH.Engine.TAS.Convert.ToBHoM(tbdZoneSurface.buildingElement);
+                        {
+                            bHoMBuildingElement.PanelCurve=tbdBuildingElement
+                                
+                            //BuildingElementGeometry = tasRoomSrf.ToBHoM(),
+                            BuildingElementProperties = bHoMBuildingElementProperties
+                        };
+                    }
+                    tbdRoomSurfaceIndex++;
+                }
+                tbdZoneSurfaceIndex++;
+            }*/
+
+            System.Drawing.Color buildingElementRGB = Query.GetRGB(tbdBuildingElement.colour);
+            bHoMBuildingElement.CustomData.Add("Colour", buildingElementRGB);
+
+            return bHoMBuildingElement;
+        }
+
+
+
         public static BHE.Elements.Building ToBHoM(this TBD.Building tbdBuilding)
         {
 
@@ -30,7 +111,7 @@ namespace BH.Engine.TAS
             TBD.buildingElement aBuildingElement = null;
             while ((aBuildingElement = tbdBuilding.GetBuildingElement(buildingElementIndex)) != null)
             {
-                buildingElementPropertiesList.Add(ToBHoM(aBuildingElement));
+                //buildingElementPropertiesList.Add(ToBHoM(aBuildingElement));
                 buildingElementIndex++;
             }
 
@@ -90,11 +171,10 @@ namespace BH.Engine.TAS
             TBD.InternalCondition tbdInternalCondition = null;
             
             while ((tbdInternalCondition = tbdZone.GetIC(internalConditionIndex)) != null)
-                {
- 
-                    bHoMSpace.InternalConditions.Add(ToBHoM(tbdInternalCondition));
-                    internalConditionIndex++;
-                }
+            {
+                bHoMSpace.InternalConditions.Add(ToBHoM(tbdInternalCondition));
+                internalConditionIndex++;
+            }
 
             ////Geometry
             //int tbdZoneSurfaceIndex = 0;
@@ -140,7 +220,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BuildingElementProperties ToBHoM(this TBD.buildingElement tbdBuildingElement)
+        /*public static BuildingElementProperties ToBHoM(this TBD.buildingElement tbdBuildingElement)
         {
         //  by MD 2018-05-21 IN TAS Building Element is type with property and does not have geometry. 
         // IN BHoM Building element  is instance including geometry and property
@@ -171,7 +251,7 @@ namespace BH.Engine.TAS
 
             return bHoMBuildingElementProperties;
 
-        }
+        }*/
 
         /***************************************************/
 
@@ -281,12 +361,33 @@ namespace BH.Engine.TAS
         public static BHE.Elements.ConstructionLayer ToBHoM(this TBD.Construction tbdConstructionLayer, material tbdMaterial)
         {
             BHE.Elements.ConstructionLayer bhomConstructionLayer = new BHE.Elements.ConstructionLayer()
-            {       
-               Thickness = tbdMaterial.width,
-               Material = tbdMaterial.ToBHoM()
-              
+            {
+                Thickness = tbdMaterial.width,
+                Material = tbdMaterial.ToBHoM(),
+                Name = tbdConstructionLayer.name,
+                BHoM_Guid = new Guid(tbdConstructionLayer.GUID),
+                UValues = tbdConstructionLayer.GetUValue() as List<double>,
+                ConstructionType = tbdConstructionLayer.type.ToBHoM(),
+                AdditionalHeatTransfer = tbdConstructionLayer.additionalHeatTransfer,
+                FFactor = tbdConstructionLayer.FFactor,
             };
+            bhomConstructionLayer.CustomData.Add("TAS_Description", tbdConstructionLayer.description);
             return bhomConstructionLayer;
+        }
+
+        /***************************************************/
+
+        public static BHE.Elements.ConstructionType ToBHoM(this TBD.ConstructionTypes type)
+        {
+            switch(type)
+            {
+                case ConstructionTypes.tcdOpaqueConstruction:
+                    return ConstructionType.Opaque;
+                case ConstructionTypes.tcdTransparentConstruction:
+                    return ConstructionType.Transparent;
+                default:
+                    return ConstructionType.Undefined;
+            }
         }
 
         /***************************************************/
@@ -300,10 +401,9 @@ namespace BH.Engine.TAS
              };
         }
 
-    /***************************************************/
+        /***************************************************/
 
-    public static BHE.Elements.Panel ToBHoM(this TBD.RoomSurface tbdRoomSurface)
-
+        public static BHE.Elements.Panel ToBHoM(this TBD.RoomSurface tbdRoomSurface)
         {
             BHE.Elements.Panel bHoMPanel = new BHE.Elements.Panel();
 
@@ -334,7 +434,6 @@ namespace BH.Engine.TAS
                     {
                         Name = tbdMaterial.name,
                         Description = tbdMaterial.description,
-                        //Thickness = tasMaterial.width,
                         Conductivity = tbdMaterial.conductivity,
                         SpecificHeat = tbdMaterial.specificHeat,
                         Density = tbdMaterial.density,
@@ -344,8 +443,9 @@ namespace BH.Engine.TAS
                         LightReflectanceExternal = tbdMaterial.externalLightReflectance,
                         LightReflectanceInternal = tbdMaterial.internalLightReflectance,
                         EmissivityExternal = tbdMaterial.externalEmissivity,
-                        EmissivityInternal = tbdMaterial.internalEmissivity
+                        EmissivityInternal = tbdMaterial.internalEmissivity,
                     };
+                    bhomOpaqeMaterial.MaterialProperties.Thickness = tbdMaterial.width;
                     return bhomOpaqeMaterial;
 
                 case MaterialType.Transparent:
@@ -353,7 +453,6 @@ namespace BH.Engine.TAS
                     {
                         Name = tbdMaterial.name,
                         Description = tbdMaterial.description,
-                        //Thickness = tasMaterial.width, //Elements, ConstructionLayer?
                         Conductivity = tbdMaterial.conductivity,
                         VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor,
                         SolarTransmittance = tbdMaterial.solarTransmittance,
@@ -364,19 +463,23 @@ namespace BH.Engine.TAS
                         LightReflectanceInternal = tbdMaterial.internalLightReflectance,
                         EmissivityExternal = tbdMaterial.externalEmissivity,
                         EmissivityInternal = tbdMaterial.internalEmissivity
-
                     };
+                    bhomTransparentMaterial.MaterialProperties.Thickness = tbdMaterial.width;
+                    if (bhomTransparentMaterial.MaterialProperties is GlazingMaterialProperties)
+                        (bhomTransparentMaterial.MaterialProperties as GlazingMaterialProperties).IsBlind = (tbdMaterial.isBlind == 1);
                     return bhomTransparentMaterial;
 
                 case MaterialType.Gas:
                     BHE.Materials.GasMaterial bhomGasMaterial = new BHE.Materials.GasMaterial
                     {
-                    Name = tbdMaterial.name,
-                    Description = tbdMaterial.description,
-                    //Thickness = tasMaterial.width,
-                    ConvectionCoefficient = tbdMaterial.convectionCoefficient,
-                    VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor
+                        Name = tbdMaterial.name,
+                        Description = tbdMaterial.description,
+                        ConvectionCoefficient = tbdMaterial.convectionCoefficient,
+                        VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor
                     };
+                    bhomGasMaterial.MaterialProperties.Thickness = tbdMaterial.width;
+                    if (bhomGasMaterial.MaterialProperties is GlazingMaterialProperties)
+                        (bhomGasMaterial.MaterialProperties as GlazingMaterialProperties).IsBlind = (tbdMaterial.isBlind == 1);
 
                     return bhomGasMaterial;
             }
