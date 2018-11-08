@@ -259,12 +259,33 @@ namespace BH.Engine.TAS
         public static BHE.Elements.ConstructionLayer ToBHoM(this TBD.Construction tbdConstructionLayer, material tbdMaterial)
         {
             BHE.Elements.ConstructionLayer bhomConstructionLayer = new BHE.Elements.ConstructionLayer()
-            {       
-               Thickness = tbdMaterial.width,
-               Material = tbdMaterial.ToBHoM()
-              
+            {
+                Thickness = tbdMaterial.width,
+                Material = tbdMaterial.ToBHoM(),
+                Name = tbdConstructionLayer.name,
+                BHoM_Guid = new Guid(tbdConstructionLayer.GUID),
+                UValues = tbdConstructionLayer.GetUValue() as List<double>,
+                ConstructionType = tbdConstructionLayer.type.ToBHoM(),
+                AdditionalHeatTransfer = tbdConstructionLayer.additionalHeatTransfer,
+                FFactor = tbdConstructionLayer.FFactor,
             };
+            bhomConstructionLayer.CustomData.Add("TAS_Description", tbdConstructionLayer.description);
             return bhomConstructionLayer;
+        }
+
+        /***************************************************/
+
+        public static BHE.Elements.ConstructionType ToBHoM(this TBD.ConstructionTypes type)
+        {
+            switch(type)
+            {
+                case ConstructionTypes.tcdOpaqueConstruction:
+                    return ConstructionType.Opaque;
+                case ConstructionTypes.tcdTransparentConstruction:
+                    return ConstructionType.Transparent;
+                default:
+                    return ConstructionType.Undefined;
+            }
         }
 
         /***************************************************/
@@ -312,7 +333,6 @@ namespace BH.Engine.TAS
                     {
                         Name = tbdMaterial.name,
                         Description = tbdMaterial.description,
-                        //Thickness = tasMaterial.width,
                         Conductivity = tbdMaterial.conductivity,
                         SpecificHeat = tbdMaterial.specificHeat,
                         Density = tbdMaterial.density,
@@ -322,8 +342,9 @@ namespace BH.Engine.TAS
                         LightReflectanceExternal = tbdMaterial.externalLightReflectance,
                         LightReflectanceInternal = tbdMaterial.internalLightReflectance,
                         EmissivityExternal = tbdMaterial.externalEmissivity,
-                        EmissivityInternal = tbdMaterial.internalEmissivity
+                        EmissivityInternal = tbdMaterial.internalEmissivity,
                     };
+                    bhomOpaqeMaterial.MaterialProperties.Thickness = tbdMaterial.width;
                     return bhomOpaqeMaterial;
 
                 case MaterialType.Transparent:
@@ -331,7 +352,6 @@ namespace BH.Engine.TAS
                     {
                         Name = tbdMaterial.name,
                         Description = tbdMaterial.description,
-                        //Thickness = tasMaterial.width, //Elements, ConstructionLayer?
                         Conductivity = tbdMaterial.conductivity,
                         VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor,
                         SolarTransmittance = tbdMaterial.solarTransmittance,
@@ -342,19 +362,23 @@ namespace BH.Engine.TAS
                         LightReflectanceInternal = tbdMaterial.internalLightReflectance,
                         EmissivityExternal = tbdMaterial.externalEmissivity,
                         EmissivityInternal = tbdMaterial.internalEmissivity
-
                     };
+                    bhomTransparentMaterial.MaterialProperties.Thickness = tbdMaterial.width;
+                    if (bhomTransparentMaterial.MaterialProperties is GlazingMaterialProperties)
+                        (bhomTransparentMaterial.MaterialProperties as GlazingMaterialProperties).IsBlind = (tbdMaterial.isBlind == 1);
                     return bhomTransparentMaterial;
 
                 case MaterialType.Gas:
                     BHE.Materials.GasMaterial bhomGasMaterial = new BHE.Materials.GasMaterial
                     {
-                    Name = tbdMaterial.name,
-                    Description = tbdMaterial.description,
-                    //Thickness = tasMaterial.width,
-                    ConvectionCoefficient = tbdMaterial.convectionCoefficient,
-                    VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor
+                        Name = tbdMaterial.name,
+                        Description = tbdMaterial.description,
+                        ConvectionCoefficient = tbdMaterial.convectionCoefficient,
+                        VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor
                     };
+                    bhomGasMaterial.MaterialProperties.Thickness = tbdMaterial.width;
+                    if (bhomGasMaterial.MaterialProperties is GlazingMaterialProperties)
+                        (bhomGasMaterial.MaterialProperties as GlazingMaterialProperties).IsBlind = (tbdMaterial.isBlind == 1);
 
                     return bhomGasMaterial;
             }
