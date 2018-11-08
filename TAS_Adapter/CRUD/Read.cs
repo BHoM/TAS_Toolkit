@@ -41,6 +41,11 @@ namespace BH.Adapter.TAS
                 return null;
         }
 
+        public List<IBHoMObject> Read()
+        {
+            return new List<IBHoMObject>();
+        }
+
 
         /***************************************************/
         /**** Private Methods                           ****/
