@@ -47,6 +47,8 @@ namespace BH.Adapter.TAS
         {
             List<IBHoMObject> bhomObjects = new List<IBHoMObject>();
 
+            bhomObjects.AddRange(ReadConstructionLayer());
+
             return bhomObjects;
         }
 
@@ -202,25 +204,21 @@ namespace BH.Adapter.TAS
         {
             TBD.Building building = tbdDocument.Building;
 
-            List<BuildingElementProperties> buildingElementProperties = new List<BuildingElementProperties>();
             List<ConstructionLayer> constructionLayer = new List<ConstructionLayer>();
 
             int buildingElementIndex = 0;
             while (building.GetConstruction(buildingElementIndex) != null)
             {
-
                 TBD.Construction construction = tbdDocument.Building.GetConstruction(buildingElementIndex);
-
-                int MaterialIndex = 1; // TAS doesn't have any material at index 0
-                while (construction.materials(MaterialIndex) != null)
+                TBD.material material = null;
+                int materialIndex = 1; // TAS doesn't have any material at index 0
+                while ((material = construction.materials(materialIndex)) != null)
                 {
-                    TBD.material material = tbdDocument.Building.GetConstruction(buildingElementIndex).materials(MaterialIndex);
                     constructionLayer.Add(Engine.TAS.Convert.ToBHoM(construction, material));
-                    MaterialIndex++;
+                    materialIndex++;
                 }
 
                 buildingElementIndex++;
-
             }
 
             return constructionLayer;
