@@ -47,6 +47,7 @@ namespace BH.Adapter.TAS
         {
             List<IBHoMObject> bhomObjects = new List<IBHoMObject>();
 
+            bhomObjects.AddRange(ReadBuildingElements());
             bhomObjects.AddRange(ReadConstructionLayer());
 
             return bhomObjects;
@@ -126,16 +127,43 @@ namespace BH.Adapter.TAS
             TBD.buildingElement buildingElement = null;
             List<BuildingElement> buildingElements = new List<BuildingElement>();
 
-            int elementIndex = 0;
+            /*int elementIndex = 0;
 
-            while((buildingElement = building.GetBuildingElement(elementIndex)) != null)
+            while ((buildingElement = building.GetBuildingElement(elementIndex)) != null)
             {
-                //Convert element...
-                buildingElements.Add(buildingElement.ToBHoM());
+                buildingElements.Add(buildingElement.ToBHoM()); //Convert element...
+                elementIndex++;
+            }*/
+
+            int zoneIndex = 0;
+            TBD.zone zone = null;
+
+            while((zone = building.GetZone(zoneIndex)) != null)
+            {
+                int zoneSurfaceIndex = 0;
+                TBD.zoneSurface zoneSrf = null;
+                while((zoneSrf = zone.GetSurface(zoneSurfaceIndex)) != null)
+                {
+                    int roomSrfIndex = 0;
+                    TBD.RoomSurface roomSrf = null;
+                    while((roomSrf = zoneSrf.GetRoomSurface(roomSrfIndex)) != null)
+                    {
+                        if(roomSrf.GetPerimeter() != null)
+                        {
+                            //Sometimes we can have a srf object in TAS without a geometry
+                            buildingElements.Add(zoneSrf.buildingElement.ToBHoM(roomSrf));
+                        }
+                        roomSrfIndex++;
+                    }
+                    zoneSurfaceIndex++;
+                }
+                zoneIndex++;
             }
+
+
             //Reading Zones
             //TBD.zone aZone = building.GetZone(aIndex);
-            
+
             /*while(aZone != null)
             {
                 //Reading ZoneSurfaces
