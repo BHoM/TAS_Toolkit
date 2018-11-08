@@ -19,6 +19,56 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
+        public static BHE.Elements.BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement)
+        {
+            BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
+           
+            bHoMBuildingElement.Name = tbdBuildingElement.name;
+            //bHoMBuildingElement.Construction = tbdBuildingElement.construction;
+            bHoMBuildingElement.CustomData.Add("TAS_Description", tbdBuildingElement.description);
+
+            /*TBD.zone tbdZone = new TBD.zone();
+            zoneSurface tbdZoneSurface = null;
+            int tbdZoneSurfaceIndex = 0;
+            while ((tbdZoneSurface = tbdZone.GetSurface(tbdZoneSurfaceIndex)) != null)
+            {
+                int tbdRoomSurfaceIndex = 0;
+                RoomSurface tbdRoomSurface = null;
+                while ((tbdRoomSurface = tbdZoneSurface.GetRoomSurface(tbdRoomSurfaceIndex)) != null)
+                {
+                    if (tbdRoomSurface.GetPerimeter() != null)
+                    {
+                        BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = BH.Engine.TAS.Convert.ToBHoM(tbdZoneSurface.buildingElement);
+                        {
+                            bHoMBuildingElement.PanelCurve=tbdBuildingElement
+                                
+                            //BuildingElementGeometry = tasRoomSrf.ToBHoM(),
+                            BuildingElementProperties = bHoMBuildingElementProperties
+                        };
+                    }
+                    tbdRoomSurfaceIndex++;
+                }
+                tbdZoneSurfaceIndex++;
+            }*/
+
+            RoomSurface tbdRoomSurface = null;
+            TBD.Perimeter tbdPerimeter = tbdRoomSurface.GetPerimeter();
+            TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
+
+            bHoMBuildingElement.PanelCurve = tbdPerimeter.GetFace;
+
+            bHoMBuildingElement.Openings = tbdPerimeter.GetHole;
+
+            bHoMBuildingElement.Type = tbdBuildingElement.GetType;
+
+            System.Drawing.Color buildingElementRGB = Query.GetRGB(tbdBuildingElement.colour);
+            bHoMBuildingElement.CustomData.Add("Colour", buildingElementRGB);
+
+            return bHoMBuildingElement;
+        }
+
+
+
         public static BHE.Elements.Building ToBHoM(this TBD.Building tbdBuilding)
         {
 
@@ -61,7 +111,7 @@ namespace BH.Engine.TAS
         }
 
         /***************************************************/
-
+        
         public static BHE.Elements.Space ToBHoM(this TBD.zone tbdZone, out double minElevation)
         {
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
@@ -118,7 +168,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BuildingElementProperties ToBHoM(this TBD.buildingElement tbdBuildingElement)
+        /*public static BuildingElementProperties ToBHoM(this TBD.buildingElement tbdBuildingElement)
         {
         //  by MD 2018-05-21 IN TAS Building Element is type with property and does not have geometry. 
         // IN BHoM Building element  is instance including geometry and property
@@ -149,7 +199,7 @@ namespace BH.Engine.TAS
 
             return bHoMBuildingElementProperties;
 
-        }
+        }*/
 
         /***************************************************/
 

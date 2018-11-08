@@ -9,6 +9,8 @@ using BH.oM.Environment.Interface;
 using BHG = BH.oM.Geometry;
 using BH.Engine;
 
+using BH.Engine.TAS;
+
 namespace BH.Adapter.TAS
 {
     public partial class TasAdapter : BHoMAdapter
@@ -121,16 +123,27 @@ namespace BH.Adapter.TAS
         public List<BuildingElement> ReadBuildingElements(List<string> ids = null)
         {
             TBD.Building building = tbdDocument.Building;
-
+            TBD.buildingElement buildingElement = null;
             List<BuildingElement> buildingElements = new List<BuildingElement>();
 
-            int aIndex = 0;
-            TBD.zone aZone = building.GetZone(aIndex);
-            while(aZone != null)
+            int elementIndex = 0;
+
+            while((buildingElement = building.GetBuildingElement(elementIndex)) != null)
             {
+                //Convert element...
+                buildingElements.Add(buildingElement.ToBHoM());
+            }
+            //Reading Zones
+            //TBD.zone aZone = building.GetZone(aIndex);
+            
+            /*while(aZone != null)
+            {
+                //Reading ZoneSurfaces
                 int zoneSurfaceIndex = 0;
+                TBD.zoneSurface zoneSurface = new TBD.zoneSurface();
                 while (aZone.GetSurface(zoneSurfaceIndex) != null)
                 {
+                    //Reading RoomSurfaces
                     int roomSrfIndex = 0;
                     while (aZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex) != null)
                     {
@@ -159,7 +172,7 @@ namespace BH.Adapter.TAS
                 aIndex++;
                 aZone = building.GetZone(aIndex);
             }
-
+            */
             return buildingElements;
         }
         
