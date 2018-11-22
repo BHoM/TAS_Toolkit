@@ -152,17 +152,53 @@ namespace BH.Engine.TAS
             bHoMSpace.CoolingLoad = tbdZone.maxCoolingLoad;
             bHoMSpace.HeatingLoad = tbdZone.maxHeatingLoad;
 
-            string tbdDescription = tbdZone.description;
-            bHoMSpace.CustomData.Add("tbdDescription", tbdDescription);
-
             double tbdDaylightFactor = tbdZone.daylightFactor;
             bHoMSpace.CustomData.Add("tbdDaylightFactor", tbdDaylightFactor);
+
+            string tbdDescription = tbdZone.description;
+            bHoMSpace.CustomData.Add("tbdDescription", tbdDescription);
 
             double tbdExposedPerimeter = tbdZone.exposedPerimeter;
             bHoMSpace.CustomData.Add("tbdExposedPerimeter", tbdExposedPerimeter);
 
+            double tbdExternal = tbdZone.external;
+            bHoMSpace.CustomData.Add("tbdExternal", tbdExternal);
+
+            double tbdFacadeLength = tbdZone.facadeLength;
+            bHoMSpace.CustomData.Add("tbdFacadeLength", tbdFacadeLength);
+
+            double tbdFixedConvectionCoefficient = tbdZone.fixedConvectionCoefficient;
+            bHoMSpace.CustomData.Add("tbdFixedConvectionCoefficient", tbdFixedConvectionCoefficient);
+
             double tbdFloorArea = tbdZone.floorArea;
             bHoMSpace.CustomData.Add("tbdFloorArea", tbdFloorArea);
+
+            string tbdGUID = tbdZone.GUID;
+            bHoMSpace.CustomData.Add("tbdGUID", tbdGUID);
+
+            double tbdLength = tbdZone.length;
+            bHoMSpace.CustomData.Add("tbdLength", tbdLength);
+
+            double tbdNumber = tbdZone.number;
+            bHoMSpace.CustomData.Add("tbdNumber", tbdNumber);
+
+            double tbdSizeCooling = tbdZone.sizeCooling;
+            bHoMSpace.CustomData.Add("tbdSizeCooling", tbdSizeCooling);
+
+            double tbdSizeHeating = tbdZone.sizeHeating;
+            bHoMSpace.CustomData.Add("tbdSizeHeating", tbdSizeHeating);
+
+            double tbdVolume = tbdZone.volume;
+            bHoMSpace.CustomData.Add("tbdVolume", tbdVolume);
+
+            double tbdWallFloorAreaRatio = tbdZone.wallFloorAreaRatio;
+            bHoMSpace.CustomData.Add("tbdWallFloorAreaRatio", tbdWallFloorAreaRatio);
+
+
+
+
+
+
 
             //add all remaining properties into Custom Data
 
