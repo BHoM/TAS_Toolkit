@@ -531,30 +531,16 @@ namespace BH.Engine.TAS
             if (tbdInternalCondition == null)
                 return null;
 
-            //BHE.Elements.InternalCondition bHoMInternalCondition = new BHE.Elements.InternalCondition;
-            //{
-            //    string Name = tbdInternalCondition.name;
-
-            //    string tbdICDescription = tbdInternalCondition.description;
-            //    bHoMInternalCondition.CustomData.Add("tbdICDescription", tbdICDescription);
-
-            //    int tbdICIncludeSolarInMRT= tbdInternalCondition.includeSolarInMRT;
-
-            //    int GetTypeIndex = 0;
-            //    while ( tbdICDayType = tbdInternalCondition.GetDayType(GetTypeIndex) != null )
-            //    {
-            //        bHoMInternalCondition.DayTypes = tbdICDayType;
-            //    }
-
-            //}
-
-
             // get Internal Condition
             BHE.Elements.InternalCondition bHoMInternalCondition = new BHE.Elements.InternalCondition
             {
                 Name = tbdInternalCondition.name,
                 IncludeSolarInMeanRadiantTemp = tbdInternalCondition.includeSolarInMRT !=0,//converting TAS int to Bool
+                
             };
+
+            string tbdICDescription = tbdInternalCondition.description;
+            bHoMInternalCondition.CustomData.Add("tbdICDescription", tbdICDescription);
 
             int GetTypeIndex = 0;
             TBD.dayType tbdICDayType = null;
@@ -569,6 +555,24 @@ namespace BH.Engine.TAS
             tbdICInternalGain = tbdInternalCondition.GetInternalGain();
 
             bHoMInternalCondition.InternalGain.Illuminance = tbdICInternalGain.targetIlluminance;
+            bHoMInternalCondition.InternalGain.Name = tbdICInternalGain.name;
+            bHoMInternalCondition.InternalGain.OutsideAirRatePerPerson = tbdICInternalGain.freshAirRate;
+            bHoMInternalCondition.InternalGain.PersonGain = tbdICInternalGain.personGain;
+            bHoMInternalCondition.InternalGain.RadiationProperties.EquipmentRadiation = tbdICInternalGain.equipmentRadProp;
+            bHoMInternalCondition.InternalGain.CoefficientProperties.EquipmentViewCoefficient = tbdICInternalGain.equipmentViewCoefficient;
+            bHoMInternalCondition.InternalGain.RadiationProperties.LightingRadiation = tbdICInternalGain.lightingRadProp;
+            bHoMInternalCondition.InternalGain.CoefficientProperties.LightingViewCoefficient = tbdICInternalGain.lightingViewCoefficient;
+            bHoMInternalCondition.InternalGain.RadiationProperties.OccupantRadiation = tbdICInternalGain.occupantRadProp;
+            bHoMInternalCondition.InternalGain.CoefficientProperties.OccupantViewCoefficient = tbdICInternalGain.occupantViewCoefficient;
+
+            double tbdInternalGainActivityID = tbdICInternalGain.activityID;
+            bHoMInternalCondition.InternalGain.CustomData.Add("tbdInternalGainActivityID", tbdInternalGainActivityID);
+
+            string tbdInternalGainDescription = tbdICInternalGain.description;
+            bHoMInternalCondition.InternalGain.CustomData.Add("tbdInternalGainDescription", tbdInternalGainDescription);
+
+            double tbdInternalDomestricHotWater = tbdICInternalGain.domesticHotWater;
+            bHoMInternalCondition.InternalGain.CustomData.Add("tbdInternalDomestricHotWater", tbdInternalDomestricHotWater);
 
             //get Emitter
             TBD.Emitter tbdEmitter = null;
