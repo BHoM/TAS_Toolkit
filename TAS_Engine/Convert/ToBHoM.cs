@@ -548,9 +548,12 @@ namespace BH.Engine.TAS
 
             //}
 
+
+            // get Internal Condition
             BHE.Elements.InternalCondition bHoMInternalCondition = new BHE.Elements.InternalCondition
             {
-                Name = tbdInternalCondition.name, 
+                Name = tbdInternalCondition.name,
+                IncludeSolarInMeanRadiantTemp = tbdInternalCondition.includeSolarInMRT !=0,//converting TAS int to Bool
             };
 
             int GetTypeIndex = 0;
@@ -561,12 +564,13 @@ namespace BH.Engine.TAS
                 GetTypeIndex++;
             }
 
-            //get Emitter
+            //get Internal Gain
             TBD.IInternalGain tbdICInternalGain = null;
             tbdICInternalGain = tbdInternalCondition.GetInternalGain();
 
             bHoMInternalCondition.InternalGain.Illuminance = tbdICInternalGain.targetIlluminance;
 
+            //get Emitter
             TBD.Emitter tbdEmitter = null;
             tbdEmitter = tbdInternalCondition.GetHeatingEmitter();
             bHoMInternalCondition.Emitter.EmitterType = EmitterType.Heating;
@@ -595,7 +599,16 @@ namespace BH.Engine.TAS
             tbdICThermostat = tbdInternalCondition.GetThermostat();
 
             bHoMInternalCondition.Thermostat.Name = tbdICThermostat.name;
+            bHoMInternalCondition.Thermostat.ControlRange = tbdICThermostat.controlRange;
+            bHoMInternalCondition.Thermostat.ProportionalControl =  tbdICThermostat.proportionalControl != 0; //converting TAS int to Bool
 
+            double tbdThermostatRadiantProportion = tbdICThermostat.radiantProportion;
+            bHoMInternalCondition.Thermostat.CustomData.Add("tbdThermostatRadiantProportion", tbdThermostatRadiantProportion);
+
+            string tbdThermostatDescription = tbdICThermostat.description;
+            bHoMInternalCondition.Thermostat.CustomData.Add("tbdThermostatDescription", tbdThermostatDescription);
+
+            // TO DO awaiting reply from TAS 2018-11-22 confirming if returns max from 24h values
             float upperLimit = tbdInternalCondition.GetUpperLimit();
             bHoMInternalCondition.Thermostat.CustomData.Add("upperLimit", upperLimit);
 
