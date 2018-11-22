@@ -132,6 +132,7 @@ namespace BH.Engine.TAS
                 Latitude = tbdBuilding.latitude,
                 Longitude = tbdBuilding.longitude,
                 Elevation = tbdBuilding.maxBuildingAltitude,
+                //tbdBuilding.peakCooling
                 //BuildingElementProperties = buildingElementPropertiesList,
                 //Spaces = spaceList,
 
@@ -152,22 +153,31 @@ namespace BH.Engine.TAS
             bHoMSpace.CoolingLoad = tbdZone.maxCoolingLoad;
             bHoMSpace.HeatingLoad = tbdZone.maxHeatingLoad;
 
+            //all not supported information in BHoM Space are added to Space_Custom Data
+
+            System.Drawing.Color spaceRGB = Query.GetRGB(tbdZone.colour);
+            bHoMSpace.CustomData.Add("Colour", spaceRGB);
+
             double tbdDaylightFactor = tbdZone.daylightFactor;
             bHoMSpace.CustomData.Add("tbdDaylightFactor", tbdDaylightFactor);
 
             string tbdDescription = tbdZone.description;
             bHoMSpace.CustomData.Add("tbdDescription", tbdDescription);
 
+            //This is the exposed length of the perimeter of the Zone at a height of 0m. If the Zone is on the ground floor and the ground 
+            //construction has an F-factor this length is used to calculate the additional heat loss
             double tbdExposedPerimeter = tbdZone.exposedPerimeter;
             bHoMSpace.CustomData.Add("tbdExposedPerimeter", tbdExposedPerimeter);
 
-            double tbdExternal = tbdZone.external;
+            double tbdExternal = tbdZone.external; //defines if space is external
             bHoMSpace.CustomData.Add("tbdExternal", tbdExternal);
 
+            //This value is the exposed length of the façade at a height of 1.1m and is defined in the NCM document. 
+            //It is used for the Criterion 3 Solar gain check to calculate the limiting solar value
             double tbdFacadeLength = tbdZone.facadeLength;
             bHoMSpace.CustomData.Add("tbdFacadeLength", tbdFacadeLength);
 
-            double tbdFixedConvectionCoefficient = tbdZone.fixedConvectionCoefficient;
+            double tbdFixedConvectionCoefficient = tbdZone.fixedConvectionCoefficient; //external spaces have special ConvectionCoefficient
             bHoMSpace.CustomData.Add("tbdFixedConvectionCoefficient", tbdFixedConvectionCoefficient);
 
             double tbdFloorArea = tbdZone.floorArea;
@@ -176,6 +186,7 @@ namespace BH.Engine.TAS
             string tbdGUID = tbdZone.GUID;
             bHoMSpace.CustomData.Add("tbdGUID", tbdGUID);
 
+            //This is the maximum length between two edges in the Zone. This is an internal value and is used internally for checking geometry
             double tbdLength = tbdZone.length;
             bHoMSpace.CustomData.Add("tbdLength", tbdLength);
 
@@ -193,14 +204,6 @@ namespace BH.Engine.TAS
 
             double tbdWallFloorAreaRatio = tbdZone.wallFloorAreaRatio;
             bHoMSpace.CustomData.Add("tbdWallFloorAreaRatio", tbdWallFloorAreaRatio);
-
-
-
-
-
-
-
-            //add all remaining properties into Custom Data
 
             int internalConditionIndex = 0;
 
@@ -241,8 +244,7 @@ namespace BH.Engine.TAS
             //}
 
             //Space Custom Data
-            System.Drawing.Color spaceRGB = Query.GetRGB(tbdZone.colour);
-            bHoMSpace.CustomData.Add("Colour", spaceRGB);
+
 
             return bHoMSpace;
         }
@@ -559,7 +561,7 @@ namespace BH.Engine.TAS
                 GetTypeIndex++;
             }
 
-            //get internal Gain
+            //get Emitter
             TBD.IInternalGain tbdICInternalGain = null;
             tbdICInternalGain = tbdInternalCondition.GetInternalGain();
 
@@ -570,14 +572,25 @@ namespace BH.Engine.TAS
             bHoMInternalCondition.Emitter.EmitterType = EmitterType.Heating;
             bHoMInternalCondition.Emitter.Name = tbdEmitter.name;
             bHoMInternalCondition.Emitter.EmitterProperties.RadiantProportion = tbdEmitter.radiantProportion;
+            bHoMInternalCondition.Emitter.EmitterProperties.ViewCoefficient = tbdEmitter.viewCoefficient;
+            bHoMInternalCondition.Emitter.EmitterProperties.SwitchOffOutsideTemp = tbdEmitter.offOutsideTemp;
+            bHoMInternalCondition.Emitter.EmitterProperties.MaxOutsideTemp = tbdEmitter.maxOutsideTemp;
+
+            string tbdEmitterDescriptionHeating = tbdEmitter.description;
+            bHoMInternalCondition.Emitter.CustomData.Add("tbdEmitterDescription", tbdEmitterDescriptionHeating);
 
             tbdEmitter = tbdInternalCondition.GetCoolingEmitter();
             bHoMInternalCondition.Emitter.EmitterType = EmitterType.Cooling;
             bHoMInternalCondition.Emitter.Name = tbdEmitter.name;
             bHoMInternalCondition.Emitter.EmitterProperties.RadiantProportion = tbdEmitter.radiantProportion;
-            //add all remaining properies
+            bHoMInternalCondition.Emitter.EmitterProperties.ViewCoefficient = tbdEmitter.viewCoefficient;
+            bHoMInternalCondition.Emitter.EmitterProperties.SwitchOffOutsideTemp = tbdEmitter.offOutsideTemp;
+            bHoMInternalCondition.Emitter.EmitterProperties.MaxOutsideTemp = tbdEmitter.maxOutsideTemp;
 
-            //get internal Gain
+            string tbdEmitterDescriptionCooling = tbdEmitter.description;
+            bHoMInternalCondition.Emitter.CustomData.Add("tbdEmitterDescription", tbdEmitterDescriptionCooling);
+
+            //get Thermostat
             TBD.Thermostat tbdICThermostat = null;
             tbdICThermostat = tbdInternalCondition.GetThermostat();
 
