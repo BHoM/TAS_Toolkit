@@ -542,13 +542,14 @@ namespace BH.Engine.TAS
             string tbdICDescription = tbdInternalCondition.description;
             bHoMInternalCondition.CustomData.Add("tbdICDescription", tbdICDescription);
 
-            int GetTypeIndex = 0;
-            TBD.dayType tbdICDayType = null;
-            while ((tbdICDayType = tbdInternalCondition.GetDayType(GetTypeIndex)) != null)
-            {
-                bHoMInternalCondition.DayTypes.Add(tbdICDayType.ToBHoM());
-                GetTypeIndex++;
-            }
+                //Day Types
+                int GetTypeIndex = 0;
+                TBD.dayType tbdICDayType = null;
+                while ((tbdICDayType = tbdInternalCondition.GetDayType(GetTypeIndex)) != null)
+                {
+                    bHoMInternalCondition.DayTypes.Add(tbdICDayType.ToBHoM());
+                    GetTypeIndex++;
+                }
 
             //get Internal Gain
             TBD.IInternalGain tbdICInternalGain = null;
@@ -585,7 +586,7 @@ namespace BH.Engine.TAS
             bHoMInternalCondition.Emitter.EmitterProperties.MaxOutsideTemp = tbdEmitter.maxOutsideTemp;
 
             string tbdEmitterDescriptionHeating = tbdEmitter.description;
-            bHoMInternalCondition.Emitter.CustomData.Add("tbdEmitterDescription", tbdEmitterDescriptionHeating);
+            bHoMInternalCondition.Emitter.CustomData.Add("tbdEmitterDescriptionHeating", tbdEmitterDescriptionHeating);
 
             tbdEmitter = tbdInternalCondition.GetCoolingEmitter();
             bHoMInternalCondition.Emitter.EmitterType = EmitterType.Cooling;
@@ -596,7 +597,7 @@ namespace BH.Engine.TAS
             bHoMInternalCondition.Emitter.EmitterProperties.MaxOutsideTemp = tbdEmitter.maxOutsideTemp;
 
             string tbdEmitterDescriptionCooling = tbdEmitter.description;
-            bHoMInternalCondition.Emitter.CustomData.Add("tbdEmitterDescription", tbdEmitterDescriptionCooling);
+            bHoMInternalCondition.Emitter.CustomData.Add("tbdEmitterDescriptionCooling", tbdEmitterDescriptionCooling);
 
             //get Thermostat
             TBD.Thermostat tbdICThermostat = null;
@@ -613,8 +614,14 @@ namespace BH.Engine.TAS
             bHoMInternalCondition.Thermostat.CustomData.Add("tbdThermostatDescription", tbdThermostatDescription);
 
             // TO DO awaiting reply from TAS 2018-11-22 confirming if returns max from 24h values
+
             float upperLimit = tbdInternalCondition.GetUpperLimit();
             bHoMInternalCondition.Thermostat.CustomData.Add("upperLimit", upperLimit);
+
+            float lowerLimit = tbdInternalCondition.GetLowerLimit();
+            bHoMInternalCondition.Thermostat.CustomData.Add("lowerLimit", lowerLimit);
+
+
 
 
             return bHoMInternalCondition;
