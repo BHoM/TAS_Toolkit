@@ -47,6 +47,7 @@ namespace BH.Adapter.TAS
         {
             List<IBHoMObject> bhomObjects = new List<IBHoMObject>();
 
+            bhomObjects.AddRange(ReadBuilding());
             bhomObjects.AddRange(ReadSpaces());
             bhomObjects.AddRange(ReadBuildingElements());
             bhomObjects.AddRange(ReadConstructionLayer());

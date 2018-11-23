@@ -65,7 +65,6 @@ namespace BH.Engine.TAS
 
             bHoMBuildingElement.PanelCurve = BH.Engine.Geometry.Create.PolyCurve(panelCurves);
 
-            //bHoMBuildingElement.CustomData.Add("TAS_Description", tbdBuildingElement.description);
             //bHoMBuildingElement.Construction = tbdBuildingElement.construction;
 
             //Geometry
@@ -95,6 +94,7 @@ namespace BH.Engine.TAS
                 }
                 tbdZoneSurfaceIndex++;
             }
+
             /*TBD.zone tbdZone = new TBD.zone();
             zoneSurface tbdZoneSurface = null;
             int tbdZoneSurfaceIndex = 0;
@@ -122,6 +122,8 @@ namespace BH.Engine.TAS
             return bHoMBuildingElement;
         }
 
+
+        /***************************************************/
 
 
         public static BHE.Elements.Building ToBHoM(this TBD.Building tbdBuilding)
@@ -153,6 +155,7 @@ namespace BH.Engine.TAS
             // here we outputing Building data 
             BHE.Elements.Building bHoMBuilding = new BHE.Elements.Building
             {
+
                 Latitude = tbdBuilding.latitude,
                 Longitude = tbdBuilding.longitude,
                 Elevation = tbdBuilding.maxBuildingAltitude,
@@ -163,7 +166,38 @@ namespace BH.Engine.TAS
 
                 //TODO: location, equipment, spaces, storeys, profiles, IC, EquipmentProperties
             };
-          return bHoMBuilding;
+
+            string tbdBuildingGUID = tbdBuilding.GUID;
+            bHoMBuilding.CustomData.Add("BuildingGUID", tbdBuildingGUID);
+
+            string tbdBuildingDescription = tbdBuilding.description;
+            bHoMBuilding.CustomData.Add("BuildingDescription", tbdBuildingDescription);
+
+            string tbdBuildingName = tbdBuilding.name;
+            bHoMBuilding.CustomData.Add("BuildingName", tbdBuildingName);
+
+            double tbdBuildingNorthAngle = tbdBuilding.northAngle;                    
+            bHoMBuilding.CustomData.Add("BuildingNorthAngle", tbdBuildingNorthAngle);
+
+            string tbdBuildingPath3DFile = tbdBuilding.path3DFile;
+            bHoMBuilding.CustomData.Add("BuildingPath3DFile", tbdBuildingPath3DFile);
+
+            double tbdBuildingPeakCooling = tbdBuilding.peakCooling;
+            bHoMBuilding.CustomData.Add("BuildingPeakCooling", tbdBuildingPeakCooling);
+
+            double tbdBuildingPeakHeating = tbdBuilding.peakHeating;
+            bHoMBuilding.CustomData.Add("BuildingPeakHeating", tbdBuildingPeakHeating);
+
+            string tbdBuildingTBDGUID = tbdBuilding.TBDGUID;
+            bHoMBuilding.CustomData.Add("BuildingTBDGUID", tbdBuildingTBDGUID);
+
+            double tbdBuildingTimeZone = tbdBuilding.timeZone;
+            bHoMBuilding.CustomData.Add("BuildingTimeZone", tbdBuildingTimeZone);
+
+            double tbdBuildingYear = tbdBuilding.year;
+            bHoMBuilding.CustomData.Add("BuildingYear", tbdBuildingYear);
+
+            return bHoMBuilding;
         }
 
         /***************************************************/
