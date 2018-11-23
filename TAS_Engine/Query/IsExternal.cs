@@ -4,7 +4,7 @@ using BH.oM.Base;
 using BH.oM.Reflection.Attributes;
 using BH.oM.Environment.Elements;
 
-namespace BH.Engine.Adapters.Revit
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Query
     {
@@ -19,6 +19,7 @@ namespace BH.Engine.Adapters.Revit
         {
             if (buildingElement == null)
                 return false;
+
 
             //if (buildingElement.CustomData == null)
             //    return false;

@@ -19,43 +19,50 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
-        public static BHE.Elements.BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement, TBD.RoomSurface geometry)
+        public static BHE.Elements.BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement, TBD.RoomSurface tbdRoomSurface)
         {
             BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
 
-            //this is type element so name should be in properties?
-            bHoMBuildingElement.Name = tbdBuildingElement.name;
+            zoneSurface tbdZoneSurface = null;
+            tbdZoneSurface = tbdRoomSurface.zoneSurface;
+            
+            bHoMBuildingElement.Name = "Z"+tbdZoneSurface.zone.number + "_"+ tbdZoneSurface.number + " _"+ tbdZoneSurface.zone.name;
 
-            bHoMBuildingElement.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdBuildingElement.BEType).ToBHoM();
+            string tbdZoneSurfaceGUID = tbdZoneSurface.GUID;
+            bHoMBuildingElement.CustomData.Add("SurfaceGUID", tbdZoneSurfaceGUID);
 
-            double buildingElementBEType = tbdBuildingElement.BEType;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementBEType", buildingElementBEType);
+            TBD.SurfaceType tbdZoneSurfaceType = tbdZoneSurface.type;
+            bHoMBuildingElement.CustomData.Add("SurfaceType", tbdZoneSurfaceType);
 
-            System.Drawing.Color buildingElementColour = Query.GetRGB(tbdBuildingElement.colour);
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementColour", buildingElementColour);
+            double tbdZoneSurfaceAltitude = tbdZoneSurface.altitude;
+            bHoMBuildingElement.CustomData.Add("SurfaceAltitude", tbdZoneSurfaceAltitude);
 
-            string buildingElementDescription = tbdBuildingElement.description;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementDescription", buildingElementDescription);
+            double tbdZoneSurfaceAltitudeRange = tbdZoneSurface.altitudeRange;
+            bHoMBuildingElement.CustomData.Add("SurfaceAltitudeRange", tbdZoneSurfaceAltitudeRange);
 
-            bool buildingElementIsAir = tbdBuildingElement.ghost != 0;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementIsAir", buildingElementIsAir);
+            double tbdZoneSurfaceArea = tbdZoneSurface.area;
+            bHoMBuildingElement.CustomData.Add("SurfaceArea", tbdZoneSurfaceArea);
 
-            bool buildingElementIsGround = tbdBuildingElement.ground !=0;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementIsGround", buildingElementIsGround);
+            double tbdZoneSurfaceInclination = tbdZoneSurface.inclination;
+            bHoMBuildingElement.CustomData.Add("SurfaceInclination", tbdZoneSurfaceInclination);
 
-            string buildingElementGUID = tbdBuildingElement.GUID;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementGUID", buildingElementGUID);
+            double tbdZoneSurfaceInternalArea = tbdZoneSurface.internalArea;
+            bHoMBuildingElement.CustomData.Add("SurfaceInternalArea", tbdZoneSurfaceInternalArea);
 
-            string buildingElementName = tbdBuildingElement.name;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementName", buildingElementName);
+            double tbdZoneSurfaceOrientation = tbdZoneSurface.orientation;
+            bHoMBuildingElement.CustomData.Add("SurfaceOrientation", tbdZoneSurfaceOrientation);
 
-            double buildingElementWidth = tbdBuildingElement.width;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementWidth", buildingElementWidth);
+            double tbdZoneSurfaceReversed = tbdZoneSurface.reversed;
+            bHoMBuildingElement.CustomData.Add("SurfaceReversed", tbdZoneSurfaceReversed);
+
+            //TO DO: 2018-11-23 how to get name form zone here
+            string tbdZoneSurfaceZoneName = tbdZoneSurface.zone.name;
+            bHoMBuildingElement.CustomData.Add("SurfaceZone", tbdZoneSurfaceZoneName);
 
             //Get Geometry from Building Element
             List<BH.oM.Geometry.ICurve> panelCurves = new List<BH.oM.Geometry.ICurve>();
             
-            TBD.Perimeter tbdPerimeter = geometry.GetPerimeter();
+            TBD.Perimeter tbdPerimeter = tbdRoomSurface.GetPerimeter();
             TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
 
             BHG.ICurve curve = ToBHoM(tbdPolygon);
@@ -68,32 +75,32 @@ namespace BH.Engine.TAS
             //bHoMBuildingElement.Construction = tbdBuildingElement.construction;
 
             //Geometry
-            /*int tbdZoneSurfaceIndex = 0;
-            minElevation = double.MaxValue;
-            zoneSurface tbdZoneSurface = null;
-            while ((tbdZoneSurface = tbdZone.GetSurface(tbdZoneSurfaceIndex)) != null)
-            {
-                int tbdRoomSurfaceIndex = 0;
-                RoomSurface tbdRoomSurface = null;
-                while ((tbdRoomSurface = tbdZoneSurface.GetRoomSurface(tbdRoomSurfaceIndex)) != null)
-                {
-                    if (tbdRoomSurface.GetPerimeter() != null)
-                    {
-                        BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = ToBHoM(tbdZoneSurface.buildingElement);
-                        BHE.Elements.BuildingElement bHoMBuildingElement = new BuildingElement()
-                        {
-                            Name = bHoMBuildingElementProperties.Name,
-                            //BuildingElementGeometry = tasRoomSrf.ToBHoM(),
-                            BuildingElementProperties = bHoMBuildingElementProperties
-                        };
+            ////int tbdZoneSurfaceIndex = 0;
+            ////double minElevation = double.MaxValue;
+            ////zoneSurface tbdZoneSurface = null;
+            ////while ((tbdZoneSurface = tbdZone.GetSurface(tbdZoneSurfaceIndex)) != null)
+            ////{
+            ////    int tbdRoomSurfaceIndex = 0;
+            ////    RoomSurface tbdRoomSurface = null;
+            ////    while ((tbdRoomSurface = tbdZoneSurface.GetRoomSurface(tbdRoomSurfaceIndex)) != null)
+            ////    {
+            ////        if (tbdRoomSurface.GetPerimeter() != null)
+            ////        {
+            ////            BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = ToBHoM(tbdZoneSurface.buildingElement);
+            ////            BHE.Elements.BuildingElement bHoMBuildingElement = new BuildingElement()
+            ////            {
+            ////                Name = bHoMBuildingElementProperties.Name,
+            ////                //BuildingElementGeometry = tasRoomSrf.ToBHoM(),
+            ////                BuildingElementProperties = bHoMBuildingElementProperties
+            ////            };
 
-                        minElevation = Math.Min(minElevation, BH.Engine.TAS.Query.MinElevation(tbdRoomSurface.GetPerimeter()));
-                        //bHoMSpace.BuildingElements.Add(bHoMBuildingElement);
-                    }
-                    tbdRoomSurfaceIndex++;
-                }
-                tbdZoneSurfaceIndex++;
-            }
+            ////            minElevation = Math.Min(minElevation, BH.Engine.TAS.Query.MinElevation(tbdRoomSurface.GetPerimeter()));
+            ////            //bHoMSpace.BuildingElements.Add(bHoMBuildingElement);
+            ////        }
+            ////        tbdRoomSurfaceIndex++;
+            ////    }
+            ////    tbdZoneSurfaceIndex++;
+            ////}
 
             /*TBD.zone tbdZone = new TBD.zone();
             zoneSurface tbdZoneSurface = null;
@@ -207,6 +214,7 @@ namespace BH.Engine.TAS
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
 
             //Space Data
+            bHoMSpace.Number = tbdZone.number.ToString();
             bHoMSpace.Name = tbdZone.name;
             bHoMSpace.CoolingLoad = tbdZone.maxCoolingLoad;
             bHoMSpace.HeatingLoad = tbdZone.maxHeatingLoad;
@@ -356,14 +364,45 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BuildingElementProperties ToBHoM(this TBD.Construction tbdConstruction, string name, BHE.Elements.BuildingElementType buildingElementType) //double thickness = 0, bool Internal = true, BHE.Elements.BuildingElementType buildingElementType = BHE.Elements.BuildingElementType.Wall)
+        public static BuildingElementProperties ToBHoM(this TBD.Construction tbdConstruction, string name, BHE.Elements.BuildingElementType buildingElementType, TBD.buildingElement tbdBuildingElement) //double thickness = 0, bool Internal = true, BHE.Elements.BuildingElementType buildingElementType = BHE.Elements.BuildingElementType.Wall)
         {
             //  by MD 2018-05-21 - there 6 values in TBDTas for Uvalue, we have BuildingElement BE that have construction and then material layers
             // form BE we can get geometrical thickness that is used for Volume calculations, in tas there are 6 Uvalues:
             //0.Uexternalhorizontal 1.Uexternalupwards  2.Uexternaldownwards
             //3.Uinternalhorizontal 4.Uinternaupwards  5.Uinternadownwards
             //Here we use aUvalue as this is special case where we want to see caputal U to be clear
+
+            BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
+
+            bHoMBuildingElement.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdBuildingElement.BEType).ToBHoM();
+
+            bHoMBuildingElement.BuildingElementProperties.Name = tbdBuildingElement.name;
+
+            double buildingElementBEType = tbdBuildingElement.BEType;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementBEType", buildingElementBEType);
+
+            System.Drawing.Color buildingElementColour = Query.GetRGB(tbdBuildingElement.colour);
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementColour", buildingElementColour);
+
+            string buildingElementDescription = tbdBuildingElement.description;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementDescription", buildingElementDescription);
+
+            bool buildingElementIsAir = tbdBuildingElement.ghost != 0;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementIsAir", buildingElementIsAir);
+
+            bool buildingElementIsGround = tbdBuildingElement.ground != 0;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementIsGround", buildingElementIsGround);
+
+            string buildingElementGUID = tbdBuildingElement.GUID;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementGUID", buildingElementGUID);
+
+            string buildingElementName = tbdBuildingElement.name;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementName", buildingElementName);
+
+            double buildingElementWidth = tbdBuildingElement.width;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementWidth", buildingElementWidth);
             List<float> aUValues = (tbdConstruction.GetUValue() as List<float>);
+            
 
             double aUvalue = 0;
             double agValue = 0;

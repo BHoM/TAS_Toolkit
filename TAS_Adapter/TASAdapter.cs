@@ -50,8 +50,19 @@ namespace BH.Adapter.TAS
 
             GetTbdDocument(); //Open the TBD Document for pulling data from
 
-            //modified to allow filtering element we need
-            returnObjs.AddRange(Read(query as FilterQuery));
+            FilterQuery aFilterQuery = query as FilterQuery;
+            switch (BH.Engine.Adapters.TAS.Query.QueryType(aFilterQuery))
+            {
+                case oM.Adapters.TAS.Enums.QueryType.IsExternal:
+                    returnObjs.AddRange(ReadExternalBuildingElements());
+                    break;
+                default:
+                    //modified to allow filtering element we need
+                    returnObjs.AddRange(Read(aFilterQuery));
+                    break;
+            }
+
+
 
 
             CloseTbdDocument();

@@ -69,6 +69,7 @@
     <Compile Include="Convert\ToTBDBEConstruction.cs" />
     <Compile Include="Convert\ToTBDBEType.cs" />
     <Compile Include="Convert\ToTAS.cs" />
+    <Compile Include="Create\IsExternalFilterQuery.cs" />
     <Compile Include="Modify\SetTags.cs" />
     <Compile Include="Modify\UpdateCustomDataValue.cs" />
     <Compile Include="Objects\EqualityComparers\Comparer.cs" />
@@ -79,7 +80,7 @@
     <Compile Include="Query\IsExternal.cs" />
     <Compile Include="Query\MinElevation.cs" />
     <Compile Include="Query\PlanPerimeter.cs" />
-    <Compile Include="Query\QueryTypes.cs" />
+    <Compile Include="Query\QueryType.cs" />
     <Compile Include="Query\SurfaceType.cs" />
   </ItemGroup>
   <ItemGroup>
