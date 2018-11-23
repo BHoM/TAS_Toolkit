@@ -50,7 +50,9 @@ namespace BH.Adapter.TAS
 
             GetTbdDocument(); //Open the TBD Document for pulling data from
 
-            returnObjs.AddRange(Read());
+            //modified to allow filtering element we need
+            returnObjs.AddRange(Read(query as FilterQuery));
+
 
             CloseTbdDocument();
 

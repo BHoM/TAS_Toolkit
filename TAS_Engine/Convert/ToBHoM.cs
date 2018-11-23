@@ -155,7 +155,7 @@ namespace BH.Engine.TAS
             // here we outputing Building data 
             BHE.Elements.Building bHoMBuilding = new BHE.Elements.Building
             {
-
+                Name = tbdBuilding.name,
                 Latitude = tbdBuilding.latitude,
                 Longitude = tbdBuilding.longitude,
                 Elevation = tbdBuilding.maxBuildingAltitude,

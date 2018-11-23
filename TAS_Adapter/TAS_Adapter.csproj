@@ -81,6 +81,10 @@
       <Project>{9938088d-650c-4c9b-b1fd-c0457357f836}</Project>
       <Name>TAS_Engine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TAS_oM\TAS_oM.csproj">
+      <Project>{70ce1292-bf2c-4679-839c-1ccca3629d45}</Project>
+      <Name>TAS_oM</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="stdole">
