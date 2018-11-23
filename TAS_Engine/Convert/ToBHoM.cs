@@ -22,10 +22,37 @@ namespace BH.Engine.TAS
         public static BHE.Elements.BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement, TBD.RoomSurface geometry)
         {
             BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
+
+            //this is type element so name should be in properties?
             bHoMBuildingElement.Name = tbdBuildingElement.name;
 
             bHoMBuildingElement.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdBuildingElement.BEType).ToBHoM();
 
+            double buildingElementBEType = tbdBuildingElement.BEType;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementBEType", buildingElementBEType);
+
+            System.Drawing.Color buildingElementColour = Query.GetRGB(tbdBuildingElement.colour);
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementColour", buildingElementColour);
+
+            string buildingElementDescription = tbdBuildingElement.description;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementDescription", buildingElementDescription);
+
+            bool buildingElementIsAir = tbdBuildingElement.ghost != 0;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementIsAir", buildingElementIsAir);
+
+            bool buildingElementIsGround = tbdBuildingElement.ground !=0;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementIsGround", buildingElementIsGround);
+
+            string buildingElementGUID = tbdBuildingElement.GUID;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementGUID", buildingElementGUID);
+
+            string buildingElementName = tbdBuildingElement.name;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementName", buildingElementName);
+
+            double buildingElementWidth = tbdBuildingElement.width;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementWidth", buildingElementWidth);
+
+            //Get Geometry from Building Element
             List<BH.oM.Geometry.ICurve> panelCurves = new List<BH.oM.Geometry.ICurve>();
             
             TBD.Perimeter tbdPerimeter = geometry.GetPerimeter();
@@ -38,7 +65,7 @@ namespace BH.Engine.TAS
 
             bHoMBuildingElement.PanelCurve = BH.Engine.Geometry.Create.PolyCurve(panelCurves);
 
-            bHoMBuildingElement.CustomData.Add("TAS_Description", tbdBuildingElement.description);
+            //bHoMBuildingElement.CustomData.Add("TAS_Description", tbdBuildingElement.description);
             //bHoMBuildingElement.Construction = tbdBuildingElement.construction;
 
             //Geometry
@@ -91,9 +118,6 @@ namespace BH.Engine.TAS
                 }
                 tbdZoneSurfaceIndex++;
             }*/
-
-            System.Drawing.Color buildingElementRGB = Query.GetRGB(tbdBuildingElement.colour);
-            bHoMBuildingElement.CustomData.Add("Colour", buildingElementRGB);
 
             return bHoMBuildingElement;
         }
