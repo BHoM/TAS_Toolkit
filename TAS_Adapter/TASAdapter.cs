@@ -62,9 +62,6 @@ namespace BH.Adapter.TAS
                     break;
             }
 
-
-
-
             CloseTbdDocument();
 
             //Return the package
