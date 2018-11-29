@@ -171,7 +171,11 @@ namespace BH.Engine.TAS
             TBD.InternalCondition tbdInternalCondition = null;
             
             while ((tbdInternalCondition = tbdZone.GetIC(internalConditionIndex)) != null)
+<<<<<<< HEAD
             {
+=======
+            { 
+>>>>>>> c45c9b94a7e2fb9aed9053ba9c1d478ab7ea7f1d
                 bHoMSpace.InternalConditions.Add(ToBHoM(tbdInternalCondition));
                 internalConditionIndex++;
             }
