@@ -19,16 +19,50 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
-        public static BHE.Elements.BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement, TBD.RoomSurface geometry)
+        public static BHE.Elements.BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement, TBD.RoomSurface tbdRoomSurface)
         {
             BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
-            bHoMBuildingElement.Name = tbdBuildingElement.name;
 
-            bHoMBuildingElement.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdBuildingElement.BEType).ToBHoM();
+            zoneSurface tbdZoneSurface = null;
+            tbdZoneSurface = tbdRoomSurface.zoneSurface;
+            
+            bHoMBuildingElement.Name = "Z"+tbdZoneSurface.zone.number + "_"+ tbdZoneSurface.number + " _"+ tbdZoneSurface.zone.name;
 
+            string tbdZoneSurfaceGUID = tbdZoneSurface.GUID;
+            bHoMBuildingElement.CustomData.Add("SurfaceGUID", tbdZoneSurfaceGUID);
+
+            TBD.SurfaceType tbdZoneSurfaceType = tbdZoneSurface.type;
+            bHoMBuildingElement.CustomData.Add("SurfaceType", tbdZoneSurfaceType);
+
+            double tbdZoneSurfaceAltitude = tbdZoneSurface.altitude;
+            bHoMBuildingElement.CustomData.Add("SurfaceAltitude", tbdZoneSurfaceAltitude);
+
+            double tbdZoneSurfaceAltitudeRange = tbdZoneSurface.altitudeRange;
+            bHoMBuildingElement.CustomData.Add("SurfaceAltitudeRange", tbdZoneSurfaceAltitudeRange);
+
+            double tbdZoneSurfaceArea = tbdZoneSurface.area;
+            bHoMBuildingElement.CustomData.Add("SurfaceArea", tbdZoneSurfaceArea);
+
+            double tbdZoneSurfaceInclination = tbdZoneSurface.inclination;
+            bHoMBuildingElement.CustomData.Add("SurfaceInclination", tbdZoneSurfaceInclination);
+
+            double tbdZoneSurfaceInternalArea = tbdZoneSurface.internalArea;
+            bHoMBuildingElement.CustomData.Add("SurfaceInternalArea", tbdZoneSurfaceInternalArea);
+
+            double tbdZoneSurfaceOrientation = tbdZoneSurface.orientation;
+            bHoMBuildingElement.CustomData.Add("SurfaceOrientation", tbdZoneSurfaceOrientation);
+
+            double tbdZoneSurfaceReversed = tbdZoneSurface.reversed;
+            bHoMBuildingElement.CustomData.Add("SurfaceReversed", tbdZoneSurfaceReversed);
+
+            //TO DO: 2018-11-23 how to get name form zone here
+            string tbdZoneSurfaceZoneName = tbdZoneSurface.zone.name;
+            bHoMBuildingElement.CustomData.Add("SurfaceZone", tbdZoneSurfaceZoneName);
+
+            //Get Geometry from Building Element
             List<BH.oM.Geometry.ICurve> panelCurves = new List<BH.oM.Geometry.ICurve>();
             
-            TBD.Perimeter tbdPerimeter = geometry.GetPerimeter();
+            TBD.Perimeter tbdPerimeter = tbdRoomSurface.GetPerimeter();
             TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
 
             BHG.ICurve curve = ToBHoM(tbdPolygon);
@@ -38,36 +72,36 @@ namespace BH.Engine.TAS
 
             bHoMBuildingElement.PanelCurve = BH.Engine.Geometry.Create.PolyCurve(panelCurves);
 
-            bHoMBuildingElement.CustomData.Add("TAS_Description", tbdBuildingElement.description);
             //bHoMBuildingElement.Construction = tbdBuildingElement.construction;
 
             //Geometry
-            /*int tbdZoneSurfaceIndex = 0;
-            minElevation = double.MaxValue;
-            zoneSurface tbdZoneSurface = null;
-            while ((tbdZoneSurface = tbdZone.GetSurface(tbdZoneSurfaceIndex)) != null)
-            {
-                int tbdRoomSurfaceIndex = 0;
-                RoomSurface tbdRoomSurface = null;
-                while ((tbdRoomSurface = tbdZoneSurface.GetRoomSurface(tbdRoomSurfaceIndex)) != null)
-                {
-                    if (tbdRoomSurface.GetPerimeter() != null)
-                    {
-                        BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = ToBHoM(tbdZoneSurface.buildingElement);
-                        BHE.Elements.BuildingElement bHoMBuildingElement = new BuildingElement()
-                        {
-                            Name = bHoMBuildingElementProperties.Name,
-                            //BuildingElementGeometry = tasRoomSrf.ToBHoM(),
-                            BuildingElementProperties = bHoMBuildingElementProperties
-                        };
+            ////int tbdZoneSurfaceIndex = 0;
+            ////double minElevation = double.MaxValue;
+            ////zoneSurface tbdZoneSurface = null;
+            ////while ((tbdZoneSurface = tbdZone.GetSurface(tbdZoneSurfaceIndex)) != null)
+            ////{
+            ////    int tbdRoomSurfaceIndex = 0;
+            ////    RoomSurface tbdRoomSurface = null;
+            ////    while ((tbdRoomSurface = tbdZoneSurface.GetRoomSurface(tbdRoomSurfaceIndex)) != null)
+            ////    {
+            ////        if (tbdRoomSurface.GetPerimeter() != null)
+            ////        {
+            ////            BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = ToBHoM(tbdZoneSurface.buildingElement);
+            ////            BHE.Elements.BuildingElement bHoMBuildingElement = new BuildingElement()
+            ////            {
+            ////                Name = bHoMBuildingElementProperties.Name,
+            ////                //BuildingElementGeometry = tasRoomSrf.ToBHoM(),
+            ////                BuildingElementProperties = bHoMBuildingElementProperties
+            ////            };
 
-                        minElevation = Math.Min(minElevation, BH.Engine.TAS.Query.MinElevation(tbdRoomSurface.GetPerimeter()));
-                        //bHoMSpace.BuildingElements.Add(bHoMBuildingElement);
-                    }
-                    tbdRoomSurfaceIndex++;
-                }
-                tbdZoneSurfaceIndex++;
-            }
+            ////            minElevation = Math.Min(minElevation, BH.Engine.TAS.Query.MinElevation(tbdRoomSurface.GetPerimeter()));
+            ////            //bHoMSpace.BuildingElements.Add(bHoMBuildingElement);
+            ////        }
+            ////        tbdRoomSurfaceIndex++;
+            ////    }
+            ////    tbdZoneSurfaceIndex++;
+            ////}
+
             /*TBD.zone tbdZone = new TBD.zone();
             zoneSurface tbdZoneSurface = null;
             int tbdZoneSurfaceIndex = 0;
@@ -92,12 +126,11 @@ namespace BH.Engine.TAS
                 tbdZoneSurfaceIndex++;
             }*/
 
-            System.Drawing.Color buildingElementRGB = Query.GetRGB(tbdBuildingElement.colour);
-            bHoMBuildingElement.CustomData.Add("Colour", buildingElementRGB);
-
             return bHoMBuildingElement;
         }
 
+
+        /***************************************************/
 
 
         public static BHE.Elements.Building ToBHoM(this TBD.Building tbdBuilding)
@@ -129,16 +162,49 @@ namespace BH.Engine.TAS
             // here we outputing Building data 
             BHE.Elements.Building bHoMBuilding = new BHE.Elements.Building
             {
+                Name = tbdBuilding.name,
                 Latitude = tbdBuilding.latitude,
                 Longitude = tbdBuilding.longitude,
                 Elevation = tbdBuilding.maxBuildingAltitude,
+                //tbdBuilding.peakCooling
                 //BuildingElementProperties = buildingElementPropertiesList,
                 //Spaces = spaceList,
 
 
                 //TODO: location, equipment, spaces, storeys, profiles, IC, EquipmentProperties
             };
-          return bHoMBuilding;
+
+            string tbdBuildingGUID = tbdBuilding.GUID;
+            bHoMBuilding.CustomData.Add("BuildingGUID", tbdBuildingGUID);
+
+            string tbdBuildingDescription = tbdBuilding.description;
+            bHoMBuilding.CustomData.Add("BuildingDescription", tbdBuildingDescription);
+
+            string tbdBuildingName = tbdBuilding.name;
+            bHoMBuilding.CustomData.Add("BuildingName", tbdBuildingName);
+
+            double tbdBuildingNorthAngle = tbdBuilding.northAngle;                    
+            bHoMBuilding.CustomData.Add("BuildingNorthAngle", tbdBuildingNorthAngle);
+
+            string tbdBuildingPath3DFile = tbdBuilding.path3DFile;
+            bHoMBuilding.CustomData.Add("BuildingPath3DFile", tbdBuildingPath3DFile);
+
+            double tbdBuildingPeakCooling = tbdBuilding.peakCooling;
+            bHoMBuilding.CustomData.Add("BuildingPeakCooling", tbdBuildingPeakCooling);
+
+            double tbdBuildingPeakHeating = tbdBuilding.peakHeating;
+            bHoMBuilding.CustomData.Add("BuildingPeakHeating", tbdBuildingPeakHeating);
+
+            string tbdBuildingTBDGUID = tbdBuilding.TBDGUID;
+            bHoMBuilding.CustomData.Add("BuildingTBDGUID", tbdBuildingTBDGUID);
+
+            double tbdBuildingTimeZone = tbdBuilding.timeZone;
+            bHoMBuilding.CustomData.Add("BuildingTimeZone", tbdBuildingTimeZone);
+
+            double tbdBuildingYear = tbdBuilding.year;
+            bHoMBuilding.CustomData.Add("BuildingYear", tbdBuildingYear);
+
+            return bHoMBuilding;
         }
 
         /***************************************************/
@@ -148,30 +214,69 @@ namespace BH.Engine.TAS
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
 
             //Space Data
+            bHoMSpace.Number = tbdZone.number.ToString();
             bHoMSpace.Name = tbdZone.name;
             bHoMSpace.CoolingLoad = tbdZone.maxCoolingLoad;
             bHoMSpace.HeatingLoad = tbdZone.maxHeatingLoad;
 
-            string tbdDescription = tbdZone.description;
-            bHoMSpace.CustomData.Add("tbdDescription", tbdDescription);
+            //all not supported information in BHoM Space are added to Space_Custom Data
+
+            System.Drawing.Color spaceRGB = Query.GetRGB(tbdZone.colour);
+            bHoMSpace.CustomData.Add("Colour", spaceRGB);
 
             double tbdDaylightFactor = tbdZone.daylightFactor;
             bHoMSpace.CustomData.Add("tbdDaylightFactor", tbdDaylightFactor);
 
+            string tbdDescription = tbdZone.description;
+            bHoMSpace.CustomData.Add("tbdDescription", tbdDescription);
+
+            //This is the exposed length of the perimeter of the Zone at a height of 0m. If the Zone is on the ground floor and the ground 
+            //construction has an F-factor this length is used to calculate the additional heat loss
             double tbdExposedPerimeter = tbdZone.exposedPerimeter;
             bHoMSpace.CustomData.Add("tbdExposedPerimeter", tbdExposedPerimeter);
+
+            double tbdExternal = tbdZone.external; //defines if space is external
+            bHoMSpace.CustomData.Add("tbdExternal", tbdExternal);
+
+            //This value is the exposed length of the façade at a height of 1.1m and is defined in the NCM document. 
+            //It is used for the Criterion 3 Solar gain check to calculate the limiting solar value
+            double tbdFacadeLength = tbdZone.facadeLength;
+            bHoMSpace.CustomData.Add("tbdFacadeLength", tbdFacadeLength);
+
+            double tbdFixedConvectionCoefficient = tbdZone.fixedConvectionCoefficient; //external spaces have special ConvectionCoefficient
+            bHoMSpace.CustomData.Add("tbdFixedConvectionCoefficient", tbdFixedConvectionCoefficient);
 
             double tbdFloorArea = tbdZone.floorArea;
             bHoMSpace.CustomData.Add("tbdFloorArea", tbdFloorArea);
 
-            //add all remaining properties into Custom Data
+            string tbdGUID = tbdZone.GUID;
+            bHoMSpace.CustomData.Add("tbdGUID", tbdGUID);
+
+            //This is the maximum length between two edges in the Zone. This is an internal value and is used internally for checking geometry
+            double tbdLength = tbdZone.length;
+            bHoMSpace.CustomData.Add("tbdLength", tbdLength);
+
+            double tbdNumber = tbdZone.number;
+            bHoMSpace.CustomData.Add("tbdNumber", tbdNumber);
+
+            double tbdSizeCooling = tbdZone.sizeCooling;
+            bHoMSpace.CustomData.Add("tbdSizeCooling", tbdSizeCooling);
+
+            double tbdSizeHeating = tbdZone.sizeHeating;
+            bHoMSpace.CustomData.Add("tbdSizeHeating", tbdSizeHeating);
+
+            double tbdVolume = tbdZone.volume;
+            bHoMSpace.CustomData.Add("tbdVolume", tbdVolume);
+
+            double tbdWallFloorAreaRatio = tbdZone.wallFloorAreaRatio;
+            bHoMSpace.CustomData.Add("tbdWallFloorAreaRatio", tbdWallFloorAreaRatio);
 
             int internalConditionIndex = 0;
 
             TBD.InternalCondition tbdInternalCondition = null;
             
             while ((tbdInternalCondition = tbdZone.GetIC(internalConditionIndex)) != null)
-            { 
+            {
                 bHoMSpace.InternalConditions.Add(ToBHoM(tbdInternalCondition));
                 internalConditionIndex++;
             }
@@ -205,8 +310,7 @@ namespace BH.Engine.TAS
             //}
 
             //Space Custom Data
-            System.Drawing.Color spaceRGB = Query.GetRGB(tbdZone.colour);
-            bHoMSpace.CustomData.Add("Colour", spaceRGB);
+
 
             return bHoMSpace;
         }
@@ -260,14 +364,45 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BuildingElementProperties ToBHoM(this TBD.Construction tbdConstruction, string name, BHE.Elements.BuildingElementType buildingElementType) //double thickness = 0, bool Internal = true, BHE.Elements.BuildingElementType buildingElementType = BHE.Elements.BuildingElementType.Wall)
+        public static BuildingElementProperties ToBHoM(this TBD.Construction tbdConstruction, string name, BHE.Elements.BuildingElementType buildingElementType, TBD.buildingElement tbdBuildingElement) //double thickness = 0, bool Internal = true, BHE.Elements.BuildingElementType buildingElementType = BHE.Elements.BuildingElementType.Wall)
         {
             //  by MD 2018-05-21 - there 6 values in TBDTas for Uvalue, we have BuildingElement BE that have construction and then material layers
             // form BE we can get geometrical thickness that is used for Volume calculations, in tas there are 6 Uvalues:
             //0.Uexternalhorizontal 1.Uexternalupwards  2.Uexternaldownwards
             //3.Uinternalhorizontal 4.Uinternaupwards  5.Uinternadownwards
             //Here we use aUvalue as this is special case where we want to see caputal U to be clear
+
+            BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
+
+            bHoMBuildingElement.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdBuildingElement.BEType).ToBHoM();
+
+            bHoMBuildingElement.BuildingElementProperties.Name = tbdBuildingElement.name;
+
+            double buildingElementBEType = tbdBuildingElement.BEType;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementBEType", buildingElementBEType);
+
+            System.Drawing.Color buildingElementColour = Query.GetRGB(tbdBuildingElement.colour);
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementColour", buildingElementColour);
+
+            string buildingElementDescription = tbdBuildingElement.description;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementDescription", buildingElementDescription);
+
+            bool buildingElementIsAir = tbdBuildingElement.ghost != 0;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementIsAir", buildingElementIsAir);
+
+            bool buildingElementIsGround = tbdBuildingElement.ground != 0;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementIsGround", buildingElementIsGround);
+
+            string buildingElementGUID = tbdBuildingElement.GUID;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementGUID", buildingElementGUID);
+
+            string buildingElementName = tbdBuildingElement.name;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementName", buildingElementName);
+
+            double buildingElementWidth = tbdBuildingElement.width;
+            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementWidth", buildingElementWidth);
             List<float> aUValues = (tbdConstruction.GetUValue() as List<float>);
+            
 
             double aUvalue = 0;
             double agValue = 0;
@@ -493,62 +628,97 @@ namespace BH.Engine.TAS
             if (tbdInternalCondition == null)
                 return null;
 
-            //BHE.Elements.InternalCondition bHoMInternalCondition = new BHE.Elements.InternalCondition;
-            //{
-            //    string Name = tbdInternalCondition.name;
-
-            //    string tbdICDescription = tbdInternalCondition.description;
-            //    bHoMInternalCondition.CustomData.Add("tbdICDescription", tbdICDescription);
-
-            //    int tbdICIncludeSolarInMRT= tbdInternalCondition.includeSolarInMRT;
-
-            //    int GetTypeIndex = 0;
-            //    while ( tbdICDayType = tbdInternalCondition.GetDayType(GetTypeIndex) != null )
-            //    {
-            //        bHoMInternalCondition.DayTypes = tbdICDayType;
-            //    }
-
-            //}
-
+            // get Internal Condition
             BHE.Elements.InternalCondition bHoMInternalCondition = new BHE.Elements.InternalCondition
             {
-                Name = tbdInternalCondition.name, 
+                Name = tbdInternalCondition.name,
+                IncludeSolarInMeanRadiantTemp = tbdInternalCondition.includeSolarInMRT !=0,//converting TAS int to Bool
+                
             };
 
-            int GetTypeIndex = 0;
-            TBD.dayType tbdICDayType = null;
-            while ((tbdICDayType = tbdInternalCondition.GetDayType(GetTypeIndex)) != null)
-            {
-                bHoMInternalCondition.DayTypes.Add(tbdICDayType.ToBHoM());
-                GetTypeIndex++;
-            }
+            string tbdICDescription = tbdInternalCondition.description;
+            bHoMInternalCondition.CustomData.Add("tbdICDescription", tbdICDescription);
 
-            //get internal Gain
+                //Day Types
+                int GetTypeIndex = 0;
+                TBD.dayType tbdICDayType = null;
+                while ((tbdICDayType = tbdInternalCondition.GetDayType(GetTypeIndex)) != null)
+                {
+                    bHoMInternalCondition.DayTypes.Add(tbdICDayType.ToBHoM());
+                    GetTypeIndex++;
+                }
+
+            //get Internal Gain
             TBD.IInternalGain tbdICInternalGain = null;
             tbdICInternalGain = tbdInternalCondition.GetInternalGain();
 
             bHoMInternalCondition.InternalGain.Illuminance = tbdICInternalGain.targetIlluminance;
+            bHoMInternalCondition.InternalGain.Name = tbdICInternalGain.name;
+            bHoMInternalCondition.InternalGain.OutsideAirRatePerPerson = tbdICInternalGain.freshAirRate;
+            bHoMInternalCondition.InternalGain.PersonGain = tbdICInternalGain.personGain;
+            bHoMInternalCondition.InternalGain.RadiationProperties.EquipmentRadiation = tbdICInternalGain.equipmentRadProp;
+            bHoMInternalCondition.InternalGain.CoefficientProperties.EquipmentViewCoefficient = tbdICInternalGain.equipmentViewCoefficient;
+            bHoMInternalCondition.InternalGain.RadiationProperties.LightingRadiation = tbdICInternalGain.lightingRadProp;
+            bHoMInternalCondition.InternalGain.CoefficientProperties.LightingViewCoefficient = tbdICInternalGain.lightingViewCoefficient;
+            bHoMInternalCondition.InternalGain.RadiationProperties.OccupantRadiation = tbdICInternalGain.occupantRadProp;
+            bHoMInternalCondition.InternalGain.CoefficientProperties.OccupantViewCoefficient = tbdICInternalGain.occupantViewCoefficient;
 
+            double tbdInternalGainActivityID = tbdICInternalGain.activityID;
+            bHoMInternalCondition.InternalGain.CustomData.Add("tbdInternalGainActivityID", tbdInternalGainActivityID);
+
+            string tbdInternalGainDescription = tbdICInternalGain.description;
+            bHoMInternalCondition.InternalGain.CustomData.Add("tbdInternalGainDescription", tbdInternalGainDescription);
+
+            double tbdInternalDomestricHotWater = tbdICInternalGain.domesticHotWater;
+            bHoMInternalCondition.InternalGain.CustomData.Add("tbdInternalDomestricHotWater", tbdInternalDomestricHotWater);
+
+            //get Emitter
             TBD.Emitter tbdEmitter = null;
             tbdEmitter = tbdInternalCondition.GetHeatingEmitter();
             bHoMInternalCondition.Emitter.EmitterType = EmitterType.Heating;
             bHoMInternalCondition.Emitter.Name = tbdEmitter.name;
             bHoMInternalCondition.Emitter.EmitterProperties.RadiantProportion = tbdEmitter.radiantProportion;
+            bHoMInternalCondition.Emitter.EmitterProperties.ViewCoefficient = tbdEmitter.viewCoefficient;
+            bHoMInternalCondition.Emitter.EmitterProperties.SwitchOffOutsideTemp = tbdEmitter.offOutsideTemp;
+            bHoMInternalCondition.Emitter.EmitterProperties.MaxOutsideTemp = tbdEmitter.maxOutsideTemp;
+
+            string tbdEmitterDescriptionHeating = tbdEmitter.description;
+            bHoMInternalCondition.Emitter.CustomData.Add("tbdEmitterDescriptionHeating", tbdEmitterDescriptionHeating);
 
             tbdEmitter = tbdInternalCondition.GetCoolingEmitter();
             bHoMInternalCondition.Emitter.EmitterType = EmitterType.Cooling;
             bHoMInternalCondition.Emitter.Name = tbdEmitter.name;
             bHoMInternalCondition.Emitter.EmitterProperties.RadiantProportion = tbdEmitter.radiantProportion;
-            //add all remaining properies
+            bHoMInternalCondition.Emitter.EmitterProperties.ViewCoefficient = tbdEmitter.viewCoefficient;
+            bHoMInternalCondition.Emitter.EmitterProperties.SwitchOffOutsideTemp = tbdEmitter.offOutsideTemp;
+            bHoMInternalCondition.Emitter.EmitterProperties.MaxOutsideTemp = tbdEmitter.maxOutsideTemp;
 
-            //get internal Gain
+            string tbdEmitterDescriptionCooling = tbdEmitter.description;
+            bHoMInternalCondition.Emitter.CustomData.Add("tbdEmitterDescriptionCooling", tbdEmitterDescriptionCooling);
+
+            //get Thermostat
             TBD.Thermostat tbdICThermostat = null;
             tbdICThermostat = tbdInternalCondition.GetThermostat();
 
             bHoMInternalCondition.Thermostat.Name = tbdICThermostat.name;
+            bHoMInternalCondition.Thermostat.ControlRange = tbdICThermostat.controlRange;
+            bHoMInternalCondition.Thermostat.ProportionalControl =  tbdICThermostat.proportionalControl != 0; //converting TAS int to Bool
+
+            double tbdThermostatRadiantProportion = tbdICThermostat.radiantProportion;
+            bHoMInternalCondition.Thermostat.CustomData.Add("tbdThermostatRadiantProportion", tbdThermostatRadiantProportion);
+
+            string tbdThermostatDescription = tbdICThermostat.description;
+            bHoMInternalCondition.Thermostat.CustomData.Add("tbdThermostatDescription", tbdThermostatDescription);
+
+            // TO DO awaiting reply from TAS 2018-11-22 confirming if returns max from 24h values
 
             float upperLimit = tbdInternalCondition.GetUpperLimit();
             bHoMInternalCondition.Thermostat.CustomData.Add("upperLimit", upperLimit);
+
+            float lowerLimit = tbdInternalCondition.GetLowerLimit();
+            bHoMInternalCondition.Thermostat.CustomData.Add("lowerLimit", lowerLimit);
+
+
 
 
             return bHoMInternalCondition;
