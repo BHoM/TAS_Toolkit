@@ -13,7 +13,7 @@ using BH.Engine.TAS;
 
 namespace BH.Adapter.TAS
 {
-    public partial class TasAdapter : BHoMAdapter
+    public partial class TasTBDAdapter : BHoMAdapter
     {
         /***************************************************/
         /**** Public Methods                            ****/
