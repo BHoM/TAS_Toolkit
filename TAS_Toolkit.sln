@@ -11,11 +11,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_Test", "TAS_Test\TAS_Te
 		{9938088D-650C-4C9B-B1FD-C0457357F836} = {9938088D-650C-4C9B-B1FD-C0457357F836}
 	EndProjectSection
 EndProject
+<<<<<<< HEAD
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{59D2AE01-04B2-4BCD-B4E5-05C0BCDC1970}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_TBDAdapter", "TAS_TBDAdapter\TAS_TBDAdapter.csproj", "{4A134184-DD14-4280-90E6-13210BBCF296}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_TSDAdapter", "TAS_TSDAdapter\TAS_TSDAdapter.csproj", "{08845C64-BF74-45C2-A939-E56158563899}"
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_oM", "TAS_oM\TAS_oM.csproj", "{70CE1292-BF2C-4679-839C-1CCCA3629D45}"
+>>>>>>> added missing obj pieces
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +35,7 @@ Global
 		{9D800E99-5B58-4168-84A3-F89EB9F8A3A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D800E99-5B58-4168-84A3-F89EB9F8A3A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D800E99-5B58-4168-84A3-F89EB9F8A3A9}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{4A134184-DD14-4280-90E6-13210BBCF296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A134184-DD14-4280-90E6-13210BBCF296}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A134184-DD14-4280-90E6-13210BBCF296}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +44,12 @@ Global
 		{08845C64-BF74-45C2-A939-E56158563899}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08845C64-BF74-45C2-A939-E56158563899}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08845C64-BF74-45C2-A939-E56158563899}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+		{70CE1292-BF2C-4679-839C-1CCCA3629D45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70CE1292-BF2C-4679-839C-1CCCA3629D45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70CE1292-BF2C-4679-839C-1CCCA3629D45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70CE1292-BF2C-4679-839C-1CCCA3629D45}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> added missing obj pieces
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
