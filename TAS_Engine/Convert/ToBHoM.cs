@@ -72,6 +72,20 @@ namespace BH.Engine.TAS
 
             bHoMBuildingElement.PanelCurve = BH.Engine.Geometry.Create.PolyCurve(panelCurves);
 
+            //Get Openings from Building Element
+            List<BH.oM.Geometry.ICurve> openingCurves = new List<BH.oM.Geometry.ICurve>();
+
+            for (int i = 0; i < 1; i++)
+            {
+                TBD.Polygon tbdOpeningCurve = tbdPerimeter.GetHole(i);
+                BHG.ICurve openingCurve = ToBHoM(tbdOpeningCurve);
+            }
+
+            BHG.PolyCurve openingPolyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
+            openingCurves.Add(openingPolyCurve);
+
+            bHoMBuildingElement.Openings[0].OpeningCurve = BH.Engine.Geometry.Create.PolyCurve(openingCurves);
+            
             //bHoMBuildingElement.Construction = tbdBuildingElement.construction;
 
             //Geometry
