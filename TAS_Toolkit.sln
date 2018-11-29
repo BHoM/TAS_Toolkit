@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 14 for Windows Desktop
+# Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_Adapter", "TAS_Adapter\TAS_Adapter.csproj", "{4A134184-DD14-4280-90E6-13210BBCF296}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_Engine", "TAS_Engine\TAS_Engine.csproj", "{9938088D-650C-4C9B-B1FD-C0457357F836}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_Test", "TAS_Test\TAS_Test.csproj", "{9D800E99-5B58-4168-84A3-F89EB9F8A3A9}"
@@ -13,16 +11,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_Test", "TAS_Test\TAS_Te
 		{9938088D-650C-4C9B-B1FD-C0457357F836} = {9938088D-650C-4C9B-B1FD-C0457357F836}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{59D2AE01-04B2-4BCD-B4E5-05C0BCDC1970}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_TBDAdapter", "TAS_TBDAdapter\TAS_TBDAdapter.csproj", "{4A134184-DD14-4280-90E6-13210BBCF296}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_TSDAdapter", "TAS_TSDAdapter\TAS_TSDAdapter.csproj", "{08845C64-BF74-45C2-A939-E56158563899}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4A134184-DD14-4280-90E6-13210BBCF296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A134184-DD14-4280-90E6-13210BBCF296}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A134184-DD14-4280-90E6-13210BBCF296}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A134184-DD14-4280-90E6-13210BBCF296}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9938088D-650C-4C9B-B1FD-C0457357F836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9938088D-650C-4C9B-B1FD-C0457357F836}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9938088D-650C-4C9B-B1FD-C0457357F836}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,8 +31,20 @@ Global
 		{9D800E99-5B58-4168-84A3-F89EB9F8A3A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D800E99-5B58-4168-84A3-F89EB9F8A3A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D800E99-5B58-4168-84A3-F89EB9F8A3A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A134184-DD14-4280-90E6-13210BBCF296}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A134184-DD14-4280-90E6-13210BBCF296}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A134184-DD14-4280-90E6-13210BBCF296}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A134184-DD14-4280-90E6-13210BBCF296}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08845C64-BF74-45C2-A939-E56158563899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08845C64-BF74-45C2-A939-E56158563899}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08845C64-BF74-45C2-A939-E56158563899}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08845C64-BF74-45C2-A939-E56158563899}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4A134184-DD14-4280-90E6-13210BBCF296} = {59D2AE01-04B2-4BCD-B4E5-05C0BCDC1970}
+		{08845C64-BF74-45C2-A939-E56158563899} = {59D2AE01-04B2-4BCD-B4E5-05C0BCDC1970}
 	EndGlobalSection
 EndGlobal

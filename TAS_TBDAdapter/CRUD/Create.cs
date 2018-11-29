@@ -9,7 +9,7 @@ using BH.Engine.Environment;
 
 namespace BH.Adapter.TAS
 {
-    public partial class TasAdapter : BHoMAdapter
+    public partial class TasTBDAdapter : BHoMAdapter
     {
         /***************************************************/
         /**** Protected Methods                         ****/

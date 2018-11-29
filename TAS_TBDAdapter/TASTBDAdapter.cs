@@ -7,18 +7,18 @@ using BH.oM.Base;
 
 namespace BH.Adapter.TAS
 {
-    public partial class TasAdapter : BHoMAdapter
+    public partial class TasTBDAdapter : BHoMAdapter
     {
         /***************************************************/
         /**** Constructors                              ****/
         /***************************************************/
 
-        public TasAdapter(string tBDFilePath = "")
+        public TasTBDAdapter(string tBDFilePath = "")
         {
             //TBD application
             tbdFilePath = tBDFilePath;
 
-            AdapterId = BH.Engine.TAS.Convert.AdapterID;
+            AdapterId = BH.Engine.TAS.Convert.TBDAdapterID;
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
             Config.ProcessInMemory = false;
             Config.SeparateProperties = false;  //Set to true after Dependency types have been implemented

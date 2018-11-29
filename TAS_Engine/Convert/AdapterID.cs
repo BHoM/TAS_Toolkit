@@ -8,6 +8,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        public const string AdapterID = "TAS_id";
+        public const string TBDAdapterID = "TAS_TBD_id";
+        public const string TSDAdapterID = "TAS_TSD_id";
     }
 }
