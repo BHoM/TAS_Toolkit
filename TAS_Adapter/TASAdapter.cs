@@ -42,7 +42,20 @@ namespace BH.Adapter.TAS
 
             CloseTbdDocument();
             return success ? objects.ToList() : new List<IObject>();
+        }
 
+        public override IEnumerable<object> Pull(IQuery query, Dictionary<string, object> config = null)
+        {
+            List<IBHoMObject> returnObjs = new List<IBHoMObject>();
+
+            GetTbdDocument(); //Open the TBD Document for pulling data from
+
+            returnObjs.AddRange(Read());
+
+            CloseTbdDocument();
+
+            //Return the package
+            return returnObjs;
         }
 
         /***************************************************/
