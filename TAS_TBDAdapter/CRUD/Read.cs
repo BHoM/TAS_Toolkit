@@ -22,13 +22,13 @@ namespace BH.Adapter.TAS
         protected override IEnumerable<IBHoMObject> Read(Type type, IList indices = null)
         {
             if (type == typeof(BuildingElement))
-                return ReadPanels();
+                return ReadBuildingElements();
             else if (type == typeof(Building))
                 return ReadBuilding();
             else if (type == typeof(Space))
                 return ReadSpaces();
-            else if (type == typeof(BuildingElement))
-                return ReadBuildingElements();
+            //else if (type == typeof(BuildingElement))
+            //    return ReadPanels();
             else if (type == typeof(BuildingElementProperties))
                 return ReadBuildingElementsProperties();
             //else if (typeof(IMaterial).IsAssignableFrom(type))
@@ -146,17 +146,18 @@ namespace BH.Adapter.TAS
                 TBD.zoneSurface zoneSrf = null;
                 while((zoneSrf = zone.GetSurface(zoneSurfaceIndex)) != null)
                 {
-                    int roomSrfIndex = 0;
-                    TBD.RoomSurface roomSrf = null;
-                    while((roomSrf = zoneSrf.GetRoomSurface(roomSrfIndex)) != null)
-                    {
-                        if(roomSrf.GetPerimeter() != null)
-                        {
-                            //Sometimes we can have a srf object in TAS without a geometry
-                            buildingElements.Add(zoneSrf.buildingElement.ToBHoM(roomSrf));
-                        }
-                        roomSrfIndex++;
-                    }
+                    buildingElements.Add(zoneSrf.buildingElement.ToBHoM(zoneSrf));
+                    //int roomSrfIndex = 0;
+                    //TBD.RoomSurface roomSrf = null;
+                    //while((roomSrf = zoneSrf.GetRoomSurface(roomSrfIndex)) != null)
+                    //{
+                    //    if(roomSrf.GetPerimeter() != null)
+                    //    {
+                    //        //Sometimes we can have a srf object in TAS without a geometry
+                    //        buildingElements.Add(zoneSrf.buildingElement.ToBHoM(roomSrf));
+                    //    }
+                    //    roomSrfIndex++;
+                    //}
                     zoneSurfaceIndex++;
                 }
                 zoneIndex++;

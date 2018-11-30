@@ -72,20 +72,26 @@ namespace BH.Engine.TAS
 
             bHoMBuildingElement.PanelCurve = BH.Engine.Geometry.Create.PolyCurve(panelCurves);
 
-            //Get Openings from Building Element
+            ////Get Openings from Building Element
             List<BH.oM.Geometry.ICurve> openingCurves = new List<BH.oM.Geometry.ICurve>();
 
-            for (int i = 0; i < 1; i++)
+            int tbdOpeningPolygonIndex = 0;
+            TBD.Polygon tbdOpeningPolygon = null;
+            while ((tbdOpeningPolygon = tbdPerimeter.GetHole(tbdOpeningPolygonIndex)) != null)
             {
-                TBD.Polygon tbdOpeningCurve = tbdPerimeter.GetHole(i);
-                BHG.ICurve openingCurve = ToBHoM(tbdOpeningCurve);
+                //BHG.ICurve openingCurve = ToBHoM(tbdOpeningPolygon);
+                bHoMBuildingElement.Openings.Add(ToBHoMOpening(tbdOpeningPolygon));
+                tbdOpeningPolygonIndex++;
             }
 
-            BHG.PolyCurve openingPolyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
-            openingCurves.Add(openingPolyCurve);
+            //BHG.PolyCurve openingPolyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
+            //openingCurves.Add(openingPolyCurve);
 
-            bHoMBuildingElement.Openings[0].OpeningCurve = BH.Engine.Geometry.Create.PolyCurve(openingCurves);
-            
+            //bHoMBuildingElement.Openings[0].OpeningCurve = BH.Engine.Geometry.Create.PolyCurve(openingCurves);
+            ///temp off to check noneopening issue
+
+
+
             //bHoMBuildingElement.Construction = tbdBuildingElement.construction;
 
             //Geometry
@@ -143,7 +149,102 @@ namespace BH.Engine.TAS
             return bHoMBuildingElement;
         }
 
+        public static BHE.Elements.BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)
+        {
+            BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
 
+            //zoneSurface tbdZoneSurface = null;
+            //tbdZoneSurface = tbdRoomSurface.zoneSurface;
+
+            bHoMBuildingElement.Name = "Z" + tbdZoneSurface.zone.number + "_" + tbdZoneSurface.number + " _" + tbdZoneSurface.zone.name;
+
+            string tbdZoneSurfaceGUID = tbdZoneSurface.GUID;
+            bHoMBuildingElement.CustomData.Add("SurfaceGUID", tbdZoneSurfaceGUID);
+
+            TBD.SurfaceType tbdZoneSurfaceType = tbdZoneSurface.type;
+            bHoMBuildingElement.CustomData.Add("SurfaceType", tbdZoneSurfaceType);
+
+            double tbdZoneSurfaceAltitude = tbdZoneSurface.altitude;
+            bHoMBuildingElement.CustomData.Add("SurfaceAltitude", tbdZoneSurfaceAltitude);
+
+            double tbdZoneSurfaceAltitudeRange = tbdZoneSurface.altitudeRange;
+            bHoMBuildingElement.CustomData.Add("SurfaceAltitudeRange", tbdZoneSurfaceAltitudeRange);
+
+            double tbdZoneSurfaceArea = tbdZoneSurface.area;
+            bHoMBuildingElement.CustomData.Add("SurfaceArea", tbdZoneSurfaceArea);
+
+            double tbdZoneSurfaceInclination = tbdZoneSurface.inclination;
+            bHoMBuildingElement.CustomData.Add("SurfaceInclination", tbdZoneSurfaceInclination);
+
+            double tbdZoneSurfaceInternalArea = tbdZoneSurface.internalArea;
+            bHoMBuildingElement.CustomData.Add("SurfaceInternalArea", tbdZoneSurfaceInternalArea);
+
+            double tbdZoneSurfaceOrientation = tbdZoneSurface.orientation;
+            bHoMBuildingElement.CustomData.Add("SurfaceOrientation", tbdZoneSurfaceOrientation);
+
+            double tbdZoneSurfaceReversed = tbdZoneSurface.reversed;
+            bHoMBuildingElement.CustomData.Add("SurfaceReversed", tbdZoneSurfaceReversed);
+
+            //TO DO: 2018-11-23 how to get name form zone here
+            string tbdZoneSurfaceZoneName = tbdZoneSurface.zone.name;
+            bHoMBuildingElement.CustomData.Add("SurfaceZone", tbdZoneSurfaceZoneName);
+
+            //Get Geometry from Building Element
+            List<BH.oM.Geometry.ICurve> panelCurves = new List<BH.oM.Geometry.ICurve>();
+
+            int roomSrfIndex = 0;
+            TBD.RoomSurface tbdRoomSurface = null;
+            
+            while ((tbdRoomSurface = tbdZoneSurface.GetRoomSurface(roomSrfIndex)) != null)
+            {
+                if (tbdRoomSurface.GetPerimeter() != null)
+                {
+                    //Sometimes we can have a srf object in TAS without a geometry
+                    // buildingElements.Add(zoneSrf.buildingElement.ToBHoM(tbdRoomSurface));
+                    //TBD.RoomSurface tbdRoomSurface = null;
+                    //tbdRoomSurface = tbdRoomSurface.zoneSurface;
+
+                    TBD.Perimeter tbdPerimeter = tbdRoomSurface.GetPerimeter();
+                    TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
+
+                    BHG.ICurve curve = ToBHoM(tbdPolygon);
+                    BHG.PolyCurve polyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
+
+                    panelCurves.Add(polyCurve);
+
+                    bHoMBuildingElement.PanelCurve = BH.Engine.Geometry.Create.PolyCurve(panelCurves);
+
+                    ////Get Openings from Building Element
+                    List<BH.oM.Geometry.ICurve> openingCurves = new List<BH.oM.Geometry.ICurve>();
+
+                    int tbdOpeningPolygonIndex = 0;
+                    TBD.Polygon tbdOpeningPolygon = null;
+                    while ((tbdOpeningPolygon = tbdPerimeter.GetHole(tbdOpeningPolygonIndex)) != null)
+                    {
+                        //BHG.ICurve openingCurve = ToBHoM(tbdOpeningPolygon);
+                        bHoMBuildingElement.Openings.Add(ToBHoMOpening(tbdOpeningPolygon));
+                        tbdOpeningPolygonIndex++;
+                    }
+                }
+                roomSrfIndex++;
+            }
+
+
+
+
+            return bHoMBuildingElement;
+        }
+
+        /***************************************************/
+
+        public static BHE.Elements.Opening ToBHoMOpening(this TBD.Polygon tbdOpeningPolygon)
+        {
+
+            BHE.Elements.Opening opening = BH.Engine.Environment.Create.Opening(tbdOpeningPolygon.ToBHoM());
+
+            return opening;
+
+        }
         /***************************************************/
 
 
@@ -813,9 +914,10 @@ namespace BH.Engine.TAS
             //
             List<BHG.Point> bHoMPointList = new List<BHG.Point>();
             int pointIndex = 0;
-            while (true)
+            TasPoint tasPoint = null;
+            while ((tasPoint = tbdPolygon.GetPoint(pointIndex)) != null)
             {
-                TasPoint tasPoint= tbdPolygon.GetPoint(pointIndex);
+                tasPoint = tbdPolygon.GetPoint(pointIndex);
                 if (tasPoint == null) { break; }
                 bHoMPointList.Add(tasPoint.ToBHoM());
                 pointIndex++;
