@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment;
 using BHG = BH.oM.Geometry;
@@ -489,6 +491,7 @@ namespace BH.Engine.TAS
 
             BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
 
+
             bHoMBuildingElement.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdBuildingElement.BEType).ToBHoM();
 
             bHoMBuildingElement.BuildingElementProperties.Name = tbdBuildingElement.name;
@@ -516,94 +519,178 @@ namespace BH.Engine.TAS
 
             double buildingElementWidth = tbdBuildingElement.width;
             bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementWidth", buildingElementWidth);
-            List<float> aUValues = (tbdConstruction.GetUValue() as List<float>);
-            
+
+            // this is problme like to be solved
+
+            //List<float> aUValues = (tbdConstruction.GetUValue() as List<float>);
+
 
             double aUvalue = 0;
             double agValue = 0;
             double aLtValue = 0;
 
-            // here we checking if Building Element is transparent to get correct Uvalue and properties, there is different source for Uvalue
-            if (tbdConstruction.type == ConstructionTypes.tcdTransparentConstruction)
+            if (tbdBuildingElement.ghost != -1)
             {
-                //tas exposes tranparent building element all value as list  
-                //1. LtValuegValue,  7. Uvalue,  6. gValue
-                List<float> aGlazingValueList = (tbdConstruction.GetGlazingValues() as List<float>);
-                agValue = aGlazingValueList[6];
-                aLtValue = aGlazingValueList[1];
-                aUvalue = aGlazingValueList[7];
-            }
-            else
-            {   //  by MD 2018-05-21 here we selecting Opaque surfaces
-                // currently we need to recognized if is innternal or not - BE by name in this case SAM model are following specific naming,
-                // _EXT or _INT in code below we filter Internal element to be able to get correct Uvalue
-                // in TAS all six value are presented becuase are not used for calculation just for display
-                // here we try to 
-                bool Internal = name.ToUpper().Contains("_INT");
-
-                switch (buildingElementType)
+                // here we checking if Building Element is transparent to get correct Uvalue and properties, there is different source for Uvalue
+                if (tbdConstruction.type == ConstructionTypes.tcdTransparentConstruction)
                 {
-                    case BHE.Elements.BuildingElementType.Ceiling:
-                        aUvalue = aUValues[4];
-                        break;
-                    case BHE.Elements.BuildingElementType.Door:
-                    case BHE.Elements.BuildingElementType.Wall:
-                    case BHE.Elements.BuildingElementType.Window:
-                        if (Internal)
-                            aUvalue = aUValues[3];
-                        else
-                            aUvalue = aUValues[0];
-                        break;
-                    case BHE.Elements.BuildingElementType.Floor:
-                        if (Internal == true)
-                            aUvalue = aUValues[5];
-                        else
-                            aUvalue = aUValues[2];
-                        break;
-                    case BHE.Elements.BuildingElementType.Roof:
-                        aUvalue = aUValues[1];
-                        break;
-                    case BHE.Elements.BuildingElementType.Undefined:
-                        break;
+                    //tas exposes tranparent building element all value as list  
+                    //1. LtValuegValue,  7. Uvalue,  6. gValue
+                    agValue = G(tbdBuildingElement);
+                    aLtValue = LT(tbdBuildingElement);
+                    ////List<float> aGlazingValueList = (tbdConstruction.GetGlazingValues() as List<float>);
+                    ////agValue = aGlazingValueList[6];
+                    ////aLtValue = aGlazingValueList[1];
+                    ////aUvalue = aGlazingValueList[7];
                 }
-            }
+                else
+                {   //  by MD 2018-05-21 here we selecting Opaque surfaces
+                    // currently we need to recognized if is innternal or not - BE by name in this case SAM model are following specific naming,
+                    // _EXT or _INT in code below we filter Internal element to be able to get correct Uvalue
+                    // in TAS all six value are presented becuase are not used for calculation just for display
 
-            // we pulling BEProperties
-            BuildingElementProperties bhomBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
+                    aUvalue = U(tbdBuildingElement);
+
+                }
+
+            }
+        
+
+        // we pulling BEProperties
+        BuildingElementProperties bhomBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
             {
                 //UValue = aUvalue,
                 BuildingElementType = buildingElementType,
            };
-            GlazingMaterialProperties bhomGlazingMaterialProperties = new BHE.Properties.GlazingMaterialProperties()
-            {
-                LtValue = aLtValue,
-                gValue = agValue,
-                ThermalConductivity = tbdConstruction.conductance,
-            };
 
-            //Assign Construction Layer to the object
-            List<BHE.Elements.ConstructionLayer> bHoMConstructionLayer = new List<BHE.Elements.ConstructionLayer>();
-
-            int constructionLayerIndex = 1; //Cannot be 0 in TAS
-            material tasMat = null;
-            while ((tasMat = tbdConstruction.materials(constructionLayerIndex)) != null)
+            if (tbdBuildingElement.ghost != -1)
             {
-                bhomBuildingElementProperties.ConstructionLayers.Add(ToBHoM(tbdConstruction, tasMat));
-                constructionLayerIndex++;
+                //Assign Construction Layer to the object
+                List<BHE.Elements.ConstructionLayer> bHoMConstructionLayer = new List<BHE.Elements.ConstructionLayer>();
+
+                int constructionLayerIndex = 1; //Cannot be 0 in TAS
+                material tasMat = null;
+                while ((tasMat = tbdConstruction.materials(constructionLayerIndex)) != null)
+                {
+                    bhomBuildingElementProperties.ConstructionLayers.Add(ToBHoM(tbdConstruction, tasMat));
+                    constructionLayerIndex++;
+                }
+
+                double aThicknessAnalytical = 0;
+                int aIndex = 0;
+                material aMaterial = null;
+                while ((aMaterial = tbdConstruction.materials(aIndex)) != null)
+                {
+                    aThicknessAnalytical += tbdConstruction.materialWidth[aIndex];
+                    aIndex++;
+                }
+
+                bhomBuildingElementProperties.CustomData.Add("Thickness Analytical", aThicknessAnalytical);
+
             }
-
-            double aThicknessAnalytical = 0;
-            int aIndex = 0;
-            material aMaterial = null;
-            while ((aMaterial = tbdConstruction.materials(aIndex)) != null)
-            {
-                aThicknessAnalytical += tbdConstruction.materialWidth[aIndex];
-                aIndex++;
-            }
-
-            bhomBuildingElementProperties.CustomData.Add("Thickness Analytical", aThicknessAnalytical);
 
             return bhomBuildingElementProperties;
+        }
+
+        /***************************************************/
+
+        public static double U(TBD.buildingElement tbdBuildingElement, int Decimals = 2)
+        {
+            TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
+            if (aConstruction == null)
+                return -1;
+
+            object aObject = aConstruction.GetUValue();
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+            switch ((BuildingElementType)tbdBuildingElement.BEType)
+            {
+                case BuildingElementType.Ceiling:
+                    return Math.Round(aValueList[4], Decimals);
+                case BuildingElementType.CurtainWall:
+                    return Math.Round(aValueList[6], Decimals);
+                case BuildingElementType.DoorElement:
+                    return Math.Round(aValueList[0], Decimals);
+                case BuildingElementType.ExposedFloor:
+                    return Math.Round(aValueList[2], Decimals);
+                case BuildingElementType.ExternalWall:
+                    return Math.Round(aValueList[0], Decimals);
+                case BuildingElementType.FrameELement:
+                    return Math.Round(aValueList[0], Decimals);
+                case BuildingElementType.Glazing:
+                    return Math.Round(aValueList[6], Decimals);
+                case BuildingElementType.InternalFloor:
+                    return Math.Round(aValueList[5], Decimals);
+                case BuildingElementType.InternallWall:
+                    return Math.Round(aValueList[3], Decimals);
+                case BuildingElementType.NoBEType:
+                    return -1;
+                case BuildingElementType.NullElement:
+                    return -1;
+                case BuildingElementType.RaisedFloor:
+                    return Math.Round(aValueList[5], Decimals);
+                case BuildingElementType.RoofElement:
+                    return Math.Round(aValueList[1], Decimals);
+                case BuildingElementType.RoofLight:
+                    return Math.Round(aValueList[6], Decimals);
+                case BuildingElementType.ShadeElement:
+                    return -1;
+                case BuildingElementType.SlabOnGrade:
+                    return Math.Round(aValueList[2], Decimals);
+                case BuildingElementType.SolarPanel:
+                    return -1;
+                case BuildingElementType.UndergroundCeiling:
+                    return Math.Round(aValueList[2], Decimals);
+                case BuildingElementType.UndergroundSlab:
+                    return Math.Round(aValueList[2], Decimals);
+                case BuildingElementType.UndergroundWall:
+                    return Math.Round(aValueList[0], Decimals);
+                case BuildingElementType.VehicleDoor:
+                    return Math.Round(aValueList[0], Decimals);
+            }
+            return -1;
+        }
+
+        public static List<float> U(TBD.Construction tbdConstruction)
+        {
+
+            object aObject = tbdConstruction.GetUValue();
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+            aValueList.Add(0);
+            aValueList.Add(1);
+            aValueList.Add(2);
+            aValueList = aValueList.Cast<float>().ToList();
+            return aValueList;
+        }
+
+        public static double G(TBD.buildingElement tbdBuildingElement, int Decimals = 2)
+        {
+            TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
+            if (aConstruction == null)
+                return -1;
+            TBD.ConstructionTypes aConstructionTypes = aConstruction.type;
+            if (aConstructionTypes == TBD.ConstructionTypes.tcdTransparentConstruction)
+            {
+                object aObject = aConstruction.GetGlazingValues();
+                List<float> aValueList = Generic.Functions.GetList(aObject);
+                return Math.Round(aValueList[5], Decimals);
+            }
+            return 0;
+        }
+
+        public static double LT(TBD.buildingElement tbdBuildingElement, int Decimals = 2)
+        {
+            TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
+            if (aConstruction == null)
+                return 0;
+
+            TBD.ConstructionTypes aConstructionTypes = aConstruction.type;
+            if (aConstructionTypes == TBD.ConstructionTypes.tcdTransparentConstruction)
+            {
+                object aObject = aConstruction.GetGlazingValues();
+                List<float> aValueList = Generic.Functions.GetList(aObject);
+                return Math.Round(aValueList[0], Decimals);
+            }
+            return 0;
         }
 
         /***************************************************/
@@ -616,13 +703,19 @@ namespace BH.Engine.TAS
                 Material = tbdMaterial.ToBHoM(),
                 Name = tbdConstructionLayer.name,
                 BHoM_Guid = new Guid(tbdConstructionLayer.GUID),
-                UValues = tbdConstructionLayer.GetUValue() as List<double>,
+                //UValues = tbdConstructionLayer.GetUValue() as List<double>,
+                UValues = (U(tbdConstructionLayer) as List<float>).ConvertAll(x => (double)x),
                 ConstructionType = tbdConstructionLayer.type.ToBHoM(),
                 AdditionalHeatTransfer = tbdConstructionLayer.additionalHeatTransfer,
                 FFactor = tbdConstructionLayer.FFactor,
             };
             bhomConstructionLayer.CustomData.Add("TAS_Description", tbdConstructionLayer.description);
             return bhomConstructionLayer;
+        }
+
+        private static object ToDouble(object arg)
+        {
+            throw new NotImplementedException();
         }
 
         /***************************************************/
@@ -972,6 +1065,54 @@ namespace BH.Engine.TAS
                 default:
                     return BHE.Elements.BuildingElementType.Wall;
             }
+        }
+
+        /***************************************************/
+        //TAS TBD Building Element Type
+        public enum BuildingElementType
+        {
+            /// <summary>Ceiling</summary>
+            Ceiling = 8,
+            /// <summary>Curtain Wall</summary>
+            CurtainWall = 16,
+            /// <summary>Door Element</summary>
+            DoorElement = 14,
+            /// <summary>Exposed Floor</summary>
+            ExposedFloor = 19,
+            /// <summary>External Wall</summary>
+            ExternalWall = 2,
+            /// <summary>Frame Element</summary>
+            FrameELement = 15,
+            /// <summary>Glazing</summary>
+            Glazing = 12,
+            /// <summary>Internal Floor</summary>
+            InternalFloor = 4,
+            /// <summary>Internal Wall</summary>
+            InternallWall = 1,
+            /// <summary>No Building Element Type</summary>
+            NoBEType = 0,
+            /// <summary>Null Element</summary>
+            NullElement = 17,
+            /// <summary>Raised Floor</summary>
+            RaisedFloor = 10,
+            /// <summary>Roof Element</summary>
+            RoofElement = 3,
+            /// <summary>Roof Light</summary>
+            RoofLight = 13,
+            /// <summary>Shade Element</summary>
+            ShadeElement = 5,
+            /// <summary>Slab On Grade</summary>
+            SlabOnGrade = 11,
+            /// <summary>Solar Panel</summary>
+            SolarPanel = 18,
+            /// <summary>Underground Ceiling</summary>
+            UndergroundCeiling = 9,
+            /// <summary>Underground Slab</summary>
+            UndergroundSlab = 7,
+            /// <summary>Underground Wall</summary>
+            UndergroundWall = 6,
+            /// <summary>Vehicle Door</summary>
+            VehicleDoor = 20,
         }
 
     }

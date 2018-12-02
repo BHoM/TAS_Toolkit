@@ -52,6 +52,10 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <HintPath>..\lib\Interop.TBD.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.TSD">
+      <HintPath>..\TAS_Adapter\obj\Debug\Interop.TSD.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -70,6 +74,7 @@
     <Compile Include="Convert\ToTBDBEType.cs" />
     <Compile Include="Convert\ToTAS.cs" />
     <Compile Include="Create\IsExternalFilterQuery.cs" />
+    <Compile Include="Generic\Generic.cs" />
     <Compile Include="Modify\SetTags.cs" />
     <Compile Include="Modify\UpdateCustomDataValue.cs" />
     <Compile Include="Objects\EqualityComparers\Comparer.cs" />
