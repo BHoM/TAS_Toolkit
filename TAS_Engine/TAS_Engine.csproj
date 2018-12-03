@@ -69,7 +69,8 @@
   <ItemGroup>
     <Compile Include="Convert\AdapterID.cs" />
     <Compile Include="Convert\FilterQuery.cs" />
-    <Compile Include="Convert\ToBHoM.cs" />
+    <Compile Include="Convert\ToBHoM\ToBHoMTSD.cs" />
+    <Compile Include="Convert\ToBHoM\ToBHoMTBD.cs" />
     <Compile Include="Convert\ToTBDBEConstruction.cs" />
     <Compile Include="Convert\ToTBDBEType.cs" />
     <Compile Include="Convert\ToTAS.cs" />
