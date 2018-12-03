@@ -304,24 +304,14 @@ namespace BH.Adapter.TAS
             List<BuildingElementProperties> buildingElementProperties = new List<BuildingElementProperties>();
 
             int buildingElementIndex = 0;
-            TBD.buildingElement bElement = null;
-            while((bElement = tbdDocument.Building.GetBuildingElement(buildingElementIndex)) != null)
+            TBD.buildingElement tbdBuildingElement = null;
+            while((tbdBuildingElement = tbdDocument.Building.GetBuildingElement(buildingElementIndex)) != null)
             {
-                BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)bElement.BEType);
-                TBD.Construction construction = bElement.GetConstruction();
-                buildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction, bElement.name, aBuildingElementType, bElement));
+                BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
+                TBD.Construction construction = tbdBuildingElement.GetConstruction();
+                buildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction, tbdBuildingElement.name, aBuildingElementType, tbdBuildingElement));
                 buildingElementIndex++;
             }
-            /*while (building.GetConstruction(buildingElementIndex) != null)
-            {
-                TBD.buildingElement buildingElement = tbdDocument.Building.GetBuildingElement(buildingElementIndex);
-                //buildingElement.Get
-                BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)buildingElement.BEType);
-                TBD.Construction construction = tbdDocument.Building.GetConstruction(buildingElementIndex);
-                buildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction, buildingElement.name, aBuildingElementType, buildingElement));
-                buildingElementIndex++;
-
-            }*/
 
             return buildingElementProperties;
         }

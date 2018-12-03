@@ -489,41 +489,47 @@ namespace BH.Engine.TAS
             //3.Uinternalhorizontal 4.Uinternaupwards  5.Uinternadownwards
             //Here we use aUvalue as this is special case where we want to see caputal U to be clear
 
-            BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
+            // we pulling BEProperties
+            BuildingElementProperties bhomBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
+            {
 
+                BuildingElementType = buildingElementType,
+                Name = tbdBuildingElement.name,
+        };
+
+            BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
 
             bHoMBuildingElement.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdBuildingElement.BEType).ToBHoM();
 
             bHoMBuildingElement.BuildingElementProperties.Name = tbdBuildingElement.name;
 
             double buildingElementBEType = tbdBuildingElement.BEType;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementBEType", buildingElementBEType);
+            bhomBuildingElementProperties.CustomData.Add("buildingElementBEType", buildingElementBEType);
 
             System.Drawing.Color buildingElementColour = Query.GetRGB(tbdBuildingElement.colour);
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementColour", buildingElementColour);
+            bhomBuildingElementProperties.CustomData.Add("buildingElementColour", buildingElementColour);
 
             string buildingElementDescription = tbdBuildingElement.description;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementDescription", buildingElementDescription);
+            bhomBuildingElementProperties.CustomData.Add("buildingElementDescription", buildingElementDescription);
 
             bool buildingElementIsAir = tbdBuildingElement.ghost != 0;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementIsAir", buildingElementIsAir);
+            bhomBuildingElementProperties.CustomData.Add("buildingElementIsAir", buildingElementIsAir);
 
             bool buildingElementIsGround = tbdBuildingElement.ground != 0;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementIsGround", buildingElementIsGround);
+            bhomBuildingElementProperties.CustomData.Add("buildingElementIsGround", buildingElementIsGround);
 
             string buildingElementGUID = tbdBuildingElement.GUID;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementGUID", buildingElementGUID);
+            bhomBuildingElementProperties.CustomData.Add("buildingElementGUID", buildingElementGUID);
 
             string buildingElementName = tbdBuildingElement.name;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementName", buildingElementName);
+            bhomBuildingElementProperties.CustomData.Add("buildingElementName", buildingElementName);
+
+            //why it was not imported into bhomBuildingElementProperties????
+            //double buildingElementWidth = tbdBuildingElement.width;
+            //bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementWidth", buildingElementWidth);
 
             double buildingElementWidth = tbdBuildingElement.width;
-            bHoMBuildingElement.BuildingElementProperties.CustomData.Add("buildingElementWidth", buildingElementWidth);
-
-            // this is problme like to be solved
-
-            //List<float> aUValues = (tbdConstruction.GetUValue() as List<float>);
-
+            bhomBuildingElementProperties.CustomData.Add("buildingElementWidth", Math.Round(buildingElementWidth,3));
 
             double aUvalue = 0;
             double agValue = 0;
@@ -538,30 +544,17 @@ namespace BH.Engine.TAS
                     //1. LtValuegValue,  7. Uvalue,  6. gValue
                     agValue = G(tbdBuildingElement);
                     aLtValue = LT(tbdBuildingElement);
-                    ////List<float> aGlazingValueList = (tbdConstruction.GetGlazingValues() as List<float>);
-                    ////agValue = aGlazingValueList[6];
-                    ////aLtValue = aGlazingValueList[1];
                     ////aUvalue = aGlazingValueList[7];
                 }
                 else
-                {   //  by MD 2018-05-21 here we selecting Opaque surfaces
+                {   //  by MD 2018-12-03 here we selecting Opaque surfaces
                     // currently we need to recognized if is innternal or not - BE by name in this case SAM model are following specific naming,
                     // _EXT or _INT in code below we filter Internal element to be able to get correct Uvalue
                     // in TAS all six value are presented becuase are not used for calculation just for display
-
                     aUvalue = U(tbdBuildingElement);
-
                 }
 
             }
-        
-
-        // we pulling BEProperties
-        BuildingElementProperties bhomBuildingElementProperties = new BHE.Properties.BuildingElementProperties()
-            {
-                //UValue = aUvalue,
-                BuildingElementType = buildingElementType,
-           };
 
             if (tbdBuildingElement.ghost != -1)
             {
@@ -576,16 +569,18 @@ namespace BH.Engine.TAS
                     constructionLayerIndex++;
                 }
 
-                double aThicknessAnalytical = 0;
-                int aIndex = 0;
-                material aMaterial = null;
-                while ((aMaterial = tbdConstruction.materials(aIndex)) != null)
+                double tbdMaterialThickness = 0;
+                int aIndex = 1;
+                material tbdMaterial = null;
+                while ((tbdMaterial = tbdConstruction.materials(aIndex)) != null)
                 {
-                    aThicknessAnalytical += tbdConstruction.materialWidth[aIndex];
+                    tbdMaterial = tbdConstruction.materials(aIndex);
+                    tbdMaterialThickness += tbdMaterial.width;
+                    //aThicknessAnalytical += tbdConstruction.materialWidth[aIndex];
                     aIndex++;
                 }
 
-                bhomBuildingElementProperties.CustomData.Add("Thickness Analytical", aThicknessAnalytical);
+                bhomBuildingElementProperties.CustomData.Add("MaterialLayersThickness", Math.Round(tbdMaterialThickness,3));
 
             }
 
