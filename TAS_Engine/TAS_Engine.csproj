@@ -53,7 +53,7 @@
       <HintPath>..\lib\Interop.TBD.dll</HintPath>
     </Reference>
     <Reference Include="Interop.TSD">
-      <HintPath>..\TAS_Adapter\obj\Debug\Interop.TSD.dll</HintPath>
+      <HintPath>..\lib\Interop.TSD.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
@@ -113,6 +113,9 @@
       <Project>{70ce1292-bf2c-4679-839c-1ccca3629d45}</Project>
       <Name>TAS_oM</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
