@@ -21,9 +21,9 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
-        public static BHE.Elements.BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement, TBD.RoomSurface tbdRoomSurface)
+        public static BuildingElement ToBHoMBuildingElement(this TBD.buildingElement tbdBuildingElement, TBD.RoomSurface tbdRoomSurface)
         {
-            BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
+            BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
 
             zoneSurface tbdZoneSurface = null;
             tbdZoneSurface = tbdRoomSurface.zoneSurface;
@@ -67,7 +67,7 @@ namespace BH.Engine.TAS
             TBD.Perimeter tbdPerimeter = tbdRoomSurface.GetPerimeter();
             TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
 
-            BHG.ICurve curve = ToBHoM(tbdPolygon);
+            BHG.ICurve curve = ToBHoMPolyline(tbdPolygon);
             BHG.PolyCurve polyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
 
             panelCurves.Add(polyCurve);
@@ -151,9 +151,9 @@ namespace BH.Engine.TAS
             return bHoMBuildingElement;
         }
 
-        public static BHE.Elements.BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)
+        public static BuildingElement ToBHoMBuildingElement(this TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)
         {
-            BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
+            BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
 
             //zoneSurface tbdZoneSurface = null;
             //tbdZoneSurface = tbdRoomSurface.zoneSurface;
@@ -209,7 +209,7 @@ namespace BH.Engine.TAS
                     TBD.Perimeter tbdPerimeter = tbdRoomSurface.GetPerimeter();
                     TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
 
-                    BHG.ICurve curve = ToBHoM(tbdPolygon);
+                    BHG.ICurve curve = ToBHoMPolyline(tbdPolygon);
                     BHG.PolyCurve polyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
 
                     panelCurves.Add(polyCurve);
@@ -242,7 +242,7 @@ namespace BH.Engine.TAS
         public static BHE.Elements.Opening ToBHoMOpening(this TBD.Polygon tbdOpeningPolygon)
         {
 
-            BHE.Elements.Opening opening = BH.Engine.Environment.Create.Opening(tbdOpeningPolygon.ToBHoM());
+            BHE.Elements.Opening opening = BH.Engine.Environment.Create.Opening(tbdOpeningPolygon.ToBHoMPolyline());
 
             return opening;
 
@@ -250,7 +250,7 @@ namespace BH.Engine.TAS
         /***************************************************/
 
 
-        public static BHE.Elements.Building ToBHoM(this TBD.Building tbdBuilding)
+        public static BHE.Elements.Building ToBHoMBuilding(this TBD.Building tbdBuilding)
         {
 
             // by MD 2018-05-21 get BuildingElementsProperties  - in BHoM Building element it contrail geomety and building element property
@@ -272,7 +272,7 @@ namespace BH.Engine.TAS
             TBD.zone aSpace = null;
             while ((aSpace = tbdBuilding.GetZone(spaceIndex)) != null)
             {
-                spaceList.Add(ToBHoM(aSpace));
+                spaceList.Add(ToBHoMSpace(aSpace));
                 spaceIndex++;
             }
 
@@ -326,7 +326,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.Space ToBHoM(this TBD.zone tbdZone)
+        public static BHE.Elements.Space ToBHoMSpace(this TBD.zone tbdZone)
         {
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
 
@@ -394,7 +394,7 @@ namespace BH.Engine.TAS
             
             while ((tbdInternalCondition = tbdZone.GetIC(internalConditionIndex)) != null)
             {
-                bHoMSpace.InternalConditions.Add(ToBHoM(tbdInternalCondition));
+                bHoMSpace.InternalConditions.Add(ToBHoMInternalCondition(tbdInternalCondition));
                 internalConditionIndex++;
             }
 
@@ -481,7 +481,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BuildingElementProperties ToBHoM(this TBD.Construction tbdConstruction, string name, BHE.Elements.BuildingElementType buildingElementType, TBD.buildingElement tbdBuildingElement) //double thickness = 0, bool Internal = true, BHE.Elements.BuildingElementType buildingElementType = BHE.Elements.BuildingElementType.Wall)
+        public static BuildingElementProperties ToBHoMBuildingElementProperties(this TBD.Construction tbdConstruction, string name, BHE.Elements.BuildingElementType buildingElementType, TBD.buildingElement tbdBuildingElement) //double thickness = 0, bool Internal = true, BHE.Elements.BuildingElementType buildingElementType = BHE.Elements.BuildingElementType.Wall)
         {
             //  by MD 2018-05-21 - there 6 values in TBDTas for Uvalue, we have BuildingElement BE that have construction and then material layers
             // form BE we can get geometrical thickness that is used for Volume calculations, in tas there are 6 Uvalues:
@@ -499,7 +499,7 @@ namespace BH.Engine.TAS
 
             BHE.Elements.BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
 
-            bHoMBuildingElement.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdBuildingElement.BEType).ToBHoM();
+            bHoMBuildingElement.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdBuildingElement.BEType).ToBHoMBuildingElementType();
 
             bHoMBuildingElement.BuildingElementProperties.Name = tbdBuildingElement.name;
 
@@ -535,114 +535,126 @@ namespace BH.Engine.TAS
             double agValue = 0;
             double aLtValue = 0;
 
-            if (tbdBuildingElement.ghost != -1)
-            {
-                // here we checking if Building Element is transparent to get correct Uvalue and properties, there is different source for Uvalue
-                if (tbdConstruction.type == ConstructionTypes.tcdTransparentConstruction)
-                {
-                    //tas exposes tranparent building element all value as list  
-                    //1. LtValuegValue,  7. Uvalue,  6. gValue
-                    agValue = G(tbdBuildingElement);
-                    aLtValue = LT(tbdBuildingElement);
-                    ////aUvalue = aGlazingValueList[7];
-                }
-                else
-                {   //  by MD 2018-12-03 here we selecting Opaque surfaces
-                    // currently we need to recognized if is innternal or not - BE by name in this case SAM model are following specific naming,
-                    // _EXT or _INT in code below we filter Internal element to be able to get correct Uvalue
-                    // in TAS all six value are presented becuase are not used for calculation just for display
-                    aUvalue = U(tbdBuildingElement);
-                }
+                //tas exposes tranparent building element all value as list  
+                //1. LtValuegValue,  7. Uvalue,  6. gValue
+                agValue = G(tbdBuildingElement);
+                bhomBuildingElementProperties.CustomData.Add("buildingElementgvalue", agValue);
 
-            }
+                aLtValue = LT(tbdBuildingElement);
+                bhomBuildingElementProperties.CustomData.Add("buildingElementLtvalue", aLtValue);
 
-            if (tbdBuildingElement.ghost != -1)
-            {
-                //Assign Construction Layer to the object
-                List<BHE.Elements.ConstructionLayer> bHoMConstructionLayer = new List<BHE.Elements.ConstructionLayer>();
+                aUvalue = U(tbdBuildingElement);
+                bhomBuildingElementProperties.CustomData.Add("buildingElementUvalue", aUvalue);
 
-                int constructionLayerIndex = 1; //Cannot be 0 in TAS
-                material tasMat = null;
-                while ((tasMat = tbdConstruction.materials(constructionLayerIndex)) != null)
-                {
-                    bhomBuildingElementProperties.ConstructionLayers.Add(ToBHoM(tbdConstruction, tasMat));
-                    constructionLayerIndex++;
-                }
 
-                double tbdMaterialThickness = 0;
-                int aIndex = 1;
-                material tbdMaterial = null;
-                while ((tbdMaterial = tbdConstruction.materials(aIndex)) != null)
-                {
-                    tbdMaterial = tbdConstruction.materials(aIndex);
-                    tbdMaterialThickness += tbdMaterial.width;
-                    //aThicknessAnalytical += tbdConstruction.materialWidth[aIndex];
-                    aIndex++;
-                }
+            //if (tbdBuildingElement.ghost != -1)
+            //{
+                //Assign Materila Layer to the object
 
-                bhomBuildingElementProperties.CustomData.Add("MaterialLayersThickness", Math.Round(tbdMaterialThickness,3));
+                bhomBuildingElementProperties.Construction = tbdConstruction.ToBHoMConstruction();
 
-            }
+
+                //List<BHE.Interface.IMaterial> bHoMMaterial = new List<BHE.Interface.IMaterial>();
+                //double tbdMaterialThickness = 0;
+                //int aIndex = 1;
+                //material tbdMaterial = null;
+                //while ((tbdMaterial = tbdConstruction.materials(aIndex)) != null)
+                //{
+                //    tbdMaterial = tbdConstruction.materials(aIndex);
+                //    tbdMaterialThickness += tbdMaterial.width;
+                //    //aThicknessAnalytical += tbdConstruction.materialWidth[aIndex];
+                //    aIndex++;
+                //}
+
+                bhomBuildingElementProperties.CustomData.Add("MaterialLayersThickness", ToTBDConstructionThickness(tbdBuildingElement.GetConstruction()));
+
+            //}
 
             return bhomBuildingElementProperties;
         }
 
         /***************************************************/
 
-        public static double U(TBD.buildingElement tbdBuildingElement, int Decimals = 2)
+        public static double ToTBDConstructionThickness(this TBD.Construction tbdConstruction, int Decimals = 3)
+
+        {
+            double tbdMaterialThickness = 0;
+
+            if (tbdConstruction == null)
+                tbdMaterialThickness = 0;
+            else
+            {
+                List<BHE.Interface.IMaterial> bHoMMaterial = new List<BHE.Interface.IMaterial>();
+                int aIndex = 1;
+                material tbdMaterial = null;
+                while ((tbdMaterial = tbdConstruction.materials(aIndex)) != null)
+                {
+                    tbdMaterial = tbdConstruction.materials(aIndex);
+                    tbdMaterialThickness += tbdMaterial.width;
+                    aIndex++;
+                }
+            }
+
+
+            return tbdMaterialThickness;
+        }
+
+
+
+        public static double U(TBD.buildingElement tbdBuildingElement, int Decimals = 3)
         {
             TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
             if (aConstruction == null)
                 return -1;
 
-            object aObject = aConstruction.GetUValue();
-            List<float> aValueList = Generic.Functions.GetList(aObject);
-            switch ((BuildingElementType)tbdBuildingElement.BEType)
-            {
-                case BuildingElementType.Ceiling:
-                    return Math.Round(aValueList[4], Decimals);
-                case BuildingElementType.CurtainWall:
-                    return Math.Round(aValueList[6], Decimals);
-                case BuildingElementType.DoorElement:
-                    return Math.Round(aValueList[0], Decimals);
-                case BuildingElementType.ExposedFloor:
-                    return Math.Round(aValueList[2], Decimals);
-                case BuildingElementType.ExternalWall:
-                    return Math.Round(aValueList[0], Decimals);
-                case BuildingElementType.FrameELement:
-                    return Math.Round(aValueList[0], Decimals);
-                case BuildingElementType.Glazing:
-                    return Math.Round(aValueList[6], Decimals);
-                case BuildingElementType.InternalFloor:
-                    return Math.Round(aValueList[5], Decimals);
-                case BuildingElementType.InternallWall:
-                    return Math.Round(aValueList[3], Decimals);
-                case BuildingElementType.NoBEType:
-                    return -1;
-                case BuildingElementType.NullElement:
-                    return -1;
-                case BuildingElementType.RaisedFloor:
-                    return Math.Round(aValueList[5], Decimals);
-                case BuildingElementType.RoofElement:
-                    return Math.Round(aValueList[1], Decimals);
-                case BuildingElementType.RoofLight:
-                    return Math.Round(aValueList[6], Decimals);
-                case BuildingElementType.ShadeElement:
-                    return -1;
-                case BuildingElementType.SlabOnGrade:
-                    return Math.Round(aValueList[2], Decimals);
-                case BuildingElementType.SolarPanel:
-                    return -1;
-                case BuildingElementType.UndergroundCeiling:
-                    return Math.Round(aValueList[2], Decimals);
-                case BuildingElementType.UndergroundSlab:
-                    return Math.Round(aValueList[2], Decimals);
-                case BuildingElementType.UndergroundWall:
-                    return Math.Round(aValueList[0], Decimals);
-                case BuildingElementType.VehicleDoor:
-                    return Math.Round(aValueList[0], Decimals);
-            }
-            return -1;
+                object aObject = aConstruction.GetUValue();
+                List<float> aValueList = Generic.Functions.GetList(aObject);
+                switch ((BuildingElementType)tbdBuildingElement.BEType)
+                {
+                    case BuildingElementType.Ceiling:
+                        return Math.Round(aValueList[4], Decimals);
+                    case BuildingElementType.CurtainWall:
+                        return Math.Round(aValueList[6], Decimals);
+                    case BuildingElementType.DoorElement:
+                        return Math.Round(aValueList[0], Decimals);
+                    case BuildingElementType.ExposedFloor:
+                        return Math.Round(aValueList[2], Decimals);
+                    case BuildingElementType.ExternalWall:
+                        return Math.Round(aValueList[0], Decimals);
+                    case BuildingElementType.FrameELement:
+                        return Math.Round(aValueList[0], Decimals);
+                    case BuildingElementType.Glazing:
+                        return Math.Round(aValueList[6], Decimals);
+                    case BuildingElementType.InternalFloor:
+                        return Math.Round(aValueList[5], Decimals);
+                    case BuildingElementType.InternallWall:
+                        return Math.Round(aValueList[3], Decimals);
+                    case BuildingElementType.NoBEType:
+                        return -1;
+                    case BuildingElementType.NullElement:
+                        return -1;
+                    case BuildingElementType.RaisedFloor:
+                        return Math.Round(aValueList[5], Decimals);
+                    case BuildingElementType.RoofElement:
+                        return Math.Round(aValueList[1], Decimals);
+                    case BuildingElementType.RoofLight:
+                        return Math.Round(aValueList[6], Decimals);
+                    case BuildingElementType.ShadeElement:
+                        return -1;
+                    case BuildingElementType.SlabOnGrade:
+                        return Math.Round(aValueList[2], Decimals);
+                    case BuildingElementType.SolarPanel:
+                        return -1;
+                    case BuildingElementType.UndergroundCeiling:
+                        return Math.Round(aValueList[2], Decimals);
+                    case BuildingElementType.UndergroundSlab:
+                        return Math.Round(aValueList[2], Decimals);
+                    case BuildingElementType.UndergroundWall:
+                        return Math.Round(aValueList[0], Decimals);
+                    case BuildingElementType.VehicleDoor:
+                        return Math.Round(aValueList[0], Decimals);
+                }
+                return -1;
         }
 
         public static List<float> U(TBD.Construction tbdConstruction)
@@ -653,11 +665,14 @@ namespace BH.Engine.TAS
             aValueList.Add(0);
             aValueList.Add(1);
             aValueList.Add(2);
+            aValueList.Add(3);
+            aValueList.Add(4);
+            aValueList.Add(5);
             aValueList = aValueList.Cast<float>().ToList();
             return aValueList;
         }
 
-        public static double G(TBD.buildingElement tbdBuildingElement, int Decimals = 2)
+        public static double G(TBD.buildingElement tbdBuildingElement, int Decimals = 3)
         {
             TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
             if (aConstruction == null)
@@ -672,7 +687,7 @@ namespace BH.Engine.TAS
             return 0;
         }
 
-        public static double LT(TBD.buildingElement tbdBuildingElement, int Decimals = 2)
+        public static double LT(TBD.buildingElement tbdBuildingElement, int Decimals = 3)
         {
             TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
             if (aConstruction == null)
@@ -690,22 +705,39 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.ConstructionLayer ToBHoM(this TBD.Construction tbdConstructionLayer, material tbdMaterial)
+        public static BHE.Elements.Construction ToBHoMConstruction(this TBD.Construction tbdConstruction)
         {
-            BHE.Elements.ConstructionLayer bhomConstructionLayer = new BHE.Elements.ConstructionLayer()
+            if (tbdConstruction == null)
+                return null;
+            else
             {
-                Thickness = tbdMaterial.width,
-                Material = tbdMaterial.ToBHoM(),
-                Name = tbdConstructionLayer.name,
-                BHoM_Guid = new Guid(tbdConstructionLayer.GUID),
-                //UValues = tbdConstructionLayer.GetUValue() as List<double>,
-                UValues = (U(tbdConstructionLayer) as List<float>).ConvertAll(x => (double)x),
-                ConstructionType = tbdConstructionLayer.type.ToBHoM(),
-                AdditionalHeatTransfer = tbdConstructionLayer.additionalHeatTransfer,
-                FFactor = tbdConstructionLayer.FFactor,
+            double tbdMaterialThickness = 0;
+            int aIndex = 1;
+            material tbdMaterial = null;
+            while ((tbdMaterial = tbdConstruction.materials(aIndex)) != null)
+            {
+                tbdMaterial = tbdConstruction.materials(aIndex);
+                tbdMaterialThickness += tbdMaterial.width;
+                aIndex++;
+            }
+
+            BHE.Elements.Construction bhomConstruction = new BHE.Elements.Construction()
+            {
+                Materials = tbdConstruction.ToBHoMMaterial(),
+                Thickness = Math.Round(tbdMaterialThickness,3),
+                Name = tbdConstruction.name,
+                BHoM_Guid = new Guid(tbdConstruction.GUID),
+                //UValues = tbdConstruction.GetUValue() as List<double>,
+                UValues = (U(tbdConstruction) as List<float>).ConvertAll(x => (double)x),
+                ConstructionType = tbdConstruction.type.ToBHoMConstructionType(),
+                AdditionalHeatTransfer = tbdConstruction.additionalHeatTransfer,
+                FFactor = tbdConstruction.FFactor,
             };
-            bhomConstructionLayer.CustomData.Add("TAS_Description", tbdConstructionLayer.description);
-            return bhomConstructionLayer;
+            bhomConstruction.CustomData.Add("TAS_Description", tbdConstruction.description);
+            return bhomConstruction;
+
+            }
+
         }
 
         private static object ToDouble(object arg)
@@ -715,7 +747,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.ConstructionType ToBHoM(this TBD.ConstructionTypes type)
+        public static BHE.Elements.ConstructionType ToBHoMConstructionType(this TBD.ConstructionTypes type)
         {
             switch(type)
             {
@@ -741,14 +773,14 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.Panel ToBHoM(this TBD.RoomSurface tbdRoomSurface)
+        public static BHE.Elements.Panel ToBHoMPanel(this TBD.RoomSurface tbdRoomSurface)
         {
             BHE.Elements.Panel bHoMPanel = new BHE.Elements.Panel();
 
             TBD.Perimeter tbdPerimeter = tbdRoomSurface.GetPerimeter();   
             TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
 
-            BHG.ICurve curve = ToBHoM(tbdPolygon);
+            BHG.ICurve curve = ToBHoMPolyline(tbdPolygon);
             BHG.PolyCurve polyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
 
             bHoMPanel.PanelCurve = polyCurve;
@@ -760,9 +792,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Interface.IMaterial ToBHoM(this TBD.material tbdMaterial)
+        public static BHE.Interface.IMaterial ToBHoMMaterial(this TBD.material tbdMaterial)
         {
-           BHE.Elements.MaterialType materialtype = ToBHoM((TBD.MaterialTypes)tbdMaterial.type);
+           BHE.Elements.MaterialType materialtype = ToBHoMMaterialType((TBD.MaterialTypes)tbdMaterial.type);
 
            switch (materialtype)
             {
@@ -824,9 +856,92 @@ namespace BH.Engine.TAS
             return null;
         }
 
+        public static List<BHE.Interface.IMaterial> ToBHoMMaterial(this TBD.Construction tbdConstruction)
+        {
+            //Assign Material Layer to the object
+            List<BHE.Interface.IMaterial> bHoMMaterial = new List<BHE.Interface.IMaterial>();
+
+            double tbdMaterialThickness = 0;
+            int aIndex = 1;
+            material tbdMaterial = null;
+            //check if not null
+
+
+            while ((tbdMaterial = tbdConstruction.materials(aIndex)) != null)
+            {
+                tbdMaterial = tbdConstruction.materials(aIndex);
+                tbdMaterialThickness += tbdMaterial.width;
+                //aThicknessAnalytical += tbdConstruction.materialWidth[aIndex];
+                BHE.Elements.MaterialType materialtype = ToBHoMMaterialType((TBD.MaterialTypes)tbdMaterial.type);
+                switch (materialtype)
+                {
+                    case MaterialType.Opaque:
+
+                        BHE.Materials.OpaqueMaterial bhomOpaqeMaterial = new BHE.Materials.OpaqueMaterial
+                        {
+                            Name = tbdMaterial.name,
+                            Description = tbdMaterial.description,
+                            Conductivity = tbdMaterial.conductivity,
+                            SpecificHeat = tbdMaterial.specificHeat,
+                            Density = tbdMaterial.density,
+                            VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor,
+                            SolarReflectanceExternal = tbdMaterial.externalSolarReflectance,
+                            SolarReflectanceInternal = tbdMaterial.internalSolarReflectance,
+                            LightReflectanceExternal = tbdMaterial.externalLightReflectance,
+                            LightReflectanceInternal = tbdMaterial.internalLightReflectance,
+                            EmissivityExternal = tbdMaterial.externalEmissivity,
+                            EmissivityInternal = tbdMaterial.internalEmissivity,
+                        };
+                        bhomOpaqeMaterial.MaterialProperties.Thickness = tbdMaterial.width;
+                        bHoMMaterial.Add(bhomOpaqeMaterial);
+                        break;
+
+                    case MaterialType.Transparent:
+                        BHE.Materials.TransparentMaterial bhomTransparentMaterial = new BHE.Materials.TransparentMaterial
+                        {
+                            Name = tbdMaterial.name,
+                            Description = tbdMaterial.description,
+                            Conductivity = tbdMaterial.conductivity,
+                            VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor,
+                            SolarTransmittance = tbdMaterial.solarTransmittance,
+                            SolarReflectanceExternal = tbdMaterial.externalSolarReflectance,
+                            SolarReflectanceInternal = tbdMaterial.internalSolarReflectance,
+                            LightTransmittance = tbdMaterial.lightTransmittance,
+                            LightReflectanceExternal = tbdMaterial.externalLightReflectance,
+                            LightReflectanceInternal = tbdMaterial.internalLightReflectance,
+                            EmissivityExternal = tbdMaterial.externalEmissivity,
+                            EmissivityInternal = tbdMaterial.internalEmissivity
+                        };
+                        bhomTransparentMaterial.MaterialProperties.Thickness = tbdMaterial.width;
+                        if (bhomTransparentMaterial.MaterialProperties is GlazingMaterialProperties)
+                            (bhomTransparentMaterial.MaterialProperties as GlazingMaterialProperties).IsBlind = (tbdMaterial.isBlind == 1);
+                        bHoMMaterial.Add(bhomTransparentMaterial);
+                        break;
+
+                    case MaterialType.Gas:
+                        BHE.Materials.GasMaterial bhomGasMaterial = new BHE.Materials.GasMaterial
+                        {
+                            Name = tbdMaterial.name,
+                            Description = tbdMaterial.description,
+                            ConvectionCoefficient = tbdMaterial.convectionCoefficient,
+                            VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor
+                        };
+                        bhomGasMaterial.MaterialProperties.Thickness = tbdMaterial.width;
+                        if (bhomGasMaterial.MaterialProperties is GlazingMaterialProperties)
+                            (bhomGasMaterial.MaterialProperties as GlazingMaterialProperties).IsBlind = (tbdMaterial.isBlind == 1);
+                        bHoMMaterial.Add(bhomGasMaterial);
+                        break;
+                }
+                aIndex++;
+            }
+
+
+            return bHoMMaterial;
+        }
+
         /***************************************************/
 
-        public static BHE.Elements.InternalCondition ToBHoM(this TBD.InternalCondition tbdInternalCondition)
+        public static BHE.Elements.InternalCondition ToBHoMInternalCondition(this TBD.InternalCondition tbdInternalCondition)
         {
             if (tbdInternalCondition == null)
                 return null;
@@ -961,14 +1076,14 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.Emitter ToBHoM(this TBD.Emitter tasEmitterProperties)
+        public static BHE.Elements.Emitter ToBHoMEmitter(this TBD.Emitter tasEmitterProperties)
         {
             throw new NotImplementedException();
         }
 
         /***************************************************/
 
-        public static BHE.Elements.Profile ToBHoM(this TBD.profile tasProfile) //Has no properties in BHoM yet...
+        public static BHE.Elements.Profile ToBHoMProfile(this TBD.profile tasProfile) //Has no properties in BHoM yet...
         {
             throw new NotImplementedException();
         }
@@ -982,7 +1097,7 @@ namespace BH.Engine.TAS
         /**** Public Methods - Geometry                 ****/
         /***************************************************/
 
-        public static BHG.Point ToBHoM(this TBD.TasPoint tbdPoint)
+        public static BHG.Point ToBHoMPoint(this TBD.TasPoint tbdPoint)
         {
             BHG.Point bHoMPoint = new BHG.Point()
             {
@@ -995,7 +1110,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHG.Polyline ToBHoM(this TBD.Polygon tbdPolygon)  // TODO : When BH.oM.Geometry.Contour is implemented, Polyline can be replaced with Contour
+        public static BHG.Polyline ToBHoMPolyline(this TBD.Polygon tbdPolygon)  // TODO : When BH.oM.Geometry.Contour is implemented, Polyline can be replaced with Contour
         {
             //
             //  Not sure how this is working but that's a very strange way of getting points for Tas. Are you sure it is the only way?
@@ -1007,7 +1122,7 @@ namespace BH.Engine.TAS
             {
                 tasPoint = tbdPolygon.GetPoint(pointIndex);
                 if (tasPoint == null) { break; }
-                bHoMPointList.Add(tasPoint.ToBHoM());
+                bHoMPointList.Add(tasPoint.ToBHoMPoint());
                 pointIndex++;
             }
             bHoMPointList.Add(bHoMPointList[0]);
@@ -1022,7 +1137,7 @@ namespace BH.Engine.TAS
         /**** Enums                                     ****/
         /***************************************************/
                
-        public static BHE.Elements.MaterialType ToBHoM(this TBD.MaterialTypes tbdMaterialType)
+        public static BHE.Elements.MaterialType ToBHoMMaterialType(this TBD.MaterialTypes tbdMaterialType)
         {
             switch (tbdMaterialType)
             {
@@ -1040,7 +1155,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.BuildingElementType ToBHoM(this TBD.BuildingElementType tbdBuildingElementType)
+        public static BHE.Elements.BuildingElementType ToBHoMBuildingElementType(this TBD.BuildingElementType tbdBuildingElementType)
         {
             switch (tbdBuildingElementType)
             {
