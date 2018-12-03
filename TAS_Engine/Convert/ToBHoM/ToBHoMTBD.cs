@@ -546,7 +546,6 @@ namespace BH.Engine.TAS
             aUvalue = U(tbdBuildingElement);
             bhomBuildingElementProperties.CustomData.Add("buildingElementUvalue", aUvalue);
 
-
             //if (tbdBuildingElement.ghost != -1)
             //{
             //Assign Materila Layer to the object
@@ -737,7 +736,6 @@ namespace BH.Engine.TAS
                 return bhomConstruction;
 
             }
-
         }
 
         private static object ToDouble(object arg)
