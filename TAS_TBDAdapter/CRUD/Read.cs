@@ -320,25 +320,17 @@ namespace BH.Adapter.TAS
         public List<Construction> ReadConstruction(List<string> ids = null)
         {
             TBD.Building building = tbdDocument.Building;
-
-            List<Construction> constructionLayer = new List<Construction>();
+            List<Construction> constructions = new List<Construction>();
 
             int buildingElementIndex = 0;
             while (building.GetConstruction(buildingElementIndex) != null)
             {
                 TBD.Construction construction = tbdDocument.Building.GetConstruction(buildingElementIndex);
-                TBD.material material = null;
-                int materialIndex = 1; // TAS doesn't have any material at index 0
-                while ((material = construction.materials(materialIndex)) != null)
-                {
-                    constructionLayer.Add(Engine.TAS.Convert.ToBHoMConstruction(construction));
-                    materialIndex++;
-                }
-
+                constructions.Add(Engine.TAS.Convert.ToBHoMConstruction(construction));
                 buildingElementIndex++;
             }
 
-            return constructionLayer;
+            return constructions;
         }
 
         /***************************************************/
