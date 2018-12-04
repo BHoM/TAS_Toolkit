@@ -52,7 +52,7 @@ namespace BH.Adapter.TAS
             GetTsdDocument(); //Open the TSD Document for pulling data from
 
             FilterQuery aFilterQuery = query as FilterQuery;
-            switch (BH.Engine.Adapters.TAS.Query.QueryType(aFilterQuery))
+            switch (BH.Engine.TAS.Query.QueryType(aFilterQuery))
             {
                 case oM.Adapters.TAS.Enums.QueryType.IsExternal:
                     break;
