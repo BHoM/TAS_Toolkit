@@ -11,7 +11,7 @@ using BH.oM.Environment.Properties;
 using BH.oM.Environment.Interface;
 using BHG = BH.oM.Geometry;
 using BH.Engine;
-
+using TSD;
 using BH.Engine.TAS;
 
 namespace BH.Adapter.TAS
@@ -21,7 +21,7 @@ namespace BH.Adapter.TAS
         /***************************************************/
         /**** Public Methods                            ****/
         /***************************************************/
-        /*
+        
         protected override IEnumerable<IBHoMObject> Read(Type type, IList indices = null)
         {
             if (type == typeof(BHE.Results.BuildingResult))
@@ -30,9 +30,18 @@ namespace BH.Adapter.TAS
                 return null;
         }
         
-        public List<BHE.Results.BuildingResult> ReadBuildingResults(List<string> ids = null)
+
+
+        public List<BH.oM.Environment.Results.BuildingResult> ReadBuildingResults(List<string> ids = null)
         {
-            
-        }*/
+            TSD.BuildingData tsdBuildingData = tsdDocument.SimulationData.GetBuildingData();
+            TSD.CoolingDesignData tsdCoolingDesignData = tsdDocument.SimulationData.GetCoolingDesignData(0);
+            TSD.HeatingDesignData tsdHeatingDesignData = tsdDocument.SimulationData.GetHeatingDesignData(0);
+
+            List<BH.oM.Environment.Results.BuildingResult> buildingResults = new List<BH.oM.Environment.Results.BuildingResult>();
+            buildingResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdBuildingData));
+
+            return buildingResults;
+        }
     }
 }
