@@ -956,7 +956,6 @@ namespace BH.Engine.TAS
                 IncludeSolarInMeanRadiantTemp = tbdInternalCondition.includeSolarInMRT !=0,//converting TAS int to Bool
                 
             };
-
             string tbdICDescription = tbdInternalCondition.description;
             bHoMInternalCondition.CustomData.Add("tbdICDescription", tbdICDescription);
 
