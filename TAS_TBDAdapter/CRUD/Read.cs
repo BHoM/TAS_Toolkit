@@ -32,7 +32,7 @@ namespace BH.Adapter.TAS
                 return ReadBuildingElementsProperties();
             //else if (typeof(IMaterial).IsAssignableFrom(type))
             //    return ReadMaterials();
-            else if (type == typeof(BH.oM.Environment.Materials.OpaqueMaterial) || type == typeof(BH.oM.Environment.Materials.TransparentMaterial) || type == typeof(BH.oM.Environment.Materials.GasMaterial))
+            else if (type == typeof(BH.oM.Environment.Materials.Material) )
                 return ReadMaterials();
             //else if (type == typeof(BHS.Elements.Storey))
             //    return ReadStorey();

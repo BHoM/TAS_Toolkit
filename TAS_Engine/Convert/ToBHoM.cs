@@ -795,12 +795,16 @@ namespace BH.Engine.TAS
         public static BHE.Interface.IMaterial ToBHoMMaterial(this TBD.material tbdMaterial)
         {
            BHE.Elements.MaterialType materialtype = ToBHoMMaterialType((TBD.MaterialTypes)tbdMaterial.type);
+            BHE.Materials.Material material = new BHE.Materials.Material();
+            material.Name = tbdMaterial.name;
+            material.Thickness = tbdMaterial.width;
+            material.MaterialType = ToBHoMMaterialType((TBD.MaterialTypes)tbdMaterial.type);
 
-           switch (materialtype)
+            switch (material.MaterialType)
             {
                 case MaterialType.Opaque:
 
-                    BHE.Materials.OpaqueMaterial bhomOpaqeMaterial = new BHE.Materials.OpaqueMaterial
+                    material.MaterialProperties = new BHE.Properties.MaterialPropertiesOpaque
                     {
                         Name = tbdMaterial.name,
                         Description = tbdMaterial.description,
@@ -815,11 +819,11 @@ namespace BH.Engine.TAS
                         EmissivityExternal = tbdMaterial.externalEmissivity,
                         EmissivityInternal = tbdMaterial.internalEmissivity,
                     };
-                    bhomOpaqeMaterial.MaterialProperties.Thickness = tbdMaterial.width;
-                    return bhomOpaqeMaterial;
+                    break;
 
                 case MaterialType.Transparent:
-                    BHE.Materials.TransparentMaterial bhomTransparentMaterial = new BHE.Materials.TransparentMaterial
+
+                    material.MaterialProperties = new BHE.Properties.MaterialPropertiesTransparent
                     {
                         Name = tbdMaterial.name,
                         Description = tbdMaterial.description,
@@ -834,26 +838,22 @@ namespace BH.Engine.TAS
                         EmissivityExternal = tbdMaterial.externalEmissivity,
                         EmissivityInternal = tbdMaterial.internalEmissivity
                     };
-                    bhomTransparentMaterial.MaterialProperties.Thickness = tbdMaterial.width;
-                    if (bhomTransparentMaterial.MaterialProperties is GlazingMaterialProperties)
-                        (bhomTransparentMaterial.MaterialProperties as GlazingMaterialProperties).IsBlind = (tbdMaterial.isBlind == 1);
-                    return bhomTransparentMaterial;
+                    material.MaterialProperties.CustomData.Add("MaterialIsBling", tbdMaterial.isBlind);
+                    break;
 
                 case MaterialType.Gas:
-                    BHE.Materials.GasMaterial bhomGasMaterial = new BHE.Materials.GasMaterial
+
+                    material.MaterialProperties = new BHE.Properties.MaterialPropertiesGas
                     {
                         Name = tbdMaterial.name,
                         Description = tbdMaterial.description,
                         ConvectionCoefficient = tbdMaterial.convectionCoefficient,
                         VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor
                     };
-                    bhomGasMaterial.MaterialProperties.Thickness = tbdMaterial.width;
-                    if (bhomGasMaterial.MaterialProperties is GlazingMaterialProperties)
-                        (bhomGasMaterial.MaterialProperties as GlazingMaterialProperties).IsBlind = (tbdMaterial.isBlind == 1);
 
-                    return bhomGasMaterial;
+                    break;
             }
-            return null;
+            return material;
         }
 
         public static List<BHE.Interface.IMaterial> ToBHoMMaterial(this TBD.Construction tbdConstruction)
@@ -872,12 +872,18 @@ namespace BH.Engine.TAS
                 tbdMaterial = tbdConstruction.materials(aIndex);
                 tbdMaterialThickness += tbdMaterial.width;
                 //aThicknessAnalytical += tbdConstruction.materialWidth[aIndex];
-                BHE.Elements.MaterialType materialtype = ToBHoMMaterialType((TBD.MaterialTypes)tbdMaterial.type);
-                switch (materialtype)
+                //BHE.Elements.MaterialType materialtype = ToBHoMMaterialType((TBD.MaterialTypes)tbdMaterial.type);
+
+                BHE.Materials.Material material = new BHE.Materials.Material();
+                material.Name = tbdMaterial.name;
+                material.Thickness = tbdMaterial.width;
+                material.MaterialType = ToBHoMMaterialType((TBD.MaterialTypes)tbdMaterial.type);
+
+                switch (material.MaterialType)
                 {
                     case MaterialType.Opaque:
 
-                        BHE.Materials.OpaqueMaterial bhomOpaqeMaterial = new BHE.Materials.OpaqueMaterial
+                        material.MaterialProperties = new BHE.Properties.MaterialPropertiesOpaque
                         {
                             Name = tbdMaterial.name,
                             Description = tbdMaterial.description,
@@ -892,12 +898,10 @@ namespace BH.Engine.TAS
                             EmissivityExternal = tbdMaterial.externalEmissivity,
                             EmissivityInternal = tbdMaterial.internalEmissivity,
                         };
-                        bhomOpaqeMaterial.MaterialProperties.Thickness = tbdMaterial.width;
-                        bHoMMaterial.Add(bhomOpaqeMaterial);
                         break;
 
                     case MaterialType.Transparent:
-                        BHE.Materials.TransparentMaterial bhomTransparentMaterial = new BHE.Materials.TransparentMaterial
+                        material.MaterialProperties = new BHE.Properties.MaterialPropertiesTransparent
                         {
                             Name = tbdMaterial.name,
                             Description = tbdMaterial.description,
@@ -912,26 +916,25 @@ namespace BH.Engine.TAS
                             EmissivityExternal = tbdMaterial.externalEmissivity,
                             EmissivityInternal = tbdMaterial.internalEmissivity
                         };
-                        bhomTransparentMaterial.MaterialProperties.Thickness = tbdMaterial.width;
-                        if (bhomTransparentMaterial.MaterialProperties is GlazingMaterialProperties)
-                            (bhomTransparentMaterial.MaterialProperties as GlazingMaterialProperties).IsBlind = (tbdMaterial.isBlind == 1);
-                        bHoMMaterial.Add(bhomTransparentMaterial);
+
+                        //if (bhomTransparentMaterial.MaterialProperties is GlazingMaterialProperties)
+                        //    (bhomTransparentMaterial.MaterialProperties as GlazingMaterialProperties).IsBlind = (tbdMaterial.isBlind == 1);
+                        //bHoMMaterial.Add(bhomTransparentMaterial);
+                        material.MaterialProperties.CustomData.Add("MaterialIsBling",tbdMaterial.isBlind);
                         break;
 
                     case MaterialType.Gas:
-                        BHE.Materials.GasMaterial bhomGasMaterial = new BHE.Materials.GasMaterial
+                        material.MaterialProperties = new BHE.Properties.MaterialPropertiesGas
                         {
                             Name = tbdMaterial.name,
                             Description = tbdMaterial.description,
                             ConvectionCoefficient = tbdMaterial.convectionCoefficient,
                             VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor
                         };
-                        bhomGasMaterial.MaterialProperties.Thickness = tbdMaterial.width;
-                        if (bhomGasMaterial.MaterialProperties is GlazingMaterialProperties)
-                            (bhomGasMaterial.MaterialProperties as GlazingMaterialProperties).IsBlind = (tbdMaterial.isBlind == 1);
-                        bHoMMaterial.Add(bhomGasMaterial);
                         break;
                 }
+
+                bHoMMaterial.Add(material);
                 aIndex++;
             }
 

@@ -143,9 +143,12 @@ namespace BH.Engine.TAS
         /**** Public Methods - Objects                  ****/
         /***************************************************/
 
-        public static TBD.material ToTas(this BHE.Materials.OpaqueMaterial bHoMOpaqueMaterial)
+        public static TBD.material ToTas(this BHE.Materials.Material mat)
         {
+            //TODO: Fix this method to work with all types of materials - switch statement between type and build accordingly
+            BHE.Properties.MaterialPropertiesOpaque bHoMOpaqueMaterial = mat.MaterialProperties as BHE.Properties.MaterialPropertiesOpaque;
             TBD.material tasMaterial = new TBD.material
+
             {
                 //Check were we are refering this to
                 conductivity = (float)bHoMOpaqueMaterial.Conductivity,
