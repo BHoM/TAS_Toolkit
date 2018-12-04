@@ -21,9 +21,10 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
-        public static BHE.Results.BuildingResult ToBHoMTSDBuilding(this TSD.BuildingData tsdBuildingData)
+        public static BHE.Results.SimulationResult ToBHoMTSDBuilding(this TSD.BuildingData tsdBuildingData)
         {
-            BHE.Results.BuildingResult bHoMBuildingResult = new BHE.Results.BuildingResult();
+            BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
+            bHoMBuildingResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingResult;
             TSD.BuildingData tsdBuilding = new TSD.BuildingData();
 
             //Const additionProfile = 9
