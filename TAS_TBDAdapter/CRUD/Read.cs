@@ -20,18 +20,17 @@ namespace BH.Adapter.TAS
 
         protected override IEnumerable<IBHoMObject> Read(Type type, IList indices = null)
         {
-            if (type == typeof(BuildingElement))
-                return ReadBuildingElements();
-            else if (type == typeof(Building))
+
+            if (type == typeof(Building))
                 return ReadBuilding();
+            else if (type == typeof(BuildingElement))
+                return ReadBuildingElements();
             else if (type == typeof(Space))
                 return ReadSpaces();
             //else if (type == typeof(BuildingElement))
             //    return ReadPanels();
             else if (type == typeof(BuildingElementProperties))
                 return ReadBuildingElementsProperties();
-            //else if (typeof(IMaterial).IsAssignableFrom(type))
-            //    return ReadMaterials();
             else if (type == typeof(BH.oM.Environment.Materials.Material) )
                 return ReadMaterials();
             //else if (type == typeof(BHS.Elements.Storey))
@@ -208,20 +207,11 @@ namespace BH.Adapter.TAS
             return buildingElements;
         }
 
-        //get external surfaces for filter query test roof
+        //get external surfaces for filter   
         public List<BuildingElement> ReadExternalBuildingElements(List<string> ids = null)
         {
             TBD.Building building = tbdDocument.Building;
-            TBD.buildingElement buildingElement = null;
             List<BuildingElement> buildingElements = new List<BuildingElement>();
-
-            /*int elementIndex = 0;
-
-            while ((buildingElement = building.GetBuildingElement(elementIndex)) != null)
-            {
-                buildingElements.Add(buildingElement.ToBHoM()); //Convert element...
-                elementIndex++;
-            }*/
 
             int zoneIndex = 0;
             TBD.zone zone = null;
@@ -232,67 +222,25 @@ namespace BH.Adapter.TAS
                 TBD.zoneSurface zoneSrf = null;
                 while ((zoneSrf = zone.GetSurface(zoneSurfaceIndex)) != null)
                 {
-                    int roomSrfIndex = 0;
-                    TBD.RoomSurface roomSrf = null;
-                    while ((roomSrf = zoneSrf.GetRoomSurface(roomSrfIndex)) != null)
-                    {
-                        if (roomSrf.GetPerimeter() != null)
-                        {
-                            if (zoneSrf.buildingElement.BEType ==3)
-                            {
-                            //Sometimes we can have a srf object in TAS without a geometry
-                            buildingElements.Add(zoneSrf.buildingElement.ToBHoMBuildingElement(roomSrf));
 
-                            }
-                        }
-                        roomSrfIndex++;
+                    if (zoneSrf.buildingElement.BEType == 3
+                        || zoneSrf.buildingElement.BEType == 2
+                        || zoneSrf.buildingElement.BEType == 6
+                        || zoneSrf.buildingElement.BEType == 7
+                        || zoneSrf.buildingElement.BEType == 11
+                        || zoneSrf.buildingElement.BEType == 16
+                        || zoneSrf.buildingElement.BEType == 19)
+                    {
+                        //Sometimes we can have a srf object in TAS without a geometry
+                        buildingElements.Add(zoneSrf.buildingElement.ToBHoMBuildingElement(zoneSrf));
                     }
+
                     zoneSurfaceIndex++;
                 }
                 zoneIndex++;
             }
 
 
-            //Reading Zones
-            //TBD.zone aZone = building.GetZone(aIndex);
-
-            /*while(aZone != null)
-            {
-                //Reading ZoneSurfaces
-                int zoneSurfaceIndex = 0;
-                TBD.zoneSurface zoneSurface = new TBD.zoneSurface();
-                while (aZone.GetSurface(zoneSurfaceIndex) != null)
-                {
-                    //Reading RoomSurfaces
-                    int roomSrfIndex = 0;
-                    while (aZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex) != null)
-                    {
-                        TBD.RoomSurface tasRoomSrf = aZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex);
-                        if (tasRoomSrf.GetPerimeter() != null) //sometimes we can have a srf object in tas without a geometry
-                        {
-                            //BHE.Elements.BuildingElement bHoMBuildingElement = ToBHoM(tasZone.GetSurface(zoneSurfaceIndex).buildingElement);
-                            BHE.Properties.BuildingElementProperties buildingElementProperties = Engine.TAS.Convert.ToBHoM(aZone.GetSurface(zoneSurfaceIndex).buildingElement);
-                            BHE.Elements.BuildingElement buildingElement = new BuildingElement()
-                            // tasZone.GetSurface(zoneSurfaceIndex).
-
-                            {
-
-                                Name = buildingElementProperties.Name,
-                                //BuildingElementGeometry = Engine.TAS.Convert.ToBHoM(tasRoomSrf),
-                                BuildingElementProperties = buildingElementProperties
-                            };
-
-                            buildingElements.Add(buildingElement);
-                        }
-                        roomSrfIndex++;
-                    }
-                    zoneSurfaceIndex++;
-                }
-
-                aIndex++;
-                aZone = building.GetZone(aIndex);
-            }
-            */
             return buildingElements;
         }
 
