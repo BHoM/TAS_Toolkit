@@ -21,7 +21,7 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
-        public static BHE.Results.BuildingResult ToBHoMBuilding(this TSD.BuildingResult tsdBuildingResult)
+        public static BHE.Results.BuildingResult ToBHoMTSDBuilding(this TSD.BuildingData tsdBuildingData)
         {
             BHE.Results.BuildingResult bHoMBuildingResult = new BHE.Results.BuildingResult();
             TSD.BuildingData tsdBuilding = new TSD.BuildingData();
@@ -51,7 +51,7 @@ namespace BH.Engine.TAS
             
             return bHoMBuildingResult;
         }
-        public static BHE.Results.SpaceResult ToBHoMZone(this TSD.ZoneResult tsdZoneResult)
+        public static BHE.Results.SpaceResult ToBHoMTSDZone(this TSD.ZoneResult tsdZoneResult)
         
           {
               BHE.Results.SpaceResult bHoMZoneResult = new BHE.Results.SpaceResult();
@@ -62,5 +62,6 @@ namespace BH.Engine.TAS
 
               return bHoMZoneResult;
           }
+        
     }
 }                                     
