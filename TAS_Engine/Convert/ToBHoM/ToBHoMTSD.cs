@@ -13,6 +13,8 @@ using BH.oM.Environment.Properties;
 using BH.oM.Environment.Elements;
 using System.Collections;
 
+using BH.oM.Environment.Results;
+
 namespace BH.Engine.TAS
 {
     public static partial class Convert
@@ -27,8 +29,12 @@ namespace BH.Engine.TAS
             bHoMBuildingResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingResult;
             TSD.BuildingData tsdBuilding = new TSD.BuildingData();
 
+            bHoMBuildingResult.SimulationResults.Add(
+                    Create.ProfileResult(ProfileResultType.LatentAdditionLoad, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult(9))
+                );
+
             //Const additionProfile = 9
-            bHoMBuildingResult.LatentAdditionProfile = tsdBuilding.GetAnnualBuildingResult(9);
+            //bHoMBuildingResult.LatentAdditionProfile = tsdBuilding.GetAnnualBuildingResult(9);
             //Const cloudCover = 11
             bHoMBuildingResult.CloudCover = tsdBuilding.GetAnnualBuildingResult(11);
             //Const coolingProfile = 8
