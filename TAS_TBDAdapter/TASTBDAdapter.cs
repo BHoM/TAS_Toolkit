@@ -46,26 +46,40 @@ namespace BH.Adapter.TAS
 
         public override IEnumerable<object> Pull(IQuery query, Dictionary<string, object> config = null)
         {
-            List<IBHoMObject> returnObjs = new List<IBHoMObject>();
-
-            GetTbdDocument(); //Open the TBD Document for pulling data from
-
-            FilterQuery aFilterQuery = query as FilterQuery;
-            switch (BH.Engine.Adapters.TAS.Query.QueryType(aFilterQuery))
+            try
             {
-                case oM.Adapters.TAS.Enums.QueryType.IsExternal:
-                    returnObjs.AddRange(ReadExternalBuildingElements());
-                    break;
-                default:
-                    //modified to allow filtering element we need
-                    returnObjs.AddRange(Read(aFilterQuery));
-                    break;
+                List<IBHoMObject> returnObjs = new List<IBHoMObject>();
+
+
+                FilterQuery aFilterQuery = query as FilterQuery;
+
+                switch (BH.Engine.Adapters.TAS.Query.QueryType(aFilterQuery))
+                {
+                    case oM.Adapters.TAS.Enums.QueryType.IsExternal:
+                        GetTbdDocument(); //Open the TBD Document for pulling data from
+                        returnObjs.AddRange(ReadExternalBuildingElements());
+                        break;
+                    default:
+                        //modified to allow filtering element we need
+                        GetTbdDocument(); //Open the TBD Document for pulling data from
+                        returnObjs.AddRange(Read(aFilterQuery));
+                        break;
+                }
+
+                CloseTbdDocument();
+                //Return the package
+                return returnObjs;
+
             }
-
-            CloseTbdDocument();
-
-            //Return the package
-            return returnObjs;
+            catch
+            {
+                CloseTbdDocument();
+                return null;
+            }
+            finally
+            {
+                CloseTbdDocument();
+            }
         }
 
         /***************************************************/
