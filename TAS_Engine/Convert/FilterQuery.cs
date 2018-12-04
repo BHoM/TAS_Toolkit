@@ -1,4 +1,4 @@
-﻿namespace BH.Engine.Adapters.TAS
+﻿namespace BH.Engine.TAS
 {
     public static partial class Convert
     {

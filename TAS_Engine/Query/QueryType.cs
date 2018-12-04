@@ -3,7 +3,7 @@
 using BH.oM.DataManipulation.Queries;
 using BH.oM.Reflection.Attributes;
 
-namespace BH.Engine.Adapters.TAS
+namespace BH.Engine.TAS
 {
     public static partial class Query
     {

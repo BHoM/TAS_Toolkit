@@ -75,6 +75,7 @@
     <Compile Include="Convert\ToTBDBEType.cs" />
     <Compile Include="Convert\ToTAS.cs" />
     <Compile Include="Create\IsExternalFilterQuery.cs" />
+    <Compile Include="Create\SimulationResult.cs" />
     <Compile Include="Generic\Generic.cs" />
     <Compile Include="Modify\SetTags.cs" />
     <Compile Include="Modify\UpdateCustomDataValue.cs" />
@@ -115,9 +116,6 @@
       <Project>{70ce1292-bf2c-4679-839c-1ccca3629d45}</Project>
       <Name>TAS_oM</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
