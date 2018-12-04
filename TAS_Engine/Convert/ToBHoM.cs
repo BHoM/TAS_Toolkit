@@ -733,7 +733,7 @@ namespace BH.Engine.TAS
                 AdditionalHeatTransfer = tbdConstruction.additionalHeatTransfer,
                 FFactor = tbdConstruction.FFactor,
             };
-            bhomConstruction.CustomData.Add("TAS_Description", tbdConstruction.description);
+            bhomConstruction.CustomData.Add("tbdConstrDescription", tbdConstruction.description);
             return bhomConstruction;
 
             }
