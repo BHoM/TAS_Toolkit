@@ -964,7 +964,7 @@ namespace BH.Engine.TAS
             TBD.dayType tbdICDayType = null;
             while ((tbdICDayType = tbdInternalCondition.GetDayType(GetTypeIndex)) != null)
             {
-                bHoMInternalCondition.DayTypes.Add(tbdICDayType.ToBHoM());
+                bHoMInternalCondition.DayTypes.Add(tbdICDayType.ToBHoMDayType());
                 GetTypeIndex++;
             }
 
@@ -1033,6 +1033,36 @@ namespace BH.Engine.TAS
             bHoMInternalCondition.Thermostat.CustomData.Add("upperLimit", GetSingleValueUpperLimitFromThermostat(tbdICThermostat));
 
             bHoMInternalCondition.Thermostat.CustomData.Add("lowerLimit", GetSingleValueLowerLimitFromThermostat(tbdICThermostat));
+
+
+            //get Profiles
+            //BHE.Elements.Profile bHoMProfile = new BHE.Elements.Profile();
+            //List<BHE.Elements.Profile> bHoMProfiles = new List<BHE.Elements.Profile>();
+            //profile tbdUpperLimitProfile = tbdICThermostat.GetProfile((int)TBD.Profiles.ticUL);
+            bHoMInternalCondition.Thermostat.Profiles.Add(ToBHoMProfileThermostat(tbdICThermostat));
+
+            //profile tbdUpperLimitProfile = tbdICThermostat.GetProfile((int)TBD.Profiles.ticUL);
+            //switch (tbdUpperLimitProfile.type)
+            //{
+            //    case TBD.ProfileTypes.ticValueProfile:
+            //        bHoMProfile.ProfileType = ProfileType.Value;
+            //        float Value = tbdUpperLimitProfile.value;
+            //        bHoMInternalCondition.Thermostat.Profiles.Add(bHoMProfile);
+            //        break;
+
+            //    case TBD.ProfileTypes.ticHourlyProfile:
+            //        bHoMProfile.ProfileType = ProfileType.Hourly;
+            //        bHoMInternalCondition.Thermostat.Profiles.Add(bHoMProfile);
+            //        break;
+
+            //    case TBD.ProfileTypes.ticYearlyProfile:
+            //        bHoMProfile.ProfileType = ProfileType.Yearly;
+            //        bHoMInternalCondition.Thermostat.Profiles.Add(bHoMProfile);
+            //        break;
+            //        // case other profile types etc.
+            //}
+
+
 
 
 
@@ -1115,31 +1145,31 @@ namespace BH.Engine.TAS
 
 
         /***************************************************/
-        public static BHE.Elements.SimulationDayType ToBHoM(this TBD.dayType type)
+        public static BHE.Elements.SimulationDayType ToBHoMDayType(this TBD.dayType tbdDayType)
         {
-            if (type.name.Equals("Weekday"))
+            if (tbdDayType.name.Equals("Weekday"))
                 return SimulationDayType.Weekday;
-            if (type.name.Equals("Monday"))
+            if (tbdDayType.name.Equals("Monday"))
                 return SimulationDayType.Monday;
-            if (type.name.Equals("Tuesday"))
+            if (tbdDayType.name.Equals("Tuesday"))
                 return SimulationDayType.Tuesday;
-            if (type.name.Equals("Wednesday"))
+            if (tbdDayType.name.Equals("Wednesday"))
                 return SimulationDayType.Wednesday;
-            if (type.name.Equals("Thursday"))
+            if (tbdDayType.name.Equals("Thursday"))
                 return SimulationDayType.Thursday;
-            if (type.name.Equals("Friday"))
+            if (tbdDayType.name.Equals("Friday"))
                 return SimulationDayType.Friday;
-            if (type.name.Equals("Saturday"))
+            if (tbdDayType.name.Equals("Saturday"))
                 return SimulationDayType.Saturday;
-            if (type.name.Equals("Sunday"))
+            if (tbdDayType.name.Equals("Sunday"))
                 return SimulationDayType.Sunday;
-            if (type.name.Equals("Public Holiday"))
+            if (tbdDayType.name.Equals("Public Holiday"))
                 return SimulationDayType.PublicHoliday;
-            if (type.name.Equals("CDD"))
+            if (tbdDayType.name.Equals("CDD"))
                 return SimulationDayType.CoolingDesignDay;
-            if (type.name.Equals("HDD"))
+            if (tbdDayType.name.Equals("HDD"))
                 return SimulationDayType.HeatingDesignDay;
-            if (type.name.Equals("Weekend"))
+            if (tbdDayType.name.Equals("Weekend"))
                 return SimulationDayType.Weekend;
 
             return SimulationDayType.Undefined;
@@ -1155,9 +1185,35 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static BHE.Elements.Profile ToBHoMProfile(this TBD.profile tasProfile) //Has no properties in BHoM yet...
+        //TO DO: add remaining data for Profiles...Initial export works just no data
+        public static BHE.Elements.Profile ToBHoMProfileThermostat(this TBD.Thermostat tbdICThermostat) //Has no properties in BHoM yet...
         {
-            throw new NotImplementedException();
+            BHE.Elements.Profile bHoMProfile = new BHE.Elements.Profile();
+            List<BHE.Elements.Profile> bHoMProfiles = new List<BHE.Elements.Profile>();
+            BHE.Elements.Thermostat bHoMThermostat = new BHE.Elements.Thermostat();
+
+            TBD.profile tbdUpperLimitProfile = tbdICThermostat.GetProfile((int)TBD.Profiles.ticUL);
+            switch (tbdUpperLimitProfile.type)
+            {
+                case TBD.ProfileTypes.ticValueProfile:
+                    bHoMProfile.ProfileType = ProfileType.Value;
+                    float Value = tbdUpperLimitProfile.value;
+                    bHoMThermostat.Profiles.Add(bHoMProfile);
+                    break;
+
+                case TBD.ProfileTypes.ticHourlyProfile:
+                    bHoMProfile.ProfileType = ProfileType.Hourly;
+                    bHoMThermostat.Profiles.Add(bHoMProfile);
+                    break;
+
+                case TBD.ProfileTypes.ticYearlyProfile:
+                    bHoMProfile.ProfileType = ProfileType.Yearly;
+                    bHoMThermostat.Profiles.Add(bHoMProfile);
+                    break;
+                    // case other profile types etc.
+            }
+            return bHoMProfile;
+
         }
 
         /***************************************************/
