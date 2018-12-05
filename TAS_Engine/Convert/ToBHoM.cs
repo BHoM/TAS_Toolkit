@@ -1034,38 +1034,9 @@ namespace BH.Engine.TAS
 
             bHoMInternalCondition.Thermostat.CustomData.Add("lowerLimit", GetSingleValueLowerLimitFromThermostat(tbdICThermostat));
 
-
             //get Profiles
-            //BHE.Elements.Profile bHoMProfile = new BHE.Elements.Profile();
-            //List<BHE.Elements.Profile> bHoMProfiles = new List<BHE.Elements.Profile>();
-            //profile tbdUpperLimitProfile = tbdICThermostat.GetProfile((int)TBD.Profiles.ticUL);
+            //To DO add profiles in Groups firsts thermostat and second InternalGains
             bHoMInternalCondition.Thermostat.Profiles.Add(ToBHoMProfileThermostat(tbdICThermostat));
-
-            //profile tbdUpperLimitProfile = tbdICThermostat.GetProfile((int)TBD.Profiles.ticUL);
-            //switch (tbdUpperLimitProfile.type)
-            //{
-            //    case TBD.ProfileTypes.ticValueProfile:
-            //        bHoMProfile.ProfileType = ProfileType.Value;
-            //        float Value = tbdUpperLimitProfile.value;
-            //        bHoMInternalCondition.Thermostat.Profiles.Add(bHoMProfile);
-            //        break;
-
-            //    case TBD.ProfileTypes.ticHourlyProfile:
-            //        bHoMProfile.ProfileType = ProfileType.Hourly;
-            //        bHoMInternalCondition.Thermostat.Profiles.Add(bHoMProfile);
-            //        break;
-
-            //    case TBD.ProfileTypes.ticYearlyProfile:
-            //        bHoMProfile.ProfileType = ProfileType.Yearly;
-            //        bHoMInternalCondition.Thermostat.Profiles.Add(bHoMProfile);
-            //        break;
-            //        // case other profile types etc.
-            //}
-
-
-
-
-
 
             return bHoMInternalCondition;
         }
