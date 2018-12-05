@@ -52,23 +52,27 @@ namespace BH.Adapter.TAS
 
 
                 FilterQuery aFilterQuery = query as FilterQuery;
+                GetTbdDocument(); //Open the TBD Document for pulling data from
 
-                switch (BH.Engine.Adapters.TAS.Query.QueryType(aFilterQuery))
+                if (tbdDocument != null)
                 {
-                    case oM.Adapters.TAS.Enums.QueryType.IsExternal:
-                        GetTbdDocument(); //Open the TBD Document for pulling data from
-                        returnObjs.AddRange(ReadExternalBuildingElements());
-                        break;
-                    default:
-                        //modified to allow filtering element we need
-                        GetTbdDocument(); //Open the TBD Document for pulling data from
-                        returnObjs.AddRange(Read(aFilterQuery));
-                        break;
-                }
 
+                    switch (BH.Engine.Adapters.TAS.Query.QueryType(aFilterQuery))
+                    {
+                        case oM.Adapters.TAS.Enums.QueryType.IsExternal:
+                            returnObjs.AddRange(ReadExternalBuildingElements());
+                            break;
+                        default:
+                            //modified to allow filtering element we need
+                            returnObjs.AddRange(Read(aFilterQuery));
+                            break;
+                    }
+
+
+                }
                 CloseTbdDocument();
-                //Return the package
                 return returnObjs;
+
 
             }
             catch
