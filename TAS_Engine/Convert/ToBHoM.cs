@@ -920,7 +920,7 @@ namespace BH.Engine.TAS
                         //if (bhomTransparentMaterial.MaterialProperties is GlazingMaterialProperties)
                         //    (bhomTransparentMaterial.MaterialProperties as GlazingMaterialProperties).IsBlind = (tbdMaterial.isBlind == 1);
                         //bHoMMaterial.Add(bhomTransparentMaterial);
-                        material.MaterialProperties.CustomData.Add("MaterialIsBling", tbdMaterial.isBlind);
+                        material.MaterialProperties.CustomData.Add("MaterialIsBlind", tbdMaterial.isBlind);
                         break;
 
                     case MaterialType.Gas:
