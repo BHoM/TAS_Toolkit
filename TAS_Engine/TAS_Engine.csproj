@@ -79,6 +79,7 @@
     <Compile Include="Modify\UpdateCustomDataValue.cs" />
     <Compile Include="Objects\EqualityComparers\Comparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\Profiles.cs" />
     <Compile Include="Query\BuildingElement.cs" />
     <Compile Include="Query\GetSurfaceType.cs" />
     <Compile Include="Query\GetRGB.cs" />
