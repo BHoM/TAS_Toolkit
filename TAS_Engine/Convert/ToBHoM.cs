@@ -1262,11 +1262,12 @@ namespace BH.Engine.TAS
         {
             switch (tbdBuildingElementType)
             {
-                case TBD.BuildingElementType.CURTAINWALL:
                 case TBD.BuildingElementType.EXTERNALWALL:
                 case TBD.BuildingElementType.INTERNALWALL:
+                case TBD.BuildingElementType.UNDERGROUNDWALL:
                     return BHE.Elements.BuildingElementType.Wall;
                 case TBD.BuildingElementType.ROOFELEMENT:
+                case TBD.BuildingElementType.ROOFLIGHT:
                     return BHE.Elements.BuildingElementType.Roof;
                 case TBD.BuildingElementType.CEILING:
                 case TBD.BuildingElementType.UNDERGROUNDCEILING:
@@ -1274,7 +1275,22 @@ namespace BH.Engine.TAS
                 case TBD.BuildingElementType.EXPOSEDFLOOR:
                 case TBD.BuildingElementType.INTERNALFLOOR:
                 case TBD.BuildingElementType.RAISEDFLOOR:
+                case TBD.BuildingElementType.SLABONGRADE:
+                case TBD.BuildingElementType.UNDERGROUNDSLAB:
                     return BHE.Elements.BuildingElementType.Floor;
+                case TBD.BuildingElementType.DOORELEMENT:
+                    return BHE.Elements.BuildingElementType.Door;
+                case TBD.BuildingElementType.GLAZING:
+                    return BHE.Elements.BuildingElementType.Window;
+                case TBD.BuildingElementType.CURTAINWALL:
+                    return BHE.Elements.BuildingElementType.CurtainWall;
+                case TBD.BuildingElementType.FRAMEELEMENT:
+                case TBD.BuildingElementType.NOBETYPE:
+                case TBD.BuildingElementType.NULLELEMENT:
+                case TBD.BuildingElementType.SHADEELEMENT:
+                case TBD.BuildingElementType.SOLARPANEL:
+                case TBD.BuildingElementType.VEHICLEDOOR:
+                    return BHE.Elements.BuildingElementType.Undefined;
                 default:
                     return BHE.Elements.BuildingElementType.Wall;
             }
