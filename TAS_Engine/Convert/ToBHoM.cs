@@ -854,7 +854,7 @@ namespace BH.Engine.TAS
         public static List<BHE.Interface.IMaterial> ToBHoM(this TBD.Construction tbdConstruction)
         {
             //Assign Material Layer to the object
-            List<BHE.Interface.IMaterial> bHoMMaterial = new List<BHE.Interface.IMaterial>();
+            List<BHE.Interface.IMaterial> bHoMMaterials = new List<BHE.Interface.IMaterial>();
 
             double tbdMaterialThickness = 0;
             int aIndex = 1;
@@ -929,12 +929,12 @@ namespace BH.Engine.TAS
                         break;
                 }
 
-                bHoMMaterial.Add(material);
+                bHoMMaterials.Add(material);
                 aIndex++;
             }
 
 
-            return bHoMMaterial;
+            return bHoMMaterials;
         }
 
         /***************************************************/
@@ -1029,9 +1029,9 @@ namespace BH.Engine.TAS
 
             bHoMInternalCondition.Thermostat.CustomData.Add("lowerLimit", GetSingleValueLowerLimitFromThermostat(tbdICThermostat));
 
-            //get Profiles
+            //add Profiles
             //To DO add profiles in Groups firsts thermostat and second InternalGains
-            bHoMInternalCondition.Thermostat.Profiles.Add(ToBHoM(tbdICThermostat));
+            bHoMInternalCondition.Thermostat.Profiles = BH.Engine.TAS.Query.Profiles(tbdICThermostat);
 
             return bHoMInternalCondition;
         }
@@ -1151,36 +1151,40 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        //TO DO: add remaining data for Profiles...Initial export works just no data
-        public static BHE.Elements.Profile ToBHoM(this TBD.Thermostat tbdICThermostat) //Has no properties in BHoM yet...
+        internal static BHE.Elements.Profile ToBHoMProfile(this TBD.profile tbdProfile, ProfileCategory prfileCategory)
         {
-            BHE.Elements.Profile bHoMProfile = new BHE.Elements.Profile();
-            List<BHE.Elements.Profile> bHoMProfiles = new List<BHE.Elements.Profile>();
-            BHE.Elements.Thermostat bHoMThermostat = new BHE.Elements.Thermostat();
-
-            TBD.profile tbdUpperLimitProfile = tbdICThermostat.GetProfile((int)TBD.Profiles.ticUL);
-            switch (tbdUpperLimitProfile.type)
+            BHE.Elements.Profile bHoMProfile = new Profile();
+            bHoMProfile.Category = ProfileCategory.Thermostat;
+            switch (tbdProfile.type)
             {
+
                 case TBD.ProfileTypes.ticValueProfile:
                     bHoMProfile.ProfileType = ProfileType.Value;
-                    float Value = tbdUpperLimitProfile.value;
-                    bHoMThermostat.Profiles.Add(bHoMProfile);
+                    bHoMProfile.Value = tbdProfile.value;
+                    bHoMProfile.Name = tbdProfile.name;
+                    bHoMProfile.CustomData.Add("ProfileDescriptionUL", tbdProfile.description);
+                    bHoMProfile.MultiplicationFactor = tbdProfile.factor;
+                    bHoMProfile.SetBackValue = tbdProfile.setbackValue;
                     break;
 
                 case TBD.ProfileTypes.ticHourlyProfile:
                     bHoMProfile.ProfileType = ProfileType.Hourly;
-                    bHoMThermostat.Profiles.Add(bHoMProfile);
+                    bHoMProfile.Name = tbdProfile.name;
+                    bHoMProfile.CustomData.Add("ProfileDescriptionUL", tbdProfile.description);
                     break;
 
                 case TBD.ProfileTypes.ticYearlyProfile:
                     bHoMProfile.ProfileType = ProfileType.Yearly;
-                    bHoMThermostat.Profiles.Add(bHoMProfile);
+                    bHoMProfile.Name = tbdProfile.name;
+                    bHoMProfile.CustomData.Add("ProfileDescriptionUL", tbdProfile.description);
                     break;
                     // case other profile types etc.
             }
+
             return bHoMProfile;
 
         }
+
 
         /***************************************************/
 
