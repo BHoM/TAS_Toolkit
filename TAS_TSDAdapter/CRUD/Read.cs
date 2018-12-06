@@ -24,7 +24,7 @@ namespace BH.Adapter.TAS
         
         protected override IEnumerable<IBHoMObject> Read(Type type, IList indices = null)
         {
-            if (type == typeof(BHE.Results.BuildingResult))
+            if (type == typeof(BHE.Results.SimulationResult))
                 return ReadBuildingResults();
             else
                 return null;
@@ -32,13 +32,13 @@ namespace BH.Adapter.TAS
         
 
 
-        public List<BH.oM.Environment.Results.BuildingResult> ReadBuildingResults(List<string> ids = null)
+        public List<BH.oM.Environment.Results.SimulationResult> ReadBuildingResults(List<string> ids = null)
         {
             TSD.BuildingData tsdBuildingData = tsdDocument.SimulationData.GetBuildingData();
             TSD.CoolingDesignData tsdCoolingDesignData = tsdDocument.SimulationData.GetCoolingDesignData(0);
             TSD.HeatingDesignData tsdHeatingDesignData = tsdDocument.SimulationData.GetHeatingDesignData(0);
 
-            List<BH.oM.Environment.Results.BuildingResult> buildingResults = new List<BH.oM.Environment.Results.BuildingResult>();
+            List<BH.oM.Environment.Results.SimulationResult> buildingResults = new List<BH.oM.Environment.Results.SimulationResult>();
             buildingResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdBuildingData));
 
             return buildingResults;

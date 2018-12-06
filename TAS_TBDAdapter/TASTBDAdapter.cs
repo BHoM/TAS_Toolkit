@@ -56,8 +56,7 @@ namespace BH.Adapter.TAS
 
                 if (tbdDocument != null)
                 {
-
-                    switch (BH.Engine.Adapters.TAS.Query.QueryType(aFilterQuery))
+                    switch (BH.Engine.TAS.Query.QueryType(aFilterQuery))
                     {
                         case oM.Adapters.TAS.Enums.QueryType.IsExternal:
                             returnObjs.AddRange(ReadExternalBuildingElements());
