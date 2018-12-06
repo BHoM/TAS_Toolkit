@@ -70,7 +70,7 @@ namespace BH.Adapter.TAS
             while (building.GetZone(zoneIndex) != null)
             {
                 TBD.zone zone = tbdDocument.Building.GetZone(zoneIndex);
-                spaces.Add(Engine.TAS.Convert.ToBHoMSpace(zone));
+                spaces.Add(Engine.TAS.Convert.ToBHoM(zone));
                 zoneIndex++;
             }                
                        
@@ -83,7 +83,7 @@ namespace BH.Adapter.TAS
         {
             TBD.Building building = tbdDocument.Building;
             List<Building> buildings = new List<Building>();
-            buildings.Add(Engine.TAS.Convert.ToBHoMBuilding(building));
+            buildings.Add(Engine.TAS.Convert.ToBHoM(building));
   
             return buildings;
         }
@@ -146,7 +146,7 @@ namespace BH.Adapter.TAS
                 TBD.zoneSurface zoneSrf = null;
                 while((zoneSrf = zone.GetSurface(zoneSurfaceIndex)) != null)
                 {
-                    buildingElements.Add(zoneSrf.buildingElement.ToBHoMBuildingElement(zoneSrf));
+                    buildingElements.Add(zoneSrf.buildingElement.ToBHoM(zoneSrf));
                     //int roomSrfIndex = 0;
                     //TBD.RoomSurface roomSrf = null;
                     //while((roomSrf = zoneSrf.GetRoomSurface(roomSrfIndex)) != null)
@@ -232,7 +232,7 @@ namespace BH.Adapter.TAS
                         || zoneSrf.buildingElement.BEType == 19)
                     {
                         //Sometimes we can have a srf object in TAS without a geometry
-                        buildingElements.Add(zoneSrf.buildingElement.ToBHoMBuildingElement(zoneSrf));
+                        buildingElements.Add(zoneSrf.buildingElement.ToBHoM(zoneSrf));
                     }
 
                     zoneSurfaceIndex++;
@@ -256,9 +256,9 @@ namespace BH.Adapter.TAS
             TBD.buildingElement tbdBuildingElement = null;
             while((tbdBuildingElement = tbdDocument.Building.GetBuildingElement(buildingElementIndex)) != null)
             {
-                BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoMBuildingElementType((TBD.BuildingElementType)tbdBuildingElement.BEType);
+                BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
                 TBD.Construction construction = tbdBuildingElement.GetConstruction();
-                buildingElementProperties.Add(Engine.TAS.Convert.ToBHoMBuildingElementProperties(construction, tbdBuildingElement.name, aBuildingElementType, tbdBuildingElement));
+                buildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction, tbdBuildingElement.name, aBuildingElementType, tbdBuildingElement));
                 buildingElementIndex++;
             }
 
@@ -294,7 +294,7 @@ namespace BH.Adapter.TAS
             while (building.GetIC(internalConditionIndex) != null)
             {
                 TBD.InternalCondition internalCondition = tbdDocument.Building.GetIC(internalConditionIndex);
-                internalConditions.Add(Engine.TAS.Convert.ToBHoMInternalCondition(internalCondition));
+                internalConditions.Add(Engine.TAS.Convert.ToBHoM(internalCondition));
                 internalConditionIndex++;
             }
 
@@ -331,7 +331,7 @@ namespace BH.Adapter.TAS
                 {
                     TBD.material tbdMaterial = building.GetConstruction(constructionIndex).materials(materialIndex);
 
-                    material.Add(Engine.TAS.Convert.ToBHoMMaterial(tbdMaterial));
+                    material.Add(Engine.TAS.Convert.ToBHoM(tbdMaterial));
                     materialIndex++;
                 }       
               
