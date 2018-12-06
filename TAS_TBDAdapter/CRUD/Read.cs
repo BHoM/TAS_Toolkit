@@ -10,6 +10,7 @@ using BHG = BH.oM.Geometry;
 using BH.Engine;
 using BH.Engine.TAS;
 
+
 namespace BH.Adapter.TAS
 {
     public partial class TasTBDAdapter : BHoMAdapter
@@ -256,9 +257,10 @@ namespace BH.Adapter.TAS
             TBD.buildingElement tbdBuildingElement = null;
             while((tbdBuildingElement = tbdDocument.Building.GetBuildingElement(buildingElementIndex)) != null)
             {
-                BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
+                //BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
                 TBD.Construction construction = tbdBuildingElement.GetConstruction();
-                buildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction, tbdBuildingElement.name, aBuildingElementType, tbdBuildingElement));
+                BH.oM.Environment.Elements.BuildingElementType bHoMBuildingElementType = BH.Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
+                buildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction, tbdBuildingElement.name, bHoMBuildingElementType, tbdBuildingElement));
                 buildingElementIndex++;
             }
 
