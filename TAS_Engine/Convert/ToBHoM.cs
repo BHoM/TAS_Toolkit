@@ -989,8 +989,8 @@ namespace BH.Engine.TAS
             string tbdInternalGainDescription = tbdICInternalGain.description;
             bHoMInternalCondition.InternalGain.CustomData.Add("tbdInternalGainDescription", tbdInternalGainDescription);
 
-            double tbdInternalDomestricHotWater = tbdICInternalGain.domesticHotWater;
-            bHoMInternalCondition.InternalGain.CustomData.Add("tbdInternalDomestricHotWater", tbdInternalDomestricHotWater);
+            double tbdInternalDomesticHotWater = tbdICInternalGain.domesticHotWater;
+            bHoMInternalCondition.InternalGain.CustomData.Add("tbdInternalDomesticHotWater", tbdInternalDomesticHotWater);
 
             //get Emitter
             TBD.Emitter tbdEmitter = null;
