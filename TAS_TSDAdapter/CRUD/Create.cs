@@ -54,7 +54,7 @@ namespace BH.Adapter.TAS
             return success;
         }
 
-        private bool Create(BHE.Results.BuildingResult buildingResult)
+        private bool Create(BHE.Results.SimulationResult buildingResult)
         {
             TSD.BuildingData tsdBuildingData = tsdDocument.SimulationData.GetBuildingData();
             TSD.CoolingDesignData tsdCoolingDesignData = tsdDocument.SimulationData.GetCoolingDesignData(0);
