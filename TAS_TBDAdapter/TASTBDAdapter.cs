@@ -52,7 +52,7 @@ namespace BH.Adapter.TAS
 
 
                 FilterQuery aFilterQuery = query as FilterQuery;
-                GetTbdDocument(); //Open the TBD Document for pulling data from
+                GetTbdDocumentReadOnly(); //Open the TBD Document for pulling data from
 
                 if (tbdDocument != null)
                 {
@@ -102,6 +102,20 @@ namespace BH.Adapter.TAS
             tbdDocument = new TBD.TBDDocument();
             if (!String.IsNullOrEmpty(tbdFilePath) && System.IO.File.Exists(tbdFilePath))
                 tbdDocument.open(tbdFilePath);
+
+            else if (!String.IsNullOrEmpty(tbdFilePath))
+                tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
+
+            else
+                ErrorLog.Add("The TBD file does not exist");
+            return tbdDocument;
+        }
+
+        private TBD.TBDDocument GetTbdDocumentReadOnly()
+        {
+            tbdDocument = new TBD.TBDDocument();
+            if (!String.IsNullOrEmpty(tbdFilePath) && System.IO.File.Exists(tbdFilePath))
+                tbdDocument.openReadOnly(tbdFilePath);
 
             else if (!String.IsNullOrEmpty(tbdFilePath))
                 tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
