@@ -29,44 +29,52 @@ namespace BH.Engine.TAS
 
             BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
             bHoMBuildingResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingResult;
-            //TSD.BuildingData tsdBuildingData = new TSD.BuildingData();
 
-            bHoMBuildingResult.SimulationResults.Add(
-                    Create.ProfileResult(ProfileResultType.LoadLatentAddition, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.additionProfile))
+
+            object aObject = tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.additionProfile);
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+            //UValues = (U(tbdConstructionLayer) as List<float>).ConvertAll(x => (double)x),
+
+            bHoMBuildingResult.SimulationResults.Add( 
+                    Create.ProfileResult(ProfileResultType.LoadLatentAddition, ProfileResultUnits.Yearly, aValueList.ConvertAll(x => (double)x))
                 );
-            bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.CloudCover, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.cloudCover))
-                );
-            bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.LoadCooling, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.coolingProfile))
-                );
-                //CoolingLoad = CoolingProfile?
-            bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.RadiationDiffuse, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.diffuseRadiation))
-                );
-            bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.HumidityExternal, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.externalHumidity))
-                );
-            bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.TemperatureExternal, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.externalTemperature))
-                );
-            bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.RadiationGlobal, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.globalRadiation))
-                );
-            bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.LoadHeating, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.heatingProfile))
-                );
-                //HeatingLoad = HeatingProfile?
-            bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.LoadLatentRemoval, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.removalProfile))
-                );
-            bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.WindDirection, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.windDirection))
-                );
-            bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.WindSpeed, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.windSpeed))
-                );
-            
+
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData,ProfileResultType.GainLighting,ProfileResultUnits.Yearly,tsdBuildingArray.additionProfile));
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, ProfileResultType.GainLighting, ProfileResultUnits.Yearly,tsdBuildingArray.coolingProfile));
+
+            //bHoMBuildingResult.SimulationResults.Add(
+            //    Create.ProfileResult(ProfileResultType.CloudCover, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.cloudCover))
+            //    );
+            //bHoMBuildingResult.SimulationResults.Add(
+            //    Create.ProfileResult(ProfileResultType.LoadCooling, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.coolingProfile))
+            //    );
+            //    //CoolingLoad = CoolingProfile?
+            //bHoMBuildingResult.SimulationResults.Add(
+            //    Create.ProfileResult(ProfileResultType.RadiationDiffuse, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.diffuseRadiation))
+            //    );
+            //bHoMBuildingResult.SimulationResults.Add(
+            //    Create.ProfileResult(ProfileResultType.HumidityExternal, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.externalHumidity))
+            //    );
+            //bHoMBuildingResult.SimulationResults.Add(
+            //    Create.ProfileResult(ProfileResultType.TemperatureExternal, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.externalTemperature))
+            //    );
+            //bHoMBuildingResult.SimulationResults.Add(
+            //    Create.ProfileResult(ProfileResultType.RadiationGlobal, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.globalRadiation))
+            //    );
+            //bHoMBuildingResult.SimulationResults.Add(
+            //    Create.ProfileResult(ProfileResultType.LoadHeating, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.heatingProfile))
+            //    );
+            //    //HeatingLoad = HeatingProfile?
+            //bHoMBuildingResult.SimulationResults.Add(
+            //    Create.ProfileResult(ProfileResultType.LoadLatentRemoval, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.removalProfile))
+            //    );
+            //bHoMBuildingResult.SimulationResults.Add(
+            //    Create.ProfileResult(ProfileResultType.WindDirection, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.windDirection))
+            //    );
+            //bHoMBuildingResult.SimulationResults.Add(
+            //    Create.ProfileResult(ProfileResultType.WindSpeed, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.windSpeed))
+            //    );
+
             return bHoMBuildingResult;
         }
 
@@ -252,6 +260,34 @@ namespace BH.Engine.TAS
 
             return bHoMSurfaceResult;
         }
+
+        //public static BHE.Results.SimulationResult ToBHoMTSDBuilding(this TSD.BuildingData tsdBuildingData)
+        //{
+
+        //    BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
+        //    bHoMBuildingResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingResult;
+
+
+        //    object aObject = tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.additionProfile);
+        //    List<float> aValueList = Generic.Functions.GetList(aObject);
+        //    //UValues = (U(tbdConstructionLayer) as List<float>).ConvertAll(x => (double)x),
+
+        //    bHoMBuildingResult.SimulationResults.Add(
+        //            Create.ProfileResult(ProfileResultType.LoadLatentAddition, ProfileResultUnits.Yearly, aValueList.ConvertAll(x => (double)x))
+        //        );
+        public static ProfileResult ToBHoM(this TSD.BuildingData tsdBuildingData, ProfileResultType aProfileType, ProfileResultUnits aProfileResultUnits, tsdBuildingArray aBuildingResultsArray)
+        {
+            ProfileResult aProfileResult = null;
+            //BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
+            //bHoMBuildingResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingResult;
+            object aObject = tsdBuildingData.GetAnnualBuildingResult((int)aBuildingResultsArray);
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+            aProfileResult = Create.ProfileResult(aProfileType, aProfileResultUnits, aValueList.ConvertAll(x => (double)x));
+
+            return aProfileResult;
+        }
+
+
 
         /***************************************************/
 
