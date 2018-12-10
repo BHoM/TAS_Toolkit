@@ -32,33 +32,33 @@ namespace BH.Engine.TAS
             TSD.BuildingData tsdBuilding = new TSD.BuildingData();
 
             bHoMBuildingResult.SimulationResults.Add(
-                    Create.ProfileResult(ProfileResultType.LatentAdditionLoad, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.additionProfile))
+                    Create.ProfileResult(ProfileResultType.LoadLatentAddition, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.additionProfile))
                 );
             bHoMBuildingResult.SimulationResults.Add(
                 Create.ProfileResult(ProfileResultType.CloudCover, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.cloudCover))
                 );
             bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.CoolingLoad, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.coolingProfile))
+                Create.ProfileResult(ProfileResultType.LoadCooling, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.coolingProfile))
                 );
                 //CoolingLoad = CoolingProfile?
             bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.DiffuseRadiation, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.diffuseRadiation))
+                Create.ProfileResult(ProfileResultType.RadiationDiffuse, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.diffuseRadiation))
                 );
             bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.ExternalHumidity, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.externalHumidity))
+                Create.ProfileResult(ProfileResultType.HumidityExternal, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.externalHumidity))
                 );
             bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.ExternalTemperature, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.externalTemperature))
+                Create.ProfileResult(ProfileResultType.TemperatureExternal, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.externalTemperature))
                 );
             bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.GlobalRadiation, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.globalRadiation))
+                Create.ProfileResult(ProfileResultType.RadiationGlobal, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.globalRadiation))
                 );
             bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.HeatingLoad, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.heatingProfile))
+                Create.ProfileResult(ProfileResultType.LoadHeating, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.heatingProfile))
                 );
                 //HeatingLoad = HeatingProfile?
             bHoMBuildingResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.LatentRemovalLoad, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.removalProfile))
+                Create.ProfileResult(ProfileResultType.LoadLatentRemoval, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.removalProfile))
                 );
             bHoMBuildingResult.SimulationResults.Add(
                 Create.ProfileResult(ProfileResultType.WindDirection, ProfileResultUnits.Yearly, tsdBuilding.GetAnnualBuildingResult((int)tsdBuildingArray.windDirection))
@@ -79,32 +79,32 @@ namespace BH.Engine.TAS
               TSD.ZoneData tsdZone = new TSD.ZoneData();
 
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.AirMovementGain, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.airMovementGain))
+                Create.ProfileResult(ProfileResultType.GainAirMovement, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.airMovementGain))
                 );
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.BuildingHeatTransfer, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.buildingHeatTransfer))
+                Create.ProfileResult(ProfileResultType.HeatTransferBuilding, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.buildingHeatTransfer))
                 );
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.CoolingLoad, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.coolingLoad))
+                Create.ProfileResult(ProfileResultType.LoadCooling, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.coolingLoad))
                 );
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.DryBulbTemperature, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.dryBulbTemp))
+                Create.ProfileResult(ProfileResultType.TemperatureDryBulb, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.dryBulbTemp))
                 );
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.EquipmentLatentGain, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.equipmentLatentGain))
+                Create.ProfileResult(ProfileResultType.GainEquipmentLatent, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.equipmentLatentGain))
                 );
             //EquipmentLatentGain 19 (&H13)?
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.EquipmentSensibleGain, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.equipmentSensibleGain))
+                Create.ProfileResult(ProfileResultType.GainEquipmentSensible, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.equipmentSensibleGain))
                 );
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.ExternalConductionGlazing, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.externalConductionGlazing))
+                Create.ProfileResult(ProfileResultType.ConductionExternalGlazing, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.externalConductionGlazing))
                 );
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.ExternalConductionOpaque, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.externalConductionOpaque))
+                Create.ProfileResult(ProfileResultType.ConductionExternalOpaque, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.externalConductionOpaque))
                 );
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.HeatingLoad, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.heatingLoad))
+                Create.ProfileResult(ProfileResultType.LoadHeating, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.heatingLoad))
                 );
             bHoMZoneResult.SimulationResults.Add(
                 Create.ProfileResult(ProfileResultType.HumidityRatio, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.humidityRatio))
@@ -115,7 +115,7 @@ namespace BH.Engine.TAS
                 );
             //infiltration 26 (&H1A)?
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.InfiltrationVentilationGain, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.infVentGain))
+                Create.ProfileResult(ProfileResultType.GainInfiltrationVentilation, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.infVentGain))
                 );
             bHoMZoneResult.SimulationResults.Add(
                 Create.ProfileResult(ProfileResultType.IZAMIn, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.izamIn))
@@ -126,53 +126,53 @@ namespace BH.Engine.TAS
                 );
             //izamOut 31 (&H1F)?
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.LatentAdditionLoad, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.latentAdditionLoad))
+                Create.ProfileResult(ProfileResultType.LoadLatentAddition, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.latentAdditionLoad))
                 );
             //LatentAdditionLoad 22 (&H16)?
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.LatentLoad, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.latentLoad))
+                Create.ProfileResult(ProfileResultType.LoadLatent, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.latentLoad))
                 );
             //LatentLoad 20 (&H14)?
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.LatentRemovalLoad, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.latentRemovalLoad))
+                Create.ProfileResult(ProfileResultType.LoadLatentRemoval, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.latentRemovalLoad))
                 );
             //LatentRemovalLoad 21 (&H15)?
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.LightingGain, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.lightingGain))
+                Create.ProfileResult(ProfileResultType.GainLighting, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.lightingGain))
                 );
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.MeanRadiantTemperature, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.MRTemp))
+                Create.ProfileResult(ProfileResultType.TemperatureMeanRadiant, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.MRTemp))
                 );
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.OccupancyLatentGain, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.occupancyLatentGain))
+                Create.ProfileResult(ProfileResultType.GainOccupancyLatent, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.occupancyLatentGain))
                 );
             //OccupancyLatentGain 18 (&H12)?
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.OccupantSensibleGain, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.occupantSensibleGain))
+                Create.ProfileResult(ProfileResultType.GainOccupantSensible, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.occupantSensibleGain))
                 );
             bHoMZoneResult.SimulationResults.Add(
                 Create.ProfileResult(ProfileResultType.Pollutant, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.pollutant))
                 );
             //Pollutant 24 (&H18)?
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.RelativePressure, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.pressure))
+                Create.ProfileResult(ProfileResultType.PressureRelative, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.pressure))
                 );
             //Pressure 25 (&H19)?
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.RelativeHumidity, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.relativeHumidity))
+                Create.ProfileResult(ProfileResultType.HumidityRelative, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.relativeHumidity))
                 );
             //RelativeHumidity 17 (&H11)?
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.ResultantTemperature, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.resultantTemp))
+                Create.ProfileResult(ProfileResultType.TemperatureResultant, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.resultantTemp))
                 );
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.SensibleLoad, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.sensibleLoad))
+                Create.ProfileResult(ProfileResultType.LoadSensible, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.sensibleLoad))
                 );
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.SolarGain, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.solarGain))
+                Create.ProfileResult(ProfileResultType.GainSolar, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.solarGain))
                 );
             bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(ProfileResultType.VapourPressure, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.vapourPressure))
+                Create.ProfileResult(ProfileResultType.PressureVapour, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.vapourPressure))
                 );
             //VapourPressure 23 (&H17)?
             bHoMZoneResult.SimulationResults.Add(
@@ -210,43 +210,43 @@ namespace BH.Engine.TAS
                  Create.ProfileResult(ProfileResultType.ApertureOpening, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.apertureOpening))
                 );
             bHoMSurfaceResult.SimulationResults.Add(
-                 Create.ProfileResult(ProfileResultType.ExternalCondensation, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extCondensation))
+                 Create.ProfileResult(ProfileResultType.CondensationExternal, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extCondensation))
                 );
             bHoMSurfaceResult.SimulationResults.Add(
-                 Create.ProfileResult(ProfileResultType.ExternalConduction, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extConduction))
+                 Create.ProfileResult(ProfileResultType.ConductionExternal, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extConduction))
                 );
             bHoMSurfaceResult.SimulationResults.Add(
-                 Create.ProfileResult(ProfileResultType.ExternalConvection, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extConvection))
+                 Create.ProfileResult(ProfileResultType.ConvectionExternal, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extConvection))
                 );
             bHoMSurfaceResult.SimulationResults.Add(
-                 Create.ProfileResult(ProfileResultType.ExternalLongWave, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extLongWave))
+                 Create.ProfileResult(ProfileResultType.LongWaveExternal, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extLongWave))
                 );
             //bHoMSurfaceResult.SimulationResults.Add(
             //     Create.ProfileResult(ProfileResultType.SolarGain, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extSolarGain))
             //    );
             bHoMSurfaceResult.SimulationResults.Add(
-                 Create.ProfileResult(ProfileResultType.ExternalTemperature, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extTemp))
+                 Create.ProfileResult(ProfileResultType.TemperatureExternal, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extTemp))
                 );
             bHoMSurfaceResult.SimulationResults.Add(
-                 Create.ProfileResult(ProfileResultType.InternalCondensation, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intCondensation))
+                 Create.ProfileResult(ProfileResultType.CondensationInternal, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intCondensation))
                 );
             bHoMSurfaceResult.SimulationResults.Add(
-                 Create.ProfileResult(ProfileResultType.InternalConduction, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intConduction))
+                 Create.ProfileResult(ProfileResultType.ConductionInternal, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intConduction))
                 );
             bHoMSurfaceResult.SimulationResults.Add(
-                 Create.ProfileResult(ProfileResultType.InternalConvection, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intConvection))
+                 Create.ProfileResult(ProfileResultType.ConvectionInternal, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intConvection))
                 );
             bHoMSurfaceResult.SimulationResults.Add(
-                 Create.ProfileResult(ProfileResultType.InterstitialCondensation, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.interCondensation))
+                 Create.ProfileResult(ProfileResultType.CondensationInternal, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.interCondensation))
                 );
             bHoMSurfaceResult.SimulationResults.Add(
-                 Create.ProfileResult(ProfileResultType.InternalLongWave, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intLongWave))
+                 Create.ProfileResult(ProfileResultType.LongWaveInternal, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intLongWave))
                 );
             //bHoMSurfaceResult.SimulationResults.Add(
             //     Create.ProfileResult(ProfileResultType.Int, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intSolarGain))
             //    );
             bHoMSurfaceResult.SimulationResults.Add(
-                 Create.ProfileResult(ProfileResultType.DryBulbTemperature, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intTemp))
+                 Create.ProfileResult(ProfileResultType.TemperatureDryBulb, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intTemp))
                 );
 
             return bHoMSurfaceResult;
