@@ -201,7 +201,52 @@ namespace BH.Engine.TAS
           }
 
         /***************************************************/
-        //TAS TBD Building Element Type
+
+        public static object AnnualBuildingResult(TSD.BuildingData tsdBuildingData, int Index)
+        {
+
+            return tsdBuildingData.GetAnnualBuildingResult(Index);
+        }
+
+        internal static class Functions
+        {
+
+            internal static List<float> GetAnnualBuildingResultList(TSD.BuildingData tsdBuildingData, TSD.tsdBuildingArray BuildingArray)
+            {
+                object aObject = BH.Engine.TAS.Convert.AnnualBuildingResult(tsdBuildingData, (int)BuildingArray);
+                return GetList(aObject);
+            }
+
+            internal static List<float> GetList(object Object)
+            {
+                List<float> aResult = new List<float>();
+                if (Object != null)
+                {
+                    IEnumerable aValues = Object as IEnumerable;
+                    if (aValues != null)
+                        aResult = aValues.Cast<float>().ToList();
+                }
+                return aResult;
+            }
+
+            internal static void GetMaxBuildingResults(TSD.BuildingData tsdBuildingData, TSD.tsdBuildingArray TSDBuildingArray, out float Max, out int Index)
+            {
+                List<float> aFloatList = GetAnnualBuildingResultList(tsdBuildingData, TSDBuildingArray);
+                Max = float.NaN;
+                Index = -1;
+                if (aFloatList.Count > 0)
+                {
+                    Max = aFloatList.Max();
+                    Index = aFloatList.IndexOf(Max);
+                }
+            }
+
+
+        }
+
+
+        /***************************************************/
+        //results TSD enums for Building, Zone and Surface
 
         public enum tsdBuildingArray
         {
