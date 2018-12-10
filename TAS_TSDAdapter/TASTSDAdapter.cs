@@ -47,38 +47,81 @@ namespace BH.Adapter.TAS
 
         public override IEnumerable<object> Pull(IQuery query, Dictionary<string, object> config = null)
         {
-            List<IBHoMObject> returnObjs = new List<IBHoMObject>();
-
-            GetTsdDocument(); //Open the TSD Document for pulling data from
-
-            FilterQuery aFilterQuery = query as FilterQuery;
-            switch (BH.Engine.TAS.Query.QueryType(aFilterQuery))
+            try
             {
-                case oM.Adapters.TAS.Enums.QueryType.IsExternal:
-                    break;
-                default:
-                    //modified to allow filtering element we need
-                    returnObjs.AddRange(Read(aFilterQuery));
-                    break;
+                List<IBHoMObject> returnObjs = new List<IBHoMObject>();
+
+
+                FilterQuery aFilterQuery = query as FilterQuery;
+                GetTsdDocument(); //Open the TSD Document for pulling data from
+
+                if (tsdDocument != null)
+                {
+                    switch (BH.Engine.TAS.Query.QueryType(aFilterQuery))
+                    {
+                        case oM.Adapters.TAS.Enums.QueryType.IsExternal:
+                            break;
+                        default:
+                            //modified to allow filtering element we need
+                            returnObjs.AddRange(Read(aFilterQuery));
+                            break;
+                    }
+
+                }
+                CloseTsdDocument();
+                return returnObjs;
+
+            }
+            catch
+            {
+                CloseTsdDocument();
+                return null;
+
+            }
+            finally
+            {
+                CloseTsdDocument();
+
             }
 
-            CloseTsdDocument();
-
-            //Return the package
-            return returnObjs;
         }
+
+        /***************************************************/
+        /**** Private Fields                            ****/
+        /***************************************************/
 
         private TSD.TSDDocument tsdDocument=null;
         private string tsdFilePath = null;
-        
+
+        /***************************************************/
+        /**** Private Methods                           ****/
+        /***************************************************/
+
         //To get the TSD Document
         private TSD.TSDDocument GetTsdDocument()
         {
-            TSD.TSDDocument tsdDocument = new TSD.TSDDocument();
+            tsdDocument = new TSD.TSDDocument();
             if (!String.IsNullOrEmpty(tsdFilePath) && System.IO.File.Exists(tsdFilePath))
                 tsdDocument.open(tsdFilePath);
+
             else if (!String.IsNullOrEmpty(tsdFilePath))
                 tsdDocument.create(tsdFilePath); //What if an existing file has the same name?
+
+            else
+                ErrorLog.Add("The TSD file does not exist");
+            return tsdDocument;
+        }
+
+        //To get the TSD Document
+        private TSD.TSDDocument GetTsdDocumentReadOnly()
+        {
+            tsdDocument = new TSD.TSDDocument();
+            if (!String.IsNullOrEmpty(tsdFilePath) && System.IO.File.Exists(tsdFilePath))
+                tsdDocument.openReadOnly(tsdFilePath);
+
+            else if (!String.IsNullOrEmpty(tsdFilePath))
+                tsdDocument.create(tsdFilePath); //What if an existing file has the same name?
+
             else
                 ErrorLog.Add("The TSD file does not exist");
             return tsdDocument;
