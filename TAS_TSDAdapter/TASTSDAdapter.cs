@@ -53,7 +53,7 @@ namespace BH.Adapter.TAS
 
 
                 FilterQuery aFilterQuery = query as FilterQuery;
-                GetTsdDocument(); //Open the TSD Document for pulling data from
+                GetTsdDocumentReadOnly (); //Open the TSD Document for pulling data from
 
                 if (tsdDocument != null)
                 {
