@@ -174,19 +174,19 @@ namespace BH.Engine.TAS
             bHoMZoneResult.SimulationResults.Add(
                 Create.ProfileResult(ProfileResultType.PressureVapour, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.vapourPressure))
                 );
-            //VapourPressure 23 (&H17)?
+
             bHoMZoneResult.SimulationResults.Add(
                 Create.ProfileResult(ProfileResultType.Ventilation, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.ventilation))
                 );
-            //Ventilation 27 (&H1B)?
+
             bHoMZoneResult.SimulationResults.Add(
                 Create.ProfileResult(ProfileResultType.ApertureFlowIn, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.zoneApertureFlowIn))
                 );
-            //ApertureFlowIn 28 (&H1C)?
+
             bHoMZoneResult.SimulationResults.Add(
                 Create.ProfileResult(ProfileResultType.ApertureFlowOut, ProfileResultUnits.Yearly, tsdZone.GetAnnualZoneResult((int)tsdZoneArray.zoneApertureFlowOut))
                 );
-            //ApertureFlowOut 29 (&H1D)?
+
 
             return bHoMZoneResult;
           }
@@ -221,9 +221,9 @@ namespace BH.Engine.TAS
             bHoMSurfaceResult.SimulationResults.Add(
                  Create.ProfileResult(ProfileResultType.LongWaveExternal, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extLongWave))
                 );
-            //bHoMSurfaceResult.SimulationResults.Add(
-            //     Create.ProfileResult(ProfileResultType.SolarGain, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extSolarGain))
-            //    );
+            bHoMSurfaceResult.SimulationResults.Add(
+                 Create.ProfileResult(ProfileResultType.GainSolar, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extSolarGain))
+                );
             bHoMSurfaceResult.SimulationResults.Add(
                  Create.ProfileResult(ProfileResultType.TemperatureExternal, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.extTemp))
                 );
@@ -242,9 +242,10 @@ namespace BH.Engine.TAS
             bHoMSurfaceResult.SimulationResults.Add(
                  Create.ProfileResult(ProfileResultType.LongWaveInternal, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intLongWave))
                 );
-            //bHoMSurfaceResult.SimulationResults.Add(
-            //     Create.ProfileResult(ProfileResultType.Int, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intSolarGain))
-            //    );
+            bHoMSurfaceResult.SimulationResults.Add(
+                 Create.ProfileResult(ProfileResultType.GainInternalSolar, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intSolarGain))
+                );
+
             bHoMSurfaceResult.SimulationResults.Add(
                  Create.ProfileResult(ProfileResultType.TemperatureDryBulb, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.intTemp))
                 );
