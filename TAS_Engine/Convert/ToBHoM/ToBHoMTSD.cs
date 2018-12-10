@@ -7,6 +7,7 @@ using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment;
 using BHG = BH.oM.Geometry;
 using TBD;
+using TSD;
 using TAS3D;
 using BHEE = BH.Engine.Environment;
 using BH.oM.Environment.Properties;
@@ -208,8 +209,19 @@ namespace BH.Engine.TAS
             return tsdBuildingData.GetAnnualBuildingResult(Index);
         }
 
+        public static object GetAnnualZoneResult(TSD.ZoneData ZoneData, int Index)
+        {
+            return ZoneData.GetAnnualZoneResult(Index);
+        }
+
         internal static class Functions
         {
+
+            internal static List<float> GetAnnualZoneResultList(TSD.ZoneData ZoneData, TSD.tsdZoneArray ZoneArray)
+            {
+                object aObject = BH.Engine.TAS.Convert.GetAnnualZoneResult(ZoneData, (int)ZoneArray);
+                return GetList(aObject);
+            }
 
             internal static List<float> GetAnnualBuildingResultList(TSD.BuildingData tsdBuildingData, TSD.tsdBuildingArray BuildingArray)
             {
@@ -241,6 +253,49 @@ namespace BH.Engine.TAS
                 }
             }
 
+            internal static void GetMinBuildingResults(TSD.BuildingData tsdBuildingData, TSD.tsdBuildingArray TSDBuildingArray, out float Min, out int Index)
+            {
+                List<float> aFloatList = GetAnnualBuildingResultList(tsdBuildingData, TSDBuildingArray);
+                Min = float.NaN;
+                Index = -1;
+                if (aFloatList.Count > 0)
+                {
+                    Min = aFloatList.Min();
+                    Index = aFloatList.IndexOf(Min);
+                }
+            }
+
+            internal static void AddValues(List<float> ListFloat, List<float> ListFloatToAdd)
+            {
+                for (int i = 0; i < ListFloat.Count; i++)
+                    ListFloat[i] += ListFloatToAdd[i];
+            }
+
+            internal static float GetAtIndex(List<TSD.ZoneData> ZoneDataList, int Index, TSD.tsdZoneArray ZoneArray)
+            {
+                float aResult = 0;
+                foreach (TSD.ZoneData aZoneData in ZoneDataList)
+                {
+                    List<float> aResutList = GetAnnualZoneResultList(aZoneData, ZoneArray);
+                    if (aResutList[Index] > 0)
+                        aResult += aResutList[Index];
+
+                }
+                return aResult;
+            }
+
+
+            internal static float GetTotalLatentGain(List<TSD.ZoneData> ZoneDataList, int Index, float Volume)
+            {
+                int aIndex_Temp = Index;
+                if (aIndex_Temp < 2)
+                    aIndex_Temp++;
+
+                float aVal_1 = GetAtIndex(ZoneDataList, aIndex_Temp, TSD.tsdZoneArray.humidityRatio);
+                float aVal_2 = GetAtIndex(ZoneDataList, aIndex_Temp - 1, TSD.tsdZoneArray.humidityRatio);
+                float aVal_3 = GetAtIndex(ZoneDataList, aIndex_Temp, TSD.tsdZoneArray.latentLoad);
+                return (float)(1.2 * Volume * (aVal_1 - aVal_2) / 3600 * 2257 * 1000 - aVal_3);
+            }
 
         }
 
