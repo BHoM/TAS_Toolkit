@@ -24,8 +24,10 @@ namespace BH.Adapter.TAS
         
         protected override IEnumerable<IBHoMObject> Read(Type type, IList indices = null)
         {
-            if (type == typeof(BHE.Results.SimulationResult))
+            if (type == typeof(Building))
                 return ReadBuildingResults();
+            //if (type == typeof(BHE.Results.SimulationResult))
+            //    return ReadBuildingResults();
             else
                 return null;
         }
