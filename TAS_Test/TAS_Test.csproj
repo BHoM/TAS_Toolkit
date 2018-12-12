@@ -36,21 +36,28 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Architecture_oM, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BHoM\Build\Architecture_oM.dll</HintPath>
+    </Reference>
     <Reference Include="BHoM">
       <HintPath>..\..\BHoM\Build\BHoM.dll</HintPath>
     </Reference>
     <Reference Include="Environment_Engine">
       <HintPath>..\..\BHoM_Engine\Build\Environment_Engine.dll</HintPath>
     </Reference>
+    <Reference Include="Environment_oM">
+      <HintPath>..\..\BHoM\Build\Environment_oM.dll</HintPath>
+    </Reference>
     <Reference Include="Geometry_Engine">
       <HintPath>..\..\BHoM_Engine\Build\Geometry_Engine.dll</HintPath>
+    </Reference>
+    <Reference Include="Geometry_oM">
+      <HintPath>..\..\BHoM\Build\Geometry_oM.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="TAS_Adapter">
       <HintPath>..\Build\TAS_Adapter.dll</HintPath>
-    </Reference>
-    <Reference Include="TAS_Engine">
-      <HintPath>..\Build\TAS_Engine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
