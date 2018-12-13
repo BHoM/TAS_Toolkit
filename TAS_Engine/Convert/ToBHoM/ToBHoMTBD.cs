@@ -423,14 +423,13 @@ namespace BH.Engine.TAS
                 roomSrfIndex++;
             }
 
-
             if (panelCurves.Count == 1)
                 bHoMBuildingElement.PanelCurve = panelCurves.First();
             else
             {
                 if (panelCurves.TrueForAll(x => x is BH.oM.Geometry.Polyline))
                 {
-                    List<BH.oM.Geometry.Polyline> aPolylines = BH.Engine.Geometry.Compute.BooleanUnion(panelCurves.ConvertAll(x => x as BH.oM.Geometry.Polyline));
+                    List<BH.oM.Geometry.Polyline> aPolylines = BH.Engine.Geometry.Compute.BooleanUnion(panelCurves.ConvertAll(x => x as BH.oM.Geometry.Polyline), 1E-3);
                     if (aPolylines.Count == 1)
                         bHoMBuildingElement.PanelCurve = aPolylines.First();
                     else
@@ -439,13 +438,9 @@ namespace BH.Engine.TAS
                 else
                 {
                     bHoMBuildingElement.PanelCurve = BH.Engine.Geometry.Create.PolyCurve(panelCurves);
-
                 }
 
             }
-
-
-
 
             return bHoMBuildingElement;
         }

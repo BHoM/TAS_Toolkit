@@ -69,13 +69,16 @@ namespace BH.Adapter.TAS
 
 
                 }
+
                 CloseTbdDocument();
                 return returnObjs;
 
 
             }
-            catch
+            catch (Exception e)
             {
+                ErrorLog.Add(e.ToString());
+                BH.Engine.Reflection.Compute.RecordError(e.ToString());
                 CloseTbdDocument();
                 return null;
             }
