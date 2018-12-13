@@ -330,7 +330,7 @@ namespace BH.Engine.TAS
         //                BHE.Properties.BuildingElementProperties bHoMBuildingElementProperties = BH.Engine.TAS.Convert.ToBHoM(tbdZoneSurface.buildingElement);
         //                {
         //                    bHoMBuildingElement.PanelCurve=tbdBuildingElement
-                                
+
         //                    //BuildingElementGeometry = tasRoomSrf.ToBHoM(),
         //                    BuildingElementProperties = bHoMBuildingElementProperties
         //                };
@@ -398,20 +398,15 @@ namespace BH.Engine.TAS
             {
                 if (tbdRoomSurface.GetPerimeter() != null)
                 {
-                    //Sometimes we can have a srf object in TAS without a geometry
-                    // buildingElements.Add(zoneSrf.buildingElement.ToBHoM(tbdRoomSurface));
-                    //TBD.RoomSurface tbdRoomSurface = null;
-                    //tbdRoomSurface = tbdRoomSurface.zoneSurface;
 
                     TBD.Perimeter tbdPerimeter = tbdRoomSurface.GetPerimeter();
                     TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
 
                     BHG.ICurve curve = ToBHoM(tbdPolygon);
-                    BHG.PolyCurve polyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
+                    //BHG.PolyCurve polyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
 
-                    panelCurves.Add(polyCurve);
-
-                    bHoMBuildingElement.PanelCurve = BH.Engine.Geometry.Create.PolyCurve(panelCurves);
+                    //panelCurves.Add(polyCurve);
+                    panelCurves.Add(curve);
 
                     ////Get Openings from Building Element
                     List<BH.oM.Geometry.ICurve> openingCurves = new List<BH.oM.Geometry.ICurve>();
@@ -426,6 +421,27 @@ namespace BH.Engine.TAS
                     }
                 }
                 roomSrfIndex++;
+            }
+
+
+            if (panelCurves.Count == 1)
+                bHoMBuildingElement.PanelCurve = panelCurves.First();
+            else
+            {
+                if (panelCurves.TrueForAll(x => x is BH.oM.Geometry.Polyline))
+                {
+                    List<BH.oM.Geometry.Polyline> aPolylines = BH.Engine.Geometry.Compute.BooleanUnion(panelCurves.ConvertAll(x => x as BH.oM.Geometry.Polyline));
+                    if (aPolylines.Count == 1)
+                        bHoMBuildingElement.PanelCurve = aPolylines.First();
+                    else
+                        bHoMBuildingElement.PanelCurve = BH.Engine.Geometry.Create.PolyCurve(aPolylines);
+                }
+                else
+                {
+                    bHoMBuildingElement.PanelCurve = BH.Engine.Geometry.Create.PolyCurve(panelCurves);
+
+                }
+
             }
 
 
