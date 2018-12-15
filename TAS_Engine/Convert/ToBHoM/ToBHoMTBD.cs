@@ -360,7 +360,7 @@ namespace BH.Engine.TAS
 
             //provide adj zone
             if ((int)(tbdZoneSurfaceType) == 3)
-                bHoMBuildingElement.CustomData.Add("AdjacentSpaceID", tbdZoneSurface.linkSurface);
+                bHoMBuildingElement.CustomData.Add("AdjacentSpaceID", tbdZoneSurface.linkSurface.zone.name);
             else
                 bHoMBuildingElement.CustomData.Add("AdjacentSpaceID", null);
 
@@ -387,7 +387,7 @@ namespace BH.Engine.TAS
 
             //SurfaceZone->SpaceID
             string tbdZoneSurfaceZoneName = tbdZoneSurface.zone.name;
-            bHoMBuildingElement.CustomData.Add("SurfaceZone", tbdZoneSurfaceZoneName);
+            bHoMBuildingElement.CustomData.Add("SpaceID", tbdZoneSurfaceZoneName);
 
             //add Building Element Properties
             TBD.Construction tbdConstruction = tbdBuildingElement.GetConstruction();
