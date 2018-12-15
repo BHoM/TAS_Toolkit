@@ -6,6 +6,7 @@
 
 Tas_Toolkit is all about interacting with Tas EDSL.
 
+<img src="https://raw.githubusercontent.com/BHoM/documentation/master/wiki/images/Tas_Toolkit/Tas_Toolkit_3Dmodel.gif?token=AY52hvXmG9t0Vxr0FRGZEXHQ_hxpWewiks5cHYsTwA%3D%3D" height= 300>  
 
 
 **Check [Wiki](https://github.com/BHoM/TAS_Toolkit/wiki) to get started with your journey regardless if you are MEP engineer, Grasshopper, DynamoBIM oe Excel user.**
