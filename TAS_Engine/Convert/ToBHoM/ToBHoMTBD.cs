@@ -93,8 +93,55 @@ namespace BH.Engine.TAS
             double tbdBuildingYear = tbdBuilding.year;
             bHoMBuilding.CustomData.Add("BuildingYear", tbdBuildingYear);
 
+            //test to access Storey.. log idea with Tas or find alternative method get Z-coordinate from floor
+            int buildingStoreyIndex = 0;
+            TBD.BuildingStorey tbdBuildingStorey = null;
+            List<string> buildingStoreyHeights = new List<string>();
+            while ((tbdBuildingStorey = tbdBuilding.GetStorey(buildingStoreyIndex)) != null)
+            {
+                // bHoMBuilding.CustomData.Add("StoreyPerimeter", tbdBuildingStorey.GetPerimeter(0));
+                if (tbdBuildingStorey.GetPerimeter(0) != null)
+                {
+                    TBD.Perimeter tbdPerimeter = tbdBuildingStorey.GetPerimeter(0);
+                    TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
+                    buildingStoreyHeights.Add(GetSingleZValue(tbdPolygon).ToString());
+                    bHoMBuilding.CustomData.Add("BuildingStoreyHeight" + buildingStoreyIndex.ToString(), GetSingleZValue(tbdPolygon).ToString());
+                }
+
+                buildingStoreyIndex++;
+            }
+            bHoMBuilding.CustomData.Add("BuildingStoreyHeights", buildingStoreyHeights);
+
+
+
+            //if (tbdRoomSurface.GetPerimeter() != null)
+            //{
+
+            //    TBD.Perimeter tbdPerimeter = tbdRoomSurface.GetPerimeter();
+            //    TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
+
+            //    BHG.ICurve curve = ToBHoM(tbdPolygon);
+            //    BHG.PolyCurve polyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
+
+            //    panelCurves.Add(polyCurve);
+            //    panelCurves.Add(curve);
+
+            //    //Get Openings from Building Element
+            //    List<BH.oM.Geometry.ICurve> openingCurves = new List<BH.oM.Geometry.ICurve>();
+
+            //    int tbdOpeningPolygonIndex = 0;
+            //    TBD.Polygon tbdOpeningPolygon = null;
+            //    while ((tbdOpeningPolygon = tbdPerimeter.GetHole(tbdOpeningPolygonIndex)) != null)
+            //    {
+            //        BHG.ICurve openingCurve = ToBHoM(tbdOpeningPolygon);
+            //        bHoMBuildingElement.Openings.Add(ToBHoMOpening(tbdOpeningPolygon));
+            //        tbdOpeningPolygonIndex++;
+            //    }
+
             return bHoMBuilding;
         }
+
+
 
         /***************************************************/
 
@@ -404,7 +451,6 @@ namespace BH.Engine.TAS
             {
                 if (tbdRoomSurface.GetPerimeter() != null)
                 {
-
                     TBD.Perimeter tbdPerimeter = tbdRoomSurface.GetPerimeter();
                     TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
 
@@ -1259,6 +1305,22 @@ namespace BH.Engine.TAS
             }
             bHoMPointList.Add(bHoMPointList[0]);
             return new BHG.Polyline { ControlPoints = bHoMPointList };
+        }
+
+        //new metod to get Stoyre Z-coordinate from Storey
+        public static double GetSingleZValue(this TBD.Polygon tbdPolygon) 
+        {
+            List<BHG.Point> bHoMPointList = new List<BHG.Point>();
+            int pointIndex = 0;
+            double Zvalue = 0;
+            TasPoint tasPoint = null;
+            if ((tasPoint = tbdPolygon.GetPoint(pointIndex)) != null)
+            {
+                tasPoint = tbdPolygon.GetPoint(0);
+                Zvalue = tasPoint.z;
+
+            }
+            return Zvalue;
         }
 
         /***************************************************/

@@ -56,8 +56,11 @@
       <HintPath>..\..\BHoM\Build\Geometry_oM.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="TAS_Adapter">
-      <HintPath>..\Build\TAS_Adapter.dll</HintPath>
+    <Reference Include="TASTBD_Adapter">
+      <HintPath>..\Build\TASTBD_Adapter.dll</HintPath>
+    </Reference>
+    <Reference Include="TASTSD_Adapter">
+      <HintPath>..\Build\TASTSD_Adapter.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Choose>
