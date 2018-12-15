@@ -358,6 +358,12 @@ namespace BH.Engine.TAS
             TBD.SurfaceType tbdZoneSurfaceType = tbdZoneSurface.type;
             bHoMBuildingElement.CustomData.Add("SurfaceType", tbdZoneSurfaceType);
 
+            //provide adj zone
+            if ((int)(tbdZoneSurfaceType) == 3)
+                bHoMBuildingElement.CustomData.Add("AdjacentSpaceID", tbdZoneSurface.linkSurface);
+            else
+                bHoMBuildingElement.CustomData.Add("AdjacentSpaceID", null);
+
             double tbdZoneSurfaceAltitude = tbdZoneSurface.altitude;
             bHoMBuildingElement.CustomData.Add("SurfaceAltitude", tbdZoneSurfaceAltitude);
 
@@ -379,7 +385,7 @@ namespace BH.Engine.TAS
             double tbdZoneSurfaceReversed = tbdZoneSurface.reversed;
             bHoMBuildingElement.CustomData.Add("SurfaceReversed", tbdZoneSurfaceReversed);
 
-            //TO DO: 2018-11-23 how to get name form zone here
+            //SurfaceZone->SpaceID
             string tbdZoneSurfaceZoneName = tbdZoneSurface.zone.name;
             bHoMBuildingElement.CustomData.Add("SurfaceZone", tbdZoneSurfaceZoneName);
 
