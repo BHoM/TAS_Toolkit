@@ -4,7 +4,7 @@
 
   
 
-:sparkles: Tas_Toolkit is all about interacting between BHoM and Tas EDSL. The most versatile method of controlling simulation  tool!
+Tas_Toolkit is all about interacting between BHoM and Tas EDSL. The most versatile :sparkles: method of controlling simulation  tool!
 
 <img src="https://raw.githubusercontent.com/BHoM/documentation/master/wiki/images/Tas_Toolkit/Tas_Toolkit_3Dmodel.gif?token=AY52hvXmG9t0Vxr0FRGZEXHQ_hxpWewiks5cHYsTwA%3D%3D" height= 300>  
 
