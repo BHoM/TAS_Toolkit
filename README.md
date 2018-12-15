@@ -17,7 +17,7 @@ Tas_Toolkit is a BuroHappold open-source project and will not be anything specia
 ### License ###
 Tas_Toolkit is licensed under the Apache License. Tas_Toolkit also uses a number of third party libraries, some with different licenses.
 
-Credits:  
+### Credits: ###
 [Michal Dengusiak](https://github.com/michaldengusiak)  
 [Fraser Greenroyd](https://github.com/FraserGreenroyd)   
 [Maria Tjader](https://github.com/mariatjader)   
