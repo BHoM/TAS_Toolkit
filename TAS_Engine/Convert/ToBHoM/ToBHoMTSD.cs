@@ -299,12 +299,25 @@ namespace BH.Engine.TAS
         //        );
         public static ProfileResult ToBHoM(this TSD.BuildingData tsdBuildingData, ProfileResultType aProfileType, ProfileResultUnits aProfileResultUnits, tsdBuildingArray aBuildingResultsArray)
         {
+            BHE.Results.ProfileResult bHoMProfileResult = new BHE.Results.ProfileResult();
+            
             ProfileResult aProfileResult = null;
             //BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
             //bHoMBuildingResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingResult;
             object aObject = tsdBuildingData.GetAnnualBuildingResult((int)aBuildingResultsArray);
             List<float> aValueList = Generic.Functions.GetList(aObject);
             aProfileResult = Create.ProfileResult(aProfileType, aProfileResultUnits, aValueList.ConvertAll(x => (double)x));
+
+            /*
+            BHE.Results.SimulationResult bHoMSurfaceResult = new BHE.Results.SimulationResult();
+            bHoMSurfaceResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingElementResult;
+            TSD.ZoneData tsdZone = new TSD.ZoneData();
+            TSD.SurfaceData tsdSurface = new TSD.SurfaceData();
+
+            bHoMSurfaceResult.SimulationResults.Add(
+                Create.ProfileResult(ProfileResultType.ApertureFlowIn, ProfileResultUnits.Yearly, tsdSurface.GetAnnualSurfaceResult((int)tsdSurfaceArray.apertureFlowIn))
+                );*/
+
 
             return aProfileResult;
         }

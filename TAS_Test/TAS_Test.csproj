@@ -79,7 +79,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Definitions_CurvesLines.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Adapter\" />
