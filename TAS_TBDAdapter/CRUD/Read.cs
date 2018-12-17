@@ -41,7 +41,7 @@ namespace BH.Adapter.TAS
             else if (type == typeof(InternalCondition))
                 return ReadInternalCondition();
             else
-                return null;
+                return Read(); //Read everything
         }
 
         public List<IBHoMObject> Read()
