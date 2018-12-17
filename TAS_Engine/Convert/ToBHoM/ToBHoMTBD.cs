@@ -1294,7 +1294,7 @@ namespace BH.Engine.TAS
             return new BHG.Polyline { ControlPoints = bHoMPointList };
         }
 
-        //new metod to get Stoyre Z-coordinate from Storey
+        //new metod to get Storey Z-coordinate from Storey
         public static double GetSingleZValue(this TBD.Polygon tbdPolygon) 
         {
             List<BHG.Point> bHoMPointList = new List<BHG.Point>();

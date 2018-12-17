@@ -32,10 +32,10 @@ namespace BH.Adapter.TAS
             //    return ReadPanels();
             else if (type == typeof(BuildingElementProperties))
                 return ReadBuildingElementsProperties();
-            else if (type == typeof(BH.oM.Environment.Materials.Material) )
+            else if (type == typeof(BH.oM.Environment.Materials.Material))
                 return ReadMaterials();
-            //else if (type == typeof(BHS.Elements.Storey))
-            //    return ReadStorey();
+            else if (type == typeof(BH.oM.Architecture.Elements.Level))
+                return ReadLevels();
             else if (type == typeof(Construction))
                 return ReadConstruction();
             else if (type == typeof(InternalCondition))
@@ -52,6 +52,7 @@ namespace BH.Adapter.TAS
             bhomObjects.AddRange(ReadSpaces());
             bhomObjects.AddRange(ReadBuildingElements());
             bhomObjects.AddRange(ReadConstruction());
+            bhomObjects.AddRange(ReadLevels());
 
             return bhomObjects;
         }
@@ -87,6 +88,37 @@ namespace BH.Adapter.TAS
             buildings.Add(Engine.TAS.Convert.ToBHoM(building));
   
             return buildings;
+        }
+
+        /***************************************************/
+
+        private List<BH.oM.Architecture.Elements.Level> ReadLevels(List<string> ids = null)
+        {
+            TBD.Building tbdBuilding = tbdDocument.Building;
+            List<TBD.BuildingStorey> tbdLStoreys = new List<TBD.BuildingStorey>();
+
+            int buildingStoreyIndex = 0;
+            TBD.BuildingStorey tbdBuildingStorey = null;
+            BH.oM.Architecture.Elements.Level level = null;
+            List<string> buildingStoreyHeights = new List<string>();
+            List<BH.oM.Architecture.Elements.Level> levels = new List<BH.oM.Architecture.Elements.Level>();
+            while ((tbdBuildingStorey = tbdBuilding.GetStorey(buildingStoreyIndex)) != null)
+            {
+                if (tbdBuildingStorey.GetPerimeter(0) != null)
+                {
+                    TBD.Perimeter tbdPerimeter = tbdBuildingStorey.GetPerimeter(0);
+                    TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
+                    buildingStoreyHeights.Add(Math.Round(BH.Engine.TAS.Convert.GetSingleZValue(tbdPolygon), 3).ToString());
+
+                    //Create Architectural Level
+                    level = BH.Engine.Architecture.Elements.Create.Level(Math.Round(BH.Engine.TAS.Convert.GetSingleZValue(tbdPolygon), 3));
+                    levels.Add(level);
+                }
+
+                buildingStoreyIndex++;
+            }
+
+            return levels;
         }
 
         /***************************************************/
