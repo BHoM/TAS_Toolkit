@@ -394,7 +394,7 @@ namespace BH.Engine.TAS
             if ((int)(tbdZoneSurfaceType) == 3)
                 bHoMBuildingElement.CustomData.Add("AdjacentSpaceID", tbdZoneSurface.linkSurface.zone.name);
             else
-                bHoMBuildingElement.CustomData.Add("AdjacentSpaceID", null);
+                bHoMBuildingElement.CustomData.Add("AdjacentSpaceID", -1);
 
             double tbdZoneSurfaceAltitude = tbdZoneSurface.altitude;
             bHoMBuildingElement.CustomData.Add("SurfaceAltitude", tbdZoneSurfaceAltitude);
