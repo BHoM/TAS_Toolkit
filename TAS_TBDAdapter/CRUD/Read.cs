@@ -74,8 +74,8 @@ namespace BH.Adapter.TAS
                 TBD.zone zone = tbdDocument.Building.GetZone(zoneIndex);
                 spaces.Add(Engine.TAS.Convert.ToBHoM(zone));
                 zoneIndex++;
-            }                
-                       
+            }
+
             return spaces;
         }
 
@@ -86,7 +86,7 @@ namespace BH.Adapter.TAS
             TBD.Building building = tbdDocument.Building;
             List<Building> buildings = new List<Building>();
             buildings.Add(Engine.TAS.Convert.ToBHoM(building));
-  
+
             return buildings;
         }
 
@@ -95,28 +95,8 @@ namespace BH.Adapter.TAS
         private List<BH.oM.Architecture.Elements.Level> ReadLevels(List<string> ids = null)
         {
             TBD.Building tbdBuilding = tbdDocument.Building;
-            List<TBD.BuildingStorey> tbdLStoreys = new List<TBD.BuildingStorey>();
-
-            int buildingStoreyIndex = 0;
-            TBD.BuildingStorey tbdBuildingStorey = null;
-            BH.oM.Architecture.Elements.Level level = null;
-            List<string> buildingStoreyHeights = new List<string>();
             List<BH.oM.Architecture.Elements.Level> levels = new List<BH.oM.Architecture.Elements.Level>();
-            while ((tbdBuildingStorey = tbdBuilding.GetStorey(buildingStoreyIndex)) != null)
-            {
-                if (tbdBuildingStorey.GetPerimeter(0) != null)
-                {
-                    TBD.Perimeter tbdPerimeter = tbdBuildingStorey.GetPerimeter(0);
-                    TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
-                    buildingStoreyHeights.Add(Math.Round(BH.Engine.TAS.Convert.GetSingleZValue(tbdPolygon), 3).ToString());
-
-                    //Create Architectural Level
-                    level = BH.Engine.Architecture.Elements.Create.Level(Math.Round(BH.Engine.TAS.Convert.GetSingleZValue(tbdPolygon), 3));
-                    levels.Add(level);
-                }
-
-                buildingStoreyIndex++;
-            }
+            levels = Engine.TAS.Convert.ToBHoMLevels(tbdBuilding);
 
             return levels;
         }
@@ -144,10 +124,10 @@ namespace BH.Adapter.TAS
                         if (currRoomSrf.GetPerimeter() != null)
                             //bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(currRoomSrf));
 
-                        roomSurfaceIndex++;
+                            roomSurfaceIndex++;
                     }
 
-                   panelIndex++;
+                    panelIndex++;
                 }
                 zoneIndex++;
             }
@@ -159,84 +139,23 @@ namespace BH.Adapter.TAS
         public List<BuildingElement> ReadBuildingElements(List<string> ids = null)
         {
             TBD.Building building = tbdDocument.Building;
-            TBD.buildingElement buildingElement = null;
             List<BuildingElement> buildingElements = new List<BuildingElement>();
-
-            /*int elementIndex = 0;
-
-            while ((buildingElement = building.GetBuildingElement(elementIndex)) != null)
-            {
-                buildingElements.Add(buildingElement.ToBHoM()); //Convert element...
-                elementIndex++;
-            }*/
 
             int zoneIndex = 0;
             TBD.zone zone = null;
 
-            while((zone = building.GetZone(zoneIndex)) != null)
+            while ((zone = building.GetZone(zoneIndex)) != null)
             {
                 int zoneSurfaceIndex = 0;
                 TBD.zoneSurface zoneSrf = null;
-                while((zoneSrf = zone.GetSurface(zoneSurfaceIndex)) != null)
+                while ((zoneSrf = zone.GetSurface(zoneSurfaceIndex)) != null)
                 {
                     buildingElements.Add(zoneSrf.buildingElement.ToBHoM(zoneSrf));
-                    //int roomSrfIndex = 0;
-                    //TBD.RoomSurface roomSrf = null;
-                    //while((roomSrf = zoneSrf.GetRoomSurface(roomSrfIndex)) != null)
-                    //{
-                    //    if(roomSrf.GetPerimeter() != null)
-                    //    {
-                    //        //Sometimes we can have a srf object in TAS without a geometry
-                    //        buildingElements.Add(zoneSrf.buildingElement.ToBHoM(roomSrf));
-                    //    }
-                    //    roomSrfIndex++;
-                    //}
                     zoneSurfaceIndex++;
                 }
                 zoneIndex++;
             }
 
-
-            //Reading Zones
-            //TBD.zone aZone = building.GetZone(aIndex);
-
-            /*while(aZone != null)
-            {
-                //Reading ZoneSurfaces
-                int zoneSurfaceIndex = 0;
-                TBD.zoneSurface zoneSurface = new TBD.zoneSurface();
-                while (aZone.GetSurface(zoneSurfaceIndex) != null)
-                {
-                    //Reading RoomSurfaces
-                    int roomSrfIndex = 0;
-                    while (aZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex) != null)
-                    {
-                        TBD.RoomSurface tasRoomSrf = aZone.GetSurface(zoneSurfaceIndex).GetRoomSurface(roomSrfIndex);
-                        if (tasRoomSrf.GetPerimeter() != null) //sometimes we can have a srf object in tas without a geometry
-                        {
-                            //BHE.Elements.BuildingElement bHoMBuildingElement = ToBHoM(tasZone.GetSurface(zoneSurfaceIndex).buildingElement);
-                            BHE.Properties.BuildingElementProperties buildingElementProperties = Engine.TAS.Convert.ToBHoM(aZone.GetSurface(zoneSurfaceIndex).buildingElement);
-                            BHE.Elements.BuildingElement buildingElement = new BuildingElement()
-                            // tasZone.GetSurface(zoneSurfaceIndex).
-
-                            {
-
-                                Name = buildingElementProperties.Name,
-                                //BuildingElementGeometry = Engine.TAS.Convert.ToBHoM(tasRoomSrf),
-                                BuildingElementProperties = buildingElementProperties
-                            };
-
-                            buildingElements.Add(buildingElement);
-                        }
-                        roomSrfIndex++;
-                    }
-                    zoneSurfaceIndex++;
-                }
-
-                aIndex++;
-                aZone = building.GetZone(aIndex);
-            }
-            */
             return buildingElements;
         }
 
@@ -287,7 +206,7 @@ namespace BH.Adapter.TAS
 
             int buildingElementIndex = 0;
             TBD.buildingElement tbdBuildingElement = null;
-            while((tbdBuildingElement = tbdDocument.Building.GetBuildingElement(buildingElementIndex)) != null)
+            while ((tbdBuildingElement = tbdDocument.Building.GetBuildingElement(buildingElementIndex)) != null)
             {
                 //BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
                 TBD.Construction construction = tbdBuildingElement.GetConstruction();
@@ -351,15 +270,15 @@ namespace BH.Adapter.TAS
         private List<BHE.Interface.IMaterial> ReadMaterials(List<string> ids = null)
         {
             TBD.Building building = tbdDocument.Building;
-           
+
             List<BHE.Interface.IMaterial> material = new List<BHE.Interface.IMaterial>();
 
             int constructionIndex = 0;
             while (building.GetConstruction(constructionIndex) != null)
             {
-                              
+
                 TBD.Construction currConstruction = building.GetConstruction(constructionIndex);
-                               
+
                 int materialIndex = 1; //TAS does not have any material at index 0
                 while (building.GetConstruction(constructionIndex).materials(materialIndex) != null)
                 {
@@ -367,8 +286,8 @@ namespace BH.Adapter.TAS
 
                     material.Add(Engine.TAS.Convert.ToBHoM(tbdMaterial));
                     materialIndex++;
-                }       
-              
+                }
+
                 constructionIndex++;
             }
             return material;
