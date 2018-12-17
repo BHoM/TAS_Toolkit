@@ -382,10 +382,13 @@ namespace BH.Engine.TAS
             //zoneSurface tbdZoneSurface = null;
             //tbdZoneSurface = tbdRoomSurface.zoneSurface;
 
-            bHoMBuildingElement.Name = "Z" + tbdZoneSurface.zone.number + "_" + tbdZoneSurface.number + " _" + tbdZoneSurface.zone.name;
+            bHoMBuildingElement.Name = tbdBuildingElement.name;
 
             string tbdZoneSurfaceGUID = tbdZoneSurface.GUID;
             bHoMBuildingElement.CustomData.Add("SurfaceGUID", tbdZoneSurfaceGUID);
+
+            string tbdZoneSurfaceName = "Z" + tbdZoneSurface.zone.number + "_" + tbdZoneSurface.number + " _" + tbdZoneSurface.zone.name;
+            bHoMBuildingElement.CustomData.Add("SurfaceName", tbdZoneSurfaceName);
 
             TBD.SurfaceType tbdZoneSurfaceType = tbdZoneSurface.type;
             bHoMBuildingElement.CustomData.Add("SurfaceType", tbdZoneSurfaceType);
@@ -421,9 +424,38 @@ namespace BH.Engine.TAS
             string tbdZoneSurfaceZoneName = tbdZoneSurface.zone.name;
             bHoMBuildingElement.CustomData.Add("SpaceID", tbdZoneSurfaceZoneName);
 
+            
             //add Building Element Properties
             TBD.Construction tbdConstruction = tbdBuildingElement.GetConstruction();
             BH.oM.Environment.Elements.BuildingElementType bHoMBuildingElementType = ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
+            if (bHoMBuildingElementType == oM.Environment.Elements.BuildingElementType.Undefined)
+            {
+                if (tbdBuildingElement.name.Contains("-frame"))
+                {
+                    if (tbdZoneSurfaceInclination == 0)
+                        bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.RooflightWithFrame;
+                    else
+                        bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.WindowWithFrame;
+
+                }
+                else if (tbdBuildingElement.name.Contains("Floor"))
+                {
+                    bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.Floor;
+                }
+                else if (tbdBuildingElement.name.Contains("Wall"))
+                {
+                    bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.Wall;
+                }
+
+                else if ((tbdBuildingElement.name == "Air") || (tbdBuildingElement.name == "Air-internal"))
+                {
+                    if (tbdZoneSurfaceInclination == 0 || tbdZoneSurfaceInclination == 180)
+                        bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.Floor;
+                    else
+                        bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.Wall;
+                }
+            }
+
             bHoMBuildingElement.BuildingElementProperties = ToBHoM(tbdConstruction, tbdBuildingElement.name, bHoMBuildingElementType, tbdBuildingElement);
 
             //Get Geometry from Building Element
@@ -1392,6 +1424,7 @@ namespace BH.Engine.TAS
                 case TBD.BuildingElementType.UNDERGROUNDSLAB:
                     return BHE.Elements.BuildingElementType.Floor;
                 case TBD.BuildingElementType.DOORELEMENT:
+                case TBD.BuildingElementType.VEHICLEDOOR:
                     return BHE.Elements.BuildingElementType.Door;
                 case TBD.BuildingElementType.GLAZING:
                     return BHE.Elements.BuildingElementType.Window;
@@ -1402,7 +1435,6 @@ namespace BH.Engine.TAS
                 case TBD.BuildingElementType.NULLELEMENT:
                 case TBD.BuildingElementType.SHADEELEMENT:
                 case TBD.BuildingElementType.SOLARPANEL:
-                case TBD.BuildingElementType.VEHICLEDOOR:
                     return BHE.Elements.BuildingElementType.Undefined;
                 default:
                     return BHE.Elements.BuildingElementType.Wall;
