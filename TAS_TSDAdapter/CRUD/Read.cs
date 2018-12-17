@@ -31,7 +31,14 @@ namespace BH.Adapter.TAS
             else
                 return null;
         }
-        
+
+        public List<IBHoMObject> Read()
+        {
+            List<IBHoMObject> bhomObjects = new List<IBHoMObject>();
+            bhomObjects.AddRange(ReadBuildingResults());
+            // Add other results, all shall be shown
+            return bhomObjects;
+        }
 
 
         public List<BH.oM.Environment.Results.SimulationResult> ReadBuildingResults(List<string> ids = null)
@@ -45,5 +52,7 @@ namespace BH.Adapter.TAS
 
             return buildingResults;
         }
+
+       
     }
 }

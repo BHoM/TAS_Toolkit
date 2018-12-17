@@ -23,13 +23,26 @@ namespace BH.Engine.TAS
         /***************************************************/
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
+        /*
+        public static BHE.Results.SimulationResult ToBHoM(string Name)
+        {
+            BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
+            {
+                Name = bHoMBuildingResult.SimulationResults.name;
+            };
+            bHoMBuildingResult.SimulationResults.Name = bHoMBuildingResult.name;
+
+            string buildingElementName = bHoMBuildingResult.name;
+            bhomBuildingElementProperties.CustomData.Add("buildingElementName", buildingElementName);
+
+            return bHoMBuildingResult; 
+    }*/
 
         public static BHE.Results.SimulationResult ToBHoMTSDBuilding(this TSD.BuildingData tsdBuildingData)
         {
 
             BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
             bHoMBuildingResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingResult;
-
 
             object aObject = tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.additionProfile);
             List<float> aValueList = Generic.Functions.GetList(aObject);
@@ -38,9 +51,18 @@ namespace BH.Engine.TAS
             bHoMBuildingResult.SimulationResults.Add( 
                     Create.ProfileResult(ProfileResultType.LoadLatentAddition, ProfileResultUnits.Yearly, aValueList.ConvertAll(x => (double)x))
                 );
-
-            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData,ProfileResultType.GainLighting,ProfileResultUnits.Yearly,tsdBuildingArray.additionProfile));
-            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, ProfileResultType.GainLighting, ProfileResultUnits.Yearly,tsdBuildingArray.coolingProfile));
+            
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, ProfileResultType.HumidityExternal, ProfileResultUnits.Yearly, tsdBuildingArray.externalHumidity));
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, ProfileResultType.TemperatureExternal, ProfileResultUnits.Yearly, tsdBuildingArray.externalTemperature));
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, ProfileResultType.RadiationGlobal, ProfileResultUnits.Yearly, tsdBuildingArray.globalRadiation));
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, ProfileResultType.RadiationDiffuse, ProfileResultUnits.Yearly, tsdBuildingArray.diffuseRadiation));
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, ProfileResultType.WindSpeed, ProfileResultUnits.Yearly, tsdBuildingArray.windSpeed));
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, ProfileResultType.WindDirection, ProfileResultUnits.Yearly, tsdBuildingArray.windDirection));
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, ProfileResultType.LoadHeating, ProfileResultUnits.Yearly, tsdBuildingArray.heatingProfile));
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, ProfileResultType.LoadCooling, ProfileResultUnits.Yearly, tsdBuildingArray.coolingProfile));
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, ProfileResultType.LoadLatentAddition, ProfileResultUnits.Yearly, tsdBuildingArray.additionProfile));
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, ProfileResultType.LoadLatentRemoval, ProfileResultUnits.Yearly, tsdBuildingArray.removalProfile));
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, ProfileResultType.CloudCover, ProfileResultUnits.Yearly, tsdBuildingArray.cloudCover));
 
             //bHoMBuildingResult.SimulationResults.Add(
             //    Create.ProfileResult(ProfileResultType.CloudCover, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.cloudCover))
@@ -199,7 +221,7 @@ namespace BH.Engine.TAS
             return bHoMZoneResult;
           }
 
-        public static BHE.Results.SimulationResult ToBHoMTSDSurface(this TSD.SurfaceResult tsdSurfaceeResult)
+        public static BHE.Results.SimulationResult ToBHoMTSDSurface(this TSD.SurfaceResult tsdSurfaceResult)
 
         {
 
@@ -287,7 +309,7 @@ namespace BH.Engine.TAS
             return aProfileResult;
         }
 
-
+       
 
         /***************************************************/
 
