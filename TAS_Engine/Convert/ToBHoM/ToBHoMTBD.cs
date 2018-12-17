@@ -99,28 +99,28 @@ namespace BH.Engine.TAS
             bHoMBuilding.CustomData.Add("BuildingYear", tbdBuildingYear);
 
             //test to access Storey.. log idea with Tas or find alternative method get Z-coordinate from floor
-            //int buildingStoreyIndex = 0;
-            //TBD.BuildingStorey tbdBuildingStorey = null;
-            //List<string> buildingStoreyHeights = new List<string>();
-            //BH.oM.Architecture.Elements.Level level = null;
-            //List<BH.oM.Architecture.Elements.Level> levels = new List<BH.oM.Architecture.Elements.Level>();
-            //while ((tbdBuildingStorey = tbdBuilding.GetStorey(buildingStoreyIndex)) != null)
-            //{
-            //    if (tbdBuildingStorey.GetPerimeter(0) != null)
-            //    {
-            //        TBD.Perimeter tbdPerimeter = tbdBuildingStorey.GetPerimeter(0);
-            //        TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
-            //        buildingStoreyHeights.Add(Math.Round(GetSingleZValue(tbdPolygon), 3).ToString());
+            int buildingStoreyIndex = 0;
+            TBD.BuildingStorey tbdBuildingStorey = null;
+            List<string> buildingStoreyHeights = new List<string>();
+            BH.oM.Architecture.Elements.Level level = null;
+            List<BH.oM.Architecture.Elements.Level> levels = new List<BH.oM.Architecture.Elements.Level>();
+            while ((tbdBuildingStorey = tbdBuilding.GetStorey(buildingStoreyIndex)) != null)
+            {
+                if (tbdBuildingStorey.GetPerimeter(0) != null)
+                {
+                    TBD.Perimeter tbdPerimeter = tbdBuildingStorey.GetPerimeter(0);
+                    TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
+                    buildingStoreyHeights.Add(Math.Round(GetSingleZValue(tbdPolygon), 3).ToString());
 
-            //        //Create Architectural Level
-            //        level = Architecture.Elements.Create.Level(Math.Round(GetSingleZValue(tbdPolygon),3));
-            //        levels.Add(level);
+                    ////Create Architectural Level
+                    //level = Architecture.Elements.Create.Level(Math.Round(GetSingleZValue(tbdPolygon), 3));
+                    //levels.Add(level);
 
-            //        bHoMBuilding.CustomData.Add("BuildingStoreyHeight" + buildingStoreyIndex.ToString(), GetSingleZValue(tbdPolygon).ToString());
-            //    }
+                    bHoMBuilding.CustomData.Add("BuildingStoreyHeight" + buildingStoreyIndex.ToString(), GetSingleZValue(tbdPolygon).ToString());
+                }
 
-            //    buildingStoreyIndex++;
-            //}
+                buildingStoreyIndex++;
+            }
 
             return bHoMBuilding;
         }
