@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Architecture_Engine">
+      <HintPath>..\..\BHoM_Engine\Build\Architecture_Engine.dll</HintPath>
+    </Reference>
     <Reference Include="Architecture_oM">
       <HintPath>..\..\BHoM\Build\Architecture_oM.dll</HintPath>
     </Reference>

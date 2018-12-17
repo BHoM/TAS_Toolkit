@@ -13,6 +13,8 @@ using BH.oM.Environment.Properties;
 using BH.oM.Environment.Elements;
 using System.Collections;
 using BH.Engine.TAS;
+using BH.oM.Reflection.Attributes;
+using System.ComponentModel;
 
 namespace BH.Engine.TAS
 {
@@ -22,6 +24,9 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
+        [Description("gets Building from TasTBD Building")]
+        [Input("TBD.Building", "tbd.Building")]
+        [Output("BHoM Building")]
         public static BHE.Elements.Building ToBHoM(this TBD.Building tbdBuilding)
         {
 
@@ -97,54 +102,36 @@ namespace BH.Engine.TAS
             int buildingStoreyIndex = 0;
             TBD.BuildingStorey tbdBuildingStorey = null;
             List<string> buildingStoreyHeights = new List<string>();
+            BH.oM.Architecture.Elements.Level level = null;
+            List<BH.oM.Architecture.Elements.Level> levels = new List<BH.oM.Architecture.Elements.Level>();
             while ((tbdBuildingStorey = tbdBuilding.GetStorey(buildingStoreyIndex)) != null)
             {
-                // bHoMBuilding.CustomData.Add("StoreyPerimeter", tbdBuildingStorey.GetPerimeter(0));
                 if (tbdBuildingStorey.GetPerimeter(0) != null)
                 {
                     TBD.Perimeter tbdPerimeter = tbdBuildingStorey.GetPerimeter(0);
                     TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
-                    buildingStoreyHeights.Add(GetSingleZValue(tbdPolygon).ToString());
+                    buildingStoreyHeights.Add(Math.Round(GetSingleZValue(tbdPolygon), 3).ToString());
+
+                    //Create Architectural Level
+                    level = Architecture.Elements.Create.Level(Math.Round(GetSingleZValue(tbdPolygon),3));
+                    levels.Add(level);
+
                     bHoMBuilding.CustomData.Add("BuildingStoreyHeight" + buildingStoreyIndex.ToString(), GetSingleZValue(tbdPolygon).ToString());
                 }
 
                 buildingStoreyIndex++;
             }
-            bHoMBuilding.CustomData.Add("BuildingStoreyHeights", buildingStoreyHeights);
-
-
-
-            //if (tbdRoomSurface.GetPerimeter() != null)
-            //{
-
-            //    TBD.Perimeter tbdPerimeter = tbdRoomSurface.GetPerimeter();
-            //    TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
-
-            //    BHG.ICurve curve = ToBHoM(tbdPolygon);
-            //    BHG.PolyCurve polyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
-
-            //    panelCurves.Add(polyCurve);
-            //    panelCurves.Add(curve);
-
-            //    //Get Openings from Building Element
-            //    List<BH.oM.Geometry.ICurve> openingCurves = new List<BH.oM.Geometry.ICurve>();
-
-            //    int tbdOpeningPolygonIndex = 0;
-            //    TBD.Polygon tbdOpeningPolygon = null;
-            //    while ((tbdOpeningPolygon = tbdPerimeter.GetHole(tbdOpeningPolygonIndex)) != null)
-            //    {
-            //        BHG.ICurve openingCurve = ToBHoM(tbdOpeningPolygon);
-            //        bHoMBuildingElement.Openings.Add(ToBHoMOpening(tbdOpeningPolygon));
-            //        tbdOpeningPolygonIndex++;
-            //    }
+            //currently list not supported in custom data
+            //bHoMBuilding.CustomData.Add("BuildingStoreyHeights", buildingStoreyHeights);
 
             return bHoMBuilding;
         }
 
-
-
         /***************************************************/
 
+        [Description("gets Zone from TasTBD and generate BHoM Space")]
+        [Input("TBD.Zone", "tbd.Zone")]
+        [Output("BHoM Space")]
         public static BHE.Elements.Space ToBHoM(this TBD.zone tbdZone)
         {
             BHE.Elements.Space bHoMSpace = new BHE.Elements.Space();
