@@ -24,7 +24,7 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
-        [Description("gets Building from TasTBD Building")]
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets Building from TasTBD Building")]
         [Input("TBD.Building", "tbd.Building")]
         [Output("BHoM Building")]
         public static BHE.Elements.Building ToBHoM(this TBD.Building tbdBuilding)
@@ -127,7 +127,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        [Description("gets Zone from TasTBD and generate BHoM Space")]
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets Zone from TasTBD and generate BHoM Space")]
         [Input("TBD.Zone", "tbd.Zone")]
         [Output("BHoM Space")]
         public static BHE.Elements.Space ToBHoM(this TBD.zone tbdZone)
@@ -375,7 +375,7 @@ namespace BH.Engine.TAS
         //    return bHoMBuildingElement;
         //}
 
-        [Description("gets BH.oM.Environment.Elements.BuildingElement from TasTBD.buildingElement")]
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.BuildingElement from TasTBD.buildingElement")]
         [Input("TBD.buildingElement", "tbd.zoneSurface")]
         [Output("BH.oM.Environment.Elements.BuildingElemen")]
         public static BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)
@@ -492,7 +492,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        [Description("gets BH.oM.Architecture.Elements.Level from TasTBD Building")]
+        [Description("BH.Engine.TAS.Convert ToBHoMLevels => gets BH.oM.Architecture.Elements.Level from TasTBD Building")]
         [Input("TBD.Building", "tbd.Building")]
         [Output("BH.oM.Architecture.Elements.Level")]
         public static List<BH.oM.Architecture.Elements.Level> ToBHoMLevels(this TBD.Building tbdBuilding)
@@ -526,8 +526,6 @@ namespace BH.Engine.TAS
             return levels;
 
         }
-
-
 
         /*public static BuildingElementProperties ToBHoM(this TBD.buildingElement tbdBuildingElement)
 {
@@ -564,6 +562,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        [Description("BH.Engine.TAS.Convert ToBHoMOpening => gets BH.oM.Environment.Elements.Opening from TasTBD Polygon")]
+        [Input("TBD.Polygon", "tbd.Polygon")]
+        [Output("BH.oM.Environment.Elements.Opening")]
         public static BHE.Elements.Opening ToBHoMOpening(this TBD.Polygon tbdOpeningPolygon)
         {
 
@@ -575,6 +576,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Properties.BuildingElementProperties from TasTBD Construction,BHE.BuildingElementType, TasTBD buildingElement ")]
+        [Input("TBD.Polygon", "tbd.Polygon")]
+        [Output("BH.oM.Environment.Properties.BuildingElementProperties")]
         public static BuildingElementProperties ToBHoM(this TBD.Construction tbdConstruction, string name, BHE.Elements.BuildingElementType buildingElementType, TBD.buildingElement tbdBuildingElement) //double thickness = 0, bool Internal = true, BHE.Elements.BuildingElementType buildingElementType = BHE.Elements.BuildingElementType.Wall)
         {
             //  by MD 2018-05-21 - there 6 values in TBDTas for Uvalue, we have BuildingElement BE that have construction and then material layers
@@ -668,6 +672,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        //TODO: Move to Query
         public static double ToTBDConstructionThickness(this TBD.Construction tbdConstruction, int Decimals = 3)
 
         {
@@ -694,6 +699,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        //TODO: move them to Query
         public static double U(TBD.buildingElement tbdBuildingElement, int Decimals = 3)
         {
             TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
@@ -750,6 +756,7 @@ namespace BH.Engine.TAS
             return -1;
         }
 
+        //TODO: move them to Query
         public static List<float> U(TBD.Construction tbdConstruction)
         {
 
@@ -765,6 +772,7 @@ namespace BH.Engine.TAS
             return aValueList;
         }
 
+        //TODO: move them to Query
         public static double G(TBD.buildingElement tbdBuildingElement, int Decimals = 3)
         {
             TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
@@ -780,6 +788,7 @@ namespace BH.Engine.TAS
             return 0;
         }
 
+        //TODO: move them to Query
         public static double LT(TBD.buildingElement tbdBuildingElement, int Decimals = 3)
         {
             TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
@@ -796,6 +805,7 @@ namespace BH.Engine.TAS
             return 0;
         }
 
+        //TODO: move them to Generic
         private static object ToDouble(object arg)
         {
             throw new NotImplementedException();
@@ -803,6 +813,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        [Description("BH.Engine.TAS.Convert ToBHoMConstruction => gets BH.oM.Environment.Elements.Construction from TasTBD Construction")]
+        [Input("TBD.Construction", "tbd.Construction")]
+        [Output("BH.oM.Environment.Elements.Construction")]
         public static BHE.Elements.Construction ToBHoMConstruction(this TBD.Construction tbdConstruction)
         {
             if (tbdConstruction == null)
@@ -839,6 +852,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.ConstructionType from TasTBD ConstructionTypes")]
+        [Input("TBD.ConstructionTypes", "tbd.ConstructionTypes")]
+        [Output("BH.oM.Environment.Elements.ConstructionType")]
         public static BHE.Elements.ConstructionType ToBHoM(this TBD.ConstructionTypes type)
         {
             switch (type)
@@ -854,6 +870,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        //TODO: Move to T3D Query
         public static BHA.Elements.Level ToBHoM(this TAS3D.Floor t3dFloor)
         {
             return new BHA.Elements.Level()
@@ -865,6 +882,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.Panel from TasTBD RoomSurface")]
+        [Input("TBD.RoomSurface", "tbd.RoomSurface")]
+        [Output("BH.oM.Environment.Elements.Panel")]
         public static BHE.Elements.Panel ToBHoM(this TBD.RoomSurface tbdRoomSurface)
         {
             BHE.Elements.Panel bHoMPanel = new BHE.Elements.Panel();
@@ -884,6 +904,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets BHE.Materials.Material type of BH.oM.Environment.Interface.IMaterial from TasTBD material")]
+        [Input("TBD.material", "tbd.material")]
+        [Output("BHE.Materials.Material")]
         public static BHE.Interface.IMaterial ToBHoM(this TBD.material tbdMaterial)
         {
             BHE.Elements.MaterialType materialtype = ToBHoM((TBD.MaterialTypes)tbdMaterial.type);
@@ -1036,6 +1059,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.InternalCondition from TasTBD InternalCondition")]
+        [Input("TBD.InternalCondition", "tbd.InternalCondition")]
+        [Output("BH.oM.Environment.Elements.InternalCondition")]
         public static BHE.Elements.InternalCondition ToBHoM(this TBD.InternalCondition tbdInternalCondition)
         {
             if (tbdInternalCondition == null)
@@ -1135,6 +1161,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
         
+        //T0DO: Move to Query
         //Get Upper value from tbdUpperLimitProfile - Cooling Set Point
         public static float GetSingleValueUpperLimitFromThermostat(this TBD.Thermostat tbdICThermostat)
         {
@@ -1170,6 +1197,7 @@ namespace BH.Engine.TAS
 
         }
 
+        //T0DO: Move to Query
         //Get Lower value from tbdLowerLimitProfile - Heating Set Point
         public static float GetSingleValueLowerLimitFromThermostat(this TBD.Thermostat tbdICThermostat)
         {
@@ -1208,6 +1236,10 @@ namespace BH.Engine.TAS
 
 
         /***************************************************/
+
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.SimulationDayType from TasTBD dayType")]
+        [Input("TBD.dayType", "tbd.dayType")]
+        [Output("BH.oM.Environment.Elements.SimulationDayType")]
         public static BHE.Elements.SimulationDayType ToBHoM(this TBD.dayType tbdDayType)
         {
             if (tbdDayType.name.Equals("Weekday"))
@@ -1241,6 +1273,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.Emitter from TasTBD Emitter")]
+        [Input("TBD.Emitter", "tbd.Emitter")]
+        [Output("BH.oM.Environment.Elements.Emitter")]
         public static BHE.Elements.Emitter ToBHoM(this TBD.Emitter tasEmitterProperties)
         {
             throw new NotImplementedException();
@@ -1248,6 +1283,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        [Description("BH.Engine.TAS.Convert ToBHoMProfile => gets BH.oM.Environment.Elements.Profile from  ProfileCategory and TasTBD profile, ")]
+        [Input("TBD.profile", "tbd.Emitter")]
+        [Output("BH.oM.Environment.Elements.Profile")]
         internal static BHE.Elements.Profile ToBHoMProfile(this TBD.profile tbdProfile, ProfileCategory prfileCategory)
         {
             BHE.Elements.Profile bHoMProfile = new Profile();
@@ -1305,6 +1343,9 @@ namespace BH.Engine.TAS
         /**** Public Methods - Geometry                 ****/
         /***************************************************/
 
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Geometry.Point from  TasTBD TasPoint, ")]
+        [Input("TBD.TasPoint", "tbd.TasPoint")]
+        [Output("BH.oM.Geometry.Point")]
         public static BHG.Point ToBHoM(this TBD.TasPoint tbdPoint)
         {
             BHG.Point bHoMPoint = new BHG.Point()
@@ -1318,6 +1359,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Geometry.Polyline from  TasTBD TasPoint, ")]
+        [Input("TBD.Polygon", "tbd.Polygon")]
+        [Output("BH.oM.Geometry.Polyline")]
         public static BHG.Polyline ToBHoM(this TBD.Polygon tbdPolygon)  // TODO : When BH.oM.Geometry.Contour is implemented, Polyline can be replaced with Contour
         {
             //
@@ -1337,6 +1381,7 @@ namespace BH.Engine.TAS
             return new BHG.Polyline { ControlPoints = bHoMPointList };
         }
 
+        //TODO: Move to Query
         //new metod to get Storey Z-coordinate from Storey
         public static double GetSingleZValue(this TBD.Polygon tbdPolygon) 
         {
@@ -1354,13 +1399,12 @@ namespace BH.Engine.TAS
         }
 
         /***************************************************/
-
-
-
-        /***************************************************/
-        /**** Enums                                     ****/
+        /**** Types                                     ****/
         /***************************************************/
 
+        [Description("gets BH.oM.Environment.Elements.MaterialType from TasTBD.MaterialTypes")]
+        [Input("TBD.MaterialTypes", "tbd.MaterialTypes")]
+        [Output("BH.oM.Environment.Elements.MaterialType")]
         public static BHE.Elements.MaterialType ToBHoM(this TBD.MaterialTypes tbdMaterialType)
         {
             switch (tbdMaterialType)
@@ -1379,6 +1423,9 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
+        [Description("gets BH.oM.Environment.Elements.BuildingElementType from TasTBD.BuildingElementType")]
+        [Input("TBD.BuildingElementType", "tbd.BuildingElementType")]
+        [Output("BH.oM.Environment.Elements.BuildingElementType")]
         public static BHE.Elements.BuildingElementType ToBHoM(this TBD.BuildingElementType tbdBuildingElementType)
         {
             switch (tbdBuildingElementType)
@@ -1417,8 +1464,12 @@ namespace BH.Engine.TAS
             }
         }
 
+
         /***************************************************/
-        //TAS TBD Building Element Type
+        /**** Enums                                     ****/
+        /***************************************************/
+
+        [Description("gets BH.Engine.TAS.Covert.BuildingElementType")]
         public enum BuildingElementType
         {
             /// <summary>Ceiling</summary>
@@ -1464,6 +1515,8 @@ namespace BH.Engine.TAS
             /// <summary>Vehicle Door</summary>
             VehicleDoor = 20,
         }
+
+        /***************************************************/
 
     }
 }
