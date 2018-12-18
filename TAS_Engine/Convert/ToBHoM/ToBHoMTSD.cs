@@ -96,7 +96,7 @@ namespace BH.Engine.TAS
             //bHoMBuildingResult.SimulationResults.Add(
             //    Create.ProfileResult(ProfileResultType.WindSpeed, ProfileResultUnits.Yearly, tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.windSpeed))
             //    );
-
+            // TODO: reference to new function that will pull zones from building
             return bHoMBuildingResult;
         }
 
