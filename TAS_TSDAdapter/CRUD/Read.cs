@@ -61,15 +61,17 @@ namespace BH.Adapter.TAS
         
         public List<IBHoMObject> ReadSpaceResults(List<string> ids=null)
         {
-            List<ZoneResult> spaceResults = new List<ZoneResult>();
+            List<IBHoMObject> spaceResults = new List<IBHoMObject>();
 
-            int buildingIndex = 0;
-            while (tsdDocument.SimulationData.GetBuildingData(buildingIndex) != null)
+            int zoneIndex = 0;
+            TSD.ZoneData zoneData = null;
+
+            while((zoneData = tsdDocument.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
             {
-                TSD.ZoneData tsdZoneData = tsdDocument.SimulationData.GetBuildingData(buildingIndex).GetZoneData();
-                spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(tsdZoneData));
-                buildingIndex++;
+                spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(zoneData));
+                zoneIndex++;
             }
+
             return spaceResults;
         }
 
@@ -77,19 +79,21 @@ namespace BH.Adapter.TAS
         {
             List<IBHoMObject> buildingElementResults = new List<IBHoMObject>();
 
-            int buildingIndex = 0;
-            while (tsdDocument.SimulationData.GetBuildingData(buildingIndex) != null)
-            {
-                int buildingElementResultIndex = 0;
-                while (tsdDocument.SimulationData.GetBuildingData(buildingIndex).GetZoneData(buildingElementResultIndex) != null)
-                {
-                    TSD.SurfaceData tsdBuildingElementData = tsdDocument.SimulationData.GetBuildingData(buildingIndex).GetZoneData(buildingElementResultIndex).GetSurfaceData();
-                    buildingElementResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdBuildingElementData, ProfileResultUnits, ProfileResultType));
+            int zoneIndex = 0;
+            TSD.ZoneData zoneData = null;
 
-                    buildingElementResultIndex++;
+            while ((zoneData = tsdDocument.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
+            {
+                int srfIndex = 0;
+                TSD.SurfaceData srfData = null;
+                while((srfData = zoneData.GetSurfaceData(srfIndex)) != null)
+                {
+                    buildingElementResults.Add(Engine.TAS.Convert.ToBHoMTSDSurface(srfData));
+                    srfIndex++;
                 }
-                buildingIndex++;
+                zoneIndex++;
             }
+
             return buildingElementResults;      
         }
     }

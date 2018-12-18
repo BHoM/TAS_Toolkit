@@ -76,7 +76,7 @@ namespace BH.Engine.TAS
             return bHoMBuildingResult;
         }
 
-        public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneResult tsdZoneResult)
+        public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData)
         
           {
               BHE.Results.SimulationResult bHoMZoneResult = new BHE.Results.SimulationResult();
@@ -196,7 +196,7 @@ namespace BH.Engine.TAS
             return bHoMZoneResult;
           }
 
-        public static BHE.Results.SimulationResult ToBHoMTSDSurface(this TSD.SurfaceResult tsdSurfaceResult)
+        public static BHE.Results.SimulationResult ToBHoMTSDSurface(this TSD.SurfaceData tsdSurfaceData)
 
         {
 
