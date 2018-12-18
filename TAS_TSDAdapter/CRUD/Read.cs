@@ -88,7 +88,7 @@ namespace BH.Adapter.TAS
                 TSD.SurfaceData srfData = null;
                 while((srfData = zoneData.GetSurfaceData(srfIndex)) != null)
                 {
-                    buildingElementResults.Add(Engine.TAS.Convert.ToBHoMTSDSurface(srfData));
+                    buildingElementResults.Add(Engine.TAS.Convert.ToBHoMTSDSurface(srfData, ProfileResultUnits, ProfileResultType));
                     srfIndex++;
                 }
                 zoneIndex++;
