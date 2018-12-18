@@ -375,6 +375,9 @@ namespace BH.Engine.TAS
         //    return bHoMBuildingElement;
         //}
 
+        [Description("gets BH.oM.Environment.Elements.BuildingElement from TasTBD.buildingElement")]
+        [Input("TBD.buildingElement", "tbd.zoneSurface")]
+        [Output("BH.oM.Environment.Elements.BuildingElemen")]
         public static BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)
         {
             BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
@@ -428,33 +431,9 @@ namespace BH.Engine.TAS
             //add Building Element Properties
             TBD.Construction tbdConstruction = tbdBuildingElement.GetConstruction();
             BH.oM.Environment.Elements.BuildingElementType bHoMBuildingElementType = ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
-            if (bHoMBuildingElementType == oM.Environment.Elements.BuildingElementType.Undefined)
-            {
-                if (tbdBuildingElement.name.Contains("-frame"))
-                {
-                    if (tbdZoneSurfaceInclination == 0)
-                        bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.RooflightWithFrame;
-                    else
-                        bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.WindowWithFrame;
 
-                }
-                else if (tbdBuildingElement.name.Contains("Floor"))
-                {
-                    bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.Floor;
-                }
-                else if (tbdBuildingElement.name.Contains("Wall"))
-                {
-                    bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.Wall;
-                }
-
-                else if ((tbdBuildingElement.name == "Air") || (tbdBuildingElement.name == "Air-internal"))
-                {
-                    if (tbdZoneSurfaceInclination == 0 || tbdZoneSurfaceInclination == 180)
-                        bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.Floor;
-                    else
-                        bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.Wall;
-                }
-            }
+            //Fix type if Undentified
+            bHoMBuildingElementType = BH.Engine.TAS.Modify.FixBuilidingElementType(tbdBuildingElement, tbdZoneSurface, bHoMBuildingElementType);
 
             bHoMBuildingElement.BuildingElementProperties = ToBHoM(tbdConstruction, tbdBuildingElement.name, bHoMBuildingElementType, tbdBuildingElement);
 
@@ -472,9 +451,6 @@ namespace BH.Engine.TAS
                     TBD.Polygon tbdPolygon = tbdPerimeter.GetFace();
 
                     BHG.ICurve curve = ToBHoM(tbdPolygon);
-                    //BHG.PolyCurve polyCurve = Geometry.Create.PolyCurve(new List<BHG.ICurve> { curve });
-
-                    //panelCurves.Add(polyCurve);
                     panelCurves.Add(curve);
 
                     ////Get Openings from Building Element
