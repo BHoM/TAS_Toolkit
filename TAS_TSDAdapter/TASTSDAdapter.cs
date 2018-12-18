@@ -10,14 +10,19 @@ using BH.oM.DataManipulation.Queries;
 using BH.oM.Base;
 using BH.Engine;
 
+using BH.oM.Environment.Results;
+
 namespace BH.Adapter.TAS
 {
     public partial class TasTSDAdapter : BHoMAdapter
     {
-        public TasTSDAdapter(string tSDFilePath = "")
+        public TasTSDAdapter(string tSDFilePath = "", SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnits resultUnit = ProfileResultUnits.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal)
         {
             //TSD application
             tsdFilePath = tSDFilePath;
+            SimulationResultType = simType;
+            ProfileResultUnits = resultUnit;
+            ProfileResultType = resultType;
 
             AdapterId = BH.Engine.TAS.Convert.TSDAdapterID;
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
@@ -92,6 +97,9 @@ namespace BH.Adapter.TAS
 
         private TSD.TSDDocument tsdDocument=null;
         private string tsdFilePath = null;
+        private SimulationResultType SimulationResultType = SimulationResultType.Undefined;
+        private ProfileResultUnits ProfileResultUnits = ProfileResultUnits.Undefined;
+        private ProfileResultType ProfileResultType = ProfileResultType.Undefined;
 
         /***************************************************/
         /**** Private Methods                           ****/
