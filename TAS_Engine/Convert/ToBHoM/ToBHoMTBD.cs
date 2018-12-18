@@ -1306,12 +1306,12 @@ namespace BH.Engine.TAS
                     bHoMProfile.ProfileType = ProfileType.Hourly;
                     bHoMProfile.Name = tbdProfile.name;
                     bHoMProfile.CustomData.Add("ProfileDescriptionUL", tbdProfile.description);
+                    bHoMProfile.MultiplicationFactor = tbdProfile.factor;
+                    bHoMProfile.SetBackValue = tbdProfile.setbackValue;
 
                     for (int i = 0; i < 24; i++)
                     {
                         bHoMProfile.Value = tbdProfile.value;
-                        bHoMProfile.MultiplicationFactor = tbdProfile.factor;
-                        bHoMProfile.SetBackValue = tbdProfile.setbackValue;
                     }
                     break;
 
@@ -1319,12 +1319,12 @@ namespace BH.Engine.TAS
                     bHoMProfile.ProfileType = ProfileType.Yearly;
                     bHoMProfile.Name = tbdProfile.name;
                     bHoMProfile.CustomData.Add("ProfileDescriptionUL", tbdProfile.description);
+                    bHoMProfile.MultiplicationFactor = tbdProfile.factor;
+                    bHoMProfile.SetBackValue = tbdProfile.setbackValue;
 
                     for (int i = 0; i < 8760; i++)
                     {
                         bHoMProfile.Value = tbdProfile.value;
-                        bHoMProfile.MultiplicationFactor = tbdProfile.factor;
-                        bHoMProfile.SetBackValue = tbdProfile.setbackValue;
                     }
                     break;
                     // case other profile types etc.
