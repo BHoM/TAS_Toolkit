@@ -79,7 +79,6 @@ namespace BH.Engine.TAS
         public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneResult tsdZoneResult)
         
           {
-
               BHE.Results.SimulationResult bHoMZoneResult = new BHE.Results.SimulationResult();
             bHoMZoneResult.SimulationResultType = oM.Environment.Results.SimulationResultType.SpaceResult;
               TSD.ZoneData tsdZone = new TSD.ZoneData();
