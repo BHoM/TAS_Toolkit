@@ -54,24 +54,42 @@ namespace BH.Adapter.TAS
 
             //buildingResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdCoolingDesignData));
             
-            //TODO: Add to output 3 set of data CDD and HDD --DONE?
+            //TODO: Add to output 3 set of data CDD and HDD 
             
             return buildingResults;
         }
         
         public List<IBHoMObject> ReadSpaceResults(List<string> ids=null)
         {
-            TSD.ZoneData tsdZoneData = tsdDocument.SimulationData.GetBuildingData();
-            List<IBHoMObject> spaceResults = new List<IBHoMObject>();
-            spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(tsdZoneData,ProfileResultUnits,ProfileResultType));
+            List<ZoneResult> spaceResults = new List<ZoneResult>();
+
+            int buildingIndex = 0;
+            while (tsdDocument.SimulationData.GetBuildingData(buildingIndex) != null)
+            {
+                TSD.ZoneData tsdZoneData = tsdDocument.SimulationData.GetBuildingData(buildingIndex).GetZoneData();
+                spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(tsdZoneData));
+                buildingIndex++;
+            }
             return spaceResults;
         }
 
         public List<IBHoMObject> ReadBuildingElementResults(List<string> ids=null)
         {
-            TSD.BuildingData tsdBuildingElementData = tsdDocument.SimulationData.GetBuildingData();
             List<IBHoMObject> buildingElementResults = new List<IBHoMObject>();
-            buildingElementResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdBuildingElementData, ProfileResultUnits, ProfileResultType));
+
+            int buildingIndex = 0;
+            while (tsdDocument.SimulationData.GetBuildingData(buildingIndex) != null)
+            {
+                int buildingElementResultIndex = 0;
+                while (tsdDocument.SimulationData.GetBuildingData(buildingIndex).GetZoneData(buildingElementResultIndex) != null)
+                {
+                    TSD.SurfaceData tsdBuildingElementData = tsdDocument.SimulationData.GetBuildingData(buildingIndex).GetZoneData(buildingElementResultIndex).GetSurfaceData();
+                    buildingElementResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdBuildingElementData, ProfileResultUnits, ProfileResultType));
+
+                    buildingElementResultIndex++;
+                }
+                buildingIndex++;
+            }
             return buildingElementResults;      
         }
     }
