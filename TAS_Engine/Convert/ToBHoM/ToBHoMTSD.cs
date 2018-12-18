@@ -76,8 +76,21 @@ namespace BH.Engine.TAS
             return bHoMBuildingResult;
         }
 
+        public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData, ProfileResultUnits unitType, ProfileResultType resultType)
+        {
+            BHE.Results.SimulationResult bHoMZoneResult = new BHE.Results.SimulationResult();
+            bHoMZoneResult.SimulationResultType = oM.Environment.Results.SimulationResultType.SpaceResult;
+            //object aObject=tsdZoneData.GetAnnualZoneResult((int)tsdZoneArray.)
+
+            tsdZoneArray zoneType = resultType.ToTASSpaceType();
+
+            bHoMZoneResult.SimulationResults.Add(Create.ProfileResult(resultType, unitType, tsdZoneData.GetAnnualZoneResult((int)zoneType)));
+            return bHoMZoneResult;
+
+        }
+
         public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData)
-        
+      
           {
               BHE.Results.SimulationResult bHoMZoneResult = new BHE.Results.SimulationResult();
             bHoMZoneResult.SimulationResultType = oM.Environment.Results.SimulationResultType.SpaceResult;
