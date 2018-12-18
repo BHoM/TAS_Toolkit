@@ -1087,7 +1087,7 @@ namespace BH.Engine.TAS
             }
 
             //get Internal Gain
-            TBD.IInternalGain tbdICInternalGain = null;
+            TBD.InternalGain tbdICInternalGain = null;
             tbdICInternalGain = tbdInternalCondition.GetInternalGain();
 
             bHoMInternalCondition.InternalGain.Illuminance = tbdICInternalGain.targetIlluminance;
@@ -1155,6 +1155,7 @@ namespace BH.Engine.TAS
             //add Profiles
             //To DO add profiles in Groups firsts thermostat and second InternalGains
             bHoMInternalCondition.Thermostat.Profiles = BH.Engine.TAS.Query.Profiles(tbdICThermostat);
+            bHoMInternalCondition.InternalGain.Profiles = BH.Engine.TAS.Query.Profiles(tbdICInternalGain);
 
             return bHoMInternalCondition;
         }
@@ -1286,10 +1287,10 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToBHoMProfile => gets BH.oM.Environment.Elements.Profile from  ProfileCategory and TasTBD profile, ")]
         [Input("TBD.profile", "tbd.Emitter")]
         [Output("BH.oM.Environment.Elements.Profile")]
-        internal static BHE.Elements.Profile ToBHoMProfile(this TBD.profile tbdProfile, ProfileCategory prfileCategory)
+        internal static BHE.Elements.Profile ToBHoMProfile(this TBD.profile tbdProfile, ProfileCategory profileCategory)
         {
             BHE.Elements.Profile bHoMProfile = new Profile();
-            bHoMProfile.Category = ProfileCategory.Thermostat;
+            bHoMProfile.Category = profileCategory;
             switch (tbdProfile.type)
             {
 
