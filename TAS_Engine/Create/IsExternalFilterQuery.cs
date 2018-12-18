@@ -6,6 +6,7 @@ using BH.oM.Reflection.Attributes;
 
 namespace BH.Engine.TAS
 {
+    [Description("BH.Engine.TAS.Create IsExternalFilterQuery => gets all exteral BuildingElements so we have shell")]
     public static partial class Create
     {
         [Description("Creates FilterQuery which filters all Building.")]

@@ -1295,7 +1295,7 @@ namespace BH.Engine.TAS
 
                 case TBD.ProfileTypes.ticValueProfile:
                     bHoMProfile.ProfileType = ProfileType.Value;
-                    bHoMProfile.Value = tbdProfile.value;
+                    bHoMProfile.Values.Add(tbdProfile.value);
                     bHoMProfile.Name = tbdProfile.name;
                     bHoMProfile.CustomData.Add("ProfileDescriptionUL", tbdProfile.description);
                     bHoMProfile.MultiplicationFactor = tbdProfile.factor;
@@ -1309,9 +1309,9 @@ namespace BH.Engine.TAS
                     bHoMProfile.MultiplicationFactor = tbdProfile.factor;
                     bHoMProfile.SetBackValue = tbdProfile.setbackValue;
 
-                    for (int i = 0; i < 24; i++)
+                    for (int i = 1; i < 25; i++)
                     {
-                        bHoMProfile.Value = tbdProfile.value;
+                        bHoMProfile.Values.Add(tbdProfile.hourlyValues[i]);
                     }
                     break;
 
@@ -1322,9 +1322,9 @@ namespace BH.Engine.TAS
                     bHoMProfile.MultiplicationFactor = tbdProfile.factor;
                     bHoMProfile.SetBackValue = tbdProfile.setbackValue;
 
-                    for (int i = 0; i < 8760; i++)
+                    for (int i = 1; i < 8761; i++)
                     {
-                        bHoMProfile.Value = tbdProfile.value;
+                        bHoMProfile.Values.Add(tbdProfile.yearlyValues[i]);
                     }
                     break;
                     // case other profile types etc.
