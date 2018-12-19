@@ -20,7 +20,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        public static tsdBuildingArray ToTASBuildingType(this ProfileResultType resultType)
+        public static tsdBuildingArray? ToTASBuildingType(this ProfileResultType resultType)
         {
             switch(resultType)
             {
@@ -49,11 +49,11 @@ namespace BH.Engine.TAS
                     return tsdBuildingArray.cloudCover;
 
                 default:
-                    return tsdBuildingArray.externalTemperature;
+                    return null;
             }
         }
 
-        public static tsdSurfaceArray ToTASSurfaceType(this ProfileResultType resultType)
+        public static tsdSurfaceArray? ToTASSurfaceType(this ProfileResultType resultType)
         {
             switch(resultType)
             {
@@ -93,11 +93,11 @@ namespace BH.Engine.TAS
                     return tsdSurfaceArray.interCondensation;
                 
                 default:
-                    return tsdSurfaceArray.intTemp;
+                    return null;
             }
         }
 
-        public static tsdZoneArray ToTASSpaceType(this ProfileResultType resultType)
+        public static tsdZoneArray? ToTASSpaceType(this ProfileResultType resultType)
         {
             switch(resultType)
             {
@@ -168,7 +168,7 @@ namespace BH.Engine.TAS
                     return tsdZoneArray.izamOut;
                     
                 default:
-                    return tsdZoneArray.dryBulbTemp;
+                    return null;
             }
         }
     }
