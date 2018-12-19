@@ -12,7 +12,7 @@ TAS_Toolkit is all about interacting between BHoM and Tas EDSL. The most versati
 **Check [Wiki](https://github.com/BHoM/TAS_Toolkit/wiki) to get started** with your journey regardless if you are MEP engineer, Grasshopper, DynamoBIM or Excel user.
 
 ### Contribute :v: ###
-TAS_Toolkit is a BuroHappold open-source project and will not be anything special without its community.  You can submit your own code to the BHoM project via a Github [pull request](https://help.github.com/articles/using-pull-requests).
+TAS_Toolkit is an open-source project and will not be anything special without its community.  You can submit your own code to the BHoM project via a Github [pull request](https://help.github.com/articles/using-pull-requests).
 
 ### License ###
 TAS_Toolkit is licensed under the GNU LGPL v3.0 License (available [here](https://www.gnu.org/licenses/lgpl-3.0.html)). TAS_Toolkit also uses a number of third party libraries, some with different licenses.
