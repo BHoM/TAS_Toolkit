@@ -48,10 +48,7 @@ namespace BH.Engine.TAS
             List<float> aValueList = Generic.Functions.GetList(aObject);
             //UValues = (U(tbdConstructionLayer) as List<float>).ConvertAll(x => (double)x),
 
-            bHoMBuildingResult.SimulationResults.Add( 
-                    Create.ProfileResult(ProfileResultType.LoadLatentAddition, ProfileResultUnits.Yearly, aValueList.ConvertAll(x => (double)x))
-                );
-            
+
             bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, resultType, unitType));
 
             return bHoMBuildingResult;
@@ -66,9 +63,6 @@ namespace BH.Engine.TAS
             List<float> aValueList = Generic.Functions.GetList(aObject);
             //UValues = (U(tbdConstructionLayer) as List<float>).ConvertAll(x => (double)x),
 
-            bHoMBuildingResult.SimulationResults.Add(
-                    Create.ProfileResult(ProfileResultType.LoadLatentAddition, ProfileResultUnits.Yearly, aValueList.ConvertAll(x => (double)x))
-                );
 
             //bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdHeatingDesignData, ProfileResultType.HumidityExternal, ProfileResultUnits.Yearly, tsdBuildingArray.externalHumidity));
 
