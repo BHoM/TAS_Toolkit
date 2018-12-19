@@ -95,6 +95,9 @@ namespace BH.Engine.TAS
                 case ProfileResultUnits.Hourly:
                     aObject = tsdZoneData.GetHourlyZoneResult(1, (int)zoneType.Value);
                     break;
+                default:
+                    BH.Engine.Reflection.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
+                    return null;
             }
 
             List<float> aValueList = Generic.Functions.GetList(aObject);
@@ -249,6 +252,9 @@ namespace BH.Engine.TAS
                 case ProfileResultUnits.Hourly:
                     aObject = tsdSurfaceData.GetHourlySurfaceResult(1, (int)srfType.Value);
                     break;
+                default:
+                    BH.Engine.Reflection.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
+                    return null;
             }
 
             List<float> aValueList = Generic.Functions.GetList(aObject);
@@ -300,6 +306,9 @@ namespace BH.Engine.TAS
                 case ProfileResultUnits.Hourly:
                     aObject = tsdBuildingData.GetHourlyBuildingResult(1, (int)aBuildingResultsArray.Value);
                     break;
+                default:
+                    BH.Engine.Reflection.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
+                    return null;
             }
             //object aObject = tsdBuildingData.GetAnnualBuildingResult((int)aBuildingResultsArray);
             List<float> aValueList = Generic.Functions.GetList(aObject);
