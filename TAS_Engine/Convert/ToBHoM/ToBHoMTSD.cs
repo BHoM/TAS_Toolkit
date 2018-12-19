@@ -76,9 +76,31 @@ namespace BH.Engine.TAS
             bHoMZoneResult.SimulationResultType = oM.Environment.Results.SimulationResultType.SpaceResult;
             //object aObject=tsdZoneData.GetAnnualZoneResult((int)tsdZoneArray.)
 
-            tsdZoneArray zoneType = resultType.ToTASSpaceType();
+            tsdZoneArray? zoneType = resultType.ToTASSpaceType();
+            if(zoneType == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("That Result Type is not valid for Space results - please choose a different result type");
+                return null;
+            }
 
-            bHoMZoneResult.SimulationResults.Add(Create.ProfileResult(resultType, unitType, tsdZoneData.GetAnnualZoneResult((int)zoneType)));
+            object aObject = null;
+            switch (unitType)
+            {
+                case ProfileResultUnits.Yearly:
+                    aObject = tsdZoneData.GetAnnualZoneResult((int)zoneType.Value);
+                    break;
+                case ProfileResultUnits.Daily:
+                    aObject = tsdZoneData.GetDailyZoneResult(1, (int)zoneType.Value);
+                    break;
+                case ProfileResultUnits.Hourly:
+                    aObject = tsdZoneData.GetHourlyZoneResult(1, (int)zoneType.Value);
+                    break;
+            }
+
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+
+            bHoMZoneResult.SimulationResults.Add(
+                Create.ProfileResult(resultType, unitType, aValueList.ConvertAll(x => (double)x)));
             return bHoMZoneResult;
 
         }
@@ -208,9 +230,31 @@ namespace BH.Engine.TAS
             BHE.Results.SimulationResult bHoMSurfaceResult = new BHE.Results.SimulationResult();
             bHoMSurfaceResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingElementResult;
 
-            tsdSurfaceArray srfType = resultType.ToTASSurfaceType();
+            tsdSurfaceArray? srfType = resultType.ToTASSurfaceType();
+            if (srfType == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("That Result Type is not valid for Building Element results - please choose a different result type");
+                return null;
+            }
+
+            object aObject = null;
+            switch (unitType)
+            {
+                case ProfileResultUnits.Yearly:
+                    aObject = tsdSurfaceData.GetAnnualSurfaceResult((int)srfType.Value);
+                    break;
+                case ProfileResultUnits.Daily:
+                    aObject = tsdSurfaceData.GetDailySurfaceResult(1, (int)srfType.Value);
+                    break;
+                case ProfileResultUnits.Hourly:
+                    aObject = tsdSurfaceData.GetHourlySurfaceResult(1, (int)srfType.Value);
+                    break;
+            }
+
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+
             bHoMSurfaceResult.SimulationResults.Add(
-                Create.ProfileResult(resultType, unitType, tsdSurfaceData.GetAnnualSurfaceResult((int)srfType)));
+                Create.ProfileResult(resultType, unitType, aValueList.ConvertAll(x => (double)x)));
 
             return bHoMSurfaceResult;
         }
@@ -233,7 +277,12 @@ namespace BH.Engine.TAS
         {
             BHE.Results.ProfileResult bHoMProfileResult = new BHE.Results.ProfileResult();
 
-            tsdBuildingArray aBuildingResultsArray = aProfileType.ToTASBuildingType();
+            tsdBuildingArray? aBuildingResultsArray = aProfileType.ToTASBuildingType();
+            if (aBuildingResultsArray == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("That Result Type is not valid for Building results - please choose a different result type");
+                return null;
+            }
 
 
             ProfileResult aProfileResult = null;
@@ -243,13 +292,13 @@ namespace BH.Engine.TAS
             switch(aProfileResultUnits)
             {
                 case ProfileResultUnits.Yearly:
-                    aObject = tsdBuildingData.GetAnnualBuildingResult((int)aBuildingResultsArray);
+                    aObject = tsdBuildingData.GetAnnualBuildingResult((int)aBuildingResultsArray.Value);
                     break;
                 case ProfileResultUnits.Daily:
-                    aObject = tsdBuildingData.GetDailyBuildingResult(1, (int)aBuildingResultsArray);
+                    aObject = tsdBuildingData.GetDailyBuildingResult(1, (int)aBuildingResultsArray.Value);
                     break;
                 case ProfileResultUnits.Hourly:
-                    aObject = tsdBuildingData.GetHourlyBuildingResult(1, (int)aBuildingResultsArray);
+                    aObject = tsdBuildingData.GetHourlyBuildingResult(1, (int)aBuildingResultsArray.Value);
                     break;
             }
             //object aObject = tsdBuildingData.GetAnnualBuildingResult((int)aBuildingResultsArray);
