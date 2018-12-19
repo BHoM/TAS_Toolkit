@@ -24,6 +24,22 @@ namespace BH.Adapter.TAS
             ProfileResultUnits = resultUnit;
             ProfileResultType = resultType;
 
+            if(SimulationResultType == SimulationResultType.Undefined)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Simulation type cannot be undefined");
+                return;
+            }
+            if(ProfileResultUnits == ProfileResultUnits.Undefined)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Unit type cannot be undefined");
+                return;
+            }
+            if(ProfileResultType == ProfileResultType.Undefined)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Result type cannot be undefined");
+                return;
+            }
+
             AdapterId = BH.Engine.TAS.Convert.TSDAdapterID;
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
             Config.ProcessInMemory = false;
