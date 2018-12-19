@@ -63,12 +63,12 @@ namespace BH.Adapter.TAS
         {
             List<IBHoMObject> spaceResults = new List<IBHoMObject>();
 
-            int zoneIndex = 0;
+            int zoneIndex = 1;
             TSD.ZoneData zoneData = null;
 
             while((zoneData = tsdDocument.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
             {
-                spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(zoneData));
+                spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(zoneData, ProfileResultUnits, ProfileResultType));
                 zoneIndex++;
             }
 
