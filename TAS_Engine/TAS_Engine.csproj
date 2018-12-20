@@ -98,6 +98,7 @@
     <Compile Include="Convert\ToTBDBEConstruction.cs" />
     <Compile Include="Convert\ToTBDBEType.cs" />
     <Compile Include="Convert\ToTAS.cs" />
+    <Compile Include="Create\SetHour.cs" />
     <Compile Include="Create\IsExternalFilterQuery.cs" />
     <Compile Include="Create\SimulationResult.cs" />
     <Compile Include="Generic\Generic.cs" />

@@ -38,7 +38,7 @@ namespace BH.Adapter.TAS
 {
     public partial class TasTSDAdapter : BHoMAdapter
     {
-        public TasTSDAdapter(string tSDFilePath = "", SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnits resultUnit = ProfileResultUnits.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal)
+        public TasTSDAdapter(string tSDFilePath = "", SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnits resultUnit = ProfileResultUnits.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, double hour = 0)
         {
             //TSD application
             tsdFilePath = tSDFilePath;

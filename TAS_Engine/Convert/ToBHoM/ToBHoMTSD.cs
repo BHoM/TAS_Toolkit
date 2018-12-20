@@ -92,7 +92,7 @@ namespace BH.Engine.TAS
             return bHoMBuildingResult;
         }
 
-        public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData, ProfileResultUnits unitType, ProfileResultType resultType)
+        public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData, ProfileResultUnits unitType, ProfileResultType resultType, int hour)
         {
             BHE.Results.SimulationResult bHoMZoneResult = new BHE.Results.SimulationResult();
             bHoMZoneResult.SimulationResultType = oM.Environment.Results.SimulationResultType.SpaceResult;
@@ -105,6 +105,8 @@ namespace BH.Engine.TAS
                 return null;
             }
 
+            
+
             object aObject = null;
             switch (unitType)
             {
@@ -112,10 +114,10 @@ namespace BH.Engine.TAS
                     aObject = tsdZoneData.GetAnnualZoneResult((int)zoneType.Value);
                     break;
                 case ProfileResultUnits.Daily:
-                    aObject = tsdZoneData.GetDailyZoneResult(1, (int)zoneType.Value);
+                    aObject = tsdZoneData.GetDailyZoneResult(hour, (int)zoneType.Value);
                     break;
                 case ProfileResultUnits.Hourly:
-                    aObject = tsdZoneData.GetHourlyZoneResult(1, (int)zoneType.Value);
+                    aObject = tsdZoneData.GetHourlyZoneResult(hour, (int)zoneType.Value);
                     break;
                 default:
                     BH.Engine.Reflection.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
