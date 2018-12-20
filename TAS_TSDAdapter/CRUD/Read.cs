@@ -1,26 +1,4 @@
-/*
- * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2018, the respective contributors. All rights reserved.
- *
- * Each contributor holds copyright over their respective contributions.
- * The project versioning (Git) records all such contribution source information.
- *                                           
- *                                                                              
- * The BHoM is free software: you can redistribute it and/or modify         
- * it under the terms of the GNU Lesser General Public License as published by  
- * the Free Software Foundation, either version 3.0 of the License, or          
- * (at your option) any later version.                                          
- *                                                                              
- * The BHoM is distributed in the hope that it will be useful,              
- * but WITHOUT ANY WARRANTY; without even the implied warranty of               
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                 
- * GNU Lesser General Public License for more details.                          
- *                                                                            
- * You should have received a copy of the GNU Lesser General Public License     
- * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
- */
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -73,7 +51,7 @@ namespace BH.Adapter.TAS
 
             List<IBHoMObject> buildingResults = new List<IBHoMObject>();
             buildingResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdBuildingData, ProfileResultUnits, ProfileResultType));
-
+            
             //buildingResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdCoolingDesignData));
             
             //TODO: Add to output 3 set of data CDD and HDD 
@@ -85,12 +63,12 @@ namespace BH.Adapter.TAS
         {
             List<IBHoMObject> spaceResults = new List<IBHoMObject>();
 
-            int zoneIndex = 1;
+            int zoneIndex = 0;
             TSD.ZoneData zoneData = null;
 
             while((zoneData = tsdDocument.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
             {
-                spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(zoneData, ProfileResultUnits, ProfileResultType));
+                spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(zoneData));
                 zoneIndex++;
             }
 
