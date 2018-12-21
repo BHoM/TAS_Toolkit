@@ -30,7 +30,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("TAS_oM")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BuroHappold")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TAS_oM")]
 [assembly: AssemblyCopyright("Copyright © https://github.com/BHoM")]
 [assembly: AssemblyTrademark("")]
