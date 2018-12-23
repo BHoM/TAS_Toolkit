@@ -1,4 +1,10 @@
-[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
+[![License: LGPL v3](https://img.shields.io/badge/License-LGPL%20v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)   
+
+<img src="https://raw.githubusercontent.com/BHoM/documentation/master/wiki/images/TAS_Toolkit/TAS_Toolkit_01.png?token=AY52hlC4U9gVNOLZlEyPQ2IBa-4D7UxWks5cHW9MwA%3D%3D" height= 150>   
+
+## Welcome to TAS_Toolkit
+
+
 # BHoM
 
 A great place to start is reading our Wiki [here](https://github.com/BHoM/documentation/wiki) including pages like the [Structure of the BHoM](https://github.com/BHoM/documentation/wiki/Structure-of-the-BHoM) and [Using the BHoM](https://github.com/BHoM/documentation/wiki/Using-the-BHoM).
@@ -46,12 +52,25 @@ Then build as many User Interface Repositories as you like:
 
 You are good to go! 
 
+## TAS_Toolkit :sparkling_heart:
 
+TAS_Toolkit is all about interacting between BHoM and Tas EDSL. The most versatile :sparkles: method of controlling simulation  tool!
+
+<img src="https://raw.githubusercontent.com/BHoM/documentation/master/wiki/images/TAS_Toolkit/TAS_Toolkit_3Dmodel.gif?token=AY52hvXmG9t0Vxr0FRGZEXHQ_hxpWewiks5cHYsTwA%3D%3D" height= 200>
+
+To find out more about TAS_Toolkit and get started, **see guidance on the [TAS_Toolkit Wiki](https://github.com/BHoM/TAS_Toolkit/wiki) page.**
+...regardless if you are MEP engineer, Energy modeler, Building Physicist,  Grasshopper, DynamoBIM or Excel user.
+
+### :clap: XML_Toolkit Credits: ###
+[Michal Dengusiak](https://github.com/michaldengusiak)  
+[Fraser Greenroyd](https://github.com/FraserGreenroyd)   
+[Maria Tjader](https://github.com/mariatjader)   
+[Sofia Malmsten](https://github.com/SofiaMalmsten)    
+[Victoria Beardow](https://github.com/vbeardow)   
 
 ## Want to contribute? ##
 
 BHoM is an open-source project and would be nothing without its community. Take a look at our contributing guidelines and tips [here](https://github.com/BHoM/BHoM/blob/master/CONTRIBUTING.md).
-
 
 ## Licence ##
 
