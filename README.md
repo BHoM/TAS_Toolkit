@@ -61,7 +61,7 @@ TAS_Toolkit is all about interacting between BHoM and Tas EDSL. The most versati
 To find out more about TAS_Toolkit and get started, **see guidance on the [TAS_Toolkit Wiki](https://github.com/BHoM/TAS_Toolkit/wiki) page.**
 ...regardless if you are MEP engineer, Energy modeler, Building Physicist,  Grasshopper, DynamoBIM or Excel user.
 
-### :clap: XML_Toolkit Credits: ###
+### :clap: TAS_Toolkit Credits: ###
 [Michal Dengusiak](https://github.com/michaldengusiak)  
 [Fraser Greenroyd](https://github.com/FraserGreenroyd)   
 [Maria Tjader](https://github.com/mariatjader)   
