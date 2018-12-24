@@ -40,9 +40,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BHoM\Build\Architecture_oM.dll</HintPath>
     </Reference>
-    <Reference Include="BHoM">
-      <HintPath>..\..\BHoM_Engine\Build\BHoM.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="BHoM, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BHoM\Build\BHoM.dll</HintPath>
     </Reference>
     <Reference Include="BHoM_Adapter">
       <HintPath>..\..\BHoM_Adapter\Build\BHoM_Adapter.dll</HintPath>
