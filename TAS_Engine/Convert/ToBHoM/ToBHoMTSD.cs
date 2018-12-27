@@ -76,6 +76,22 @@ namespace BH.Engine.TAS
             return bHoMBuildingResult;
         }
 
+        public static BHE.Results.SimulationResult ToBHoMTSDBuilding(this TSD.BuildingData tsdBuildingData, ProfileResultUnits unitType, ProfileResultType resultType, int hour, int day)
+        {
+
+            BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
+            bHoMBuildingResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingResult;
+
+            object aObject = tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.additionProfile);
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+            //UValues = (U(tbdConstructionLayer) as List<float>).ConvertAll(x => (double)x),
+
+
+            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, resultType, unitType));
+
+            return bHoMBuildingResult;
+        }
+
         public static BHE.Results.SimulationResult ToBHoMTSDBuilding(this TSD.HeatingDesignData tsdHeatingDesignData)
         {
             BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
@@ -92,12 +108,50 @@ namespace BH.Engine.TAS
             return bHoMBuildingResult;
         }
 
-        public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData, ProfileResultUnits unitType, ProfileResultType resultType, int hour, int day)
+        public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData, ProfileResultUnits unitType, ProfileResultType resultType)
         {
             BHE.Results.SimulationResult bHoMZoneResult = new BHE.Results.SimulationResult();
             bHoMZoneResult.SimulationResultType = oM.Environment.Results.SimulationResultType.SpaceResult;
             //object aObject=tsdZoneData.GetAnnualZoneResult((int)tsdZoneArray.)
 
+            tsdZoneArray? zoneType = resultType.ToTASSpaceType();
+            if (zoneType == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("That Result Type is not valid for Space results - please choose a different result type");
+                return null;
+            }
+
+            object aObject = null;
+            switch (unitType)
+            {
+                case ProfileResultUnits.Yearly:
+                    aObject = tsdZoneData.GetAnnualZoneResult((int)zoneType.Value);
+                    break;
+                /*case ProfileResultUnits.Daily:
+                    aObject = tsdZoneData.GetDailyZoneResult(1, (int)zoneType.Value);
+                    break;
+                case ProfileResultUnits.Hourly:
+                    aObject = tsdZoneData.GetHourlyZoneResult(1, (int)zoneType.Value);
+                    break;*/
+                default:
+                    BH.Engine.Reflection.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
+                    return null;
+            }
+
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+
+            bHoMZoneResult.SimulationResults.Add(
+                Create.ProfileResult(resultType, unitType, aValueList.ConvertAll(x => (double)x)));
+            return bHoMZoneResult;
+        }
+
+        public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData, ProfileResultUnits unitType, ProfileResultType resultType, int hour, int day)
+        {
+            BHE.Results.SimulationResult bHoMZoneResult = new BHE.Results.SimulationResult();
+            bHoMZoneResult.SimulationResultType = oM.Environment.Results.SimulationResultType.SpaceResult;
+            //object aObject=tsdZoneData.GetAnnualZoneResult((int)tsdZoneArray.)
+            hour = 0;
+            day = 0;
             tsdZoneArray? zoneType = resultType.ToTASSpaceType();
             if(zoneType == null)
             {
@@ -106,13 +160,14 @@ namespace BH.Engine.TAS
             }
 
             //Input: Hour from 1-24, Day from 1-365
+            //Error message for no hour or day input?
 
             object aObject = null;
             switch (unitType)
             {
-                case ProfileResultUnits.Yearly:
+                /*case ProfileResultUnits.Yearly:
                     aObject = tsdZoneData.GetAnnualZoneResult((int)zoneType.Value);
-                    break;
+                    break;*/
                 case ProfileResultUnits.Daily:
                     aObject = tsdZoneData.GetDailyZoneResult(day, (int)zoneType.Value);
                     break;
