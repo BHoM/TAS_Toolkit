@@ -92,7 +92,7 @@ namespace BH.Engine.TAS
             return bHoMBuildingResult;
         }
 
-        public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData, ProfileResultUnits unitType, ProfileResultType resultType, int hour)
+        public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData, ProfileResultUnits unitType, ProfileResultType resultType, int hour, int day)
         {
             BHE.Results.SimulationResult bHoMZoneResult = new BHE.Results.SimulationResult();
             bHoMZoneResult.SimulationResultType = oM.Environment.Results.SimulationResultType.SpaceResult;
@@ -105,7 +105,7 @@ namespace BH.Engine.TAS
                 return null;
             }
 
-            
+            //Input: Hour from 1-24, Day from 1-365
 
             object aObject = null;
             switch (unitType)
@@ -114,7 +114,7 @@ namespace BH.Engine.TAS
                     aObject = tsdZoneData.GetAnnualZoneResult((int)zoneType.Value);
                     break;
                 case ProfileResultUnits.Daily:
-                    aObject = tsdZoneData.GetDailyZoneResult(hour, (int)zoneType.Value);
+                    aObject = tsdZoneData.GetDailyZoneResult(day, (int)zoneType.Value);
                     break;
                 case ProfileResultUnits.Hourly:
                     aObject = tsdZoneData.GetHourlyZoneResult(hour, (int)zoneType.Value);
