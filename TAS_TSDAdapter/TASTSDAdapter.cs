@@ -25,13 +25,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using System.Reflection;
-
 using BH.oM.DataManipulation.Queries;
 using BH.oM.Base;
 using BH.Engine;
-
 using BH.oM.Environment.Results;
 
 namespace BH.Adapter.TAS
@@ -40,15 +37,12 @@ namespace BH.Adapter.TAS
     {
         public TasTSDAdapter(string tSDFilePath = "", SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnits resultUnit = ProfileResultUnits.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = 1, int day = 1)
         {
-            //TSD application
             tsdFilePath = tSDFilePath;
             SimulationResultType = simType;
             ProfileResultUnits = resultUnit;
             ProfileResultType = resultType;
             Hour = hour;
             Day = day;
-            //Add Hour and Day here?
-
 
             if(SimulationResultType == SimulationResultType.Undefined)
             {
@@ -97,7 +91,6 @@ namespace BH.Adapter.TAS
             try
             {
                 List<IBHoMObject> returnObjs = new List<IBHoMObject>();
-
 
                 FilterQuery aFilterQuery = query as FilterQuery;
                 GetTsdDocumentReadOnly (); //Open the TSD Document for pulling data from
@@ -163,7 +156,7 @@ namespace BH.Adapter.TAS
                 ErrorLog.Add("The TSD file does not exist");
             return tsdDocument;
         }
-
+        //TODO: Do we need both of these?
         //To get the TSD Document
         private TSD.TSDDocument GetTsdDocumentReadOnly()
         {

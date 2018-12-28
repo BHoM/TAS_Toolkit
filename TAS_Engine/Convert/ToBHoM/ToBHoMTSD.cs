@@ -96,21 +96,33 @@ namespace BH.Engine.TAS
                 return null;
             }
 
-            object aObject = null;// tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.additionProfile);
+            object aObject = null;
             List<float> aValueList = new List<float>();
             switch (unitType)
             {
                 case ProfileResultUnits.Yearly:
                     aObject = tsdBuildingData.GetAnnualBuildingResult((int)buildingType.Value);
                     aValueList = Generic.Functions.GetList(aObject);
+                    if (day != 0)
+                        BH.Engine.Reflection.Compute.RecordNote("Input for day was set but never used");
+                    if (hour != 0)
+                        BH.Engine.Reflection.Compute.RecordNote("Input for hour was set but never used");
                     break;
                 case ProfileResultUnits.Daily:
                     aObject = tsdBuildingData.GetDailyBuildingResult(day, (int)buildingType.Value);
                     aValueList = Generic.Functions.GetList(aObject);
+                    if (day < 1 || day > 365)
+                        BH.Engine.Reflection.Compute.RecordWarning("Please set a day between 1-365");
+                    if (hour != 0)
+                        BH.Engine.Reflection.Compute.RecordNote("Input for hour was set but never used");
                     break;
                 case ProfileResultUnits.Hourly:
                     aObject = tsdBuildingData.GetHourlyBuildingResult(hour, (int)buildingType.Value);
                     aValueList.Add((float)aObject);
+                    if (hour < 1 || hour > 24)
+                        BH.Engine.Reflection.Compute.RecordWarning("Please set an hour between 1-24");
+                    if (day != 0)
+                        BH.Engine.Reflection.Compute.RecordNote("Input for day was set but never used");
                     break;
                 default:
                     BH.Engine.Reflection.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
@@ -127,22 +139,34 @@ namespace BH.Engine.TAS
 
             return bHoMBuildingResult;
         }
-
-        public static BHE.Results.SimulationResult ToBHoMTSDBuilding(this TSD.HeatingDesignData tsdHeatingDesignData)
+        
+        /*public static BHE.Results.SimulationResult ToBHoMTSDBuilding(this TSD.HeatingDesignData tsdHeatingDesignData)
         {
             BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
             bHoMBuildingResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingResult;
 
+            //TODO: Do this in a similar way as BuildingData?
             object aObject = tsdHeatingDesignData.GetPeakZoneGains((int)tsdBuildingArray.additionProfile);
             List<float> aValueList = Generic.Functions.GetList(aObject);
             //UValues = (U(tbdConstructionLayer) as List<float>).ConvertAll(x => (double)x),
-
-
             //bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdHeatingDesignData, ProfileResultType.HumidityExternal, ProfileResultUnits.Yearly, tsdBuildingArray.externalHumidity));
 
             // TODO: reference to new function that will pull zones from building
+
             return bHoMBuildingResult;
         }
+
+        public static BHE.Results.SimulationResult ToBHoMTSDBuilding(this TSD.CoolingDesignData tsdCoolingDesignData)
+        {
+            BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
+            bHoMBuildingResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingResult;
+
+            //TODO: Do this in a similar way as BuildingData?
+            object aObject = tsdCoolingDesignData.GetZoneData((int)tsdBuildingArray.additionProfile);
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+
+            return bHoMBuildingResult;
+        }*/
 
         public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData, ProfileResultUnits unitType, ProfileResultType resultType, int hour, int day)
         {
@@ -157,8 +181,7 @@ namespace BH.Engine.TAS
                 return null;
             }
 
-            //Input: Hour from 1-24, Day from 1-365
-            //Error message for no hour or day input?
+            //TODO: Should the hour inputs go between 0-23 or 1-24? The default is set to 0 and gives no errors at the moment. (Similar issue for day inputs)
 
             object aObject = null;
             List<float> aValueList = Generic.Functions.GetList(aObject);
@@ -168,14 +191,26 @@ namespace BH.Engine.TAS
                 case ProfileResultUnits.Yearly:
                     aObject = tsdZoneData.GetAnnualZoneResult((int)zoneType.Value);
                     aValueList = Generic.Functions.GetList(aObject);
+                    if (day != 0)
+                        BH.Engine.Reflection.Compute.RecordNote("Input for day was set but never used");
+                    if (hour!=0)
+                        BH.Engine.Reflection.Compute.RecordNote("Input for hour was set but never used");
                     break;
                 case ProfileResultUnits.Daily:
                     aObject = tsdZoneData.GetDailyZoneResult(day, (int)zoneType.Value);
                     aValueList = Generic.Functions.GetList(aObject);
+                    if (day < 1 || day>365)
+                        BH.Engine.Reflection.Compute.RecordWarning("Please set a day between 1-365");
+                    if (hour != 0)
+                        BH.Engine.Reflection.Compute.RecordNote("Input for hour was set but never used");
                     break;
                 case ProfileResultUnits.Hourly:
                     aObject = tsdZoneData.GetHourlyZoneResult(hour, (int)zoneType.Value);
                     aValueList.Add((float)aObject);
+                    if (hour < 1 || hour > 24)
+                        BH.Engine.Reflection.Compute.RecordWarning("Please set an hour between 1-24");
+                    if (day != 0)
+                        BH.Engine.Reflection.Compute.RecordNote("Input for day was set but never used");
                     break;
                 default:
                     BH.Engine.Reflection.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
@@ -307,6 +342,28 @@ namespace BH.Engine.TAS
 
             return bHoMZoneResult;
           }
+        /*
+        public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.HeatingDesignData tsdHeatingDesignData)
+        {
+            BHE.Results.SimulationResult bHoMZoneResult = new BHE.Results.SimulationResult();
+            bHoMZoneResult.SimulationResultType = oM.Environment.Results.SimulationResultType.SpaceResult;
+            //TODO: Do this in a similar way as ZoneData?
+            object aObject = tsdHeatingDesignData.GetPeakZoneGains((int)tsdZoneArray.airMovementGain);
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+
+            return bHoMZoneResult;
+        }
+
+        public static BHE.Results.SimulationResult bHoMZoneResult(this TSD.CoolingDesignData tsdCoolingDesignData)
+        {
+            BHE.Results.SimulationResult bHoMZoneResult = new BHE.Results.SimulationResult();
+            bHoMZoneResult.SimulationResultType = oM.Environment.Results.SimulationResultType.SpaceResult;
+            //TODO: Do this in a similar way as ZoneData?
+            object aObject = tsdCoolingDesignData.GetZoneData((int)tsdZoneArray.airMovementGain);
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+
+            return bHoMZoneResult;
+        }*/
 
         public static BHE.Results.SimulationResult ToBHoMTSDSurface(this TSD.SurfaceData tsdSurfaceData, ProfileResultUnits unitType, ProfileResultType resultType, int hour, int day)
         {
@@ -327,14 +384,26 @@ namespace BH.Engine.TAS
                 case ProfileResultUnits.Yearly:
                     aObject = tsdSurfaceData.GetAnnualSurfaceResult((int)srfType.Value);
                     aValueList = Generic.Functions.GetList(aObject);
+                    if (day != 0)
+                        BH.Engine.Reflection.Compute.RecordNote("Input for day was set but never used");
+                    if (hour != 0)
+                        BH.Engine.Reflection.Compute.RecordNote("Input for hour was set but never used");
                     break;
                 case ProfileResultUnits.Daily:
                     aObject = tsdSurfaceData.GetDailySurfaceResult(day, (int)srfType.Value);
                     aValueList = Generic.Functions.GetList(aObject);
+                    if (day < 1 || day > 365)
+                        BH.Engine.Reflection.Compute.RecordWarning("Please set a day between 1-365");
+                    if (hour != 0)
+                        BH.Engine.Reflection.Compute.RecordNote("Input for hour was set but never used");
                     break;
                 case ProfileResultUnits.Hourly:
                     aObject = tsdSurfaceData.GetHourlySurfaceResult(hour, (int)srfType.Value);
                     aValueList.Add((float)aObject);
+                    if (hour < 1 || hour > 24)
+                        BH.Engine.Reflection.Compute.RecordWarning("Please set an hour between 1-24");
+                    if (day != 0)
+                        BH.Engine.Reflection.Compute.RecordNote("Input for day was set but never used");
                     break;
                 default:
                     BH.Engine.Reflection.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
@@ -347,6 +416,30 @@ namespace BH.Engine.TAS
             return bHoMSurfaceResult;
 
         }
+        /*
+        public static BHE.Results.SimulationResult ToBHoMTSDSurface(this TSD.HeatingDesignData tsdHeatingDesignData)
+        {
+            BHE.Results.SimulationResult bHoMSurfaceResult = new BHE.Results.SimulationResult();
+            bHoMSurfaceResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingElementResult;
+            //TODO: Do this in a similar way as SurfaceData?
+            object aObject = tsdHeatingDesignData.GetPeakZoneGains((int)tsdZoneArray.airMovementGain);
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+
+            return bHoMSurfaceResult;
+        }
+
+        public static BHE.Results.SimulationResult ToBHoMTSDSurface(this TSD.CoolingDesignData tsdCoolingDesignData)
+        {
+            BHE.Results.SimulationResult bHoMSurfaceResult = new BHE.Results.SimulationResult();
+            bHoMSurfaceResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingElementResult;
+            //TODO: Do this in a similar way as SurfaceData?
+            object aObject = tsdCoolingDesignData.GetZoneData((int)tsdZoneArray.airMovementGain);
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+
+            return bHoMSurfaceResult;
+        }*/
+
+
         /*
         public static BHE.Results.SimulationResult ToBHoMTSDSurface(this TSD.SurfaceData tsdSurfaceData, ProfileResultUnits unitType, ProfileResultType resultType)
         {
@@ -550,8 +643,9 @@ namespace BH.Engine.TAS
 
 
         /***************************************************/
+        //TODO: Are these needed? Shall there be a list for Surface too?
         //results TSD enums for Building, Zone and Surface
-
+        /*
         public enum tsdBuildingArray
         {
             externalHumidity = 1,
@@ -600,8 +694,8 @@ namespace BH.Engine.TAS
             zoneApertureFlowOut = 29,
             izamIn = 30,
             izamOut = 31
-        }
 
-
+         }*/
+         
     }
 }                                     
