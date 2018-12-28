@@ -46,16 +46,16 @@ namespace BH.Adapter.TAS
         public List<IBHoMObject> ReadBuildingResults(List<string> ids = null)
         {
             TSD.BuildingData tsdBuildingData = tsdDocument.SimulationData.GetBuildingData();
-            //TSD.CoolingDesignData tsdCoolingDesignData = tsdDocument.SimulationData.GetCoolingDesignData(0);
-            //TSD.HeatingDesignData tsdHeatingDesignData = tsdDocument.SimulationData.GetHeatingDesignData(0);
+            TSD.CoolingDesignData tsdCoolingDesignData = tsdDocument.SimulationData.GetCoolingDesignData(0);
+            TSD.HeatingDesignData tsdHeatingDesignData = tsdDocument.SimulationData.GetHeatingDesignData(0);
 
             List<IBHoMObject> buildingResults = new List<IBHoMObject>();
+            
             buildingResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdBuildingData, ProfileResultUnits, ProfileResultType, Hour, Day));
-            
-            //buildingResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdCoolingDesignData));
-            
-            //TODO: Add to output 3 set of data CDD and HDD 
-            
+            /*
+            buildingResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdCoolingDesignData));
+            buildingResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdHeatingDesignData));*/
+
             return buildingResults;
         }
         
