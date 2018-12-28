@@ -60,7 +60,7 @@ namespace BH.Engine.TAS
             return bHoMBuildingResult; 
     }*/
 
-        public static BHE.Results.SimulationResult ToBHoMTSDBuilding(this TSD.BuildingData tsdBuildingData, ProfileResultUnits unitType, ProfileResultType resultType)
+        /*public static BHE.Results.SimulationResult ToBHoMTSDBuilding(this TSD.BuildingData tsdBuildingData, ProfileResultUnits unitType, ProfileResultType resultType)
         {
 
             BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
@@ -81,7 +81,7 @@ namespace BH.Engine.TAS
             bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, resultType, unitType));
 
             return bHoMBuildingResult;
-        }
+        }*/
 
         public static BHE.Results.SimulationResult ToBHoMTSDBuilding(this TSD.BuildingData tsdBuildingData, ProfileResultUnits unitType, ProfileResultType resultType, int hour, int day)
         {
@@ -149,8 +149,7 @@ namespace BH.Engine.TAS
             BHE.Results.SimulationResult bHoMZoneResult = new BHE.Results.SimulationResult();
             bHoMZoneResult.SimulationResultType = oM.Environment.Results.SimulationResultType.SpaceResult;
             //object aObject=tsdZoneData.GetAnnualZoneResult((int)tsdZoneArray.)
-            hour = 0;
-            day = 0;
+
             tsdZoneArray? zoneType = resultType.ToTASSpaceType();
             if(zoneType == null)
             {
@@ -162,28 +161,31 @@ namespace BH.Engine.TAS
             //Error message for no hour or day input?
 
             object aObject = null;
+            List<float> aValueList = Generic.Functions.GetList(aObject);
             switch (unitType)
+
             {
                 case ProfileResultUnits.Yearly:
                     aObject = tsdZoneData.GetAnnualZoneResult((int)zoneType.Value);
+                    aValueList = Generic.Functions.GetList(aObject);
                     break;
                 case ProfileResultUnits.Daily:
                     aObject = tsdZoneData.GetDailyZoneResult(day, (int)zoneType.Value);
+                    aValueList = Generic.Functions.GetList(aObject);
                     break;
                 case ProfileResultUnits.Hourly:
                     aObject = tsdZoneData.GetHourlyZoneResult(hour, (int)zoneType.Value);
+                    aValueList.Add((float)aObject);
                     break;
                 default:
                     BH.Engine.Reflection.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
                     return null;
             }
 
-            List<float> aValueList = Generic.Functions.GetList(aObject);
-
             bHoMZoneResult.SimulationResults.Add(
                 Create.ProfileResult(resultType, unitType, aValueList.ConvertAll(x => (double)x)));
-            return bHoMZoneResult;
 
+            return bHoMZoneResult;
         }
 
         public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData)
@@ -306,6 +308,46 @@ namespace BH.Engine.TAS
             return bHoMZoneResult;
           }
 
+        public static BHE.Results.SimulationResult ToBHoMTSDSurface(this TSD.SurfaceData tsdSurfaceData, ProfileResultUnits unitType, ProfileResultType resultType, int hour, int day)
+        {
+            BHE.Results.SimulationResult bHoMSurfaceResult = new BHE.Results.SimulationResult();
+            bHoMSurfaceResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingElementResult;
+
+            tsdSurfaceArray? srfType = resultType.ToTASSurfaceType();
+            if (srfType == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("That Result Type is not valid for Building Element results - please choose a different result type");
+                return null;
+            }
+
+            object aObject = null;
+            List<float> aValueList = Generic.Functions.GetList(aObject);
+            switch (unitType)
+            {
+                case ProfileResultUnits.Yearly:
+                    aObject = tsdSurfaceData.GetAnnualSurfaceResult((int)srfType.Value);
+                    aValueList = Generic.Functions.GetList(aObject);
+                    break;
+                case ProfileResultUnits.Daily:
+                    aObject = tsdSurfaceData.GetDailySurfaceResult(day, (int)srfType.Value);
+                    aValueList = Generic.Functions.GetList(aObject);
+                    break;
+                case ProfileResultUnits.Hourly:
+                    aObject = tsdSurfaceData.GetHourlySurfaceResult(hour, (int)srfType.Value);
+                    aValueList.Add((float)aObject);
+                    break;
+                default:
+                    BH.Engine.Reflection.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
+                    return null;
+            }
+
+            bHoMSurfaceResult.SimulationResults.Add(
+                Create.ProfileResult(resultType, unitType, aValueList.ConvertAll(x => (double)x)));
+
+            return bHoMSurfaceResult;
+
+        }
+        /*
         public static BHE.Results.SimulationResult ToBHoMTSDSurface(this TSD.SurfaceData tsdSurfaceData, ProfileResultUnits unitType, ProfileResultType resultType)
         {
             BHE.Results.SimulationResult bHoMSurfaceResult = new BHE.Results.SimulationResult();
@@ -341,7 +383,7 @@ namespace BH.Engine.TAS
                 Create.ProfileResult(resultType, unitType, aValueList.ConvertAll(x => (double)x)));
 
             return bHoMSurfaceResult;
-        }
+        }*/
 
         //public static BHE.Results.SimulationResult ToBHoMTSDBuilding(this TSD.BuildingData tsdBuildingData)
         //{
