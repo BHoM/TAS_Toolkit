@@ -106,7 +106,7 @@ namespace BH.Engine.TAS
                     break;
                 case ProfileResultUnits.Daily:
                     aObject = tsdBuildingData.GetDailyBuildingResult(day, (int)buildingType.Value);
-                    aValueList.Add((float)aObject);
+                    aValueList = Generic.Functions.GetList(aObject);
                     break;
                 case ProfileResultUnits.Hourly:
                     aObject = tsdBuildingData.GetHourlyBuildingResult(hour, (int)buildingType.Value);
