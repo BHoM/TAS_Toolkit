@@ -79,12 +79,12 @@ namespace BH.Adapter.TAS
         {
             List<IBHoMObject> buildingElementResults = new List<IBHoMObject>();
 
-            int zoneIndex = 0;
+            int zoneIndex = 1;
             TSD.ZoneData zoneData = null;
 
             while ((zoneData = tsdDocument.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
             {
-                int srfIndex = 0;
+                int srfIndex = 1;
                 TSD.SurfaceData srfData = null;
                 while((srfData = zoneData.GetSurfaceData(srfIndex)) != null)
                 {
