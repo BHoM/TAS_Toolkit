@@ -38,13 +38,15 @@ namespace BH.Adapter.TAS
 {
     public partial class TasTSDAdapter : BHoMAdapter
     {
-        public TasTSDAdapter(string tSDFilePath = "", SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnits resultUnit = ProfileResultUnits.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = 0, int day=0)
+        public TasTSDAdapter(string tSDFilePath = "", SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnits resultUnit = ProfileResultUnits.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = 1, int day = 1)
         {
             //TSD application
             tsdFilePath = tSDFilePath;
             SimulationResultType = simType;
             ProfileResultUnits = resultUnit;
             ProfileResultType = resultType;
+            Hour = hour;
+            Day = day;
             //Add Hour and Day here?
 
 
@@ -140,6 +142,8 @@ namespace BH.Adapter.TAS
         private SimulationResultType SimulationResultType = SimulationResultType.Undefined;
         private ProfileResultUnits ProfileResultUnits = ProfileResultUnits.Undefined;
         private ProfileResultType ProfileResultType = ProfileResultType.Undefined;
+        private int Hour = 1;
+        private int Day = 1;
 
         /***************************************************/
         /**** Private Methods                           ****/

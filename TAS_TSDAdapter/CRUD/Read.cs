@@ -50,7 +50,7 @@ namespace BH.Adapter.TAS
             //TSD.HeatingDesignData tsdHeatingDesignData = tsdDocument.SimulationData.GetHeatingDesignData(0);
 
             List<IBHoMObject> buildingResults = new List<IBHoMObject>();
-            buildingResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdBuildingData, ProfileResultUnits, ProfileResultType));
+            buildingResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdBuildingData, ProfileResultUnits, ProfileResultType, Hour, Day));
             
             //buildingResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdCoolingDesignData));
             
@@ -63,12 +63,12 @@ namespace BH.Adapter.TAS
         {
             List<IBHoMObject> spaceResults = new List<IBHoMObject>();
 
-            int zoneIndex = 0;
+            int zoneIndex = 1;
             TSD.ZoneData zoneData = null;
 
             while((zoneData = tsdDocument.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
             {
-                spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(zoneData));
+                spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
                 zoneIndex++;
             }
 

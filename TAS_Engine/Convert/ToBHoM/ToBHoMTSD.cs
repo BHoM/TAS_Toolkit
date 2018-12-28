@@ -66,7 +66,14 @@ namespace BH.Engine.TAS
             BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
             bHoMBuildingResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingResult;
 
-            object aObject = tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.additionProfile);
+            tsdBuildingArray? buildingType = resultType.ToTASBuildingType();
+            if (buildingType == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("That Result Type is not valid for Building results - please choose a different result type");
+                return null;
+            }
+
+            object aObject = tsdBuildingData.GetAnnualBuildingResult((int)buildingType.Value);
             List<float> aValueList = Generic.Functions.GetList(aObject);
             //UValues = (U(tbdConstructionLayer) as List<float>).ConvertAll(x => (double)x),
 
@@ -82,12 +89,41 @@ namespace BH.Engine.TAS
             BHE.Results.SimulationResult bHoMBuildingResult = new BHE.Results.SimulationResult();
             bHoMBuildingResult.SimulationResultType = oM.Environment.Results.SimulationResultType.BuildingResult;
 
-            object aObject = tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.additionProfile);
-            List<float> aValueList = Generic.Functions.GetList(aObject);
+            tsdBuildingArray? buildingType = resultType.ToTASBuildingType();
+            if (buildingType == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("That Result Type is not valid for Building results - please choose a different result type");
+                return null;
+            }
+
+            object aObject = null;// tsdBuildingData.GetAnnualBuildingResult((int)tsdBuildingArray.additionProfile);
+            List<float> aValueList = new List<float>();
+            switch (unitType)
+            {
+                case ProfileResultUnits.Yearly:
+                    aObject = tsdBuildingData.GetAnnualBuildingResult((int)buildingType.Value);
+                    aValueList = Generic.Functions.GetList(aObject);
+                    break;
+                case ProfileResultUnits.Daily:
+                    aObject = tsdBuildingData.GetDailyBuildingResult(day, (int)buildingType.Value);
+                    aValueList.Add((float)aObject);
+                    break;
+                case ProfileResultUnits.Hourly:
+                    aObject = tsdBuildingData.GetHourlyBuildingResult(hour, (int)buildingType.Value);
+                    aValueList.Add((float)aObject);
+                    break;
+                default:
+                    BH.Engine.Reflection.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
+                    return null;
+            }
+
+            
+            //List<float> aValueList = Generic.Functions.GetList(aObject);
             //UValues = (U(tbdConstructionLayer) as List<float>).ConvertAll(x => (double)x),
 
 
-            bHoMBuildingResult.SimulationResults.Add(ToBHoM(tsdBuildingData, resultType, unitType));
+            bHoMBuildingResult.SimulationResults.Add(
+                Create.ProfileResult(resultType, unitType, aValueList.ConvertAll(x => (double)x)));
 
             return bHoMBuildingResult;
         }
@@ -106,43 +142,6 @@ namespace BH.Engine.TAS
 
             // TODO: reference to new function that will pull zones from building
             return bHoMBuildingResult;
-        }
-
-        public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData, ProfileResultUnits unitType, ProfileResultType resultType)
-        {
-            BHE.Results.SimulationResult bHoMZoneResult = new BHE.Results.SimulationResult();
-            bHoMZoneResult.SimulationResultType = oM.Environment.Results.SimulationResultType.SpaceResult;
-            //object aObject=tsdZoneData.GetAnnualZoneResult((int)tsdZoneArray.)
-
-            tsdZoneArray? zoneType = resultType.ToTASSpaceType();
-            if (zoneType == null)
-            {
-                BH.Engine.Reflection.Compute.RecordError("That Result Type is not valid for Space results - please choose a different result type");
-                return null;
-            }
-
-            object aObject = null;
-            switch (unitType)
-            {
-                case ProfileResultUnits.Yearly:
-                    aObject = tsdZoneData.GetAnnualZoneResult((int)zoneType.Value);
-                    break;
-                /*case ProfileResultUnits.Daily:
-                    aObject = tsdZoneData.GetDailyZoneResult(1, (int)zoneType.Value);
-                    break;
-                case ProfileResultUnits.Hourly:
-                    aObject = tsdZoneData.GetHourlyZoneResult(1, (int)zoneType.Value);
-                    break;*/
-                default:
-                    BH.Engine.Reflection.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
-                    return null;
-            }
-
-            List<float> aValueList = Generic.Functions.GetList(aObject);
-
-            bHoMZoneResult.SimulationResults.Add(
-                Create.ProfileResult(resultType, unitType, aValueList.ConvertAll(x => (double)x)));
-            return bHoMZoneResult;
         }
 
         public static BHE.Results.SimulationResult ToBHoMTSDZone(this TSD.ZoneData tsdZoneData, ProfileResultUnits unitType, ProfileResultType resultType, int hour, int day)
@@ -165,9 +164,9 @@ namespace BH.Engine.TAS
             object aObject = null;
             switch (unitType)
             {
-                /*case ProfileResultUnits.Yearly:
+                case ProfileResultUnits.Yearly:
                     aObject = tsdZoneData.GetAnnualZoneResult((int)zoneType.Value);
-                    break;*/
+                    break;
                 case ProfileResultUnits.Daily:
                     aObject = tsdZoneData.GetDailyZoneResult(day, (int)zoneType.Value);
                     break;
