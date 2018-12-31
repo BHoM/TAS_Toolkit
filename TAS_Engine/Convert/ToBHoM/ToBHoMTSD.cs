@@ -123,18 +123,10 @@ namespace BH.Engine.TAS
                 case ProfileResultUnits.Daily:
                     aObject = tsdZoneData.GetDailyZoneResult(day, (int)zoneType.Value);
                     aValueList = ToFloatList(aObject);
-                    if (day < 1 || day>365)
-                        BH.Engine.Reflection.Compute.RecordWarning("Please set a day between 1-365");
-                    if (hour != 0)
-                        BH.Engine.Reflection.Compute.RecordNote("Input for hour was set but never used");
                     break;
                 case ProfileResultUnits.Hourly:
                     aObject = tsdZoneData.GetHourlyZoneResult(hour, (int)zoneType.Value);
                     aValueList.Add((float)aObject);
-                    if (hour < 1 || hour > 24)
-                        BH.Engine.Reflection.Compute.RecordWarning("Please set an hour between 1-24");
-                    if (day != 0)
-                        BH.Engine.Reflection.Compute.RecordNote("Input for day was set but never used");
                     break;
                 default:
                     BH.Engine.Reflection.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
