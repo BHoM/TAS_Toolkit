@@ -25,6 +25,8 @@ using System.ComponentModel;
 using BH.oM.DataManipulation.Queries;
 using BH.oM.Reflection.Attributes;
 
+using BH.oM.TAS;
+
 namespace BH.Engine.TAS
 {
     public static partial class Query
@@ -36,18 +38,18 @@ namespace BH.Engine.TAS
         [Description("Returns Query Type of given FilterQuery")]
         [Input("filterQuery", "FilterQuery")]
         [Output("QueryType")]
-        public static oM.Adapters.TAS.Enums.QueryType QueryType(this FilterQuery filterQuery)
+        public static QueryType QueryType(this FilterQuery filterQuery)
         {
             if (filterQuery == null)
-                return oM.Adapters.TAS.Enums.QueryType.Undefined;
+                return BH.oM.TAS.QueryType.Undefined;
 
             if (!filterQuery.Equalities.ContainsKey(Convert.FilterQuery.QueryType))
-                return oM.Adapters.TAS.Enums.QueryType.Undefined;
+                return BH.oM.TAS.QueryType.Undefined;
 
-            if (filterQuery.Equalities[Convert.FilterQuery.QueryType] is oM.Adapters.TAS.Enums.QueryType || filterQuery.Equalities[Convert.FilterQuery.QueryType] is int)
-                return (oM.Adapters.TAS.Enums.QueryType)filterQuery.Equalities[Convert.FilterQuery.QueryType];
+            if (filterQuery.Equalities[Convert.FilterQuery.QueryType] is BH.oM.TAS.QueryType || filterQuery.Equalities[Convert.FilterQuery.QueryType] is int)
+                return (BH.oM.TAS.QueryType)filterQuery.Equalities[Convert.FilterQuery.QueryType];
 
-            return oM.Adapters.TAS.Enums.QueryType.Undefined;
+            return BH.oM.TAS.QueryType.Undefined;
         }
 
         /***************************************************/

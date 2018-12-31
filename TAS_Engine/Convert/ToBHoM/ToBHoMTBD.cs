@@ -729,7 +729,7 @@ namespace BH.Engine.TAS
                 return -1;
 
             object aObject = aConstruction.GetUValue();
-            List<float> aValueList = Generic.Functions.GetList(aObject);
+            List<float> aValueList = ToFloatList(aObject);
             switch ((BuildingElementType)tbdBuildingElement.BEType)
             {
                 case BuildingElementType.Ceiling:
@@ -783,7 +783,7 @@ namespace BH.Engine.TAS
         {
 
             object aObject = tbdConstruction.GetUValue();
-            List<float> aValueList = Generic.Functions.GetList(aObject);
+            List<float> aValueList = ToFloatList(aObject);
             aValueList.Add(0);
             aValueList.Add(1);
             aValueList.Add(2);
@@ -804,7 +804,7 @@ namespace BH.Engine.TAS
             if (aConstructionTypes == TBD.ConstructionTypes.tcdTransparentConstruction)
             {
                 object aObject = aConstruction.GetGlazingValues();
-                List<float> aValueList = Generic.Functions.GetList(aObject);
+                List<float> aValueList = ToFloatList(aObject);
                 return Math.Round(aValueList[5], Decimals);
             }
             return 0;
@@ -821,7 +821,7 @@ namespace BH.Engine.TAS
             if (aConstructionTypes == TBD.ConstructionTypes.tcdTransparentConstruction)
             {
                 object aObject = aConstruction.GetGlazingValues();
-                List<float> aValueList = Generic.Functions.GetList(aObject);
+                List<float> aValueList = ToFloatList(aObject);
                 return Math.Round(aValueList[0], Decimals);
             }
             return 0;

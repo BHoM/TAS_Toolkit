@@ -27,6 +27,8 @@ using System.Reflection;
 using BH.oM.DataManipulation.Queries;
 using BH.oM.Base;
 
+using BH.oM.TAS;
+
 namespace BH.Adapter.TAS
 {
     public partial class TasTBDAdapter : BHoMAdapter
@@ -80,7 +82,7 @@ namespace BH.Adapter.TAS
                 {
                     switch (BH.Engine.TAS.Query.QueryType(aFilterQuery))
                     {
-                        case oM.Adapters.TAS.Enums.QueryType.IsExternal:
+                        case BH.oM.TAS.QueryType.IsExternal:
                             returnObjs.AddRange(ReadExternalBuildingElements());
                             break;
                         default:
