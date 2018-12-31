@@ -37,7 +37,7 @@ namespace BH.Adapter.TAS
 {
     public partial class TasTSDAdapter : BHoMAdapter
     {
-        public TasTSDAdapter(string tSDFilePath = "", TSDResultType tsdResultQuery = TSDResultType.Simulation, SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnits resultUnit = ProfileResultUnits.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = 1, int day = 1)
+        public TasTSDAdapter(string tSDFilePath = "", TSDResultType tsdResultQuery = TSDResultType.Simulation, SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnits resultUnit = ProfileResultUnits.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = -1, int day = -1)
         {
             tsdFilePath = tSDFilePath;
             tsdResultType = tsdResultQuery;
@@ -58,6 +58,12 @@ namespace BH.Adapter.TAS
 
         private bool CheckInputCombinations()
         {
+            if(tsdFilePath == "")
+            {
+                BH.Engine.Reflection.Compute.RecordError("Please provide a valid TSD input file path");
+                return false;
+            }
+
             if(tsdResultType == TSDResultType.Undefined)
             {
                 BH.Engine.Reflection.Compute.RecordError("Result output cannot be undefined");
@@ -83,6 +89,23 @@ namespace BH.Adapter.TAS
             {
                 BH.Engine.Reflection.Compute.RecordError("Heating and Cooling Design Day results are only available on Space Result Types");
                 return false;
+            }
+
+            if(ProfileResultUnits == ProfileResultUnits.Daily && (Day < 1 || Day > 365))
+            {
+                BH.Engine.Reflection.Compute.RecordError("Please select a day between 1 and 365 inclusive for Daily Results");
+                return false;
+            }
+
+            if(ProfileResultUnits == ProfileResultUnits.Hourly && (Hour < 1 || Hour > 24))
+            {
+                BH.Engine.Reflection.Compute.RecordError("Please select an hour between 1 and 24 inclusive for Hourly Results");
+                return false;
+            }
+
+            if(ProfileResultUnits == ProfileResultUnits.Yearly && (Hour != -1 || Day != -1))
+            {
+                BH.Engine.Reflection.Compute.RecordWarning("Day and Hour inputs are not used when pulling Yearly Results");
             }
 
             return true;
