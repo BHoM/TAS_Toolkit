@@ -31,34 +31,23 @@ using BH.oM.Base;
 using BH.Engine;
 using BH.oM.Environment.Results;
 
+using BH.oM.TAS;
+
 namespace BH.Adapter.TAS
 {
     public partial class TasTSDAdapter : BHoMAdapter
     {
-        public TasTSDAdapter(string tSDFilePath = "", SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnits resultUnit = ProfileResultUnits.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = 1, int day = 1)
+        public TasTSDAdapter(string tSDFilePath = "", TSDResultType tsdResultQuery = TSDResultType.Simulation, SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnits resultUnit = ProfileResultUnits.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = 1, int day = 1)
         {
             tsdFilePath = tSDFilePath;
+            tsdResultType = tsdResultQuery;
             SimulationResultType = simType;
             ProfileResultUnits = resultUnit;
             ProfileResultType = resultType;
             Hour = hour;
             Day = day;
 
-            if(SimulationResultType == SimulationResultType.Undefined)
-            {
-                BH.Engine.Reflection.Compute.RecordError("Simulation type cannot be undefined");
-                return;
-            }
-            if(ProfileResultUnits == ProfileResultUnits.Undefined)
-            {
-                BH.Engine.Reflection.Compute.RecordError("Unit type cannot be undefined");
-                return;
-            }
-            if(ProfileResultType == ProfileResultType.Undefined)
-            {
-                BH.Engine.Reflection.Compute.RecordError("Result type cannot be undefined");
-                return;
-            }
+            if (!CheckInputCombinations()) return;
 
             AdapterId = BH.Engine.TAS.Convert.TSDAdapterID;
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
@@ -67,9 +56,41 @@ namespace BH.Adapter.TAS
             Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
         }
 
+        private bool CheckInputCombinations()
+        {
+            if(tsdResultType == TSDResultType.Undefined)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Result output cannot be undefined");
+                return false;
+            }
+            if (SimulationResultType == SimulationResultType.Undefined)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Simulation type cannot be undefined");
+                return false;
+            }
+            if (ProfileResultUnits == ProfileResultUnits.Undefined)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Unit type cannot be undefined");
+                return false;
+            }
+            if (ProfileResultType == ProfileResultType.Undefined)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Result type cannot be undefined");
+                return false;
+            }
+
+            if((tsdResultType == TSDResultType.CoolingDesignDay || tsdResultType == TSDResultType.HeatingDesignDay) && (SimulationResultType == SimulationResultType.BuildingResult || SimulationResultType == SimulationResultType.BuildingElementResult))
+            {
+                BH.Engine.Reflection.Compute.RecordError("Heating and Cooling Design Day results are only available on Space Result Types");
+                return false;
+            }
+
+            return true;
+        }
+
         public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
         {
-            GetTsdDocument();
+            /*GetTsdDocument();
             bool success = true;
             MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
             foreach (var typeGroup in objects.GroupBy(x => x.GetType()))
@@ -83,7 +104,9 @@ namespace BH.Adapter.TAS
 
             CloseTsdDocument();
             
-            return success ? objects.ToList() : new List<IObject>();
+            return success ? objects.ToList() : new List<IObject>();*/
+
+            throw new NotImplementedException("Pushing to TAS TSD files has not been implemented yet");
         }
 
         public override IEnumerable<object> Pull(IQuery query, Dictionary<string, object> config = null)
@@ -99,7 +122,7 @@ namespace BH.Adapter.TAS
                 {
                     switch (BH.Engine.TAS.Query.QueryType(aFilterQuery))
                     {
-                        case oM.Adapters.TAS.Enums.QueryType.IsExternal:
+                        case BH.oM.TAS.QueryType.IsExternal:
                             break;
                         default:
                             //modified to allow filtering element we need
@@ -121,7 +144,6 @@ namespace BH.Adapter.TAS
             finally
             {
                 CloseTsdDocument();
-
             }
 
         }
@@ -132,6 +154,7 @@ namespace BH.Adapter.TAS
 
         private TSD.TSDDocument tsdDocument=null;
         private string tsdFilePath = null;
+        private TSDResultType tsdResultType = TSDResultType.Undefined;
         private SimulationResultType SimulationResultType = SimulationResultType.Undefined;
         private ProfileResultUnits ProfileResultUnits = ProfileResultUnits.Undefined;
         private ProfileResultType ProfileResultType = ProfileResultType.Undefined;

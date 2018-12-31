@@ -61,15 +61,74 @@ namespace BH.Adapter.TAS
         
         public List<IBHoMObject> ReadSpaceResults(List<string> ids=null)
         {
+            switch(tsdResultType)
+            {
+                case oM.TAS.TSDResultType.Simulation:
+                    return ReadSpaceSimulationResults();
+                case oM.TAS.TSDResultType.HeatingDesignDay:
+                    return ReadSpaceHeatingResults();
+                case oM.TAS.TSDResultType.CoolingDesignDay:
+                    return ReadSpaceCoolingResults();
+            }
+
+            return new List<IBHoMObject>();
+        }
+
+        public List<IBHoMObject> ReadSpaceSimulationResults()
+        {
             List<IBHoMObject> spaceResults = new List<IBHoMObject>();
 
             int zoneIndex = 1;
             TSD.ZoneData zoneData = null;
 
-            while((zoneData = tsdDocument.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
+            while ((zoneData = tsdDocument.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
             {
                 spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
                 zoneIndex++;
+            }
+
+            return spaceResults;
+        }
+
+        public List<IBHoMObject> ReadSpaceHeatingResults()
+        {
+            List<IBHoMObject> spaceResults = new List<IBHoMObject>();
+
+            int heatingIndex = 0;
+            TSD.HeatingDesignData heatData = null;
+            TSD.ZoneData zoneData = null;
+
+            while ((heatData = tsdDocument.SimulationData.GetHeatingDesignData(heatingIndex)) != null)
+            {
+                int zoneIndex = 1;
+                while ((zoneData = heatData.GetZoneData(zoneIndex)) != null)
+                {
+                    spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
+                    zoneIndex++;
+                }
+                heatingIndex++;
+            }
+
+            return spaceResults;
+        }
+
+        public List<IBHoMObject> ReadSpaceCoolingResults()
+        {
+            List<IBHoMObject> spaceResults = new List<IBHoMObject>();
+
+            int coolingIndex = 0;
+            TSD.CoolingDesignData coolData = null;
+            TSD.ZoneData zoneData = null;
+
+            while ((coolData = tsdDocument.SimulationData.GetCoolingDesignData(coolingIndex)) != null)
+            {
+                int zoneIndex = 1;
+                while ((zoneData = coolData.GetZoneData(zoneIndex)) != null)
+                {
+                    spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
+                    zoneIndex++;
+                }
+                coolingIndex++;
             }
 
             return spaceResults;

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2018, the respective contributors. All rights reserved.
  *
@@ -20,26 +20,38 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using System.ComponentModel;
-
-using BH.oM.DataManipulation.Queries;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BHA = BH.oM.Architecture;
+using BHE = BH.oM.Environment;
+using BHG = BH.oM.Geometry;
+using TBD;
+using TSD;
+using TAS3D;
+using BHEE = BH.Engine.Environment;
+using BH.oM.Environment.Properties;
 using BH.oM.Environment.Elements;
-using BH.oM.Reflection.Attributes;
+using System.Collections;
+
+using BH.oM.Environment.Results;
 
 namespace BH.Engine.TAS
 {
-    [Description("BH.Engine.TAS.Create IsExternalFilterQuery => gets all exteral BuildingElements so we have shell")]
-    public static partial class Create
+    public static partial class Convert
     {
-        [Description("Creates FilterQuery which filters all Building.")]
-        [Input("TBC", "TBC")]
-        [Output("FilterQuery")]
-        public static FilterQuery IsExternalFilterQuery()
+        public static List<float> ToFloatList(object Object)
         {
-            FilterQuery aFilterQuery = new FilterQuery();
-            //aFilterQuery.Type = typeof(Space);
-            aFilterQuery.Equalities[Convert.FilterQuery.QueryType] = BH.oM.TAS.QueryType.IsExternal;
-            return aFilterQuery;
+            List<float> aResult = new List<float>();
+            if (Object != null)
+            {
+                System.Collections.IEnumerable aValues = Object as System.Collections.IEnumerable;
+                if (aValues != null)
+                    aResult = aValues.Cast<float>().ToList();
+            }
+            return aResult;
         }
     }
 }
