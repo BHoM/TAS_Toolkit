@@ -46,7 +46,7 @@ namespace BH.Engine.TAS
         /**** Public Methods - BHoM Objects             ****/
         /***************************************************/
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets Building from TasTBD Building")]
+       /* [Description("BH.Engine.TAS.Convert ToBHoM => gets Building from TasTBD Building")]
         [Input("TBD.Building", "tbd.Building")]
         [Output("BHoM Building")]
         public static BHE.Elements.Building ToBHoM(this TBD.Building tbdBuilding)
@@ -146,7 +146,7 @@ namespace BH.Engine.TAS
 
             return bHoMBuilding;
         }
-
+        */
         /***************************************************/
 
         [Description("BH.Engine.TAS.Convert ToBHoM => gets Zone from TasTBD and generate BHoM Space")]
