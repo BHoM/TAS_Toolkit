@@ -92,7 +92,12 @@
   <ItemGroup>
     <Compile Include="Convert\AdapterID.cs" />
     <Compile Include="Convert\Environment_oM\Building.cs" />
+    <Compile Include="Convert\Environment_oM\Emitter.cs" />
+    <Compile Include="Convert\Environment_oM\InternalCondition.cs" />
+    <Compile Include="Convert\Environment_oM\InternalGain.cs" />
+    <Compile Include="Convert\Environment_oM\SimulationDayType.cs" />
     <Compile Include="Convert\Environment_oM\Space.cs" />
+    <Compile Include="Convert\Environment_oM\Thermostat.cs" />
     <Compile Include="Convert\FilterQuery.cs" />
     <Compile Include="Convert\ToBHoM\ToBHoMTSD.cs" />
     <Compile Include="Convert\ToBHoM\ToBHoMTBD.cs" />
@@ -118,6 +123,7 @@
     <Compile Include="Query\PlanPerimeter.cs" />
     <Compile Include="Query\QueryType.cs" />
     <Compile Include="Query\SurfaceType.cs" />
+    <Compile Include="Query\ThermostatLimits.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="stdole">
