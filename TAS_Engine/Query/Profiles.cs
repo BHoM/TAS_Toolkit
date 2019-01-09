@@ -38,7 +38,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static List<BH.oM.Environment.Elements.Profile> Profiles(TBD.Thermostat tbdThermostat)
+        public static List<BH.oM.Environment.Elements.Profile> Profiles(this TBD.Thermostat tbdThermostat)
         {
             List<BH.oM.Environment.Elements.Profile> bHoMProfiles = new List<BH.oM.Environment.Elements.Profile>();
 
@@ -52,7 +52,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        public static List<BH.oM.Environment.Elements.Profile> Profiles(TBD.InternalGain tbdInternalGain)
+        public static List<BH.oM.Environment.Elements.Profile> Profiles(this TBD.InternalGain tbdInternalGain)
         {
             List<BH.oM.Environment.Elements.Profile> bHoMProfiles = new List<BH.oM.Environment.Elements.Profile>();
 

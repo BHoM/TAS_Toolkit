@@ -149,7 +149,7 @@ namespace BH.Engine.TAS
         */
         /***************************************************/
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets Zone from TasTBD and generate BHoM Space")]
+       /* [Description("BH.Engine.TAS.Convert ToBHoM => gets Zone from TasTBD and generate BHoM Space")]
         [Input("TBD.Zone", "tbd.Zone")]
         [Output("BHoM Space")]
         public static BHE.Elements.Space ToBHoM(this TBD.zone tbdZone)
@@ -256,7 +256,7 @@ namespace BH.Engine.TAS
 
 
             return bHoMSpace;
-        }
+        }*/
 
         // we do not need aMin Elecation
         //public static BHE.Elements.Space ToBHoM(this TBD.zone tasZone)
@@ -1081,7 +1081,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.InternalCondition from TasTBD InternalCondition")]
+        /*[Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.InternalCondition from TasTBD InternalCondition")]
         [Input("TBD.InternalCondition", "tbd.InternalCondition")]
         [Output("BH.oM.Environment.Elements.InternalCondition")]
         public static BHE.Elements.InternalCondition ToBHoM(this TBD.InternalCondition tbdInternalCondition)
@@ -1180,13 +1180,13 @@ namespace BH.Engine.TAS
             bHoMInternalCondition.InternalGain.Profiles = BH.Engine.TAS.Query.Profiles(tbdICInternalGain);
 
             return bHoMInternalCondition;
-        }
+        }*/
 
         /***************************************************/
         
         //T0DO: Move to Query
         //Get Upper value from tbdUpperLimitProfile - Cooling Set Point
-        public static float GetSingleValueUpperLimitFromThermostat(this TBD.Thermostat tbdICThermostat)
+        /*public static float GetSingleValueUpperLimitFromThermostat(this TBD.Thermostat tbdICThermostat)
         {
             float maxUL = 150;
 
@@ -1218,11 +1218,11 @@ namespace BH.Engine.TAS
             }
             return maxUL;
 
-        }
+        }*/
 
         //T0DO: Move to Query
         //Get Lower value from tbdLowerLimitProfile - Heating Set Point
-        public static float GetSingleValueLowerLimitFromThermostat(this TBD.Thermostat tbdICThermostat)
+       /* public static float GetSingleValueLowerLimitFromThermostat(this TBD.Thermostat tbdICThermostat)
         {
             float minLL = -50;
 
@@ -1255,12 +1255,12 @@ namespace BH.Engine.TAS
             }
             return minLL;
 
-        }
+        }*/
 
 
         /***************************************************/
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.SimulationDayType from TasTBD dayType")]
+        /*[Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.SimulationDayType from TasTBD dayType")]
         [Input("TBD.dayType", "tbd.dayType")]
         [Output("BH.oM.Environment.Elements.SimulationDayType")]
         public static BHE.Elements.SimulationDayType ToBHoM(this TBD.dayType tbdDayType)
@@ -1291,18 +1291,18 @@ namespace BH.Engine.TAS
                 return SimulationDayType.Weekend;
 
             return SimulationDayType.Undefined;
-        }
+        }*/
 
 
         /***************************************************/
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.Emitter from TasTBD Emitter")]
+        /*[Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.Emitter from TasTBD Emitter")]
         [Input("TBD.Emitter", "tbd.Emitter")]
         [Output("BH.oM.Environment.Elements.Emitter")]
         public static BHE.Elements.Emitter ToBHoM(this TBD.Emitter tasEmitterProperties)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
         /***************************************************/
 
