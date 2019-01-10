@@ -37,6 +37,9 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.Space from TAS TBD Zone")]
+        [Input("tbdSpace", "TAS TBD Zone")]
+        [Output("BHoM Environmental Space object")]
         public static BHE.Space ToBHoM(this TBD.zone tbdSpace)
         {
             BHE.Space space = new BHE.Space();
@@ -72,6 +75,47 @@ namespace BH.Engine.TAS
             space.CustomData.Add("TASData", tasData);
 
             return space;
+        }
+
+        [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD Zone from BH.oM.Environment.Elements.Space")]
+        [Input("space", "BHoM Environmental InternalCondition object")]
+        [Output("TAS TBD Zone")]
+        public static TBD.zoneClass ToTAS(this BHE.Space space)
+        {
+            TBD.zoneClass tbdSpace = new TBD.zoneClass();
+            if (space == null) return tbdSpace;
+
+            tbdSpace.number = System.Convert.ToInt32(space.Number);
+            tbdSpace.name = space.Name;
+            tbdSpace.maxCoolingLoad = (float)space.CoolingLoad;
+            tbdSpace.maxHeatingLoad = (float)space.HeatingLoad;
+
+            foreach(BHE.InternalCondition condition in space.InternalConditions)
+                tbdSpace.AssignIC(condition.ToTAS(), true);
+
+            Dictionary<string, object> tasData = null;
+            if (space.CustomData.ContainsKey("TASData"))
+                tasData = space.CustomData["TASData"] as Dictionary<string, object>;
+
+            if (tasData != null)
+            {
+                tbdSpace.colour = (tasData.ContainsKey("SpaceColour") ? System.Convert.ToUInt32(tasData["SpaceColour"]) : 0);
+                tbdSpace.daylightFactor = (tasData.ContainsKey("DaylightFactor") ? (float)System.Convert.ToDouble(tasData["DaylightFactor"]) : 0);
+                tbdSpace.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
+                tbdSpace.exposedPerimeter = (tasData.ContainsKey("ExposedPerimeter") ? (float)System.Convert.ToDouble(tasData["ExposedPerimeter"]) : 0);
+                tbdSpace.external = (tasData.ContainsKey("External") ? System.Convert.ToInt32(tasData["External"]) : 0);
+                tbdSpace.facadeLength = (tasData.ContainsKey("FacadeLength") ? (float)System.Convert.ToDouble(tasData["FacadeLength"]) : 0);
+                tbdSpace.fixedConvectionCoefficient = (tasData.ContainsKey("FixedConvectionCoefficient") ? (float)System.Convert.ToDouble(tasData["FixedConvectionCoefficient"]) : 0);
+                tbdSpace.floorArea = (tasData.ContainsKey("FloorArea") ? (float)System.Convert.ToDouble(tasData["FloorArea"]) : 0);
+                tbdSpace.GUID = (tasData.ContainsKey("GUID") ? tasData["GUID"].ToString() : "");
+                tbdSpace.length = (tasData.ContainsKey("Length") ? (float)System.Convert.ToDouble(tasData["Length"]) : 0);
+                tbdSpace.sizeCooling = (tasData.ContainsKey("SizeCooling") ? System.Convert.ToInt32(tasData["SizeCooling"]) : 0);
+                tbdSpace.sizeHeating = (tasData.ContainsKey("SizeHeating") ? System.Convert.ToInt32(tasData["SizeHeating"]) : 0);
+                tbdSpace.volume = (tasData.ContainsKey("Volume") ? (float)System.Convert.ToDouble(tasData["Volume"]) : 0);
+                tbdSpace.wallFloorAreaRatio = (tasData.ContainsKey("WallFloorAreaRatio") ? (float)System.Convert.ToDouble(tasData["WallFloorAreaRatio"]) : 0);
+            }
+
+            return tbdSpace;
         }
     }
 }

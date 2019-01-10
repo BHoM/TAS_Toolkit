@@ -58,8 +58,8 @@ namespace BH.Engine.TAS
             }
 
             internalCondition.InternalGain = tbdCondition.GetInternalGain().ToBHoM();
-            internalCondition.Emitter = tbdCondition.GetHeatingEmitter().ToBHoM(); //TODO: Check with Michal on how we want to store both emitters given one is cooling and one is heating...
-            //internalCondition.Emitter = tbdCondition.GetCoolingEmitter().ToBHoM(); //TODO: Check with Michal how to handle both...
+            internalCondition.Emitters.Add(tbdCondition.GetHeatingEmitter().ToBHoM());
+            internalCondition.Emitters.Add(tbdCondition.GetCoolingEmitter().ToBHoM());
 
             internalCondition.Thermostat = tbdCondition.GetThermostat().ToBHoM();
 
@@ -69,11 +69,52 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD InternalCondition from BH.oM.Environment.Elements.InternalCondition")]
         [Input("internalCondition", "BHoM Environmental InternalCondition object")]
         [Output("TAS TBD InternalCondition")]
-        public static TBD.InternalConditionClass ToTAS(BHE.InternalCondition internalCondition)
+        public static TBD.InternalConditionClass ToTAS(this BHE.InternalCondition internalCondition)
         {
             TBD.InternalConditionClass tbdCondition = new TBD.InternalConditionClass();
 
-            //ToDo: Write the conversion!
+            tbdCondition.name = internalCondition.Name;
+            tbdCondition.includeSolarInMRT = (internalCondition.IncludeSolarInMeanRadiantTemp ? 1 : 0);
+
+            foreach (BHE.SimulationDayType dayType in internalCondition.DayTypes)
+                tbdCondition.SetDayType(dayType.ToTAS(), true);
+
+            TBD.EmitterClass heatingEmitter = internalCondition.Emitters.Where(x => x.EmitterType == BHE.EmitterType.Heating).First().ToTAS();
+            tbdCondition.GetHeatingEmitter().name = heatingEmitter.name;
+            tbdCondition.GetHeatingEmitter().radiantProportion = heatingEmitter.radiantProportion;
+            tbdCondition.GetHeatingEmitter().viewCoefficient = heatingEmitter.viewCoefficient;
+            tbdCondition.GetHeatingEmitter().offOutsideTemp = heatingEmitter.offOutsideTemp;
+            tbdCondition.GetHeatingEmitter().maxOutsideTemp = heatingEmitter.maxOutsideTemp;
+            tbdCondition.GetHeatingEmitter().emitterType = heatingEmitter.emitterType;
+            tbdCondition.GetHeatingEmitter().description = heatingEmitter.description;
+
+            TBD.EmitterClass coolingEmitter = internalCondition.Emitters.Where(x => x.EmitterType == BHE.EmitterType.Cooling).First().ToTAS();
+            tbdCondition.GetCoolingEmitter().name = coolingEmitter.name;
+            tbdCondition.GetCoolingEmitter().radiantProportion = coolingEmitter.radiantProportion;
+            tbdCondition.GetCoolingEmitter().viewCoefficient = coolingEmitter.viewCoefficient;
+            tbdCondition.GetCoolingEmitter().offOutsideTemp = coolingEmitter.offOutsideTemp;
+            tbdCondition.GetCoolingEmitter().maxOutsideTemp = coolingEmitter.maxOutsideTemp;
+            tbdCondition.GetCoolingEmitter().emitterType = coolingEmitter.emitterType;
+            tbdCondition.GetCoolingEmitter().description = coolingEmitter.description;
+
+            TBD.InternalGainClass internalGain = internalCondition.InternalGain.ToTAS();
+            tbdCondition.GetInternalGain().name = internalGain.name;
+            tbdCondition.GetInternalGain().targetIlluminance = internalGain.targetIlluminance;
+            tbdCondition.GetInternalGain().freshAirRate = internalGain.freshAirRate;
+            tbdCondition.GetInternalGain().personGain = internalGain.personGain;
+            tbdCondition.GetInternalGain().equipmentRadProp = internalGain.equipmentRadProp;
+            tbdCondition.GetInternalGain().lightingRadProp = internalGain.lightingRadProp;
+            tbdCondition.GetInternalGain().occupantRadProp = internalGain.occupantRadProp;
+            tbdCondition.GetInternalGain().equipmentViewCoefficient = internalGain.equipmentViewCoefficient;
+            tbdCondition.GetInternalGain().lightingViewCoefficient = internalGain.lightingViewCoefficient;
+            tbdCondition.GetInternalGain().occupantViewCoefficient = internalGain.occupantViewCoefficient;
+
+            TBD.ThermostatClass thermostat = internalCondition.Thermostat.ToTAS();
+            tbdCondition.GetThermostat().name = thermostat.name;
+            tbdCondition.GetThermostat().controlRange = thermostat.controlRange;
+            tbdCondition.GetThermostat().proportionalControl = thermostat.proportionalControl;
+            tbdCondition.GetThermostat().radiantProportion = thermostat.radiantProportion;
+            tbdCondition.GetThermostat().description = thermostat.description;
 
             return tbdCondition;
         }
