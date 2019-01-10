@@ -457,7 +457,7 @@ namespace BH.Engine.TAS
             //Fix type if Undentified
             //bHoMBuildingElementType = BH.Engine.TAS.Modify.FixBuilidingElementType(tbdBuildingElement, tbdZoneSurface, bHoMBuildingElementType);
 
-            bHoMBuildingElement.BuildingElementProperties = ToBHoM(tbdConstruction, tbdBuildingElement.name, bHoMBuildingElementType, tbdBuildingElement);
+            //bHoMBuildingElement.BuildingElementProperties = ToBHoM(tbdConstruction, tbdBuildingElement.name, bHoMBuildingElementType, tbdBuildingElement);
 
             //Get Geometry from Building Element
             List<BH.oM.Geometry.ICurve> panelCurves = new List<BH.oM.Geometry.ICurve>();
@@ -598,7 +598,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Properties.BuildingElementProperties from TasTBD Construction,BHE.BuildingElementType, TasTBD buildingElement ")]
+       /* [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Properties.BuildingElementProperties from TasTBD Construction,BHE.BuildingElementType, TasTBD buildingElement ")]
         [Input("TBD.Polygon", "tbd.Polygon")]
         [Output("BH.oM.Environment.Properties.BuildingElementProperties")]
         public static BuildingElementProperties ToBHoM(this TBD.Construction tbdConstruction, string name, BHE.Elements.BuildingElementType buildingElementType, TBD.buildingElement tbdBuildingElement) //double thickness = 0, bool Internal = true, BHE.Elements.BuildingElementType buildingElementType = BHE.Elements.BuildingElementType.Wall)
@@ -657,7 +657,7 @@ namespace BH.Engine.TAS
 
             //tas exposes tranparent building element all value as list  
             //1. LtValuegValue,  7. Uvalue,  6. gValue
-            /*agValue = G(tbdBuildingElement);
+            agValue = G(tbdBuildingElement);
             bhomBuildingElementProperties.CustomData.Add("buildingElementgvalue", agValue);
 
             aLtValue = LT(tbdBuildingElement);
@@ -686,12 +686,12 @@ namespace BH.Engine.TAS
             //}
 
             bhomBuildingElementProperties.CustomData.Add("MaterialLayersThickness", ToTBDConstructionThickness(tbdBuildingElement.GetConstruction()));
-            */
+            
             //}
 
             return bhomBuildingElementProperties;
         }
-
+        */
         /***************************************************/
 
         //TODO: Move to Query
@@ -727,7 +727,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        [Description("BH.Engine.TAS.Convert ToBHoMConstruction => gets BH.oM.Environment.Elements.Construction from TasTBD Construction")]
+       /* [Description("BH.Engine.TAS.Convert ToBHoMConstruction => gets BH.oM.Environment.Elements.Construction from TasTBD Construction")]
         [Input("TBD.Construction", "tbd.Construction")]
         [Output("BH.oM.Environment.Elements.Construction")]
         public static BHE.Elements.Construction ToBHoMConstruction(this TBD.Construction tbdConstruction)
@@ -762,26 +762,11 @@ namespace BH.Engine.TAS
                 return bhomConstruction;
 
             }
-        }
+        }*/
 
         /***************************************************/
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.ConstructionType from TasTBD ConstructionTypes")]
-        [Input("TBD.ConstructionTypes", "tbd.ConstructionTypes")]
-        [Output("BH.oM.Environment.Elements.ConstructionType")]
-        public static BHE.Elements.ConstructionType ToBHoM(this TBD.ConstructionTypes type)
-        {
-            switch (type)
-            {
-                case ConstructionTypes.tcdOpaqueConstruction:
-                    return ConstructionType.Opaque;
-                case ConstructionTypes.tcdTransparentConstruction:
-                    return ConstructionType.Transparent;
-                default:
-                    return ConstructionType.Undefined;
-            }
-        }
-
+       
         /***************************************************/
 
         //TODO: Move to T3D Query
