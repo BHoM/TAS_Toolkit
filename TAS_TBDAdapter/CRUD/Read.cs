@@ -233,7 +233,8 @@ namespace BH.Adapter.TAS
                 //BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
                 TBD.Construction construction = tbdBuildingElement.GetConstruction();
                 BH.oM.Environment.Elements.BuildingElementType bHoMBuildingElementType = BH.Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
-                buildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction, tbdBuildingElement.name, bHoMBuildingElementType, tbdBuildingElement));
+                //buildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction, tbdBuildingElement.name, bHoMBuildingElementType, tbdBuildingElement));
+                //ToDo: FIX THIS
                 buildingElementIndex++;
             }
 
@@ -251,7 +252,7 @@ namespace BH.Adapter.TAS
             while (building.GetConstruction(buildingElementIndex) != null)
             {
                 TBD.Construction construction = tbdDocument.Building.GetConstruction(buildingElementIndex);
-                constructions.Add(Engine.TAS.Convert.ToBHoMConstruction(construction));
+                constructions.Add(Engine.TAS.Convert.ToBHoM(construction)); //ToDo: FIX THIS
                 buildingElementIndex++;
             }
 

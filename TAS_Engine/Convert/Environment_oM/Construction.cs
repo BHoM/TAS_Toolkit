@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 
 using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment.Elements;
+using BHM = BH.oM.Environment.Materials;
 using BHG = BH.oM.Geometry;
 
 using BH.oM.Reflection.Attributes;
@@ -46,18 +47,111 @@ namespace BH.Engine.TAS
 
             BHE.Construction construction = new BHE.Construction();
             construction.Name = tbdConstruction.name;
-            //MATERIALS NEXT
 
-            return null;
-            
+            int mIndex = 1;
+            TBD.material tbdMaterial = null;
+            double thickness = 0;
+            while((tbdMaterial = tbdConstruction.materials(mIndex)) != null)
+            {
+                construction.Materials.Add(tbdMaterial.ToBHoM());
+                thickness += (construction.Materials.Last() as BHM.Material).Thickness;
+                mIndex++;
+            }
+
+            construction.Thickness = thickness;
+            construction.BHoM_Guid = new Guid(tbdConstruction.GUID);
+            construction.AdditionalHeatTransfer = tbdConstruction.additionalHeatTransfer;
+            construction.ConstructionType = tbdConstruction.type.ToBHoM();
+            construction.FFactor = tbdConstruction.FFactor;
+
+            Dictionary<string, object> tasData = new Dictionary<string, object>();
+            tasData.Add("Description", tbdConstruction.description);
+
+            construction.CustomData.Add("TASData", tasData);
+
+            return construction;
         }
 
-        /*[Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Building from a BHoM Environmental Building")]
-        [Input("building", "BHoM Environmental Building")]
-        [Output("TAS TBD Building")]
-        public static TBD.BuildingClass ToTAS(this BHE.Building building)
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental ConstructionType from a TAS TBD ConstructionType")]
+        [Input("tbdType", "TAS TBD ConstructionType")]
+        [Output("BHoM Environmental ConstructionType")]
+        public static BHE.ConstructionType ToBHoM(this TBD.ConstructionTypes tbdType)
         {
+            switch(tbdType)
+            {
+                case TBD.ConstructionTypes.tcdOpaqueConstruction:
+                    return BHE.ConstructionType.Opaque;
+                case TBD.ConstructionTypes.tcdTransparentConstruction:
+                    return BHE.ConstructionType.Transparent;
+                default:
+                    return BHE.ConstructionType.Undefined;
+            }
+        }
 
-        }*/
+        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD ConstructionType from a BHoM Environmental ConstructionType")]
+        [Input("type", "BHoM Environmental ConstructionType")]
+        [Output("TAS TBD ConstructionType")]
+        public static TBD.ConstructionTypes ToTAS(this BHE.ConstructionType type)
+        {
+            switch(type)
+            {
+                case BHE.ConstructionType.Opaque:
+                    return TBD.ConstructionTypes.tcdOpaqueConstruction;
+                case BHE.ConstructionType.Transparent:
+                    return TBD.ConstructionTypes.tcdTransparentConstruction;
+                default:
+                    return TBD.ConstructionTypes.tcdOpaqueConstruction;
+            }
+        }
+
+        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Construction from a BHoM Environmental Construction")]
+        [Input("construction", "BHoM Environmental Construction")]
+        [Output("TAS TBD Construction")]
+        public static TBD.ConstructionClass ToTAS(this BHE.Construction construction)
+        {
+            TBD.ConstructionClass tbdConstruction = new TBD.ConstructionClass();
+            if (construction == null) return tbdConstruction;
+
+            tbdConstruction.name = construction.Name;
+            tbdConstruction.GUID = construction.BHoM_Guid.ToString();
+            tbdConstruction.additionalHeatTransfer = (float)construction.AdditionalHeatTransfer;
+            tbdConstruction.FFactor = (float)construction.FFactor;
+            tbdConstruction.type = construction.ConstructionType.ToTAS();
+
+            //tbdConstruction.ma
+            foreach(BHM.Material material in construction.Materials)
+            {
+                TBD.materialClass mat = material.ToTAS();
+                TBD.material matAdd = tbdConstruction.AddMaterial();
+
+                matAdd.name = mat.name;
+                matAdd.width = mat.width;
+                matAdd.type = mat.type;
+                mat.convectionCoefficient = mat.convectionCoefficient;
+                mat.vapourDiffusionFactor = mat.vapourDiffusionFactor;
+                matAdd.conductivity = mat.conductivity;
+                matAdd.specificHeat = mat.specificHeat;
+                matAdd.density = mat.density;
+                matAdd.externalSolarReflectance = mat.externalSolarReflectance;
+                matAdd.internalSolarReflectance = mat.internalSolarReflectance;
+                matAdd.externalLightReflectance = mat.externalLightReflectance;
+                matAdd.internalLightReflectance = mat.internalLightReflectance;
+                matAdd.externalEmissivity = mat.externalEmissivity;
+                matAdd.internalEmissivity = mat.internalEmissivity;
+                matAdd.solarTransmittance = mat.solarTransmittance;
+                matAdd.lightTransmittance = mat.lightTransmittance;
+            }
+
+            Dictionary<string, object> tasData = null;
+            if (construction.CustomData.ContainsKey("TASData"))
+                tasData = construction.CustomData["TASData"] as Dictionary<string, object>;
+
+            if (tasData != null)
+            {
+                tbdConstruction.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
+            }
+
+            return tbdConstruction;
+        }
     }
 }

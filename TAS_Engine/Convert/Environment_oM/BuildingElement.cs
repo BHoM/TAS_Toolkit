@@ -56,6 +56,8 @@ namespace BH.Engine.TAS
             else
                 element.CustomData.Add("AdjacentSpaceID", -1);
 
+            element.BuildingElementProperties.Construction = tbdElement.GetConstruction().ToBHoM();
+
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("SurfaceGUID", tbdSurface.GUID);
             tasData.Add("SurfaceName", "Z_" + tbdSurface.zone.number + "_" + tbdSurface.number + "_" + tbdSurface.zone.name);
