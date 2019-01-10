@@ -400,7 +400,7 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.BuildingElement from TasTBD.buildingElement")]
         [Input("TBD.buildingElement", "tbd.zoneSurface")]
         [Output("BH.oM.Environment.Elements.BuildingElemen")]
-        public static BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)
+        public static BuildingElement ToBHoM(this TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface, int hello)
         {
             BuildingElement bHoMBuildingElement = new BHE.Elements.BuildingElement();
 
@@ -455,7 +455,7 @@ namespace BH.Engine.TAS
             BH.oM.Environment.Elements.BuildingElementType bHoMBuildingElementType = ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
 
             //Fix type if Undentified
-            bHoMBuildingElementType = BH.Engine.TAS.Modify.FixBuilidingElementType(tbdBuildingElement, tbdZoneSurface, bHoMBuildingElementType);
+            //bHoMBuildingElementType = BH.Engine.TAS.Modify.FixBuilidingElementType(tbdBuildingElement, tbdZoneSurface, bHoMBuildingElementType);
 
             bHoMBuildingElement.BuildingElementProperties = ToBHoM(tbdConstruction, tbdBuildingElement.name, bHoMBuildingElementType, tbdBuildingElement);
 
@@ -657,7 +657,7 @@ namespace BH.Engine.TAS
 
             //tas exposes tranparent building element all value as list  
             //1. LtValuegValue,  7. Uvalue,  6. gValue
-            agValue = G(tbdBuildingElement);
+            /*agValue = G(tbdBuildingElement);
             bhomBuildingElementProperties.CustomData.Add("buildingElementgvalue", agValue);
 
             aLtValue = LT(tbdBuildingElement);
@@ -686,7 +686,7 @@ namespace BH.Engine.TAS
             //}
 
             bhomBuildingElementProperties.CustomData.Add("MaterialLayersThickness", ToTBDConstructionThickness(tbdBuildingElement.GetConstruction()));
-
+            */
             //}
 
             return bhomBuildingElementProperties;
@@ -695,88 +695,7 @@ namespace BH.Engine.TAS
         /***************************************************/
 
         //TODO: Move to Query
-        public static double ToTBDConstructionThickness(this TBD.Construction tbdConstruction, int Decimals = 3)
-
-        {
-            double tbdMaterialThickness = 0;
-
-            if (tbdConstruction == null)
-                tbdMaterialThickness = 0;
-            else
-            {
-                List<BHE.Interface.IMaterial> bHoMMaterial = new List<BHE.Interface.IMaterial>();
-                int aIndex = 1;
-                material tbdMaterial = null;
-                while ((tbdMaterial = tbdConstruction.materials(aIndex)) != null)
-                {
-                    tbdMaterial = tbdConstruction.materials(aIndex);
-                    tbdMaterialThickness += tbdMaterial.width;
-                    aIndex++;
-                }
-            }
-
-
-            return tbdMaterialThickness;
-        }
-
-        /***************************************************/
-
-        //TODO: move them to Query
-        public static double U(TBD.buildingElement tbdBuildingElement, int Decimals = 3)
-        {
-            TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
-            if (aConstruction == null)
-                return -1;
-
-            object aObject = aConstruction.GetUValue();
-            List<float> aValueList = ToFloatList(aObject);
-            switch ((BuildingElementType)tbdBuildingElement.BEType)
-            {
-                case BuildingElementType.Ceiling:
-                    return Math.Round(aValueList[4], Decimals);
-                case BuildingElementType.CurtainWall:
-                    return Math.Round(aValueList[6], Decimals);
-                case BuildingElementType.DoorElement:
-                    return Math.Round(aValueList[0], Decimals);
-                case BuildingElementType.ExposedFloor:
-                    return Math.Round(aValueList[2], Decimals);
-                case BuildingElementType.ExternalWall:
-                    return Math.Round(aValueList[0], Decimals);
-                case BuildingElementType.FrameELement:
-                    return Math.Round(aValueList[0], Decimals);
-                case BuildingElementType.Glazing:
-                    return Math.Round(aValueList[6], Decimals);
-                case BuildingElementType.InternalFloor:
-                    return Math.Round(aValueList[5], Decimals);
-                case BuildingElementType.InternallWall:
-                    return Math.Round(aValueList[3], Decimals);
-                case BuildingElementType.NoBEType:
-                    return -1;
-                case BuildingElementType.NullElement:
-                    return -1;
-                case BuildingElementType.RaisedFloor:
-                    return Math.Round(aValueList[5], Decimals);
-                case BuildingElementType.RoofElement:
-                    return Math.Round(aValueList[1], Decimals);
-                case BuildingElementType.RoofLight:
-                    return Math.Round(aValueList[6], Decimals);
-                case BuildingElementType.ShadeElement:
-                    return -1;
-                case BuildingElementType.SlabOnGrade:
-                    return Math.Round(aValueList[2], Decimals);
-                case BuildingElementType.SolarPanel:
-                    return -1;
-                case BuildingElementType.UndergroundCeiling:
-                    return Math.Round(aValueList[2], Decimals);
-                case BuildingElementType.UndergroundSlab:
-                    return Math.Round(aValueList[2], Decimals);
-                case BuildingElementType.UndergroundWall:
-                    return Math.Round(aValueList[0], Decimals);
-                case BuildingElementType.VehicleDoor:
-                    return Math.Round(aValueList[0], Decimals);
-            }
-            return -1;
-        }
+        
 
         //TODO: move them to Query
         public static List<float> U(TBD.Construction tbdConstruction)
@@ -795,37 +714,10 @@ namespace BH.Engine.TAS
         }
 
         //TODO: move them to Query
-        public static double G(TBD.buildingElement tbdBuildingElement, int Decimals = 3)
-        {
-            TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
-            if (aConstruction == null)
-                return -1;
-            TBD.ConstructionTypes aConstructionTypes = aConstruction.type;
-            if (aConstructionTypes == TBD.ConstructionTypes.tcdTransparentConstruction)
-            {
-                object aObject = aConstruction.GetGlazingValues();
-                List<float> aValueList = ToFloatList(aObject);
-                return Math.Round(aValueList[5], Decimals);
-            }
-            return 0;
-        }
+        
 
         //TODO: move them to Query
-        public static double LT(TBD.buildingElement tbdBuildingElement, int Decimals = 3)
-        {
-            TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
-            if (aConstruction == null)
-                return 0;
-
-            TBD.ConstructionTypes aConstructionTypes = aConstruction.type;
-            if (aConstructionTypes == TBD.ConstructionTypes.tcdTransparentConstruction)
-            {
-                object aObject = aConstruction.GetGlazingValues();
-                List<float> aValueList = ToFloatList(aObject);
-                return Math.Round(aValueList[0], Decimals);
-            }
-            return 0;
-        }
+        
 
         //TODO: move them to Generic
         private static object ToDouble(object arg)
@@ -856,7 +748,7 @@ namespace BH.Engine.TAS
 
                 BHE.Elements.Construction bhomConstruction = new BHE.Elements.Construction()
                 {
-                    Materials = tbdConstruction.ToBHoM(),
+                    //Materials = tbdConstruction.ToBHoM(),
                     Thickness = Math.Round(tbdMaterialThickness, 3),
                     Name = tbdConstruction.name,
                     BHoM_Guid = new Guid(tbdConstruction.GUID),
@@ -926,7 +818,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BHE.Materials.Material type of BH.oM.Environment.Interface.IMaterial from TasTBD material")]
+        /*[Description("BH.Engine.TAS.Convert ToBHoM => gets BHE.Materials.Material type of BH.oM.Environment.Interface.IMaterial from TasTBD material")]
         [Input("TBD.material", "tbd.material")]
         [Output("BHE.Materials.Material")]
         public static BHE.Interface.IMaterial ToBHoM(this TBD.material tbdMaterial)
@@ -992,8 +884,9 @@ namespace BH.Engine.TAS
             }
             return material;
         }
+        */
 
-        public static List<BHE.Interface.IMaterial> ToBHoM(this TBD.Construction tbdConstruction)
+        /*public static List<BHE.Interface.IMaterial> ToBHoM(this TBD.Construction tbdConstruction)
         {
             //Assign Material Layer to the object
             List<BHE.Interface.IMaterial> bHoMMaterials = new List<BHE.Interface.IMaterial>();
@@ -1078,7 +971,7 @@ namespace BH.Engine.TAS
 
             return bHoMMaterials;
         }
-
+        */
         /***************************************************/
 
         /*[Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.InternalCondition from TasTBD InternalCondition")]
@@ -1420,126 +1313,6 @@ namespace BH.Engine.TAS
             }
             return Zvalue;
         }
-
-        /***************************************************/
-        /**** Types                                     ****/
-        /***************************************************/
-
-        [Description("gets BH.oM.Environment.Elements.MaterialType from TasTBD.MaterialTypes")]
-        [Input("TBD.MaterialTypes", "tbd.MaterialTypes")]
-        [Output("BH.oM.Environment.Elements.MaterialType")]
-        public static BHE.Elements.MaterialType ToBHoM(this TBD.MaterialTypes tbdMaterialType)
-        {
-            switch (tbdMaterialType)
-            {
-                case MaterialTypes.tcdOpaqueLayer:
-                case MaterialTypes.tcdOpaqueMaterial:
-                    return BHE.Elements.MaterialType.Opaque;
-                case MaterialTypes.tcdTransparentLayer:
-                    return BHE.Elements.MaterialType.Transparent;
-                case MaterialTypes.tcdGasLayer:
-                    return BHE.Elements.MaterialType.Gas;
-                default:
-                    return BHE.Elements.MaterialType.Opaque;
-            }
-        }
-
-        /***************************************************/
-
-        [Description("gets BH.oM.Environment.Elements.BuildingElementType from TasTBD.BuildingElementType")]
-        [Input("TBD.BuildingElementType", "tbd.BuildingElementType")]
-        [Output("BH.oM.Environment.Elements.BuildingElementType")]
-        public static BHE.Elements.BuildingElementType ToBHoM(this TBD.BuildingElementType tbdBuildingElementType)
-        {
-            switch (tbdBuildingElementType)
-            {
-                case TBD.BuildingElementType.EXTERNALWALL:
-                case TBD.BuildingElementType.INTERNALWALL:
-                case TBD.BuildingElementType.UNDERGROUNDWALL:
-                    return BHE.Elements.BuildingElementType.Wall;
-                case TBD.BuildingElementType.ROOFELEMENT:
-                case TBD.BuildingElementType.ROOFLIGHT:
-                    return BHE.Elements.BuildingElementType.Roof;
-                case TBD.BuildingElementType.CEILING:
-                case TBD.BuildingElementType.UNDERGROUNDCEILING:
-                    return BHE.Elements.BuildingElementType.Ceiling;
-                case TBD.BuildingElementType.EXPOSEDFLOOR:
-                case TBD.BuildingElementType.INTERNALFLOOR:
-                case TBD.BuildingElementType.RAISEDFLOOR:
-                case TBD.BuildingElementType.SLABONGRADE:
-                case TBD.BuildingElementType.UNDERGROUNDSLAB:
-                    return BHE.Elements.BuildingElementType.Floor;
-                case TBD.BuildingElementType.DOORELEMENT:
-                case TBD.BuildingElementType.VEHICLEDOOR:
-                    return BHE.Elements.BuildingElementType.Door;
-                case TBD.BuildingElementType.GLAZING:
-                    return BHE.Elements.BuildingElementType.Window;
-                case TBD.BuildingElementType.CURTAINWALL:
-                    return BHE.Elements.BuildingElementType.CurtainWall;
-                case TBD.BuildingElementType.FRAMEELEMENT:
-                case TBD.BuildingElementType.NOBETYPE:
-                case TBD.BuildingElementType.NULLELEMENT:
-                case TBD.BuildingElementType.SHADEELEMENT:
-                case TBD.BuildingElementType.SOLARPANEL:
-                    return BHE.Elements.BuildingElementType.Undefined;
-                default:
-                    return BHE.Elements.BuildingElementType.Wall;
-            }
-        }
-
-
-        /***************************************************/
-        /**** Enums                                     ****/
-        /***************************************************/
-
-        [Description("gets BH.Engine.TAS.Covert.BuildingElementType")]
-        public enum BuildingElementType
-        {
-            /// <summary>Ceiling</summary>
-            Ceiling = 8,
-            /// <summary>Curtain Wall</summary>
-            CurtainWall = 16,
-            /// <summary>Door Element</summary>
-            DoorElement = 14,
-            /// <summary>Exposed Floor</summary>
-            ExposedFloor = 19,
-            /// <summary>External Wall</summary>
-            ExternalWall = 2,
-            /// <summary>Frame Element</summary>
-            FrameELement = 15,
-            /// <summary>Glazing</summary>
-            Glazing = 12,
-            /// <summary>Internal Floor</summary>
-            InternalFloor = 4,
-            /// <summary>Internal Wall</summary>
-            InternallWall = 1,
-            /// <summary>No Building Element Type</summary>
-            NoBEType = 0,
-            /// <summary>Null Element</summary>
-            NullElement = 17,
-            /// <summary>Raised Floor</summary>
-            RaisedFloor = 10,
-            /// <summary>Roof Element</summary>
-            RoofElement = 3,
-            /// <summary>Roof Light</summary>
-            RoofLight = 13,
-            /// <summary>Shade Element</summary>
-            ShadeElement = 5,
-            /// <summary>Slab On Grade</summary>
-            SlabOnGrade = 11,
-            /// <summary>Solar Panel</summary>
-            SolarPanel = 18,
-            /// <summary>Underground Ceiling</summary>
-            UndergroundCeiling = 9,
-            /// <summary>Underground Slab</summary>
-            UndergroundSlab = 7,
-            /// <summary>Underground Wall</summary>
-            UndergroundWall = 6,
-            /// <summary>Vehicle Door</summary>
-            VehicleDoor = 20,
-        }
-
-        /***************************************************/
 
     }
 }

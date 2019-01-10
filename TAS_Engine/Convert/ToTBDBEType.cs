@@ -60,59 +60,7 @@ namespace BH.Engine.TAS
 
         /***************************************************/
         //String modification for surface types
-        public static int ToTBDSurfaceType(this string type)
-        {
-            switch (type)
-
-            {
-                //Strings from Revit
-                case "No Type":
-                    return 0;
-                case "Internal Wall":
-                    return 1;
-                case "External Wall":
-                    return 2;
-                case "Roof":
-                    return 3;
-                case "Internal Floor":
-                    return 4;
-                case "Shade":
-                    return 5;
-                case "Underground Wall":
-                    return 6;
-                case "Underground Slab":
-                    return 7;
-                case "Internal Ceiling":
-                    return 8;
-                case "Underground Ceiling":
-                    return 9;
-                case "Raised Floor":
-                    return 10;
-                case "Slab on Grade":
-                    return 11;
-                case "Glazing":
-                    return 12;
-                case "Rooflight":
-                    return 13;
-                case "Door":
-                    return 14;
-                case "Frame":
-                    return 15;
-                case "Curtain Wall":
-                    return 16;
-                case "Air":
-                    return 17;
-                case "Solar / PV Panel":
-                    return 18;
-                case "Exposed Floor":
-                    return 19;
-                case "Vehicle Door":
-                    return 20;
-
-                default:
-                    return 0; //Adiabatic
-            }
-        }
+        
 
         ///***************************************************/
         ///

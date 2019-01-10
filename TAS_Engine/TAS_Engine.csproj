@@ -92,9 +92,13 @@
   <ItemGroup>
     <Compile Include="Convert\AdapterID.cs" />
     <Compile Include="Convert\Environment_oM\Building.cs" />
+    <Compile Include="Convert\Environment_oM\BuildingElement.cs" />
+    <Compile Include="Convert\Environment_oM\BuildingElementType.cs" />
+    <Compile Include="Convert\Environment_oM\Construction.cs" />
     <Compile Include="Convert\Environment_oM\Emitter.cs" />
     <Compile Include="Convert\Environment_oM\InternalCondition.cs" />
     <Compile Include="Convert\Environment_oM\InternalGain.cs" />
+    <Compile Include="Convert\Environment_oM\Material.cs" />
     <Compile Include="Convert\Environment_oM\SimulationDayType.cs" />
     <Compile Include="Convert\Environment_oM\Space.cs" />
     <Compile Include="Convert\Environment_oM\Thermostat.cs" />
@@ -114,6 +118,8 @@
     <Compile Include="Modify\UpdateCustomDataValue.cs" />
     <Compile Include="Objects\EqualityComparers\Comparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\ConstructionThickness.cs" />
+    <Compile Include="Query\ListValues.cs" />
     <Compile Include="Query\Profiles.cs" />
     <Compile Include="Query\BuildingElement.cs" />
     <Compile Include="Query\GetSurfaceType.cs" />

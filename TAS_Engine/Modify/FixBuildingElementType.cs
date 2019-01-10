@@ -39,7 +39,7 @@ namespace BH.Engine.TAS
         [Input("bHoMObject", "BHoMObject")]
         [Input("tag", "tag to be set")]
         [Output("IBHoMObject")]
-        public static BuildingElementType FixBuilidingElementType(this TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface, BuildingElementType bHoMBuildingElementType)
+        public static BuildingElementType FixType(this BuildingElementType bHoMBuildingElementType, TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)
         {
             if (bHoMBuildingElementType == oM.Environment.Elements.BuildingElementType.Undefined)
             {
