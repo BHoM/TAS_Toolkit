@@ -1244,23 +1244,9 @@ namespace BH.Engine.TAS
         /**** Public Methods - Geometry                 ****/
         /***************************************************/
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Geometry.Point from  TasTBD TasPoint, ")]
-        [Input("TBD.TasPoint", "tbd.TasPoint")]
-        [Output("BH.oM.Geometry.Point")]
-        public static BHG.Point ToBHoM(this TBD.TasPoint tbdPoint)
-        {
-            BHG.Point bHoMPoint = new BHG.Point()
-            {
-                X = tbdPoint.x,
-                Y = tbdPoint.y,
-                Z = tbdPoint.z
-            };
-            return bHoMPoint;
-        }
-
         /***************************************************/
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Geometry.Polyline from  TasTBD TasPoint, ")]
+       /* [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Geometry.Polyline from  TasTBD TasPoint, ")]
         [Input("TBD.Polygon", "tbd.Polygon")]
         [Output("BH.oM.Geometry.Polyline")]
         public static BHG.Polyline ToBHoM(this TBD.Polygon tbdPolygon)  // TODO : When BH.oM.Geometry.Contour is implemented, Polyline can be replaced with Contour
@@ -1281,7 +1267,7 @@ namespace BH.Engine.TAS
             bHoMPointList.Add(bHoMPointList[0]);
             return new BHG.Polyline { ControlPoints = bHoMPointList };
         }
-
+        */
         //TODO: Move to Query
         //new metod to get Storey Z-coordinate from Storey
         public static double GetSingleZValue(this TBD.Polygon tbdPolygon) 

@@ -103,6 +103,8 @@
     <Compile Include="Convert\Environment_oM\Space.cs" />
     <Compile Include="Convert\Environment_oM\Thermostat.cs" />
     <Compile Include="Convert\FilterQuery.cs" />
+    <Compile Include="Convert\Geometry_oM\Point.cs" />
+    <Compile Include="Convert\Geometry_oM\Polyline.cs" />
     <Compile Include="Convert\ToBHoM\ToBHoMTSD.cs" />
     <Compile Include="Convert\ToBHoM\ToBHoMTBD.cs" />
     <Compile Include="Convert\ToList.cs" />
@@ -159,7 +161,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Convert\Architecture_oM\" />
-    <Folder Include="Convert\Geometry_oM\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
