@@ -101,6 +101,7 @@
     <Compile Include="Convert\Environment_oM\InternalGain.cs" />
     <Compile Include="Convert\Environment_oM\Material.cs" />
     <Compile Include="Convert\Environment_oM\Opening.cs" />
+    <Compile Include="Convert\Environment_oM\Profile.cs" />
     <Compile Include="Convert\Environment_oM\SimulationDayType.cs" />
     <Compile Include="Convert\Environment_oM\Space.cs" />
     <Compile Include="Convert\Environment_oM\Thermostat.cs" />
