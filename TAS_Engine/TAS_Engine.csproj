@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Convert\AdapterID.cs" />
+    <Compile Include="Convert\Architecture_oM\Level.cs" />
     <Compile Include="Convert\Environment_oM\Building.cs" />
     <Compile Include="Convert\Environment_oM\BuildingElement.cs" />
     <Compile Include="Convert\Environment_oM\BuildingElementType.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Convert\Environment_oM\InternalCondition.cs" />
     <Compile Include="Convert\Environment_oM\InternalGain.cs" />
     <Compile Include="Convert\Environment_oM\Material.cs" />
+    <Compile Include="Convert\Environment_oM\Opening.cs" />
     <Compile Include="Convert\Environment_oM\SimulationDayType.cs" />
     <Compile Include="Convert\Environment_oM\Space.cs" />
     <Compile Include="Convert\Environment_oM\Thermostat.cs" />
@@ -159,9 +161,7 @@
       <Name>TAS_oM</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Convert\Architecture_oM\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
