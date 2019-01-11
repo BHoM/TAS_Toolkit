@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
+using BH.Engine.Geometry;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
@@ -58,6 +59,41 @@ namespace BH.Engine.TAS
 
             element.BuildingElementProperties.Construction = tbdElement.GetConstruction().ToBHoM();
 
+            List<BHG.Polyline> panelCurve = new List<BHG.Polyline>();
+            int surfaceIndex = 0;
+            TBD.RoomSurface roomSurface = null;
+
+            while((roomSurface = tbdSurface.GetRoomSurface(surfaceIndex)) != null)
+            {
+                TBD.Perimeter tbdPerimeter = roomSurface.GetPerimeter();
+                if(tbdPerimeter != null)
+                {
+                    panelCurve.Add(tbdPerimeter.ToBHoM());
+
+                    //Add openings
+                    int openingIndex = 0;
+                    TBD.Polygon openingPolygon = null;
+                    while ((openingPolygon = tbdPerimeter.GetHole(openingIndex)) != null)
+                    {
+                        element.Openings.Add(openingPolygon.ToBHoMOpening());
+                        openingIndex++;
+                    }
+                }
+
+                surfaceIndex++;
+            }
+
+            if (panelCurve.Count == 1)
+                element.PanelCurve = panelCurve.First();
+            else
+            {
+                List<BHG.Polyline> polylines = Geometry.Compute.BooleanUnion(panelCurve, 1e-3);
+                if (polylines.Count == 1)
+                    element.PanelCurve = polylines.First();
+                else
+                    element.PanelCurve = Geometry.Create.PolyCurve(polylines);
+            }
+
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("SurfaceGUID", tbdSurface.GUID);
             tasData.Add("SurfaceName", "Z_" + tbdSurface.zone.number + "_" + tbdSurface.number + "_" + tbdSurface.zone.name);
@@ -81,15 +117,60 @@ namespace BH.Engine.TAS
             tasData.Add("MaterialLayersThickness", tbdElement.GetConstruction().ConstructionThickness());
 
             return element;
-
         }
 
-        /*[Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Building from a BHoM Environmental Building")]
-        [Input("building", "BHoM Environmental Building")]
-        [Output("TAS TBD Building")]
-        public static TBD.BuildingClass ToTAS(this BHE.Building building)
+        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElement from a BHoM Environmental BuildingElement")]
+        [Input("element", "BHoM Environmental BuildingElement")]
+        [Output("TAS TBD BuildingElement")]
+        public static TBD.buildingElementClass ToTAS(this BHE.BuildingElement element)
         {
+            TBD.buildingElementClass tbdElement = new TBD.buildingElementClass();
+            if (element == null) return tbdElement;
 
-        }*/
+            tbdElement.name = element.Name;
+            tbdElement.BEType = (int)element.BuildingElementProperties.BuildingElementType.ToTAS();
+
+            TBD.ConstructionClass construction = element.BuildingElementProperties.Construction.ToTAS();
+            tbdElement.AssignConstruction(construction);
+
+            Dictionary<string, object> tasData = null;
+            if (element.CustomData.ContainsKey("TASData"))
+                tasData = element.CustomData["TASData"] as Dictionary<string, object>;
+
+            if (tasData != null)
+            {
+                tbdElement.colour = (tasData.ContainsKey("ElementColour") ? System.Convert.ToUInt32(tasData["ElementColour"]) : 0);
+                tbdElement.description = (tasData.ContainsKey("ElementDescription") ? tasData["ElementDescription"].ToString() : "");
+                tbdElement.ghost = (tasData.ContainsKey("ElementIsAir") ? (((bool)tasData["ElementIsAir"]) ? 1 : 0) : 0);
+                tbdElement.ground = (tasData.ContainsKey("ElementIsGround") ? (((bool)tasData["ElementIsGround"]) ? 1 : 0) : 0);
+                tbdElement.GUID = (tasData.ContainsKey("ElementGUID") ? tasData["ElementGUID"].ToString() : "");
+                tbdElement.width = (tasData.ContainsKey("ElementWidth") ? (float)System.Convert.ToDouble(tasData["ElementWidth"]) : 0);
+            }
+
+            return tbdElement;
+        }
+
+        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD ZoneSurface from a BHoM Environmental BuildingElement")]
+        [Input("element", "BHoM Environmental BuildingElement")]
+        [Output("TAS TBD ZoneSurface")]
+        public static TBD.zoneSurfaceClass ToTASSurface(this BHE.BuildingElement element)
+        {
+            //ToDo: Finish this, connect the geometry to the zoneSurface and other additional data as appropriate
+
+            /*TBD.zoneSurfaceClass tbdElement = new TBD.zoneSurfaceClass();
+            if (element == null) return tbdElement;
+
+            if (element.CustomData.ContainsKey("SpaceID"))
+                tbdElement.zone.name = element.CustomData["SpaceID"].ToString();
+
+            if (element.CustomData.ContainsKey("AdjacentSpaceID"))
+                tbdElement.linkSurface.zone.name = element.CustomData["AdjacentSpaceID"].ToString();
+
+            
+
+            return tbdElement;*/
+
+            throw new NotImplementedException("Not yet implemented");
+        }
     }
 }

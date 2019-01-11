@@ -114,7 +114,7 @@ namespace BH.Engine.TAS
             return tbdType;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTBDSurfaceType => gets an int representing a TAS TBD BuildingElementType from a string defining the type")]
+        [Description("BH.Engine.TAS.Convert ToTAS => gets an int representing a TAS TBD BuildingElementType from a string defining the type")]
         [Input("type", "String naming the type of building element")]
         [Output("int representation of a TAS TBD BuildingElementType")]
         public static int ToTBDSurfaceType(string type)
@@ -167,6 +167,29 @@ namespace BH.Engine.TAS
 
                 default:
                     return 0; //Adiabatic
+            }
+        }
+
+        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElementType from a BHoM Environmental BuildingElementType")]
+        [Input("type", "BHoM Environmental BuildingElementType")]
+        [Output("TAS TBD BuildingElementType")]
+        public static TBD.BuildingElementType ToTAS(this BHE.BuildingElementType bHoMBuildingElementType)
+        {
+            switch (bHoMBuildingElementType) // This is just a test, it doeas not match. We have more BETypes in TAS than in BHoM
+            {
+                // here we will need to have two levels or recognision ASHRAEBuilidingElementType as per new idraw graph
+
+                //Check were we are refering this to
+                case BHE.BuildingElementType.Wall:
+                    return TBD.BuildingElementType.EXTERNALWALL; //What about the other TBD Wall types??
+                case BHE.BuildingElementType.Roof:
+                    return TBD.BuildingElementType.ROOFELEMENT;
+                case BHE.BuildingElementType.Ceiling:
+                    return TBD.BuildingElementType.UNDERGROUNDCEILING;
+                case BHE.BuildingElementType.Floor:
+                    return TBD.BuildingElementType.INTERNALFLOOR;
+                default:
+                    return TBD.BuildingElementType.EXTERNALWALL;
             }
         }
     }
