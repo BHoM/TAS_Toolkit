@@ -109,7 +109,6 @@
     <Compile Include="Convert\Geometry_oM\Point.cs" />
     <Compile Include="Convert\Geometry_oM\Polyline.cs" />
     <Compile Include="Convert\ToBHoM\ToBHoMTSD.cs" />
-    <Compile Include="Convert\ToBHoM\ToBHoMTBD.cs" />
     <Compile Include="Convert\ToList.cs" />
     <Compile Include="Convert\ToTAS\TASType.cs" />
     <Compile Include="Convert\ToTBDBEConstruction.cs" />
