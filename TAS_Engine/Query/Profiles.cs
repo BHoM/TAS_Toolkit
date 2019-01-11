@@ -42,10 +42,10 @@ namespace BH.Engine.TAS
         {
             List<BH.oM.Environment.Elements.Profile> bHoMProfiles = new List<BH.oM.Environment.Elements.Profile>();
 
-            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticUL).ToBHoMProfile(BHEE.ProfileCategory.Thermostat));
-            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticUL).ToBHoMProfile(BHEE.ProfileCategory.Thermostat));
-            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticHUL).ToBHoMProfile(BHEE.ProfileCategory.Humidistat));
-            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticHLL).ToBHoMProfile(BHEE.ProfileCategory.Humidistat));
+            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticUL).ToBHoM(BHEE.ProfileCategory.Thermostat));
+            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticUL).ToBHoM(BHEE.ProfileCategory.Thermostat));
+            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticHUL).ToBHoM(BHEE.ProfileCategory.Humidistat));
+            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticHLL).ToBHoM(BHEE.ProfileCategory.Humidistat));
 
             return bHoMProfiles;
         }
@@ -56,14 +56,14 @@ namespace BH.Engine.TAS
         {
             List<BH.oM.Environment.Elements.Profile> bHoMProfiles = new List<BH.oM.Environment.Elements.Profile>();
 
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticI).ToBHoMProfile(BHEE.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticV).ToBHoMProfile(BHEE.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticLG).ToBHoMProfile(BHEE.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticOSG).ToBHoMProfile(BHEE.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticOLG).ToBHoMProfile(BHEE.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticESG).ToBHoMProfile(BHEE.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticELG).ToBHoMProfile(BHEE.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticCOG).ToBHoMProfile(BHEE.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticI).ToBHoM(BHEE.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticV).ToBHoM(BHEE.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticLG).ToBHoM(BHEE.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticOSG).ToBHoM(BHEE.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticOLG).ToBHoM(BHEE.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticESG).ToBHoM(BHEE.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticELG).ToBHoM(BHEE.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticCOG).ToBHoM(BHEE.ProfileCategory.Gain));
 
 
             return bHoMProfiles;
