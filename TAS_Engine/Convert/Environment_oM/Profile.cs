@@ -71,7 +71,7 @@ namespace BH.Engine.TAS
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("ProfileDescriptionUL", tbdProfile.description);
 
-            profile.CustomData.Add("TASData", tasData);
+            profile.CustomData = tasData;
 
             return profile;
         }
@@ -103,9 +103,7 @@ namespace BH.Engine.TAS
                     break;
             }
 
-            Dictionary<string, object> tasData = null;
-            if (profile.CustomData.ContainsKey("TASData"))
-                tasData = profile.CustomData["TASData"] as Dictionary<string, object>;
+            Dictionary<string, object> tasData = profile.CustomData;
 
             if (tasData != null)
             {

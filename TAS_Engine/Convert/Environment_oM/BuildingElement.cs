@@ -116,6 +116,8 @@ namespace BH.Engine.TAS
             tasData.Add("ElementUValue", tbdElement.UValue());
             tasData.Add("MaterialLayersThickness", tbdElement.GetConstruction().ConstructionThickness());
 
+            element.CustomData = tasData;
+
             return element;
         }
 
@@ -133,9 +135,7 @@ namespace BH.Engine.TAS
             TBD.ConstructionClass construction = element.BuildingElementProperties.Construction.ToTAS();
             tbdElement.AssignConstruction(construction);
 
-            Dictionary<string, object> tasData = null;
-            if (element.CustomData.ContainsKey("TASData"))
-                tasData = element.CustomData["TASData"] as Dictionary<string, object>;
+            Dictionary<string, object> tasData = element.CustomData;
 
             if (tasData != null)
             {

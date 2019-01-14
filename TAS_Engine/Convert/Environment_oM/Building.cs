@@ -59,7 +59,7 @@ namespace BH.Engine.TAS
             tasData.Add("BuildingTimeZone", tbdBuilding.timeZone);
             tasData.Add("BuildingYear", tbdBuilding.year);
 
-            building.CustomData.Add("TASData", tasData);
+            building.CustomData = tasData;
 
             return building;
         }
@@ -76,9 +76,7 @@ namespace BH.Engine.TAS
             tbdBuilding.longitude = (float)building.Longitude;
             tbdBuilding.maxBuildingAltitude = (float)building.Elevation;
 
-            Dictionary<string, object> tasData = null;
-            if (building.CustomData.ContainsKey("TASData"))
-                tasData = building.CustomData["TASData"] as Dictionary<string, object>;
+            Dictionary<string, object> tasData = building.CustomData;
 
             if (tasData != null)
             {

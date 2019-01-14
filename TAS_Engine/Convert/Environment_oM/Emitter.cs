@@ -55,7 +55,7 @@ namespace BH.Engine.TAS
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("EmitterDescription", tbdEmitter.description);
 
-            emitter.CustomData.Add("TASData", tasData);
+            emitter.CustomData = tasData;
 
             return emitter;            
         }
@@ -93,9 +93,7 @@ namespace BH.Engine.TAS
             tbdEmitter.maxOutsideTemp = (float)emitter.EmitterProperties.MaxOutsideTemp;
             tbdEmitter.emitterType = emitter.EmitterType.ToTAS();
 
-            Dictionary<string, object> tasData = null;
-            if (emitter.CustomData.ContainsKey("TASData"))
-                tasData = emitter.CustomData["TASData"] as Dictionary<string, object>;
+            Dictionary<string, object> tasData = emitter.CustomData;
 
             if (tasData != null)
             {

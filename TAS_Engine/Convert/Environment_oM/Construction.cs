@@ -67,7 +67,7 @@ namespace BH.Engine.TAS
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("Description", tbdConstruction.description);
 
-            construction.CustomData.Add("TASData", tasData);
+            construction.CustomData = tasData;
 
             return construction;
         }
@@ -142,9 +142,7 @@ namespace BH.Engine.TAS
                 matAdd.lightTransmittance = mat.lightTransmittance;
             }
 
-            Dictionary<string, object> tasData = null;
-            if (construction.CustomData.ContainsKey("TASData"))
-                tasData = construction.CustomData["TASData"] as Dictionary<string, object>;
+            Dictionary<string, object> tasData = construction.CustomData;
 
             if (tasData != null)
             {

@@ -63,7 +63,7 @@ namespace BH.Engine.TAS
             tasData.Add("InternalGainDescription", tbdInternalGain.description);
             tasData.Add("InternalDomesticHotWater", tbdInternalGain.domesticHotWater);
 
-            internalGain.CustomData.Add("TASData", tasData);
+            internalGain.CustomData = tasData;
             return internalGain;
         }
 
@@ -86,9 +86,7 @@ namespace BH.Engine.TAS
             tbdInternalGain.lightingViewCoefficient = (float)internalGain.CoefficientProperties.LightingViewCoefficient;
             tbdInternalGain.occupantViewCoefficient = (float)internalGain.CoefficientProperties.OccupantViewCoefficient;
 
-            Dictionary<string, object> tasData = null;
-            if (internalGain.CustomData.ContainsKey("TASData"))
-                tasData = internalGain.CustomData["TASData"] as Dictionary<string, object>;
+            Dictionary<string, object> tasData = internalGain.CustomData;
 
             if (tasData != null)
             {
