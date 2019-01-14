@@ -63,8 +63,7 @@ namespace BH.Engine.TAS
                     break;
                 case TBD.ProfileTypes.ticYearlyProfile:
                     profile.ProfileType = BHE.ProfileType.Yearly;
-                    for (int i = 1; i < 8761; i++)
-                        profile.Values.Add(tbdProfile.yearlyValues[i]);
+                    profile.Values = ToDoubleList(tbdProfile.GetYearlyValues());
                     break;
             }
 

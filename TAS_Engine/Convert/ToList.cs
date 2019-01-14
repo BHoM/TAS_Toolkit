@@ -42,14 +42,26 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        public static List<float> ToFloatList(object Object)
+        public static List<float> ToFloatList(object obj)
         {
             List<float> aResult = new List<float>();
-            if (Object != null)
+            if (obj != null)
             {
-                System.Collections.IEnumerable aValues = Object as System.Collections.IEnumerable;
+                System.Collections.IEnumerable aValues = obj as System.Collections.IEnumerable;
                 if (aValues != null)
                     aResult = aValues.Cast<float>().ToList();
+            }
+            return aResult;
+        }
+
+        public static List<double> ToDoubleList(object obj)
+        {
+            List<double> aResult = new List<double>();
+            if (obj != null)
+            {
+                System.Collections.IEnumerable aValues = obj as System.Collections.IEnumerable;
+                if (aValues != null)
+                    aResult = aValues.Cast<double>().ToList();
             }
             return aResult;
         }
