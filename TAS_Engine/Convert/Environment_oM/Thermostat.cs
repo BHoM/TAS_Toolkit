@@ -57,7 +57,7 @@ namespace BH.Engine.TAS
             tasData.Add("UpperLimit", tbdThermostat.GetSingleValueUpperLimit());
             tasData.Add("LowerLimit", tbdThermostat.GetSingleValueLowerLimit());
 
-            thermostat.CustomData.Add("TASData", tasData);
+            thermostat.CustomData = tasData;
 
             return thermostat;
         }
@@ -73,10 +73,8 @@ namespace BH.Engine.TAS
             tbdThermostat.name = thermostat.Name;
             tbdThermostat.controlRange = (float)thermostat.ControlRange;
             tbdThermostat.proportionalControl = (thermostat.ProportionalControl ? 1 : 0);
-            
-            Dictionary<string, object> tasData = null;
-            if (thermostat.CustomData.ContainsKey("TASData"))
-                tasData = thermostat.CustomData["TASData"] as Dictionary<string, object>;
+
+            Dictionary<string, object> tasData = thermostat.CustomData;
 
             if (tasData != null)
             {

@@ -72,7 +72,7 @@ namespace BH.Engine.TAS
             tasData.Add("Volume", tbdSpace.volume);
             tasData.Add("WallFloorAreaRatio", tbdSpace.wallFloorAreaRatio);
 
-            space.CustomData.Add("TASData", tasData);
+            space.CustomData = tasData;
 
             return space;
         }
@@ -93,9 +93,7 @@ namespace BH.Engine.TAS
             foreach(BHE.InternalCondition condition in space.InternalConditions)
                 tbdSpace.AssignIC(condition.ToTAS(), true);
 
-            Dictionary<string, object> tasData = null;
-            if (space.CustomData.ContainsKey("TASData"))
-                tasData = space.CustomData["TASData"] as Dictionary<string, object>;
+            Dictionary<string, object> tasData = space.CustomData;
 
             if (tasData != null)
             {
