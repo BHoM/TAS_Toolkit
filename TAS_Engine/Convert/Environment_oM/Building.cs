@@ -47,6 +47,7 @@ namespace BH.Engine.TAS
             building.Latitude = tbdBuilding.latitude;
             building.Longitude = tbdBuilding.longitude;
             building.Elevation = tbdBuilding.maxBuildingAltitude;
+            //building.Elevation = tbdBuilding.GetWeatherYear().altitude; //Consider switching to this is maxBuildingAltitude does not work
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("BuildingGUID", tbdBuilding.GUID);
