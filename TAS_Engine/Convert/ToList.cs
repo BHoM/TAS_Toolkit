@@ -56,14 +56,16 @@ namespace BH.Engine.TAS
 
         public static List<double> ToDoubleList(object obj)
         {
-            List<double> aResult = new List<double>();
+            List<float> aResult = new List<float>();
             if (obj != null)
             {
                 System.Collections.IEnumerable aValues = obj as System.Collections.IEnumerable;
                 if (aValues != null)
-                    aResult = aValues.Cast<double>().ToList();
+                    aResult = aValues.Cast<float>().ToList();
             }
-            return aResult;
+
+            List<double> results = aResult.Select(x => (double)x).ToList();
+            return results;
         }
     }
 }
