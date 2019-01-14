@@ -50,6 +50,7 @@ namespace BH.Engine.TAS
             while((storey = tbdBuilding.GetStorey(storeyIndex)) != null)
             {
                 levels.Add(storey.ToBHoM());
+                storeyIndex++;
             }
 
             return levels;
