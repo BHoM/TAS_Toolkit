@@ -68,7 +68,7 @@ namespace BH.Engine.TAS
             }
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("ProfileDescriptionUL", tbdProfile.description);
+            tasData.Add("ProfileDescription", tbdProfile.description);
 
             profile.CustomData = tasData;
 
