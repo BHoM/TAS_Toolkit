@@ -102,7 +102,9 @@
     <Compile Include="Convert\Environment_oM\Material.cs" />
     <Compile Include="Convert\Environment_oM\Opening.cs" />
     <Compile Include="Convert\Environment_oM\Profile.cs" />
+    <Compile Include="Convert\Environment_oM\ProfileResultType.cs" />
     <Compile Include="Convert\Environment_oM\SimulationDayType.cs" />
+    <Compile Include="Convert\Environment_oM\SimulationResult.cs" />
     <Compile Include="Convert\Environment_oM\Space.cs" />
     <Compile Include="Convert\Environment_oM\Thermostat.cs" />
     <Compile Include="Convert\FilterQuery.cs" />
@@ -110,7 +112,6 @@
     <Compile Include="Convert\Geometry_oM\Polyline.cs" />
     <Compile Include="Convert\ToBHoM\ToBHoMTSD.cs" />
     <Compile Include="Convert\ToList.cs" />
-    <Compile Include="Convert\ToTAS\TASType.cs" />
     <Compile Include="Convert\ToTBDBEConstruction.cs" />
     <Compile Include="Convert\ToTBDBEType.cs" />
     <Compile Include="Convert\ToTAS.cs" />
