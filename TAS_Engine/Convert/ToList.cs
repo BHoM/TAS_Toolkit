@@ -64,7 +64,7 @@ namespace BH.Engine.TAS
                     aResult = aValues.Cast<float>().ToList();
             }
 
-            List<double> results = aResult.Select(x => (double)x).ToList();
+            List<double> results = aResult.ConvertAll(x => (double)x).ToList();
             return results;
         }
     }
