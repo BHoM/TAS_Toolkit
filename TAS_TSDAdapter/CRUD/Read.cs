@@ -48,7 +48,7 @@ namespace BH.Adapter.TAS
             TSD.BuildingData tsdBuildingData = tsdDocument.SimulationData.GetBuildingData();
             List<IBHoMObject> buildingResults = new List<IBHoMObject>();
             
-            buildingResults.Add(Engine.TAS.Convert.ToBHoMTSDBuilding(tsdBuildingData, ProfileResultUnits, ProfileResultType, Hour, Day));
+            buildingResults.Add(Engine.TAS.Convert.ToBHoM(tsdBuildingData, ProfileResultUnits, ProfileResultType, Hour, Day));
 
             return buildingResults;
         }
@@ -77,7 +77,7 @@ namespace BH.Adapter.TAS
 
             while ((zoneData = tsdDocument.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
             {
-                spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
+                spaceResults.Add(Engine.TAS.Convert.ToBHoM(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
                 zoneIndex++;
             }
 
@@ -97,7 +97,7 @@ namespace BH.Adapter.TAS
                 int zoneIndex = 1;
                 while ((zoneData = heatData.GetZoneData(zoneIndex)) != null)
                 {
-                    spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
+                    spaceResults.Add(Engine.TAS.Convert.ToBHoM(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
                     zoneIndex++;
                 }
                 heatingIndex++;
@@ -119,7 +119,7 @@ namespace BH.Adapter.TAS
                 int zoneIndex = 1;
                 while ((zoneData = coolData.GetZoneData(zoneIndex)) != null)
                 {
-                    spaceResults.Add(Engine.TAS.Convert.ToBHoMTSDZone(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
+                    spaceResults.Add(Engine.TAS.Convert.ToBHoM(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
                     zoneIndex++;
                 }
                 coolingIndex++;

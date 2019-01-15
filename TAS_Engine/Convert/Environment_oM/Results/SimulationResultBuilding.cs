@@ -44,13 +44,53 @@ namespace BH.Engine.TAS
         [Output("BHoM Environmental Simulation Result")]
         public static BHR.SimulationResult ToBHoM(this TSD.BuildingData tsdData, BHR.ProfileResultUnits unitType, BHR.ProfileResultType resultType, int hour, int day)
         {
+            TSD.tsdBuildingArray? buildingType = resultType.ToTASBuildingType();
+            if(buildingType == null)
+            {
+                BHER.RecordError("That Result Type is not valid for Building results - please choose a different result type");
+                return null;
+            }
+
+            List<double> results = new List<double>();
+            switch(unitType)
+            {
+                case BHR.ProfileResultUnits.Yearly:
+                    results = ToDoubleList(tsdData.GetAnnualBuildingResult((int)buildingType.Value));
+                    break;
+                case BHR.ProfileResultUnits.Daily:
+                    if (day < 1 || day > 365)
+                    {
+                        BHER.RecordError("Please set a day between 1 and 365 inclusive");
+                        return null;
+                    }
+                    results = ToDoubleList(tsdData.GetDailyBuildingResult(day, (int)buildingType.Value));
+                    break;
+                case BHR.ProfileResultUnits.Hourly:
+                    if(hour < 1 || hour > 24)
+                    {
+                        BHER.RecordError("Please set an hour between 1 and 24 inclusive");
+                        return null;
+                    }
+                    results = ToDoubleList(tsdData.GetHourlyBuildingResult(hour, (int)buildingType.Value));
+                    break;
+                default:
+                    BHER.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
+                    return null;
+            }
+
             BHR.SimulationResult result = new BHR.SimulationResult();
-
             result.SimulationResultType = BHR.SimulationResultType.BuildingResult;
-
-            
+            result.SimulationResults.Add(Create.ProfileResult(resultType, unitType, results));
 
             return result;
+        }
+
+        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TSD Building Data object from a BHoM Environmental Simulation Result")]
+        [Input("result", "BHoM Environmental Simulation Result")]
+        [Output("TAS TSD Building Data")]
+        public static TSD.BuildingData ToTASBuilding(this BHR.SimulationResult result)
+        {
+            throw new NotImplementedException("This method has not yet been created");
         }
     }
 }

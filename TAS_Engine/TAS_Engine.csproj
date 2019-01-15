@@ -102,9 +102,10 @@
     <Compile Include="Convert\Environment_oM\Material.cs" />
     <Compile Include="Convert\Environment_oM\Opening.cs" />
     <Compile Include="Convert\Environment_oM\Profile.cs" />
-    <Compile Include="Convert\Environment_oM\ProfileResultType.cs" />
+    <Compile Include="Convert\Environment_oM\Results\ProfileResultType.cs" />
+    <Compile Include="Convert\Environment_oM\Results\SimulationResultZone.cs" />
     <Compile Include="Convert\Environment_oM\SimulationDayType.cs" />
-    <Compile Include="Convert\Environment_oM\SimulationResult.cs" />
+    <Compile Include="Convert\Environment_oM\Results\SimulationResultBuilding.cs" />
     <Compile Include="Convert\Environment_oM\Space.cs" />
     <Compile Include="Convert\Environment_oM\Thermostat.cs" />
     <Compile Include="Convert\FilterQuery.cs" />
