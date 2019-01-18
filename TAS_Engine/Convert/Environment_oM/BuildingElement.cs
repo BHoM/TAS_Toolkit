@@ -87,11 +87,19 @@ namespace BH.Engine.TAS
                 element.PanelCurve = panelCurve.First();
             else
             {
-                List<BHG.Polyline> polylines = Geometry.Compute.BooleanUnion(panelCurve, 1e-3);
-                if (polylines.Count == 1)
-                    element.PanelCurve = polylines.First();
-                else
-                    element.PanelCurve = Geometry.Create.PolyCurve(polylines);
+                try
+                {
+                    List<BHG.Polyline> polylines = Geometry.Compute.BooleanUnion(panelCurve, 1e-3);
+                    if (polylines.Count == 1)
+                        element.PanelCurve = polylines.First();
+                    else
+                        element.PanelCurve = Geometry.Create.PolyCurve(polylines);
+                }
+                catch(Exception e)
+                {
+                    BH.Engine.Reflection.Compute.RecordWarning("An error occurred in building element ID - " + element.BHoM_Guid + " - error was: " + e.ToString());
+                    element.PanelCurve = Geometry.Create.PolyCurve(panelCurve);
+                }
             }
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
