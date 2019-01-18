@@ -62,7 +62,8 @@ namespace BH.Engine.TAS
                 pIndex++;
             }
 
-            if(pnts.First().Distance(pnts.Last()) > BHG.Tolerance.Distance)
+            //if(pnts.First().Distance(pnts.Last()) > BHG.Tolerance.Distance)
+            if(pnts.First() != pnts.Last())
                 pnts.Add(pnts[0]); //Close the polyline
 
             return new BHG.Polyline { ControlPoints = pnts };
