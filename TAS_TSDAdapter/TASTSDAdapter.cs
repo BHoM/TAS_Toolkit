@@ -158,8 +158,9 @@ namespace BH.Adapter.TAS
                 return returnObjs;
 
             }
-            catch
+            catch (Exception ex)
             {
+                BH.Engine.Reflection.Compute.RecordError(ex.ToString());
                 CloseTsdDocument();
                 return null;
 

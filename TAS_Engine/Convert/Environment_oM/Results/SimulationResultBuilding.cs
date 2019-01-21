@@ -63,7 +63,8 @@ namespace BH.Engine.TAS
                         BHER.RecordError("Please set a day between 1 and 365 inclusive");
                         return null;
                     }
-                    results = ToDoubleList(tsdData.GetDailyBuildingResult(day, (int)buildingType.Value));
+                    object res = tsdData.GetDailyBuildingResult(day, (int)buildingType.Value);
+                    results = ToDoubleList(res);
                     break;
                 case BHR.ProfileResultUnits.Hourly:
                     if(hour < 1 || hour > 24)
@@ -71,7 +72,7 @@ namespace BH.Engine.TAS
                         BHER.RecordError("Please set an hour between 1 and 24 inclusive");
                         return null;
                     }
-                    results = ToDoubleList(tsdData.GetHourlyBuildingResult(hour, (int)buildingType.Value));
+                    results.Add(tsdData.GetHourlyBuildingResult(hour, (int)buildingType.Value));
                     break;
                 default:
                     BHER.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
