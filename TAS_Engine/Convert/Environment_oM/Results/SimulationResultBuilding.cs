@@ -55,7 +55,8 @@ namespace BH.Engine.TAS
             switch(unitType)
             {
                 case BHR.ProfileResultUnits.Yearly:
-                    results = ToDoubleList(tsdData.GetAnnualBuildingResult((int)buildingType.Value));
+                    object yearRes = tsdData.GetAnnualBuildingResult((int)buildingType.Value);
+                    results = ToDoubleList(yearRes);
                     break;
                 case BHR.ProfileResultUnits.Daily:
                     if (day < 1 || day > 365)
@@ -63,8 +64,8 @@ namespace BH.Engine.TAS
                         BHER.RecordError("Please set a day between 1 and 365 inclusive");
                         return null;
                     }
-                    object res = tsdData.GetDailyBuildingResult(day, (int)buildingType.Value);
-                    results = ToDoubleList(res);
+                    object dayRes = tsdData.GetDailyBuildingResult(day, (int)buildingType.Value);
+                    results = ToDoubleList(dayRes);
                     break;
                 case BHR.ProfileResultUnits.Hourly:
                     if(hour < 1 || hour > 24)

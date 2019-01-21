@@ -55,7 +55,8 @@ namespace BH.Engine.TAS
             switch (unitType)
             {
                 case BHR.ProfileResultUnits.Yearly:
-                    results = ToDoubleList(tsdData.GetAnnualSurfaceResult((int)srfType.Value));
+                    object yearRes = tsdData.GetAnnualSurfaceResult((int)srfType.Value);
+                    results = ToDoubleList(yearRes);
                     break;
                 case BHR.ProfileResultUnits.Daily:
                     if (day < 1 || day > 365)
@@ -63,8 +64,8 @@ namespace BH.Engine.TAS
                         BHER.RecordError("Please set a day between 1 and 365 inclusive");
                         return null;
                     }
-                    object res = tsdData.GetDailySurfaceResult(day, (int)srfType.Value);
-                    results = ToDoubleList(res);
+                    object dayRes = tsdData.GetDailySurfaceResult(day, (int)srfType.Value);
+                    results = ToDoubleList(dayRes);
                     break;
                 case BHR.ProfileResultUnits.Hourly:
                     if (hour < 1 || hour > 24)
