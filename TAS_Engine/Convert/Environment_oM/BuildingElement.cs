@@ -48,6 +48,7 @@ namespace BH.Engine.TAS
 
             element.Name = tbdElement.name;
             element.BuildingElementProperties.Name = tbdElement.name;
+            element.ElementID = tbdElement.GUID;
             element.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
 
             //Space/Adjacent IDs...
@@ -117,7 +118,6 @@ namespace BH.Engine.TAS
             tasData.Add("ElementDescription", tbdElement.description);
             tasData.Add("ElementIsAir", tbdElement.ghost != 0);
             tasData.Add("ElementIsGround", tbdElement.ground != 0);
-            tasData.Add("ElementGUID", tbdElement.GUID);
             tasData.Add("ElementWidth", tbdElement.width);
             tasData.Add("ElementGValue", tbdElement.GValue());
             tasData.Add("ElementLTValue", tbdElement.LTValue());
@@ -139,6 +139,7 @@ namespace BH.Engine.TAS
 
             tbdElement.name = element.Name;
             tbdElement.BEType = (int)element.BuildingElementProperties.BuildingElementType.ToTAS();
+            tbdElement.GUID = element.ElementID;
 
             TBD.ConstructionClass construction = element.BuildingElementProperties.Construction.ToTAS();
             tbdElement.AssignConstruction(construction);
