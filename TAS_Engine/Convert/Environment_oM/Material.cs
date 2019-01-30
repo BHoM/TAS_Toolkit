@@ -151,9 +151,9 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Material from a BHoM Environmental Material")]
         [Input("material", "BHoM Environmental Material")]
         [Output("TAS TBD Material")]
-        public static TBD.materialClass ToTAS(this BHM.Material material)
+        public static TBD.material ToTAS(this BHM.Material material, TBD.material tbdMaterial)
         {
-            TBD.materialClass tbdMaterial = new TBD.materialClass();
+            //TBD.materialClass tbdMaterial = new TBD.materialClass();
             if (material == null) return tbdMaterial;
 
             tbdMaterial.name = material.Name;

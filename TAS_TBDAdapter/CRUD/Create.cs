@@ -28,6 +28,7 @@ using BHE = BH.oM.Environment;
 using BHG = BH.oM.Geometry;
 using System.Runtime.InteropServices;
 using BH.Engine.Environment;
+using BH.Engine.TAS;
 
 namespace BH.Adapter.TAS
 {
@@ -112,7 +113,8 @@ namespace BH.Adapter.TAS
         private bool Create(BHE.Elements.BuildingElement buildingElement)
         {
             TBD.buildingElement tbdBuildingElement = tbdDocument.Building.AddBuildingElement();
-            tbdBuildingElement.name = buildingElement.Name;
+            //tbdBuildingElement.name = buildingElement.Name;
+            tbdBuildingElement = buildingElement.ToTAS(tbdBuildingElement, tbdDocument.Building.AddConstruction(null));
             return true;
         }
 
@@ -137,6 +139,7 @@ namespace BH.Adapter.TAS
 
         private bool Create(BHE.Elements.Opening buildingElementOpening)
         {
+            buildingElementOpening.ToTAS();
             throw new NotImplementedException();
         }
 
@@ -145,8 +148,7 @@ namespace BH.Adapter.TAS
         private bool Create(BHE.Elements.InternalCondition internalCondition)
         {
             TBD.InternalCondition tbdInternalCondition = tbdDocument.Building.AddIC(null);
-            tbdInternalCondition.name = internalCondition.Name;
-
+            tbdInternalCondition = internalCondition.ToTAS();
             return true;
         }
 

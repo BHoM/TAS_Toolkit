@@ -161,9 +161,9 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElement from a BHoM Environmental BuildingElement")]
         [Input("element", "BHoM Environmental BuildingElement")]
         [Output("TAS TBD BuildingElement")]
-        public static TBD.buildingElementClass ToTAS(this BHE.BuildingElement element)
+        public static TBD.buildingElement ToTAS(this BHE.BuildingElement element, TBD.buildingElement tbdElement, TBD.Construction tbdConstruction)
         {
-            TBD.buildingElementClass tbdElement = new TBD.buildingElementClass();
+            //TBD.buildingElementClass tbdElement = new TBD.buildingElementClass();
             if (element == null) return tbdElement;
 
             tbdElement.name = element.Name;
@@ -175,7 +175,7 @@ namespace BH.Engine.TAS
             if(envContextProperties != null)
                 tbdElement.GUID = envContextProperties.ElementID;
 
-            TBD.ConstructionClass construction = elementProperties.Construction.ToTAS();
+            TBD.Construction construction = elementProperties.Construction.ToTAS(tbdConstruction);
             tbdElement.AssignConstruction(construction);
 
             Dictionary<string, object> tasData = element.CustomData;
