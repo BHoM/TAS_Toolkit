@@ -107,9 +107,9 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Construction from a BHoM Environmental Construction")]
         [Input("construction", "BHoM Environmental Construction")]
         [Output("TAS TBD Construction")]
-        public static TBD.ConstructionClass ToTAS(this BHE.Construction construction)
+        public static TBD.Construction ToTAS(this BHE.Construction construction, TBD.Construction tbdConstruction)
         {
-            TBD.ConstructionClass tbdConstruction = new TBD.ConstructionClass();
+            //TBD.ConstructionClass tbdConstruction = new TBD.ConstructionClass();
             if (construction == null) return tbdConstruction;
 
             tbdConstruction.name = construction.Name;
@@ -121,10 +121,10 @@ namespace BH.Engine.TAS
             //tbdConstruction.ma
             foreach(BHM.Material material in construction.Materials)
             {
-                TBD.materialClass mat = material.ToTAS();
                 TBD.material matAdd = tbdConstruction.AddMaterial();
+                TBD.material mat = material.ToTAS(matAdd);
 
-                matAdd.name = mat.name;
+                /*matAdd.name = mat.name;
                 matAdd.width = mat.width;
                 matAdd.type = mat.type;
                 mat.convectionCoefficient = mat.convectionCoefficient;
@@ -139,7 +139,7 @@ namespace BH.Engine.TAS
                 matAdd.externalEmissivity = mat.externalEmissivity;
                 matAdd.internalEmissivity = mat.internalEmissivity;
                 matAdd.solarTransmittance = mat.solarTransmittance;
-                matAdd.lightTransmittance = mat.lightTransmittance;
+                matAdd.lightTransmittance = mat.lightTransmittance;*/
             }
 
             Dictionary<string, object> tasData = construction.CustomData;
