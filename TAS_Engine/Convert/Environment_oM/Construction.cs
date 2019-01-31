@@ -109,37 +109,17 @@ namespace BH.Engine.TAS
         [Output("TAS TBD Construction")]
         public static TBD.Construction ToTAS(this BHE.Construction construction, TBD.Construction tbdConstruction)
         {
-            //TBD.ConstructionClass tbdConstruction = new TBD.ConstructionClass();
             if (construction == null) return tbdConstruction;
 
             tbdConstruction.name = construction.Name;
-            //tbdConstruction.GUID = construction.BHoM_Guid.ToString();
             tbdConstruction.additionalHeatTransfer = (float)construction.AdditionalHeatTransfer;
             tbdConstruction.FFactor = (float)construction.FFactor;
             tbdConstruction.type = construction.ConstructionType.ToTAS();
 
-            //tbdConstruction.ma
             foreach(BHM.Material material in construction.Materials)
             {
-                TBD.material matAdd = tbdConstruction.AddMaterial();
-                TBD.material mat = material.ToTAS(matAdd);
-
-                /*matAdd.name = mat.name;
-                matAdd.width = mat.width;
-                matAdd.type = mat.type;
-                mat.convectionCoefficient = mat.convectionCoefficient;
-                mat.vapourDiffusionFactor = mat.vapourDiffusionFactor;
-                matAdd.conductivity = mat.conductivity;
-                matAdd.specificHeat = mat.specificHeat;
-                matAdd.density = mat.density;
-                matAdd.externalSolarReflectance = mat.externalSolarReflectance;
-                matAdd.internalSolarReflectance = mat.internalSolarReflectance;
-                matAdd.externalLightReflectance = mat.externalLightReflectance;
-                matAdd.internalLightReflectance = mat.internalLightReflectance;
-                matAdd.externalEmissivity = mat.externalEmissivity;
-                matAdd.internalEmissivity = mat.internalEmissivity;
-                matAdd.solarTransmittance = mat.solarTransmittance;
-                matAdd.lightTransmittance = mat.lightTransmittance;*/
+                TBD.material mat = tbdConstruction.AddMaterial();
+                mat = material.ToTAS(mat);
             }
 
             Dictionary<string, object> tasData = construction.CustomData;

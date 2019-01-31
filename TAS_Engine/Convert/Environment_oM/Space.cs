@@ -116,9 +116,8 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD Zone from BH.oM.Environment.Elements.Space")]
         [Input("space", "BHoM Environmental InternalCondition object")]
         [Output("TAS TBD Zone")]
-        public static TBD.zoneClass ToTAS(this BHE.Space space)
+        public static TBD.zone ToTAS(this BHE.Space space, TBD.zone tbdSpace)
         {
-            TBD.zoneClass tbdSpace = new TBD.zoneClass();
             if (space == null) return tbdSpace;
 
             tbdSpace.number = System.Convert.ToInt32(space.Number);
@@ -126,7 +125,7 @@ namespace BH.Engine.TAS
             tbdSpace.maxCoolingLoad = (float)space.CoolingLoad;
             tbdSpace.maxHeatingLoad = (float)space.HeatingLoad;
 
-            foreach(BHE.InternalCondition condition in space.InternalConditions)
+            foreach (BHE.InternalCondition condition in space.InternalConditions)
                 tbdSpace.AssignIC(condition.ToTAS(), true);
 
             Dictionary<string, object> tasData = space.CustomData;

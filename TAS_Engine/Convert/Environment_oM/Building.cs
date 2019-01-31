@@ -48,7 +48,7 @@ namespace BH.Engine.TAS
             building.Latitude = tbdBuilding.latitude;
             building.Longitude = tbdBuilding.longitude;
             building.Elevation = tbdBuilding.maxBuildingAltitude;
-            //building.Elevation = tbdBuilding.GetWeatherYear().altitude; //Consider switching to this is maxBuildingAltitude does not work
+            //building.Elevation = tbdBuilding.GetWeatherYear().altitude; //Consider switching to this if maxBuildingAltitude does not work
 
             //EnvironmentContextProperties
             BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
@@ -98,9 +98,9 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Building from a BHoM Environmental Building")]
         [Input("building", "BHoM Environmental Building")]
         [Output("TAS TBD Building")]
-        public static TBD.BuildingClass ToTAS(this BHE.Building building)
+        public static TBD.Building ToTAS(this BHE.Building building, TBD.Building tbdBuilding)
         {
-            TBD.BuildingClass tbdBuilding = new TBD.BuildingClass();
+            if (building == null) return tbdBuilding;
 
             tbdBuilding.name = building.Name;
             tbdBuilding.latitude = (float)building.Latitude;

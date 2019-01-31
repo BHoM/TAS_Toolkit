@@ -53,14 +53,13 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Point from a BHoM Geometry Point")]
         [Input("point", "BHoM Geomtry Point")]
         [Output("TAS TBD Point")]
-        public static TBD.TasPointClass ToTAS(this BHG.Point point)
+        public static TBD.TasPoint ToTAS(this BHG.Point point, TBD.TasPoint tbdPoint)
         {
-            return new TBD.TasPointClass
-            {
-                x = (float)point.X,
-                y = (float)point.Y,
-                z = (float)point.Z,
-            };
+            tbdPoint.x = (float)point.X;
+            tbdPoint.y = (float)point.Y;
+            tbdPoint.z = (float)point.Z;
+
+            return tbdPoint;
         }
     }
 }

@@ -75,32 +75,18 @@ namespace BH.Engine.TAS
 
             }
 
-
             return new BHG.Polyline { ControlPoints = pnts };
         }
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Perimeter from a BHoM Geometry Polyline")]
         [Input("polyline", "BHoM Geomtry Polyline")]
         [Output("TAS TBD Perimeter")]
-        public static TBD.PerimeterClass ToTAS(this BHG.Polyline polyline)
+        public static TBD.Perimeter ToTAS(this BHG.Polyline polyline, TBD.Perimeter tbdPerimeter)
         {
-            TBD.PerimeterClass tbdPerimeter = new TBD.PerimeterClass();
             if (polyline == null) return tbdPerimeter;
 
             TBD.Polygon poly = tbdPerimeter.CreateFace();
-            TBD.PolygonClass polygon = polyline.ToTASPolygon();
-
-            int pIndex = 0;
-            TBD.TasPoint tPt = null;
-
-            while ((tPt = polygon.GetPoint(pIndex)) != null)
-            {
-                TBD.TasPoint tPt2 = poly.AddPoint();
-                tPt2.x = tPt.x;
-                tPt2.y = tPt.y;
-                tPt2.z = tPt.z;
-                pIndex++;
-            }
+            poly = polyline.ToTASPolygon(poly);
 
             return tbdPerimeter;
         }
@@ -108,18 +94,14 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Polygon from a BHoM Geometry Polyline")]
         [Input("polyline", "BHoM Geomtry Polyline")]
         [Output("TAS TBD Polygon")]
-        public static TBD.PolygonClass ToTASPolygon(this BHG.Polyline polyline)
+        public static TBD.Polygon ToTASPolygon(this BHG.Polyline polyline, TBD.Polygon tbdPolygon)
         {
-            TBD.PolygonClass tbdPolygon = new TBD.PolygonClass();
             if (polyline == null) return tbdPolygon;
 
             foreach (BHG.Point pt in polyline.ControlPoints)
             {
-                TBD.TasPointClass tPt = pt.ToTAS();
                 TBD.TasPoint p = tbdPolygon.AddPoint();
-                p.x = tPt.x;
-                p.y = tPt.y;
-                p.z = tPt.z;
+                p = pt.ToTAS(p);
             }
 
             return tbdPolygon;

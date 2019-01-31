@@ -81,9 +81,8 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD Emitter from BH.oM.Environment.Elements.Emitter")]
         [Input("emitter", "BHoM Environmental Emitter object")]
         [Output("TAS TBD Emitter")]
-        public static TBD.EmitterClass ToTAS(this BHE.Emitter emitter)
+        public static TBD.Emitter ToTAS(this BHE.Emitter emitter, TBD.Emitter tbdEmitter)
         {
-            TBD.EmitterClass tbdEmitter = new TBD.EmitterClass();
             if (emitter == null) return tbdEmitter;
 
             tbdEmitter.name = emitter.Name;
