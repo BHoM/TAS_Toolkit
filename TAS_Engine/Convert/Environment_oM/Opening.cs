@@ -96,9 +96,9 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Polygon from a BHoM Environmental Opening")]
         [Input("opening", "BHoM Environmental Opening")]
         [Output("TAS TBD Polygon")]
-        public static TBD.PolygonClass ToTAS(this BHE.Opening opening)
+        public static TBD.Polygon ToTAS(this BHE.Opening opening, TBD.Polygon tbdPolygon)
         {
-            TBD.PolygonClass tbdPolygon = opening.OpeningCurve.ICollapseToPolyline(BH.oM.Geometry.Tolerance.Angle).ToTASPolygon();
+            tbdPolygon = opening.OpeningCurve.ICollapseToPolyline(BH.oM.Geometry.Tolerance.Angle).ToTASPolygon(tbdPolygon);
             return tbdPolygon;
         }
     }

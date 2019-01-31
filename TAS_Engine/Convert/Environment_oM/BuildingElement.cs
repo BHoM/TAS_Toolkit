@@ -196,24 +196,21 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD ZoneSurface from a BHoM Environmental BuildingElement")]
         [Input("element", "BHoM Environmental BuildingElement")]
         [Output("TAS TBD ZoneSurface")]
-        public static TBD.zoneSurfaceClass ToTASSurface(this BHE.BuildingElement element)
+        public static TBD.zoneSurface ToTASSurface(this BHE.BuildingElement element, TBD.zoneSurface tbdSurface)
         {
-            //ToDo: Finish this, connect the geometry to the zoneSurface and other additional data as appropriate
-
-            /*TBD.zoneSurfaceClass tbdElement = new TBD.zoneSurfaceClass();
-            if (element == null) return tbdElement;
+            //ToDo: Fix this
+            /*if (element == null) return tbdSurface;
 
             if (element.CustomData.ContainsKey("SpaceID"))
-                tbdElement.zone.name = element.CustomData["SpaceID"].ToString();
+                tbdSurface.zone.name = element.CustomData["SpaceID"].ToString();
+            if (element.CustomData.ContainsKey("AdjacentSpaceID") && element.CustomData["AdjacentSpaceID"].ToString() != "-1")
+                tbdSurface.type = TBD.SurfaceType.tbdLink;
 
-            if (element.CustomData.ContainsKey("AdjacentSpaceID"))
-                tbdElement.linkSurface.zone.name = element.CustomData["AdjacentSpaceID"].ToString();
+            TBD.Perimeter p = element.PanelCurve.ICollapseToPolyline(BHG.Tolerance.Angle).ToTAS();
 
-            
+            return tbdSurface;*/
 
-            return tbdElement;*/
-
-            throw new NotImplementedException("Not yet implemented");
+            throw new NotImplementedException("Coming soon");
         }
     }
 }

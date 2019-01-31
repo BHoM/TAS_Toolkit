@@ -78,9 +78,8 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Profile from a BHoM Environmental Profile")]
         [Input("profile", "BHoM Environmental Profile")]
         [Output("TAS TBD Profile")]
-        public static TBD.profileClass ToTAS(this BHE.Profile profile)
+        public static TBD.profile ToTAS(this BHE.Profile profile, TBD.profile tbdProfile)
         {
-            TBD.profileClass tbdProfile = new TBD.profileClass();
             if (profile == null) return tbdProfile;
 
             tbdProfile.name = profile.Name;

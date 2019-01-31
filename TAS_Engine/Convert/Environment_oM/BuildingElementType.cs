@@ -189,9 +189,10 @@ namespace BH.Engine.TAS
         [Output("TAS TBD BuildingElementType")]
         public static TBD.BuildingElementType ToTAS(this BHE.BuildingElementType bHoMBuildingElementType)
         {
-            switch (bHoMBuildingElementType) // This is just a test, it doeas not match. We have more BETypes in TAS than in BHoM
+            switch (bHoMBuildingElementType) // This is just a test, it does not match. We have more BETypes in TAS than in BHoM
             {
                 // here we will need to have two levels or recognision ASHRAEBuilidingElementType as per new idraw graph
+                //Agreed - but we also need to implement our extended building element types in core BHoM so this might solve that?
 
                 //Check were we are refering this to
                 case BHE.BuildingElementType.Wall:

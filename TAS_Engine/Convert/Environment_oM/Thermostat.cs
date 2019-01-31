@@ -65,9 +65,8 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD Thermostat from BH.oM.Environment.Elements.Thermostat")]
         [Input("thermostat", "BHoM Environmental Thermostat object")]
         [Output("TAS TBD Thermostat")]
-        public static TBD.ThermostatClass ToTAS(this BHE.Thermostat thermostat)
+        public static TBD.Thermostat ToTAS(this BHE.Thermostat thermostat, TBD.Thermostat tbdThermostat)
         {
-            TBD.ThermostatClass tbdThermostat = new TBD.ThermostatClass();
             if (thermostat == null) return tbdThermostat;
 
             tbdThermostat.name = thermostat.Name;

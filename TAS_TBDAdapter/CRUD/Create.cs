@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BH.oM.Base;
-using BHE = BH.oM.Environment;
+using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
 using System.Runtime.InteropServices;
 using BH.Engine.Environment;
@@ -71,19 +71,37 @@ namespace BH.Adapter.TAS
         private bool CreateCollection(IEnumerable<IBHoMObject> objects)
         {
             bool success = true;
-            foreach (IBHoMObject obj in objects)
+
+            List<BHE.BuildingElement> elements = objects.ToList().BuildingElements();
+            List<string> spaceNames = elements.UniqueSpaceNames();
+            List<List<BHE.BuildingElement>> elementsAsSpaces = elements.BuildSpaces(spaceNames);
+
+            /*foreach (IBHoMObject obj in objects)
             {
                 success &= Create(obj as dynamic);
-            }
+            }*/
             return success;
+        }
+
+        private void CreateTAS(List<BHE.BuildingElement> elementsAsSpaces)
+        {
+            //Create a zone
+            TBD.zone tbdZone = tbdDocument.Building.AddZone();
+            tbdZone = elementsAsSpaces.Space().ToTAS(tbdZone);
+            TBD.room troom = tbdZone.AddRoom();
+            
+            foreach(BHE.BuildingElement element in elementsAsSpaces)
+            {
+
+            }
         }
 
         /***************************************************/
 
-        private bool CreateCollection(IEnumerable<BHE.Elements.Space> spaces)
+        private bool CreateCollection(IEnumerable<BHE.Space> spaces)
         {
             bool success = true;
-            foreach (BHE.Elements.Space space in spaces)
+            foreach (BHE.Space space in spaces)
             { 
                 //success &= Create(space, spaces);
             }
@@ -91,61 +109,25 @@ namespace BH.Adapter.TAS
         }
 
         /***************************************************/
-        /*//TODO: Can not use Spaces from Building, (line 80 bHoMBuilding.Spaces)
-        private bool Create(BH.oM.Environment.Elements.Building building)
-        {
-            TBD.Building tbdBuilding = m_TBDDocument.Building;
-            tbdBuilding.latitude = (float)building.Latitude;
-            tbdBuilding.longitude = (float)building.Longitude;
-            tbdBuilding.name = building.Name;
-            bool success = true;
-            
-            foreach (BH.oM.Environment.Elements.Space  aSpace in building.Spaces)
-            {
-                success &= Create(aSpace, building);
-            }
 
-            return success;
-    } */
-
-        /***************************************************/
-
-        private bool Create(BHE.Elements.BuildingElement buildingElement)
+        private bool Create(BHE.BuildingElement buildingElement)
         {
             TBD.buildingElement tbdBuildingElement = tbdDocument.Building.AddBuildingElement();
-            //tbdBuildingElement.name = buildingElement.Name;
             tbdBuildingElement = buildingElement.ToTAS(tbdBuildingElement, tbdDocument.Building.AddConstruction(null));
             return true;
         }
 
         /***************************************************/
 
-        private bool Create(BHE.Properties.ElementProperties elementProperties)
+        private bool Create(BHE.Opening buildingElementOpening)
         {
-            TBD.Construction tbdConstruction = tbdDocument.Building.AddConstruction(null);
-            tbdConstruction.name = elementProperties.Construction.Name;
-            tbdConstruction.materialWidth[0] = (float)elementProperties.Construction.Thickness;
-            return true;
-        }
-
-        /***************************************************/
-
-        private bool Create(BHE.Elements.Panel buildingElementPanel)
-        {
+            //buildingElementOpening.ToTAS();
             throw new NotImplementedException();
         }
 
         /***************************************************/
 
-        private bool Create(BHE.Elements.Opening buildingElementOpening)
-        {
-            buildingElementOpening.ToTAS();
-            throw new NotImplementedException();
-        }
-
-        /***************************************************/
-
-        private bool Create(BHE.Elements.InternalCondition internalCondition)
+        private bool Create(BHE.InternalCondition internalCondition)
         {
             TBD.InternalCondition tbdInternalCondition = tbdDocument.Building.AddIC(null);
             tbdInternalCondition = internalCondition.ToTAS();
