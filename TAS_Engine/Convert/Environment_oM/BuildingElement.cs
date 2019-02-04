@@ -103,28 +103,27 @@ namespace BH.Engine.TAS
                 }
             }
 
-            Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("SurfaceGUID", tbdSurface.GUID);
-            tasData.Add("SurfaceName", "Z_" + tbdSurface.zone.number + "_" + tbdSurface.number + "_" + tbdSurface.zone.name);
-            tasData.Add("SurfaceType", tbdSurface.type);
-            tasData.Add("SurfaceAltitude", tbdSurface.altitude);
-            tasData.Add("SurfaceAltitudeRange", tbdSurface.altitudeRange);
-            tasData.Add("SurfaceArea", tbdSurface.area);
-            tasData.Add("SurfaceInclination", tbdSurface.inclination);
-            tasData.Add("SurfaceInternalArea", tbdSurface.internalArea);
-            tasData.Add("SurfaceOrientation", tbdSurface.orientation);
-            tasData.Add("SurfaceReversed", tbdSurface.reversed);
-            tasData.Add("ElementColour", Query.GetRGB(tbdElement.colour));
-            tasData.Add("ElementDescription", tbdElement.description);
-            tasData.Add("ElementIsAir", tbdElement.ghost != 0);
-            tasData.Add("ElementIsGround", tbdElement.ground != 0);
-            tasData.Add("ElementWidth", tbdElement.width);
-            tasData.Add("ElementGValue", tbdElement.GValue());
-            tasData.Add("ElementLTValue", tbdElement.LTValue());
-            tasData.Add("ElementUValue", tbdElement.UValue());
-            tasData.Add("MaterialLayersThickness", tbdElement.GetConstruction().ConstructionThickness());
+            element.CustomData.Add("SurfaceGUID", tbdSurface.GUID);
+            element.CustomData.Add("SurfaceName", "Z_" + tbdSurface.zone.number + "_" + tbdSurface.number + "_" + tbdSurface.zone.name);
+            element.CustomData.Add("SurfaceType", tbdSurface.type);
+            element.CustomData.Add("SurfaceAltitude", tbdSurface.altitude);
+            element.CustomData.Add("SurfaceAltitudeRange", tbdSurface.altitudeRange);
+            element.CustomData.Add("SurfaceArea", tbdSurface.area);
+            element.CustomData.Add("SurfaceInclination", tbdSurface.inclination);
+            element.CustomData.Add("SurfaceInternalArea", tbdSurface.internalArea);
+            element.CustomData.Add("SurfaceOrientation", tbdSurface.orientation);
+            element.CustomData.Add("SurfaceReversed", tbdSurface.reversed);
+            element.CustomData.Add("ElementColour", Query.GetRGB(tbdElement.colour));
+            element.CustomData.Add("ElementDescription", tbdElement.description);
+            element.CustomData.Add("ElementIsAir", tbdElement.ghost != 0);
+            element.CustomData.Add("ElementIsGround", tbdElement.ground != 0);
+            element.CustomData.Add("ElementWidth", tbdElement.width);
+            element.CustomData.Add("ElementGValue", tbdElement.GValue());
+            element.CustomData.Add("ElementLTValue", tbdElement.LTValue());
+            element.CustomData.Add("ElementUValue", tbdElement.UValue());
+            element.CustomData.Add("MaterialLayersThickness", tbdElement.GetConstruction().ConstructionThickness());
 
-            element.CustomData = tasData;
+            element.CustomData = element.CustomData;
 
             return element;
         }
