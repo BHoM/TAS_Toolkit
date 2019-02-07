@@ -32,6 +32,7 @@ using BHG = BH.oM.Geometry;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
+using BHP = BH.oM.Environment.Properties;
 
 namespace BH.Engine.TAS
 {
@@ -55,6 +56,32 @@ namespace BH.Engine.TAS
                 space.InternalConditions.Add(tbdCondition.ToBHoM());
                 conditionIndex++;
             }
+
+            //Adding data to Extended Poroperties--------------------------------------------------------------------------------------------------------------
+
+            //EnvironmentContextProperties
+            BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
+            environmentContextProperties.ElementID = tbdSpace.GUID;
+            environmentContextProperties.Description = tbdSpace.description;
+            environmentContextProperties.TypeName = tbdSpace.name;
+            space.ExtendedProperties.Add(environmentContextProperties);
+
+            //SpaceContextProperties
+            BHP.SpaceContextProperties spaceContextProperties = new BHP.SpaceContextProperties();
+            spaceContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdSpace.colour).ToString();
+            spaceContextProperties.IsExternal = tbdSpace.external != 0;
+            space.ExtendedProperties.Add(spaceContextProperties);
+
+            //SpaceAnalyticalProperties
+            BHP.SpaceAnalyticalProperties spaceAnalyticalProperties = new BHP.SpaceAnalyticalProperties();
+            spaceAnalyticalProperties.DaylightFactor = tbdSpace.daylightFactor;
+            spaceAnalyticalProperties.FacadeLength = tbdSpace.facadeLength;
+            spaceAnalyticalProperties.FixedConvectionCoefficient = tbdSpace.fixedConvectionCoefficient;
+            spaceAnalyticalProperties.SizeCoolingMethod =((TBD.SizingType)tbdSpace.sizeCooling).ToBHoM();
+            spaceAnalyticalProperties.SizeHeatingMethod = ((TBD.SizingType)tbdSpace.sizeCooling).ToBHoM();
+            space.ExtendedProperties.Add(spaceAnalyticalProperties);
+
+            //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("SpaceColour", tbdSpace.colour);

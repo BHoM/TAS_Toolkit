@@ -47,6 +47,9 @@ namespace BH.Engine.TAS
         {
             BHE.BuildingElement element = new BHE.BuildingElement();
 
+            BHE.BuildingElementType elementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
+            BHE.Construction elementConstruction = tbdElement.GetConstruction().ToBHoM();
+
             element.Name = tbdElement.name;
             //element.BuildingElementProperties.Name = tbdElement.name;
             //element.ElementID = tbdElement.GUID;
@@ -54,8 +57,8 @@ namespace BH.Engine.TAS
 
             //ElementProperties
             BHP.ElementProperties elementProperties = new BHP.ElementProperties();
-            elementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
-            elementProperties.Construction = tbdElement.GetConstruction().ToBHoM();
+            elementProperties.BuildingElementType = elementType;
+            elementProperties.Construction = elementConstruction;
             element.ExtendedProperties.Add(elementProperties);
 
             //element.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
@@ -101,24 +104,11 @@ namespace BH.Engine.TAS
             buildingElementAnalyticalProperties.UValue = tbdElement.UValue();
             element.ExtendedProperties.Add(buildingElementAnalyticalProperties);
 
-            
-
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
-
-            //element.BuildingElementProperties.Construction = tbdElement.GetConstruction().ToBHoM();
 
             List<BHG.Polyline> panelCurve = new List<BHG.Polyline>();
             int surfaceIndex = 0;
             TBD.RoomSurface roomSurface = null;
-
-            //opening.CustomData.Add("TAS_ParentBuildingElementName", roomSurface.parentSurface.zoneSurface.buildingElement.name);
-            //roomSurface.parentSurface.zoneSurface.buildingElement.name
-            //            roomSurface.parentSurface.zoneSurface.GUID
-            //while ((roomSurface = tbdSurface.GetRoomSurface(surfaceIndex)) != null)
-            //{
-            //                    surfaceIndex++;
-            //}
-
 
             while ((roomSurface = tbdSurface.GetRoomSurface(surfaceIndex)) != null)
             {
@@ -131,7 +121,6 @@ namespace BH.Engine.TAS
                     int openingIndex = 0;
                     TBD.Polygon openingPolygon = null;
                     while ((openingPolygon = tbdPerimeter.GetHole(openingIndex)) != null )
-                    //if ((tbdSurface.buildingElement.BEType == 15 || tbdSurface.buildingElement.BEType == 12 || tbdSurface.buildingElement.BEType == 13 || tbdSurface.buildingElement.BEType == 20)) 
                     {
                         element.Openings.Add(openingPolygon.ToBHoMOpening(roomSurface));
                         openingIndex++;
@@ -181,6 +170,16 @@ namespace BH.Engine.TAS
             element.CustomData.Add("MaterialLayersThickness", tbdElement.GetConstruction().ConstructionThickness());
 
             element.CustomData = element.CustomData;
+
+            //AddingExtended Properties for a frame
+            if (elementType == BHE.BuildingElementType.RooflightWithFrame || elementType == BHE.BuildingElementType.WindowWithFrame)
+            {
+                BHP.FrameProperties frameProperties = new BHP.FrameProperties();
+                frameProperties.PaneCurve = (element.Openings.FirstOrDefault() != null ? element.Openings.FirstOrDefault().OpeningCurve : new BHG.PolyCurve());
+                frameProperties.Construction = elementConstruction;
+                //frameProperties.FramePercentage = null; //ToDo fix this
+                element.ExtendedProperties.Add(frameProperties);
+            }
 
             return element;
         }
