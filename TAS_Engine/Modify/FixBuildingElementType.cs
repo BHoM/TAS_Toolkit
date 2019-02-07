@@ -41,7 +41,7 @@ namespace BH.Engine.TAS
         [Output("IBHoMObject")]
         public static BuildingElementType FixType(this BuildingElementType bHoMBuildingElementType, TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)
         {
-            if (bHoMBuildingElementType == oM.Environment.Elements.BuildingElementType.Undefined)
+            if (bHoMBuildingElementType == oM.Environment.Elements.BuildingElementType.Frame)
             {
                 if (tbdBuildingElement.name.Contains("-frame"))
                 {
@@ -51,24 +51,7 @@ namespace BH.Engine.TAS
                         bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.WindowWithFrame;
 
                 }
-                else if (tbdBuildingElement.name.Contains("Floor"))
-                {
-                    bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.Floor;
-                }
-                else if (tbdBuildingElement.name.Contains("Wall"))
-                {
-                    bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.Wall;
-                }
-
-                else if ((tbdBuildingElement.name == "Air") || (tbdBuildingElement.name == "Air-internal"))
-                {
-                    if (tbdZoneSurface.inclination == 0 || tbdZoneSurface.inclination == 180)
-                        bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.Floor;
-                    else
-                        bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.Wall;
-                }
             }
-
 
             return bHoMBuildingElementType;
         }
