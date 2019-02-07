@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
+using BHP = BH.oM.Environment.Properties;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
@@ -48,6 +49,31 @@ namespace BH.Engine.TAS
             building.Longitude = tbdBuilding.longitude;
             building.Elevation = tbdBuilding.maxBuildingAltitude;
             //building.Elevation = tbdBuilding.GetWeatherYear().altitude; //Consider switching to this is maxBuildingAltitude does not work
+
+            //Adding data to Extended Poroperties--------------------------------------------------------------------------------------------------------------
+
+            //EnvironmentContextProperties
+            BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
+            environmentContextProperties.ElementID = tbdBuilding.GUID;
+            environmentContextProperties.Description = tbdBuilding.description;
+            environmentContextProperties.TypeName = tbdBuilding.name;
+            building.ExtendedProperties.Add(environmentContextProperties);
+
+            //BuildingAnalyticalProperties
+            BHP.BuildingAnalyticalProperties buildingAnalyticalProperties = new BHP.BuildingAnalyticalProperties();
+            buildingAnalyticalProperties.NorthAngle = tbdBuilding.northAngle;
+            buildingAnalyticalProperties.Year = tbdBuilding.year;
+            buildingAnalyticalProperties.GMTOffset = tbdBuilding.timeZone;
+            building.ExtendedProperties.Add(buildingAnalyticalProperties);
+
+            //BuildingContextProperties
+            BHP.BuildingContextProperties buildingContextProperties = new BHP.BuildingContextProperties();
+            TBD.WeatherYear weatherYear = tbdBuilding.GetWeatherYear();
+            buildingContextProperties.PlaceName = weatherYear.name;
+            buildingContextProperties.WeatherStation = weatherYear.description;
+            building.ExtendedProperties.Add(buildingContextProperties);
+
+            //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("BuildingGUID", tbdBuilding.GUID);
