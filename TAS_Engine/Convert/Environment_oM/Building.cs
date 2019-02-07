@@ -61,7 +61,7 @@ namespace BH.Engine.TAS
 
             //BuildingAnalyticalProperties
             BHP.BuildingAnalyticalProperties buildingAnalyticalProperties = new BHP.BuildingAnalyticalProperties();
-            buildingAnalyticalProperties.NorthAngle = tbdBuilding.northAngle;
+            buildingAnalyticalProperties.NorthAngle = tbdBuilding.northAngle; //North Angle (degrees) Measured clockwise with respect to the Y - axis of the building plan. 
             buildingAnalyticalProperties.Year = tbdBuilding.year;
             buildingAnalyticalProperties.GMTOffset = tbdBuilding.timeZone;
             building.ExtendedProperties.Add(buildingAnalyticalProperties);

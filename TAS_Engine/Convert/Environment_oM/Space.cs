@@ -70,6 +70,8 @@ namespace BH.Engine.TAS
             BHP.SpaceContextProperties spaceContextProperties = new BHP.SpaceContextProperties();
             spaceContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdSpace.colour).ToString();
             spaceContextProperties.IsExternal = tbdSpace.external != 0;
+
+            //spaceContextProperties.ConnectedElements = tbdSpace.external != 0;
             space.ExtendedProperties.Add(spaceContextProperties);
 
             //SpaceAnalyticalProperties
