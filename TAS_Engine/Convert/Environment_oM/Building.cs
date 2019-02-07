@@ -73,6 +73,12 @@ namespace BH.Engine.TAS
             buildingContextProperties.WeatherStation = weatherYear.description;
             building.ExtendedProperties.Add(buildingContextProperties);
 
+            //BuildingResultsProperties
+            BHP.BuildingResultsProperties buildingResultsProperties = new BHP.BuildingResultsProperties();
+            buildingResultsProperties.PeakCooling = tbdBuilding.peakCooling;
+            buildingResultsProperties.PeakHeating = tbdBuilding.peakHeating;
+            building.ExtendedProperties.Add(buildingResultsProperties);
+
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
