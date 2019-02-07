@@ -105,6 +105,7 @@
     <Compile Include="Convert\Environment_oM\Results\ProfileResultType.cs" />
     <Compile Include="Convert\Environment_oM\Results\SimulationResultSurface.cs" />
     <Compile Include="Convert\Environment_oM\Results\SimulationResultZone.cs" />
+    <Compile Include="Convert\Environment_oM\SizingMethod.cs" />
     <Compile Include="Convert\Environment_oM\SimulationDayType.cs" />
     <Compile Include="Convert\Environment_oM\Results\SimulationResultBuilding.cs" />
     <Compile Include="Convert\Environment_oM\Space.cs" />

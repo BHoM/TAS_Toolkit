@@ -204,6 +204,8 @@ namespace BH.Adapter.TAS
                         Opening newOpening = new Opening();
                         newOpening.OpeningCurve = frame.PanelCurve;
                         newOpening.ExtendedProperties = new List<IBHoMExtendedProperties>(pane.ExtendedProperties);
+                        newOpening.ExtendedProperties.Add(frame.PropertiesByType(typeof(FrameProperties)));
+
                         element.Openings.Add(newOpening);
                     }
                 }
