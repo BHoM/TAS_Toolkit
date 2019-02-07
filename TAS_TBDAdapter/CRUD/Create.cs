@@ -72,6 +72,7 @@ namespace BH.Adapter.TAS
         {
             bool success = true;
 
+            List<BHE.Space> spaces = objects.ToList().Spaces();
             List<BHE.BuildingElement> elements = objects.ToList().BuildingElements();
             List<string> spaceNames = elements.UniqueSpaceNames();
             List<List<BHE.BuildingElement>> elementsAsSpaces = elements.BuildSpaces(spaceNames);
