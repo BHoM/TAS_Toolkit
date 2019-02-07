@@ -30,6 +30,7 @@ using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
+using BHP = BH.oM.Environment.Properties;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
@@ -47,11 +48,17 @@ namespace BH.Engine.TAS
             BHE.BuildingElement element = new BHE.BuildingElement();
 
             element.Name = tbdElement.name;
-            element.BuildingElementProperties.Name = tbdElement.name;
+            //element.BuildingElementProperties.Name = tbdElement.name;
             //element.ElementID = tbdElement.GUID;
-            element.ElementID = tbdSurface.GUID;
+            //element.ElementID = tbdSurface.GUID;
 
-            element.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
+            //ElementProperties
+            BHP.ElementProperties elementProperties = new BHP.ElementProperties();
+            elementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
+            elementProperties.Construction = tbdElement.GetConstruction().ToBHoM();
+            element.ExtendedProperties.Add(elementProperties);
+
+            //element.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
 
             ////Space/Adjacent IDs...
             //element.CustomData.Add("SpaceID", tbdSurface.zone.name);
@@ -63,14 +70,14 @@ namespace BH.Engine.TAS
             //Adding data to Extended Poroperties--------------------------------------------------------------------------------------------------------------
 
             //EnvironmentContextProperties
-            BH.oM.Environment.Properties.EnvironmentContextProperties environmentContextProperties = new oM.Environment.Properties.EnvironmentContextProperties();
+            BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
             environmentContextProperties.ElementID = tbdSurface.GUID;
             environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + tbdSurface.buildingElement.GUID;
             environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
             element.ExtendedProperties.Add(environmentContextProperties);
 
             //BuildingElementContextProperties
-            BH.oM.Environment.Properties.BuildingElementContextProperties buildingElementContextProperties = new oM.Environment.Properties.BuildingElementContextProperties();
+            BHP.BuildingElementContextProperties buildingElementContextProperties = new BHP.BuildingElementContextProperties();
             buildingElementContextProperties.ConnectedSpaces.Add(tbdSurface.zone.name);
             if ((int)tbdSurface.type == 3)
                 buildingElementContextProperties.ConnectedSpaces.Add(tbdSurface.linkSurface.zone.name);
@@ -79,12 +86,12 @@ namespace BH.Engine.TAS
 
             buildingElementContextProperties.IsAir = tbdElement.ghost != 0;
             buildingElementContextProperties.IsGround = tbdElement.ground != 0;
-            buildingElementContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdElement.colour).ToString(); //we need to fix Colot type to 'System.Drawing.Color' type currently transfrom to Int
+            buildingElementContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdElement.colour).ToString();
             buildingElementContextProperties.Reversed = tbdSurface.reversed != 0;
             element.ExtendedProperties.Add(buildingElementContextProperties);
 
             //BuildingElementAnalyticalProperties
-            BH.oM.Environment.Properties.BuildingElementAnalyticalProperties buildingElementAnalyticalProperties = new oM.Environment.Properties.BuildingElementAnalyticalProperties();
+            BHP.BuildingElementAnalyticalProperties buildingElementAnalyticalProperties = new BHP.BuildingElementAnalyticalProperties();
             buildingElementAnalyticalProperties.Altitude = tbdSurface.altitude;
             buildingElementAnalyticalProperties.AltitudeRange = tbdSurface.altitudeRange;
             buildingElementAnalyticalProperties.Inclination = tbdSurface.inclination;
@@ -94,15 +101,11 @@ namespace BH.Engine.TAS
             buildingElementAnalyticalProperties.UValue = tbdElement.UValue();
             element.ExtendedProperties.Add(buildingElementAnalyticalProperties);
 
-            //ElementProperties
-            BH.oM.Environment.Properties.ElementProperties elementProperties = new oM.Environment.Properties.ElementProperties();
-            elementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
-            elementProperties.Construction = tbdElement.GetConstruction().ToBHoM();
-            element.ExtendedProperties.Add(elementProperties);
+            
 
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
-            element.BuildingElementProperties.Construction = tbdElement.GetConstruction().ToBHoM();
+            //element.BuildingElementProperties.Construction = tbdElement.GetConstruction().ToBHoM();
 
             List<BHG.Polyline> panelCurve = new List<BHG.Polyline>();
             int surfaceIndex = 0;
@@ -117,15 +120,12 @@ namespace BH.Engine.TAS
             //}
 
 
-                while ((roomSurface = tbdSurface.GetRoomSurface(surfaceIndex)) != null)
+            while ((roomSurface = tbdSurface.GetRoomSurface(surfaceIndex)) != null)
             {
                 TBD.Perimeter tbdPerimeter = roomSurface.GetPerimeter();
                 if(tbdPerimeter != null)
-
                 {
                     panelCurve.Add(tbdPerimeter.ToBHoM());
-
-
 
                     //Add openings while ((openingPolygon = tbdPerimeter.GetHole(openingIndex) && (tbdSurface.buildingElement.BEType == 15 )) 
                     int openingIndex = 0;

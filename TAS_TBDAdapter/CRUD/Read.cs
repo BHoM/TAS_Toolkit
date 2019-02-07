@@ -23,15 +23,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+
 using BH.oM.Base;
 using BHE = BH.oM.Environment;
 using BH.oM.Environment.Elements;
 using BH.oM.Environment.Properties;
 using BH.oM.Environment.Interface;
 using BHG = BH.oM.Geometry;
-using BH.Engine;
+using BH.Engine.Environment;
 using BH.Engine.TAS;
-
 
 namespace BH.Adapter.TAS
 {
@@ -178,7 +179,31 @@ namespace BH.Adapter.TAS
                 zoneIndex++;
             }
 
-            return buildingElements;
+            //Clean up building elements with openings and constructions
+            List<BuildingElement> nonOpeningElements = buildingElements.ElementsWithoutType(BuildingElementType.WindowWithFrame).ElementsWithoutType(BuildingElementType.Window);
+
+            foreach(BuildingElement element in nonOpeningElements)
+            {
+                //Sort out opening construction
+                foreach(Opening frame in element.Openings)
+                {
+                    string name = frame.Name.Replace("frame", "pane");
+                    BuildingElement pane = buildingElements.ElementsByName(name).FirstOrDefault();
+                    if(pane != null)
+                    {
+                        ElementProperties existingConstruction = frame.ElementProperties() as ElementProperties;
+                        ElementProperties paneConstruction = pane.ElementProperties() as ElementProperties;
+                        if(paneConstruction != null)
+                        {
+                            frame.ExtendedProperties.Remove(existingConstruction);
+                            frame.ExtendedProperties.Add(paneConstruction);
+                        }
+                            
+                    }
+                }
+            }
+
+            return nonOpeningElements;
         }
 
         //get external surfaces for filter   
