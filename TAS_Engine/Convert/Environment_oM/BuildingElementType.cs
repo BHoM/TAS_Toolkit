@@ -46,41 +46,55 @@ namespace BH.Engine.TAS
             switch (tbdType)
             {
                 case TBD.BuildingElementType.EXTERNALWALL:
+                    return BHE.BuildingElementType.WallExternal;
                 case TBD.BuildingElementType.INTERNALWALL:
+                    return BHE.BuildingElementType.WallInternal;
                 case TBD.BuildingElementType.UNDERGROUNDWALL:
-                    return BHE.BuildingElementType.Wall;
+                    return BHE.BuildingElementType.UndergroundWall;
 
                 case TBD.BuildingElementType.ROOFELEMENT:
-                case TBD.BuildingElementType.ROOFLIGHT:
                     return BHE.BuildingElementType.Roof;
+                case TBD.BuildingElementType.ROOFLIGHT:
+                    return BHE.BuildingElementType.Rooflight;
 
                 case TBD.BuildingElementType.CEILING:
-                case TBD.BuildingElementType.UNDERGROUNDCEILING:
                     return BHE.BuildingElementType.Ceiling;
+                case TBD.BuildingElementType.UNDERGROUNDCEILING:
+                    return BHE.BuildingElementType.UndergroundCeiling;
 
                 case TBD.BuildingElementType.EXPOSEDFLOOR:
+                    return BHE.BuildingElementType.FloorExposed;
                 case TBD.BuildingElementType.INTERNALFLOOR:
+                    return BHE.BuildingElementType.FloorInternal;
                 case TBD.BuildingElementType.RAISEDFLOOR:
+                    return BHE.BuildingElementType.FloorRaised;
                 case TBD.BuildingElementType.SLABONGRADE:
+                    return BHE.BuildingElementType.SlabOnGrade;
                 case TBD.BuildingElementType.UNDERGROUNDSLAB:
-                    return BHE.BuildingElementType.Floor;
+                    return BHE.BuildingElementType.UndergroundSlab;
 
                 case TBD.BuildingElementType.DOORELEMENT:
-                case TBD.BuildingElementType.VEHICLEDOOR:
                     return BHE.BuildingElementType.Door;
+                case TBD.BuildingElementType.VEHICLEDOOR:
+                    return BHE.BuildingElementType.VehicleDoor;
 
                 case TBD.BuildingElementType.GLAZING:
-                    return BHE.BuildingElementType.Window;
+                    return BHE.BuildingElementType.Glazing;
 
                 case TBD.BuildingElementType.CURTAINWALL:
                     return BHE.BuildingElementType.CurtainWall;
 
                 case TBD.BuildingElementType.FRAMEELEMENT:
+                    return BHE.BuildingElementType.Frame;
+
                 case TBD.BuildingElementType.NOBETYPE:
                 case TBD.BuildingElementType.NULLELEMENT:
-                case TBD.BuildingElementType.SHADEELEMENT:
-                case TBD.BuildingElementType.SOLARPANEL:
                     return BHE.BuildingElementType.Undefined;
+
+                case TBD.BuildingElementType.SHADEELEMENT:
+                    return BHE.BuildingElementType.Shade;
+                case TBD.BuildingElementType.SOLARPANEL:
+                    return BHE.BuildingElementType.SolarPanel;
 
                 default:
                     return BHE.BuildingElementType.Wall;
