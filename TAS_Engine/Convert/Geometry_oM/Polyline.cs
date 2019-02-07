@@ -56,15 +56,25 @@ namespace BH.Engine.TAS
             int pIndex = 0;
             TBD.TasPoint tPt = null;
 
-            while((tPt = tbdPolygon.GetPoint(pIndex)) != null)
+            try
             {
-                pnts.Add(tPt.ToBHoM());
-                pIndex++;
+
+                while ((tPt = tbdPolygon.GetPoint(pIndex)) != null)
+                {
+                    pnts.Add(tPt.ToBHoM());
+                    pIndex++;
+                }
+
+                //if(pnts.First().Distance(pnts.Last()) > BHG.Tolerance.Distance)
+                if (pnts.First() != pnts.Last())
+                    pnts.Add(pnts[0]); //Close the polyline
+            }
+            catch (Exception ex)
+            {
+                BH.Engine.Reflection.Compute.RecordError(ex.ToString());
+
             }
 
-            //if(pnts.First().Distance(pnts.Last()) > BHG.Tolerance.Distance)
-            if(pnts.First() != pnts.Last())
-                pnts.Add(pnts[0]); //Close the polyline
 
             return new BHG.Polyline { ControlPoints = pnts };
         }

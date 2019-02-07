@@ -48,15 +48,59 @@ namespace BH.Engine.TAS
 
             element.Name = tbdElement.name;
             element.BuildingElementProperties.Name = tbdElement.name;
-            element.ElementID = tbdElement.GUID;
+            //element.ElementID = tbdElement.GUID;
+            element.ElementID = tbdSurface.GUID;
+
             element.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
 
-            //Space/Adjacent IDs...
-            element.CustomData.Add("SpaceID", tbdSurface.zone.name);
+            ////Space/Adjacent IDs...
+            //element.CustomData.Add("SpaceID", tbdSurface.zone.name);
+            //if ((int)tbdSurface.type == 3)
+            //    element.CustomData.Add("AdjacentSpaceID", tbdSurface.linkSurface.zone.name);
+            //else
+            //    element.CustomData.Add("AdjacentSpaceID", -1);
+
+            //Adding data to Extended Poroperties--------------------------------------------------------------------------------------------------------------
+
+            //EnvironmentContextProperties
+            BH.oM.Environment.Properties.EnvironmentContextProperties environmentContextProperties = new oM.Environment.Properties.EnvironmentContextProperties();
+            environmentContextProperties.ElementID = tbdSurface.GUID;
+            environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + tbdSurface.buildingElement.GUID;
+            environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
+            element.ExtendedProperties.Add(environmentContextProperties);
+
+            //BuildingElementContextProperties
+            BH.oM.Environment.Properties.BuildingElementContextProperties buildingElementContextProperties = new oM.Environment.Properties.BuildingElementContextProperties();
+            buildingElementContextProperties.ConnectedSpaces.Add(tbdSurface.zone.name);
             if ((int)tbdSurface.type == 3)
-                element.CustomData.Add("AdjacentSpaceID", tbdSurface.linkSurface.zone.name);
+                buildingElementContextProperties.ConnectedSpaces.Add(tbdSurface.linkSurface.zone.name);
             else
-                element.CustomData.Add("AdjacentSpaceID", -1);
+                buildingElementContextProperties.ConnectedSpaces.Add("-1");
+
+            buildingElementContextProperties.IsAir = tbdElement.ghost != 0;
+            buildingElementContextProperties.IsGround = tbdElement.ground != 0;
+            buildingElementContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdElement.colour).ToString(); //we need to fix Colot type to 'System.Drawing.Color' type currently transfrom to Int
+            buildingElementContextProperties.Reversed = tbdSurface.reversed != 0;
+            element.ExtendedProperties.Add(buildingElementContextProperties);
+
+            //BuildingElementAnalyticalProperties
+            BH.oM.Environment.Properties.BuildingElementAnalyticalProperties buildingElementAnalyticalProperties = new oM.Environment.Properties.BuildingElementAnalyticalProperties();
+            buildingElementAnalyticalProperties.Altitude = tbdSurface.altitude;
+            buildingElementAnalyticalProperties.AltitudeRange = tbdSurface.altitudeRange;
+            buildingElementAnalyticalProperties.Inclination = tbdSurface.inclination;
+            buildingElementAnalyticalProperties.Orientation = tbdSurface.orientation;
+            buildingElementAnalyticalProperties.GValue = tbdElement.GValue();
+            buildingElementAnalyticalProperties.LTValue = tbdElement.LTValue();
+            buildingElementAnalyticalProperties.UValue = tbdElement.UValue();
+            element.ExtendedProperties.Add(buildingElementAnalyticalProperties);
+
+            //ElementProperties
+            BH.oM.Environment.Properties.ElementProperties elementProperties = new oM.Environment.Properties.ElementProperties();
+            elementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
+            elementProperties.Construction = tbdElement.GetConstruction().ToBHoM();
+            element.ExtendedProperties.Add(elementProperties);
+
+            //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
             element.BuildingElementProperties.Construction = tbdElement.GetConstruction().ToBHoM();
 
@@ -64,19 +108,32 @@ namespace BH.Engine.TAS
             int surfaceIndex = 0;
             TBD.RoomSurface roomSurface = null;
 
-            while((roomSurface = tbdSurface.GetRoomSurface(surfaceIndex)) != null)
+            //opening.CustomData.Add("TAS_ParentBuildingElementName", roomSurface.parentSurface.zoneSurface.buildingElement.name);
+            //roomSurface.parentSurface.zoneSurface.buildingElement.name
+            //            roomSurface.parentSurface.zoneSurface.GUID
+            //while ((roomSurface = tbdSurface.GetRoomSurface(surfaceIndex)) != null)
+            //{
+            //                    surfaceIndex++;
+            //}
+
+
+                while ((roomSurface = tbdSurface.GetRoomSurface(surfaceIndex)) != null)
             {
                 TBD.Perimeter tbdPerimeter = roomSurface.GetPerimeter();
                 if(tbdPerimeter != null)
+
                 {
                     panelCurve.Add(tbdPerimeter.ToBHoM());
 
-                    //Add openings
+
+
+                    //Add openings while ((openingPolygon = tbdPerimeter.GetHole(openingIndex) && (tbdSurface.buildingElement.BEType == 15 )) 
                     int openingIndex = 0;
                     TBD.Polygon openingPolygon = null;
-                    while ((openingPolygon = tbdPerimeter.GetHole(openingIndex)) != null)
+                    while ((openingPolygon = tbdPerimeter.GetHole(openingIndex)) != null )
+                    //if ((tbdSurface.buildingElement.BEType == 15 || tbdSurface.buildingElement.BEType == 12 || tbdSurface.buildingElement.BEType == 13 || tbdSurface.buildingElement.BEType == 20)) 
                     {
-                        element.Openings.Add(openingPolygon.ToBHoMOpening());
+                        element.Openings.Add(openingPolygon.ToBHoMOpening(roomSurface));
                         openingIndex++;
                     }
                 }
@@ -106,21 +163,21 @@ namespace BH.Engine.TAS
             element.CustomData.Add("SurfaceGUID", tbdSurface.GUID);
             element.CustomData.Add("SurfaceName", "Z_" + tbdSurface.zone.number + "_" + tbdSurface.number + "_" + tbdSurface.zone.name);
             element.CustomData.Add("SurfaceType", tbdSurface.type);
-            element.CustomData.Add("SurfaceAltitude", tbdSurface.altitude);
-            element.CustomData.Add("SurfaceAltitudeRange", tbdSurface.altitudeRange);
+            //element.CustomData.Add("SurfaceAltitude", tbdSurface.altitude);
+            //element.CustomData.Add("SurfaceAltitudeRange", tbdSurface.altitudeRange);
             element.CustomData.Add("SurfaceArea", tbdSurface.area);
-            element.CustomData.Add("SurfaceInclination", tbdSurface.inclination);
+            //element.CustomData.Add("SurfaceInclination", tbdSurface.inclination);
             element.CustomData.Add("SurfaceInternalArea", tbdSurface.internalArea);
-            element.CustomData.Add("SurfaceOrientation", tbdSurface.orientation);
-            element.CustomData.Add("SurfaceReversed", tbdSurface.reversed);
-            element.CustomData.Add("ElementColour", Query.GetRGB(tbdElement.colour));
-            element.CustomData.Add("ElementDescription", tbdElement.description);
-            element.CustomData.Add("ElementIsAir", tbdElement.ghost != 0);
-            element.CustomData.Add("ElementIsGround", tbdElement.ground != 0);
+            //element.CustomData.Add("SurfaceOrientation", tbdSurface.orientation);
+            //element.CustomData.Add("SurfaceReversed", tbdSurface.reversed);
+            //element.CustomData.Add("ElementColour", Query.GetRGB(tbdElement.colour));
+            //element.CustomData.Add("ElementDescription", tbdElement.description);
+            //element.CustomData.Add("ElementIsAir", tbdElement.ghost != 0);
+            //element.CustomData.Add("ElementIsGround", tbdElement.ground != 0);
             element.CustomData.Add("ElementWidth", tbdElement.width);
-            element.CustomData.Add("ElementGValue", tbdElement.GValue());
-            element.CustomData.Add("ElementLTValue", tbdElement.LTValue());
-            element.CustomData.Add("ElementUValue", tbdElement.UValue());
+            //element.CustomData.Add("ElementGValue", tbdElement.GValue());
+            //element.CustomData.Add("ElementLTValue", tbdElement.LTValue());
+            //element.CustomData.Add("ElementUValue", tbdElement.UValue());
             element.CustomData.Add("MaterialLayersThickness", tbdElement.GetConstruction().ConstructionThickness());
 
             element.CustomData = element.CustomData;
