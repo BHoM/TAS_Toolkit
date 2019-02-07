@@ -180,25 +180,31 @@ namespace BH.Adapter.TAS
             }
 
             //Clean up building elements with openings and constructions
-            List<BuildingElement> nonOpeningElements = buildingElements.ElementsWithoutType(BuildingElementType.WindowWithFrame).ElementsWithoutType(BuildingElementType.Window);
+            List<BuildingElement> nonOpeningElements = buildingElements.ElementsWithoutType(BuildingElementType.WindowWithFrame).ElementsWithoutType(BuildingElementType.Window).ElementsWithoutType(BuildingElementType.Rooflight).ElementsWithoutType(BuildingElementType.RooflightWithFrame);
+            List<BuildingElement> frameElements = buildingElements.ElementsByType(BuildingElementType.WindowWithFrame);
+            frameElements.AddRange(buildingElements.ElementsByType(BuildingElementType.RooflightWithFrame));
+            List<BuildingElement> panes = buildingElements.ElementsByType(BuildingElementType.Window);
+            panes.AddRange(buildingElements.ElementsByType(BuildingElementType.Rooflight));
 
-            foreach(BuildingElement element in nonOpeningElements)
+            foreach (BuildingElement element in nonOpeningElements)
             {
                 //Sort out opening construction
-                foreach(Opening frame in element.Openings)
+                string elementID = (element.EnvironmentContextProperties() as EnvironmentContextProperties).ElementID;
+
+                element.Openings = new List<Opening>();
+
+                List<BuildingElement> frames = frameElements.Where(x => x.Openings.Where(y => y.CustomData.ContainsKey("TAS_ParentBuildingElementGUID") && y.CustomData["TAS_ParentBuildingElementGUID"].ToString() == elementID).Count() > 0).ToList();
+
+                foreach(BuildingElement frame in frames)
                 {
-                    string name = frame.Name.Replace("frame", "pane");
-                    BuildingElement pane = buildingElements.ElementsByName(name).FirstOrDefault();
-                    if(pane != null)
+                    BuildingElement pane = panes.Where(x => (x.EnvironmentContextProperties() as EnvironmentContextProperties).TypeName == frame.Name.Replace("frame", "pane")).FirstOrDefault();
+
+                    if (pane != null)
                     {
-                        ElementProperties existingConstruction = frame.ElementProperties() as ElementProperties;
-                        ElementProperties paneConstruction = pane.ElementProperties() as ElementProperties;
-                        if(paneConstruction != null)
-                        {
-                            frame.ExtendedProperties.Remove(existingConstruction);
-                            frame.ExtendedProperties.Add(paneConstruction);
-                        }
-                            
+                        Opening newOpening = new Opening();
+                        newOpening.OpeningCurve = frame.PanelCurve;
+                        newOpening.ExtendedProperties = new List<IBHoMExtendedProperties>(pane.ExtendedProperties);
+                        element.Openings.Add(newOpening);
                     }
                 }
             }
