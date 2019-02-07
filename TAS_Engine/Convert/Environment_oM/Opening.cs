@@ -58,6 +58,8 @@ namespace BH.Engine.TAS
                 environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
                 opening.ExtendedProperties.Add(environmentContextProperties);
 
+                opening.Name = environmentContextProperties.TypeName;
+
                 //ElementProperties
                 BH.oM.Environment.Properties.ElementProperties elementProperties = new oM.Environment.Properties.ElementProperties();
                 elementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
