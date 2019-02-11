@@ -57,7 +57,7 @@ namespace BH.Engine.TAS
                 getTypeIndex++;
             }
 
-            internalCondition.InternalGain = tbdCondition.GetInternalGain().ToBHoM();
+            internalCondition.Gains = tbdCondition.GetInternalGain().ToBHoM();
             internalCondition.Emitters.Add(tbdCondition.GetHeatingEmitter().ToBHoM());
             internalCondition.Emitters.Add(tbdCondition.GetCoolingEmitter().ToBHoM());
 
@@ -97,7 +97,7 @@ namespace BH.Engine.TAS
             tbdCondition.GetCoolingEmitter().emitterType = coolingEmitter.emitterType;
             tbdCondition.GetCoolingEmitter().description = coolingEmitter.description;
 
-            TBD.InternalGainClass internalGain = internalCondition.InternalGain.ToTAS();
+            TBD.InternalGainClass internalGain = internalCondition.Gains.ToTAS();
             tbdCondition.GetInternalGain().name = internalGain.name;
             tbdCondition.GetInternalGain().targetIlluminance = internalGain.targetIlluminance;
             tbdCondition.GetInternalGain().freshAirRate = internalGain.freshAirRate;

@@ -27,7 +27,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BHA = BH.oM.Architecture;
-using BHE = BH.oM.Environment.Elements;
+using BHE = BH.oM.Environment.Gains;
+using BHP = BH.oM.Environment.Properties;
 using BHG = BH.oM.Geometry;
 
 using BH.oM.Reflection.Attributes;
@@ -40,53 +41,80 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.InternalGain from TAS TBD InternalGain")]
         [Input("tbdInternalGain", "TAS TBD InternalGain")]
         [Output("BHoM Environmental InternalGain object")]
-        public static BHE.InternalGain ToBHoM(this TBD.InternalGain tbdInternalGain)
+        public static List<BHE.Gain> ToBHoM(this TBD.InternalGain tbdInternalGain)
         {
             if (tbdInternalGain == null) return null;
 
-            BHE.InternalGain internalGain = new BHE.InternalGain();
-            internalGain.Name = tbdInternalGain.name;
-            internalGain.Illuminance = tbdInternalGain.targetIlluminance;
-            internalGain.OutsideAirRatePerPerson = tbdInternalGain.freshAirRate;
-            internalGain.PersonGain = tbdInternalGain.personGain;
-            internalGain.RadiationProperties.EquipmentRadiation = tbdInternalGain.equipmentRadProp;
-            internalGain.RadiationProperties.LightingRadiation = tbdInternalGain.lightingRadProp;
-            internalGain.RadiationProperties.OccupantRadiation = tbdInternalGain.occupantRadProp;
-            internalGain.CoefficientProperties.EquipmentViewCoefficient = tbdInternalGain.equipmentViewCoefficient;
-            internalGain.CoefficientProperties.LightingViewCoefficient = tbdInternalGain.lightingViewCoefficient;
-            internalGain.CoefficientProperties.OccupantViewCoefficient = tbdInternalGain.occupantViewCoefficient;
-
-            internalGain.Profiles = tbdInternalGain.Profiles();
+            List<BHE.Gain> gains = new List<BHE.Gain>();
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("InternalGainActivityID", tbdInternalGain.activityID);
             tasData.Add("InternalGainDescription", tbdInternalGain.description);
             tasData.Add("InternalDomesticHotWater", tbdInternalGain.domesticHotWater);
 
-            internalGain.CustomData = tasData;
-            return internalGain;
+            BHE.Gain occupantGain = new BHE.Gain();
+            occupantGain.Name = tbdInternalGain.name;
+
+            BHP.GainPropertiesPeople peopleGain = new BHP.GainPropertiesPeople();
+            peopleGain.GainType = BHE.GainType.People;
+            peopleGain.GainUnit = BHE.GainUnit.NumberOfPeople;
+            peopleGain.RadiantFraction = tbdInternalGain.occupantRadProp;
+            peopleGain.ViewCoefficient = tbdInternalGain.occupantViewCoefficient;
+            peopleGain.SensibleGain = tbdInternalGain.personGain; //ToDo - review if this is the best place for this!
+            occupantGain.GainProperties = peopleGain;
+            occupantGain.CustomData = tasData;
+
+            gains.Add(occupantGain);
+
+            BHE.Gain equipGain = new BHE.Gain();
+            equipGain.Name = tbdInternalGain.name;
+
+            BHP.GainPropertiesEquipmentSensible equipmentGain = new BHP.GainPropertiesEquipmentSensible();
+            equipmentGain.GainType = BHE.GainType.Equipment;
+            equipmentGain.GainUnit = BHE.GainUnit.WattsPerSquareMetre;
+            equipmentGain.RadiantFraction = tbdInternalGain.equipmentRadProp;
+            equipmentGain.ViewCoefficient = tbdInternalGain.equipmentViewCoefficient;
+            equipGain.GainProperties = equipmentGain;
+            equipGain.CustomData = tasData;
+
+            gains.Add(equipGain);
+
+            BHE.Gain lightGain = new BHE.Gain();
+            lightGain.Name = tbdInternalGain.name;
+
+            BHP.GainPropertiesLighting lightingGain = new BHP.GainPropertiesLighting();
+            lightingGain.GainUnit = oM.Environment.Gains.GainUnit.Illuminance;
+            lightingGain.RadiantFraction = tbdInternalGain.lightingRadProp;
+            lightingGain.ViewCoefficient = tbdInternalGain.lightingViewCoefficient;
+            lightingGain.Value = tbdInternalGain.targetIlluminance;
+
+            //tbdInternalGain.freshAirRate; //ToDo: Figure this one out later...
+
+            occupantGain.CustomData = tasData;
+            return gains;
         }
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD InternalGain from BH.oM.Environment.Elements.InternalGain")]
         [Input("internalGain", "BHoM Environmental InternalGain object")]
         [Output("TAS TBD InternalGain")]
-        public static TBD.InternalGainClass ToTAS(this BHE.InternalGain internalGain)
+        public static TBD.InternalGainClass ToTAS(this List<BHE.Gain> gains)
         {
             TBD.InternalGainClass tbdInternalGain = new TBD.InternalGainClass();
-            if (internalGain == null) return tbdInternalGain;
-
-            tbdInternalGain.name = internalGain.Name;
-            tbdInternalGain.targetIlluminance = (float)internalGain.Illuminance;
-            tbdInternalGain.freshAirRate = (float)internalGain.OutsideAirRatePerPerson;
-            tbdInternalGain.personGain = (float)internalGain.PersonGain;
-            tbdInternalGain.equipmentRadProp = (float)internalGain.RadiationProperties.EquipmentRadiation;
-            tbdInternalGain.lightingRadProp = (float)internalGain.RadiationProperties.LightingRadiation;
-            tbdInternalGain.occupantRadProp = (float)internalGain.RadiationProperties.OccupantRadiation;
-            tbdInternalGain.equipmentViewCoefficient = (float)internalGain.CoefficientProperties.EquipmentViewCoefficient;
-            tbdInternalGain.lightingViewCoefficient = (float)internalGain.CoefficientProperties.LightingViewCoefficient;
-            tbdInternalGain.occupantViewCoefficient = (float)internalGain.CoefficientProperties.OccupantViewCoefficient;
-
-            Dictionary<string, object> tasData = internalGain.CustomData;
+            if (gains == null) return tbdInternalGain;
+            /*
+            tbdInternalGain.name = gains.Name;
+            
+            tbdInternalGain.targetIlluminance = (float)gain.Illuminance;
+            tbdInternalGain.freshAirRate = (float)gain.OutsideAirRatePerPerson;
+            tbdInternalGain.personGain = (float)gain.PersonGain;
+            tbdInternalGain.equipmentRadProp = (float)gain.RadiationProperties.EquipmentRadiation;
+            tbdInternalGain.lightingRadProp = (float)gain.RadiationProperties.LightingRadiation;
+            tbdInternalGain.occupantRadProp = (float)gain.RadiationProperties.OccupantRadiation;
+            tbdInternalGain.equipmentViewCoefficient = (float)gain.CoefficientProperties.EquipmentViewCoefficient;
+            tbdInternalGain.lightingViewCoefficient = (float)gain.CoefficientProperties.LightingViewCoefficient;
+            tbdInternalGain.occupantViewCoefficient = (float)gain.CoefficientProperties.OccupantViewCoefficient;
+            
+            Dictionary<string, object> tasData = gains.CustomData;
 
             if (tasData != null)
             {
@@ -94,6 +122,8 @@ namespace BH.Engine.TAS
                 tbdInternalGain.description = (tasData.ContainsKey("InternalGainDescription") ? tasData["InternalGainDescription"].ToString() : "");
                 tbdInternalGain.domesticHotWater = (tasData.ContainsKey("InternalDomesticHotWater") ? (float)System.Convert.ToDouble(tasData["InternalDomesticHotWater"]) : 0);
             }
+            */
+            //ToDo: Fix this
 
             return tbdInternalGain;
         }
