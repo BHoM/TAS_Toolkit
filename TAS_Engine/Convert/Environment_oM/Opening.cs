@@ -53,8 +53,8 @@ namespace BH.Engine.TAS
 
                 //EnvironmentContextProperties
                 BH.oM.Environment.Properties.EnvironmentContextProperties environmentContextProperties = new oM.Environment.Properties.EnvironmentContextProperties();
-                environmentContextProperties.ElementID = tbdSurface.GUID;
-                environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + tbdSurface.buildingElement.GUID;
+                environmentContextProperties.ElementID = Query.GetCleanGUIDFromTAS(tbdSurface.GUID);
+                environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + Query.GetCleanGUIDFromTAS(tbdSurface.buildingElement.GUID);
                 //environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
                 environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
                 opening.ExtendedProperties.Add(environmentContextProperties);
@@ -85,7 +85,7 @@ namespace BH.Engine.TAS
 
                 if (roomSurface.parentSurface != null && roomSurface.parentSurface.zoneSurface != null && roomSurface.parentSurface.zoneSurface.buildingElement != null)
                 {
-                    opening.CustomData.Add("TAS_ParentBuildingElementGUID", roomSurface.parentSurface.zoneSurface.GUID);
+                    opening.CustomData.Add("TAS_ParentBuildingElementGUID", Query.GetCleanGUIDFromTAS(roomSurface.parentSurface.zoneSurface.GUID));
                     opening.CustomData.Add("TAS_ParentBuildingElementName", roomSurface.parentSurface.zoneSurface.buildingElement.name);
                 }
             }

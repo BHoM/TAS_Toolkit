@@ -74,8 +74,8 @@ namespace BH.Engine.TAS
 
             //EnvironmentContextProperties
             BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
-            environmentContextProperties.ElementID = tbdSurface.GUID;
-            environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + tbdSurface.buildingElement.GUID;
+            environmentContextProperties.ElementID = Query.GetCleanGUIDFromTAS(tbdSurface.GUID);
+            environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + Query.GetCleanGUIDFromTAS(tbdSurface.buildingElement.GUID);
             environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
             element.ExtendedProperties.Add(environmentContextProperties);
 
@@ -149,7 +149,7 @@ namespace BH.Engine.TAS
                 }
             }
 
-            element.CustomData.Add("SurfaceGUID", tbdSurface.GUID);
+            element.CustomData.Add("SurfaceGUID", Query.GetCleanGUIDFromTAS(tbdSurface.GUID));
             element.CustomData.Add("SurfaceName", "Z_" + tbdSurface.zone.number + "_" + tbdSurface.number + "_" + tbdSurface.zone.name);
             element.CustomData.Add("SurfaceType", tbdSurface.type);
             //element.CustomData.Add("SurfaceAltitude", tbdSurface.altitude);
@@ -194,7 +194,7 @@ namespace BH.Engine.TAS
 
             tbdElement.name = element.Name;
             tbdElement.BEType = (int)element.BuildingElementProperties.BuildingElementType.ToTAS();
-            tbdElement.GUID = element.ElementID;
+            tbdElement.GUID = Query.GetCleanGUIDFromTAS(element.ElementID);
 
             TBD.ConstructionClass construction = element.BuildingElementProperties.Construction.ToTAS();
             tbdElement.AssignConstruction(construction);

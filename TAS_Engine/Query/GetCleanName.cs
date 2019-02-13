@@ -64,6 +64,21 @@ namespace BH.Engine.TAS
 
             return aName;
         }
+
+        static public string GetCleanGUIDFromTAS(this string GUID)
+        {
+            if (GUID == null)
+                return null;
+            string aName = GUID;
+
+            if (GUID == string.Empty)
+                return string.Empty;
+
+            string aGUID = GUID.Replace(":", "_");
+            aName = aGUID.Replace(" ", string.Empty);
+
+            return aGUID;
+        }
     }
 }
 
