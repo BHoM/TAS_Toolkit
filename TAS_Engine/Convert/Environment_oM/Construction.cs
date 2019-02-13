@@ -59,7 +59,7 @@ namespace BH.Engine.TAS
             }
 
             construction.Thickness = thickness;
-            construction.BHoM_Guid = new Guid(tbdConstruction.GUID);
+            //construction.BHoM_Guid = new Guid(tbdConstruction.GUID);
             construction.AdditionalHeatTransfer = tbdConstruction.additionalHeatTransfer;
             construction.ConstructionType = tbdConstruction.type.ToBHoM();
             construction.FFactor = tbdConstruction.FFactor;
@@ -113,7 +113,7 @@ namespace BH.Engine.TAS
             if (construction == null) return tbdConstruction;
 
             tbdConstruction.name = construction.Name;
-            tbdConstruction.GUID = construction.BHoM_Guid.ToString();
+            //tbdConstruction.GUID = construction.BHoM_Guid.ToString();
             tbdConstruction.additionalHeatTransfer = (float)construction.AdditionalHeatTransfer;
             tbdConstruction.FFactor = (float)construction.FFactor;
             tbdConstruction.type = construction.ConstructionType.ToTAS();

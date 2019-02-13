@@ -54,7 +54,7 @@ namespace BH.Engine.TAS
 
             //EnvironmentContextProperties
             BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
-            environmentContextProperties.ElementID = tbdBuilding.GUID;
+            environmentContextProperties.ElementID = Query.GetCleanGUIDFromTAS(tbdBuilding.GUID);
             environmentContextProperties.Description = tbdBuilding.description;
             environmentContextProperties.TypeName = tbdBuilding.name;
             building.ExtendedProperties.Add(environmentContextProperties);
@@ -82,7 +82,7 @@ namespace BH.Engine.TAS
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("BuildingGUID", tbdBuilding.GUID);
+            tasData.Add("BuildingGUID", Query.GetCleanGUIDFromTAS(tbdBuilding.GUID));
             tasData.Add("BuildingDescription", tbdBuilding.description);
             tasData.Add("BuildingNorthAngle", tbdBuilding.northAngle);
             tasData.Add("BuildingPath3DFile", tbdBuilding.path3DFile);
@@ -113,7 +113,8 @@ namespace BH.Engine.TAS
 
             if (tasData != null)
             {
-                tbdBuilding.GUID = (tasData.ContainsKey("BuildingGUID") ? tasData["BuildingGUID"].ToString() : "");
+                //In TAS GUID is automatically generatedw we can do addign it
+                //tbdBuilding.GUID = (tasData.ContainsKey("BuildingGUID") ? tasData["BuildingGUID"].ToString() : "");
                 tbdBuilding.description = (tasData.ContainsKey("BuildingDescription") ? tasData["BuildingDescription"].ToString() : "");
                 tbdBuilding.northAngle = (tasData.ContainsKey("BuildingNorthAngle") ? (float)System.Convert.ToDouble(tasData["BuildingNorthAngle"]) : 0);
                 tbdBuilding.path3DFile = (tasData.ContainsKey("BuildingPath3DFile") ? tasData["BuildingPath3DFile"].ToString() : "");

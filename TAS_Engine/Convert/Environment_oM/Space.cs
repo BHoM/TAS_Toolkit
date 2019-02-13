@@ -61,7 +61,7 @@ namespace BH.Engine.TAS
 
             //EnvironmentContextProperties
             BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
-            environmentContextProperties.ElementID = tbdSpace.GUID;
+            environmentContextProperties.ElementID = Query.GetCleanGUIDFromTAS(tbdSpace.GUID);
             environmentContextProperties.Description = tbdSpace.description;
             environmentContextProperties.TypeName = tbdSpace.name;
             space.ExtendedProperties.Add(environmentContextProperties);
@@ -94,7 +94,7 @@ namespace BH.Engine.TAS
             tasData.Add("FacadeLength", tbdSpace.facadeLength);
             tasData.Add("FixedConvectionCoefficient", tbdSpace.fixedConvectionCoefficient);
             tasData.Add("FloorArea", tbdSpace.floorArea);
-            tasData.Add("GUID", tbdSpace.GUID);
+            tasData.Add("GUID", Query.GetCleanGUIDFromTAS(tbdSpace.GUID));
             tasData.Add("Length", tbdSpace.length);
             tasData.Add("SizeCooling", tbdSpace.sizeCooling);
             tasData.Add("SizeHeating", tbdSpace.sizeHeating);
@@ -134,7 +134,7 @@ namespace BH.Engine.TAS
                 tbdSpace.facadeLength = (tasData.ContainsKey("FacadeLength") ? (float)System.Convert.ToDouble(tasData["FacadeLength"]) : 0);
                 tbdSpace.fixedConvectionCoefficient = (tasData.ContainsKey("FixedConvectionCoefficient") ? (float)System.Convert.ToDouble(tasData["FixedConvectionCoefficient"]) : 0);
                 tbdSpace.floorArea = (tasData.ContainsKey("FloorArea") ? (float)System.Convert.ToDouble(tasData["FloorArea"]) : 0);
-                tbdSpace.GUID = (tasData.ContainsKey("GUID") ? tasData["GUID"].ToString() : "");
+                //tbdSpace.GUID = (tasData.ContainsKey("GUID") ? tasData["GUID"].ToString() : "");
                 tbdSpace.length = (tasData.ContainsKey("Length") ? (float)System.Convert.ToDouble(tasData["Length"]) : 0);
                 tbdSpace.sizeCooling = (tasData.ContainsKey("SizeCooling") ? System.Convert.ToInt32(tasData["SizeCooling"]) : 0);
                 tbdSpace.sizeHeating = (tasData.ContainsKey("SizeHeating") ? System.Convert.ToInt32(tasData["SizeHeating"]) : 0);
