@@ -55,6 +55,7 @@ namespace BH.Engine.TAS
                 BH.oM.Environment.Properties.EnvironmentContextProperties environmentContextProperties = new oM.Environment.Properties.EnvironmentContextProperties();
                 environmentContextProperties.ElementID = tbdSurface.GUID;
                 environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + tbdSurface.buildingElement.GUID;
+                //environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
                 environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
                 opening.ExtendedProperties.Add(environmentContextProperties);
 
