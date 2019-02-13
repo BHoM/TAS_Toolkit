@@ -67,7 +67,7 @@ namespace BH.Engine.TAS
             {
                 BHG.Polyline levelCurve = tbdStorey.GetPerimeter(0).ToBHoM();
                 double elevation = levelCurve.ControlPoints.First().Z;
-                level.Name = "TBD_" + elevation;
+                level.Name = "Level " + elevation;
                 level.Elevation = elevation;
             }
 
