@@ -33,6 +33,7 @@ using BH.oM.Environment.Interface;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Environment;
 using BH.Engine.TAS;
+using BHP = BH.oM.Environment.Properties;
 
 namespace BH.Adapter.TAS
 {
@@ -173,7 +174,9 @@ namespace BH.Adapter.TAS
                 TBD.zoneSurface zoneSrf = null;
                 while ((zoneSrf = zone.GetSurface(zoneSurfaceIndex)) != null)
                 {
-                    buildingElements.Add(zoneSrf.buildingElement.ToBHoM(zoneSrf));
+                    //check to exlude tine area
+                    if (zoneSrf.internalArea > 0 || zoneSrf.area > 0.2)
+                        buildingElements.Add(zoneSrf.buildingElement.ToBHoM(zoneSrf));
                     zoneSurfaceIndex++;
                 }
                 zoneIndex++;
@@ -206,6 +209,10 @@ namespace BH.Adapter.TAS
                         Opening newOpening = new Opening();
                         newOpening.OpeningCurve = frame.PanelCurve;
                         newOpening.ExtendedProperties = new List<IBHoMExtendedProperties>(pane.ExtendedProperties);
+
+                        string oldname = (newOpening.EnvironmentContextProperties() as BHP.EnvironmentContextProperties).TypeName;
+                        (newOpening.EnvironmentContextProperties() as BHP.EnvironmentContextProperties).TypeName =  BH.Engine.TAS.Query.GetCleanNameFromTAS(oldname);
+                        newOpening.Name = BH.Engine.TAS.Query.GetCleanNameFromTAS(oldname);
                         newOpening.ExtendedProperties.Add(frame.PropertiesByType(typeof(FrameProperties)));
 
                         element.Openings.Add(newOpening);
