@@ -61,7 +61,7 @@ namespace BH.Engine.TAS
 
             //EnvironmentContextProperties
             BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
-            environmentContextProperties.ElementID = Query.GetCleanGUIDFromTAS(tbdSpace.GUID);
+            environmentContextProperties.ElementID = tbdSpace.GUID.CleanString();
             environmentContextProperties.Description = tbdSpace.description;
             environmentContextProperties.TypeName = tbdSpace.name;
             space.ExtendedProperties.Add(environmentContextProperties);
@@ -94,7 +94,7 @@ namespace BH.Engine.TAS
             tasData.Add("FacadeLength", tbdSpace.facadeLength);
             tasData.Add("FixedConvectionCoefficient", tbdSpace.fixedConvectionCoefficient);
             tasData.Add("FloorArea", tbdSpace.floorArea);
-            tasData.Add("GUID", Query.GetCleanGUIDFromTAS(tbdSpace.GUID));
+            tasData.Add("GUID", tbdSpace.GUID.CleanString());
             tasData.Add("Length", tbdSpace.length);
             tasData.Add("SizeCooling", tbdSpace.sizeCooling);
             tasData.Add("SizeHeating", tbdSpace.sizeHeating);

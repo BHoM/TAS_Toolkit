@@ -36,48 +36,15 @@ namespace BH.Engine.TAS
         /**** Public Methods                            ****/
         /***************************************************/
 
-        static public string GetCleanName(this string Name)
+        static public string CleanString(this string st)
         {
-            if (Name == null)
+            if (st == null || st == string.Empty)
                 return null;
 
-            if (Name == string.Empty)
-                return string.Empty;
+            if (st.EndsWith(" -pane"))
+                st.Remove(st.LastIndexOf(" -pane"));
 
-            string aName = Name.Replace(":", "_");
-            aName = aName.Replace(" ", string.Empty);
-
-            return aName;
-        }
-
-        static public string GetCleanNameFromTAS(this string Name)
-        {
-            if (Name == null)
-                return null;
-            string aName = Name;
-
-            if (Name == string.Empty)
-                return string.Empty;
-            if (Name.EndsWith(" -pane"))
-                //aName = Name.Trim(" -pane");
-                aName = Name.Remove(Name.Length - 6);
-
-            return aName;
-        }
-
-        static public string GetCleanGUIDFromTAS(this string GUID)
-        {
-            if (GUID == null)
-                return null;
-            string aName = GUID;
-
-            if (GUID == string.Empty)
-                return string.Empty;
-
-            string aGUID = GUID.Replace(":", "_");
-            aName = aGUID.Replace(" ", string.Empty);
-
-            return aGUID;
+            return st.Replace(":", "_").Replace(" ", string.Empty);
         }
     }
 }

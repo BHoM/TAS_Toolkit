@@ -35,6 +35,8 @@ using BHP = BH.oM.Environment.Properties;
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 
+using BH.Engine.Environment;
+
 namespace BH.Engine.TAS
 {
     public static partial class Convert
@@ -51,9 +53,6 @@ namespace BH.Engine.TAS
             BHE.Construction elementConstruction = tbdElement.GetConstruction().ToBHoM();
 
             element.Name = tbdElement.name;
-            //element.BuildingElementProperties.Name = tbdElement.name;
-            //element.ElementID = tbdElement.GUID;
-            //element.ElementID = tbdSurface.GUID;
 
             //ElementProperties
             BHP.ElementProperties elementProperties = new BHP.ElementProperties();
@@ -61,21 +60,10 @@ namespace BH.Engine.TAS
             elementProperties.Construction = elementConstruction;
             element.ExtendedProperties.Add(elementProperties);
 
-            //element.BuildingElementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
-
-            ////Space/Adjacent IDs...
-            //element.CustomData.Add("SpaceID", tbdSurface.zone.name);
-            //if ((int)tbdSurface.type == 3)
-            //    element.CustomData.Add("AdjacentSpaceID", tbdSurface.linkSurface.zone.name);
-            //else
-            //    element.CustomData.Add("AdjacentSpaceID", -1);
-
-            //Adding data to Extended Poroperties--------------------------------------------------------------------------------------------------------------
-
             //EnvironmentContextProperties
             BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
-            environmentContextProperties.ElementID = Query.GetCleanGUIDFromTAS(tbdSurface.GUID);
-            environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + Query.GetCleanGUIDFromTAS(tbdSurface.buildingElement.GUID);
+            environmentContextProperties.ElementID = tbdSurface.GUID.CleanString();
+            environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + tbdSurface.buildingElement.GUID.CleanString();
             environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
             element.ExtendedProperties.Add(environmentContextProperties);
 
@@ -104,8 +92,6 @@ namespace BH.Engine.TAS
             buildingElementAnalyticalProperties.UValue = tbdElement.UValue();
             element.ExtendedProperties.Add(buildingElementAnalyticalProperties);
 
-            //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
-
             List<BHG.Polyline> panelCurve = new List<BHG.Polyline>();
             int surfaceIndex = 0;
             TBD.RoomSurface roomSurface = null;
@@ -117,7 +103,7 @@ namespace BH.Engine.TAS
                 {
                     panelCurve.Add(tbdPerimeter.ToBHoM());
 
-                    //Add openings while ((openingPolygon = tbdPerimeter.GetHole(openingIndex) && (tbdSurface.buildingElement.BEType == 15 )) 
+                    //Add openings
                     int openingIndex = 0;
                     TBD.Polygon openingPolygon = null;
                     while ((openingPolygon = tbdPerimeter.GetHole(openingIndex)) != null )
@@ -149,24 +135,12 @@ namespace BH.Engine.TAS
                 }
             }
 
-            element.CustomData.Add("SurfaceGUID", Query.GetCleanGUIDFromTAS(tbdSurface.GUID));
+            element.CustomData.Add("SurfaceGUID", tbdSurface.GUID.CleanString());
             element.CustomData.Add("SurfaceName", "Z_" + tbdSurface.zone.number + "_" + tbdSurface.number + "_" + tbdSurface.zone.name);
             element.CustomData.Add("SurfaceType", tbdSurface.type);
-            //element.CustomData.Add("SurfaceAltitude", tbdSurface.altitude);
-            //element.CustomData.Add("SurfaceAltitudeRange", tbdSurface.altitudeRange);
             element.CustomData.Add("SurfaceArea", tbdSurface.area);
-            //element.CustomData.Add("SurfaceInclination", tbdSurface.inclination);
             element.CustomData.Add("SurfaceInternalArea", tbdSurface.internalArea);
-            //element.CustomData.Add("SurfaceOrientation", tbdSurface.orientation);
-            //element.CustomData.Add("SurfaceReversed", tbdSurface.reversed);
-            //element.CustomData.Add("ElementColour", Query.GetRGB(tbdElement.colour));
-            //element.CustomData.Add("ElementDescription", tbdElement.description);
-            //element.CustomData.Add("ElementIsAir", tbdElement.ghost != 0);
-            //element.CustomData.Add("ElementIsGround", tbdElement.ground != 0);
             element.CustomData.Add("ElementWidth", tbdElement.width);
-            //element.CustomData.Add("ElementGValue", tbdElement.GValue());
-            //element.CustomData.Add("ElementLTValue", tbdElement.LTValue());
-            //element.CustomData.Add("ElementUValue", tbdElement.UValue());
             element.CustomData.Add("MaterialLayersThickness", tbdElement.GetConstruction().ConstructionThickness());
 
             element.CustomData = element.CustomData;
@@ -193,8 +167,13 @@ namespace BH.Engine.TAS
             if (element == null) return tbdElement;
 
             tbdElement.name = element.Name;
-            tbdElement.BEType = (int)element.BuildingElementProperties.BuildingElementType.ToTAS();
-            tbdElement.GUID = Query.GetCleanGUIDFromTAS(element.ElementID);
+
+            BHP.ElementProperties elementProperties = element.ElementProperties() as BHP.ElementProperties;
+            BHP.EnvironmentContextProperties envContextProperties = element.EnvironmentContextProperties() as BHP.EnvironmentContextProperties;
+            if (elementProperties != null)
+                tbdElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
+            if(envContextProperties != null)
+                tbdElement.GUID = envContextProperties.ElementID;
 
             TBD.ConstructionClass construction = element.BuildingElementProperties.Construction.ToTAS();
             tbdElement.AssignConstruction(construction);

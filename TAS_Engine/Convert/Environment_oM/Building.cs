@@ -50,11 +50,9 @@ namespace BH.Engine.TAS
             building.Elevation = tbdBuilding.maxBuildingAltitude;
             //building.Elevation = tbdBuilding.GetWeatherYear().altitude; //Consider switching to this is maxBuildingAltitude does not work
 
-            //Adding data to Extended Poroperties--------------------------------------------------------------------------------------------------------------
-
             //EnvironmentContextProperties
             BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
-            environmentContextProperties.ElementID = Query.GetCleanGUIDFromTAS(tbdBuilding.GUID);
+            environmentContextProperties.ElementID = tbdBuilding.GUID.CleanString();
             environmentContextProperties.Description = tbdBuilding.description;
             environmentContextProperties.TypeName = tbdBuilding.name;
             building.ExtendedProperties.Add(environmentContextProperties);
@@ -82,7 +80,7 @@ namespace BH.Engine.TAS
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("BuildingGUID", Query.GetCleanGUIDFromTAS(tbdBuilding.GUID));
+            tasData.Add("BuildingGUID", tbdBuilding.GUID.CleanString());
             tasData.Add("BuildingDescription", tbdBuilding.description);
             tasData.Add("BuildingNorthAngle", tbdBuilding.northAngle);
             tasData.Add("BuildingPath3DFile", tbdBuilding.path3DFile);
