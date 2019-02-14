@@ -214,8 +214,8 @@ namespace BH.Adapter.TAS
                         newOpening.ExtendedProperties = new List<IBHoMExtendedProperties>(pane.ExtendedProperties);
 
                         string oldname = (newOpening.EnvironmentContextProperties() as BHP.EnvironmentContextProperties).TypeName;
-                        (newOpening.EnvironmentContextProperties() as BHP.EnvironmentContextProperties).TypeName = oldname.CleanString();
-                        newOpening.Name = oldname.CleanString();
+                        (newOpening.EnvironmentContextProperties() as BHP.EnvironmentContextProperties).TypeName = oldname.GetCleanNameFromTAS(); //TODO here we need GetCleanNameFromTAS
+                        newOpening.Name = oldname.GetCleanNameFromTAS(); //TODO here we need GetCleanNameFromTAS
                         newOpening.ExtendedProperties.Add(frame.PropertiesByType(typeof(FrameProperties)));
 
                         element.Openings.Add(newOpening);

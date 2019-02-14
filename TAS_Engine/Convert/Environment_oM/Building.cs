@@ -52,7 +52,7 @@ namespace BH.Engine.TAS
 
             //EnvironmentContextProperties
             BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
-            environmentContextProperties.ElementID = tbdBuilding.GUID.CleanString();
+            environmentContextProperties.ElementID = tbdBuilding.GUID.GetCleanGUIDFromTAS();
             environmentContextProperties.Description = tbdBuilding.description;
             environmentContextProperties.TypeName = tbdBuilding.name;
             building.ExtendedProperties.Add(environmentContextProperties);
@@ -80,7 +80,7 @@ namespace BH.Engine.TAS
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("BuildingGUID", tbdBuilding.GUID.CleanString());
+            tasData.Add("BuildingGUID", tbdBuilding.GUID.GetCleanGUIDFromTAS());
             tasData.Add("BuildingDescription", tbdBuilding.description);
             tasData.Add("BuildingNorthAngle", tbdBuilding.northAngle);
             tasData.Add("BuildingPath3DFile", tbdBuilding.path3DFile);
@@ -111,7 +111,7 @@ namespace BH.Engine.TAS
 
             if (tasData != null)
             {
-                //In TAS GUID is automatically generatedw we can do addign it
+                //In TAS GUID is automatically generated so we do not need to add
                 //tbdBuilding.GUID = (tasData.ContainsKey("BuildingGUID") ? tasData["BuildingGUID"].ToString() : "");
                 tbdBuilding.description = (tasData.ContainsKey("BuildingDescription") ? tasData["BuildingDescription"].ToString() : "");
                 tbdBuilding.northAngle = (tasData.ContainsKey("BuildingNorthAngle") ? (float)System.Convert.ToDouble(tasData["BuildingNorthAngle"]) : 0);

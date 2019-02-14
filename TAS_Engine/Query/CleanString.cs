@@ -40,11 +40,26 @@ namespace BH.Engine.TAS
         {
             if (st == null || st == string.Empty)
                 return null;
-
-            if (st.EndsWith(" -pane"))
-                st.Remove(st.LastIndexOf(" -pane"));
-
             return st.Replace(":", "_").Replace(" ", string.Empty);
+        }
+        static public string GetCleanNameFromTAS(this string Name)
+        {
+            if (Name == null)
+                return null;
+            string aName = Name;
+
+            if (Name == string.Empty)
+                return string.Empty;
+            if (Name.EndsWith(" -pane"))
+                aName = Name.Remove(Name.Length - 6);
+            return aName;
+        }
+
+        static public string GetCleanGUIDFromTAS(this string GUID)
+        {
+            if (GUID == null || GUID == string.Empty)
+                return null;
+            return GUID.Replace("{", string.Empty).Replace("}", string.Empty);
         }
     }
 }
