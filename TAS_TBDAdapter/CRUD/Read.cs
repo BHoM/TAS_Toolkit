@@ -183,7 +183,7 @@ namespace BH.Adapter.TAS
             }
 
             //Clean up building elements with openings and constructions
-            List<BuildingElement> nonOpeningElements = buildingElements.ElementsWithoutType(BuildingElementType.WindowWithFrame).ElementsWithoutType(BuildingElementType.Window).ElementsWithoutType(BuildingElementType.Rooflight).ElementsWithoutType(BuildingElementType.RooflightWithFrame).ElementsWithoutType(BuildingElementType.Glazing).ElementsWithoutType(BuildingElementType.Frame);
+            List<BuildingElement> nonOpeningElements = buildingElements.ElementsWithoutType(BuildingElementType.WindowWithFrame).ElementsWithoutType(BuildingElementType.Window).ElementsWithoutType(BuildingElementType.Rooflight).ElementsWithoutType(BuildingElementType.RooflightWithFrame).ElementsWithoutType(BuildingElementType.Glazing).ElementsWithoutType(BuildingElementType.Frame).ElementsWithoutType(BuildingElementType.Door);
 
             List<BuildingElement> frameElements = buildingElements.ElementsByType(BuildingElementType.WindowWithFrame);
             frameElements.AddRange(buildingElements.ElementsByType(BuildingElementType.RooflightWithFrame));
@@ -192,6 +192,7 @@ namespace BH.Adapter.TAS
             List<BuildingElement> panes = buildingElements.ElementsByType(BuildingElementType.Window);
             panes.AddRange(buildingElements.ElementsByType(BuildingElementType.Rooflight));
             panes.AddRange(buildingElements.ElementsByType(BuildingElementType.Glazing));
+            panes.AddRange(buildingElements.ElementsByType(BuildingElementType.Door));
 
             foreach (BuildingElement element in nonOpeningElements)
             {
