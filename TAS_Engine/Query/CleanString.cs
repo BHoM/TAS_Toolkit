@@ -42,24 +42,23 @@ namespace BH.Engine.TAS
                 return null;
             return st.Replace(":", "_").Replace(" ", string.Empty);
         }
-        static public string GetCleanNameFromTAS(this string Name)
-        {
-            if (Name == null)
-                return null;
-            string aName = Name;
 
-            if (Name == string.Empty)
-                return string.Empty;
-            if (Name.EndsWith(" -pane"))
-                aName = Name.Remove(Name.Length - 6);
-            return aName;
+        public static string RemoveStringPart(this string name, string toRemove)
+        {
+            if (name == null || name == string.Empty)
+                return null;
+            
+            if(name.EndsWith(toRemove))
+                name = name.Remove(name.LastIndexOf(toRemove));
+
+            return name;
         }
 
-        static public string GetCleanGUIDFromTAS(this string GUID)
+        public static string RemoveBrackets(this string st)
         {
-            if (GUID == null || GUID == string.Empty)
+            if (st == null || st == string.Empty)
                 return null;
-            return GUID.Replace("{", string.Empty).Replace("}", string.Empty);
+            return st.Replace("{", string.Empty).Replace("}", string.Empty);
         }
     }
 }
