@@ -62,8 +62,8 @@ namespace BH.Engine.TAS
 
             //EnvironmentContextProperties
             BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
-            environmentContextProperties.ElementID = tbdSurface.GUID.GetCleanGUIDFromTAS();
-            environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + tbdSurface.buildingElement.GUID.GetCleanGUIDFromTAS();
+            environmentContextProperties.ElementID = tbdSurface.GUID.RemoveBrackets();
+            environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + tbdSurface.buildingElement.GUID.RemoveBrackets();
             environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
             element.ExtendedProperties.Add(environmentContextProperties);
 
@@ -135,7 +135,7 @@ namespace BH.Engine.TAS
                 }
             }
 
-            element.CustomData.Add("SurfaceGUID", tbdSurface.GUID.GetCleanGUIDFromTAS());
+            element.CustomData.Add("SurfaceGUID", tbdSurface.GUID.RemoveBrackets());
             element.CustomData.Add("SurfaceName", "Z_" + tbdSurface.zone.number + "_" + tbdSurface.number + "_" + tbdSurface.zone.name);
             element.CustomData.Add("SurfaceType", tbdSurface.type);
             element.CustomData.Add("SurfaceArea", tbdSurface.area);

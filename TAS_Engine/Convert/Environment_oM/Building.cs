@@ -52,7 +52,7 @@ namespace BH.Engine.TAS
 
             //EnvironmentContextProperties
             BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
-            environmentContextProperties.ElementID = tbdBuilding.GUID.GetCleanGUIDFromTAS();
+            environmentContextProperties.ElementID = tbdBuilding.GUID.RemoveBrackets();
             environmentContextProperties.Description = tbdBuilding.description;
             environmentContextProperties.TypeName = tbdBuilding.name;
             building.ExtendedProperties.Add(environmentContextProperties);
@@ -80,7 +80,7 @@ namespace BH.Engine.TAS
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("BuildingGUID", tbdBuilding.GUID.GetCleanGUIDFromTAS());
+            tasData.Add("BuildingGUID", tbdBuilding.GUID.RemoveBrackets());
             tasData.Add("BuildingDescription", tbdBuilding.description);
             tasData.Add("BuildingNorthAngle", tbdBuilding.northAngle);
             tasData.Add("BuildingPath3DFile", tbdBuilding.path3DFile);
