@@ -40,7 +40,7 @@ namespace BH.Engine.TAS
         public static TBD.SurfaceType SurfaceType (BHEE.BuildingElement buildingElement)
         {
             object aValue;
-            if(buildingElement.BuildingElementProperties.CustomData.TryGetValue("SAM_BuildingElementType", out aValue))
+            if(buildingElement.CustomData.TryGetValue("SAM_BuildingElementType", out aValue))
             {
                 if(aValue is string)
                 {
