@@ -86,7 +86,18 @@ namespace BH.Engine.TAS
 
             return level;
         }
+        /*
+        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Building from a list of BHoM Architecture Levels")]
+        [Input("levels","BHoM Architectural Levels")]
+        [Output("TAS TBD Building")]
+        public static TBD.BuildingStoreyClass ToTAS(this List<BHA.Level> levels)
+        {
+            TBD.BuildingStoreyClass tbdLevels = new TBD.BuildingStoreyClass();
+            if (levels == null) return tbdLevels;
 
+            return tbdLevels; 
+        }
+        */
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Building Storey from a BHoM Architecture Level")]
         [Input("level", "BHoM Architecture Level")]
         [Output("TAS TBD Building Storey")]
