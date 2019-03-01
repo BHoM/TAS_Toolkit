@@ -54,8 +54,8 @@ namespace BH.Adapter.TAS
                 return ReadSpaces();
             //else if (type == typeof(BuildingElement))
             //    return ReadPanels();
-            else if (type == typeof(BuildingElementProperties))
-                return ReadBuildingElementsProperties();
+            //else if (type == typeof(ElementProperties))
+              //  return ReadElementsProperties();
             else if (type == typeof(BH.oM.Environment.Materials.Material))
                 return ReadMaterials();
             else if (type == typeof(BH.oM.Architecture.Elements.Level))
@@ -265,25 +265,26 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        public List<BuildingElementProperties> ReadBuildingElementsProperties(List<string> ids = null)
+        public List<ElementProperties> ReadElementsProperties(List<string> ids = null)
         {
             TBD.Building building = tbdDocument.Building;
 
-            List<BuildingElementProperties> buildingElementProperties = new List<BuildingElementProperties>();
+            List<ElementProperties> elementProperties = new List<ElementProperties>();
 
             int buildingElementIndex = 0;
             TBD.buildingElement tbdBuildingElement = null;
             while ((tbdBuildingElement = tbdDocument.Building.GetBuildingElement(buildingElementIndex)) != null)
             {
-                //BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
+                BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
                 TBD.Construction construction = tbdBuildingElement.GetConstruction();
                 BH.oM.Environment.Elements.BuildingElementType bHoMBuildingElementType = BH.Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
-                //buildingElementProperties.Add(Engine.TAS.Convert.ToBHoM(construction, tbdBuildingElement.name, bHoMBuildingElementType, tbdBuildingElement));
+                
+                //elementProperties.Add(Engine.TAS.Convert.ToBHoM(((construction, bHoMBuildingElementType));
                 //ToDo: FIX THIS
                 buildingElementIndex++;
             }
 
-            return buildingElementProperties;
+            return elementProperties;
         }
 
         /***************************************************/
