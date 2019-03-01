@@ -175,7 +175,7 @@ namespace BH.Engine.TAS
             if(envContextProperties != null)
                 tbdElement.GUID = envContextProperties.ElementID;
 
-            TBD.ConstructionClass construction = element.BuildingElementProperties.Construction.ToTAS();
+            TBD.ConstructionClass construction = elementProperties.Construction.ToTAS();
             tbdElement.AssignConstruction(construction);
 
             Dictionary<string, object> tasData = element.CustomData;

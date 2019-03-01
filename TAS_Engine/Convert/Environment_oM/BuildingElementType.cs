@@ -33,7 +33,7 @@ using BHG = BH.oM.Geometry;
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 using BH.Engine.Environment;
-
+using BHP = BH.oM.Environment.Properties;
 namespace BH.Engine.TAS
 {
     public static partial class Convert
@@ -110,15 +110,15 @@ namespace BH.Engine.TAS
             TBD.BuildingElementType tbdType = TBD.BuildingElementType.NULLELEMENT;
             if (element == null) return tbdType;
             if (spaces == null) spaces = new List<List<BHE.BuildingElement>>();
-
+            
             int adjacentSpaces = element.AdjacentSpaces(spaces).Count;
-
-            if (adjacentSpaces == 0 && element.BuildingElementProperties.BuildingElementType != BHE.BuildingElementType.Window && element.BuildingElementProperties.BuildingElementType != BHE.BuildingElementType.Door)
+            BHP.ElementProperties elementProperties = element.ElementProperties() as BHP.ElementProperties;
+            if (adjacentSpaces == 0 && elementProperties.BuildingElementType != BHE.BuildingElementType.Window && elementProperties.BuildingElementType != BHE.BuildingElementType.Door)
                 tbdType = TBD.BuildingElementType.SHADEELEMENT;
 
-            if (element.BuildingElementProperties.CustomData.ContainsKey("SAM_BuildingElementType"))
+            if (element.CustomData.ContainsKey("SAM_BuildingElementType"))
             {
-                object obj = element.BuildingElementProperties.CustomData["SAM_BuildingElementType"];
+                object obj = element.CustomData["SAM_BuildingElementType"];
                 if (obj != null)
                     tbdType = (TBD.BuildingElementType)ToTBDSurfaceType(obj.ToString());
             }
