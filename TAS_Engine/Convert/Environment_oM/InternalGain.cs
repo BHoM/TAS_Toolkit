@@ -178,13 +178,14 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD InternalGain from BH.oM.Environment.Elements.InternalGain")]
         [Input("internalGain", "BHoM Environmental InternalGain object")]
         [Output("TAS TBD InternalGain")]
-        public static TBD.InternalGainClass ToTAS(this List<BHE.Gain> gains)
+        public static TBD.InternalGainClass ToTAS(this List<BHE.Gain> internalGains)
         {
             TBD.InternalGainClass tbdInternalGain = new TBD.InternalGainClass();
-            if (gains == null) return tbdInternalGain;
+            if (internalGains == null) internalGains = new List<BHE.Gain>();
+
+            List<TBD.InternalGain> gains = new List<TBD.InternalGain>();
             /*
             tbdInternalGain.name = gains.Name;
-            
             tbdInternalGain.targetIlluminance = (float)gain.Illuminance;
             tbdInternalGain.freshAirRate = (float)gain.OutsideAirRatePerPerson;
             tbdInternalGain.personGain = (float)gain.PersonGain;
@@ -194,7 +195,6 @@ namespace BH.Engine.TAS
             tbdInternalGain.equipmentViewCoefficient = (float)gain.CoefficientProperties.EquipmentViewCoefficient;
             tbdInternalGain.lightingViewCoefficient = (float)gain.CoefficientProperties.LightingViewCoefficient;
             tbdInternalGain.occupantViewCoefficient = (float)gain.CoefficientProperties.OccupantViewCoefficient;
-            
             Dictionary<string, object> tasData = gains.CustomData;
 
             if (tasData != null)

@@ -190,6 +190,17 @@ namespace BH.Engine.TAS
                 tbdElement.width = (tasData.ContainsKey("ElementWidth") ? (float)System.Convert.ToDouble(tasData["ElementWidth"]) : 0);
             }
 
+            BHP.BuildingElementContextProperties BEContextProperties = element.ContextProperties() as BHP.BuildingElementContextProperties;
+            if (elementProperties != null)
+                tbdElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
+            if(BEContextProperties!=null)
+                //tbdElement.GUID=BEContextProperties.ElementID;
+            if(element.BuildingElementProperties != null && element.BuildingElementProperties.Construction != null)
+            {
+                element.BuildingElementProperties.Construction.ToTAS(tbdConstruction);
+                tbdElement.AssignConstruction(tbdConstruction);
+            }       
+                
             return tbdElement;
         }
 
