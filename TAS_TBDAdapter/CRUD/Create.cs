@@ -118,13 +118,11 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private bool Create(BHE.Properties.BuildingElementProperties buildingElementProperties)
+        private bool Create(BHE.Properties.ElementProperties elementProperties)
         {
             TBD.Construction tbdConstruction = tbdDocument.Building.AddConstruction(null);
-            tbdConstruction.name = buildingElementProperties.Name;
-            //TODO: BuildingElementProperties can not handle Thickness
-            //tbdConstruction.materialWidth[0] = (float)buildingElementProperties.Thickness; //which value in the array shall we use??
-
+            tbdConstruction.name = elementProperties.Construction.Name;
+            tbdConstruction.materialWidth[0] = (float)elementProperties.Construction.Thickness;
             return true;
         }
 
