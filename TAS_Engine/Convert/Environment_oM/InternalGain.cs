@@ -180,10 +180,12 @@ namespace BH.Engine.TAS
         [Output("TAS TBD InternalGain")]
         public static TBD.InternalGainClass ToTAS(this List<BHE.Gain> internalGains)
         {
+            //Create one single gain from a list of gains (occupants, light...)
             TBD.InternalGainClass tbdInternalGain = new TBD.InternalGainClass();
             if (internalGains == null) internalGains = new List<BHE.Gain>();
 
             List<TBD.InternalGain> gains = new List<TBD.InternalGain>();
+            
             /*
             tbdInternalGain.name = gains.Name;
             tbdInternalGain.targetIlluminance = (float)gain.Illuminance;
@@ -196,6 +198,7 @@ namespace BH.Engine.TAS
             tbdInternalGain.lightingViewCoefficient = (float)gain.CoefficientProperties.LightingViewCoefficient;
             tbdInternalGain.occupantViewCoefficient = (float)gain.CoefficientProperties.OccupantViewCoefficient;
             Dictionary<string, object> tasData = gains.CustomData;
+            
 
             if (tasData != null)
             {
