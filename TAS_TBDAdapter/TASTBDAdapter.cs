@@ -87,7 +87,8 @@ namespace BH.Adapter.TAS
                             break;
                         default:
                             //modified to allow filtering element we need
-                            returnObjs.AddRange(Read(aFilterQuery));
+                            //returnObjs.AddRange(Read(aFilterQuery));
+                            returnObjs.AddRange(Read());
                             break;
                     }
 
