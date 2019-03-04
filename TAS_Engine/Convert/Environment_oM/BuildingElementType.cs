@@ -113,7 +113,7 @@ namespace BH.Engine.TAS
             
             int adjacentSpaces = element.AdjacentSpaces(spaces).Count;
             BHP.ElementProperties elementProperties = element.ElementProperties() as BHP.ElementProperties;
-            if (adjacentSpaces == 0 && elementProperties.BuildingElementType != BHE.BuildingElementType.Window && elementProperties.BuildingElementType != BHE.BuildingElementType.Door)
+            if (adjacentSpaces == 0 && elementProperties != null && elementProperties.BuildingElementType != BHE.BuildingElementType.Window && elementProperties.BuildingElementType != BHE.BuildingElementType.Door)
                 tbdType = TBD.BuildingElementType.SHADEELEMENT;
 
             if (element.CustomData.ContainsKey("SAM_BuildingElementType"))
