@@ -263,7 +263,7 @@ namespace BH.Adapter.TAS
                 }
             }
 
-            return nonOpeningElements;
+            return rtnElements;
         }
 
         //get external surfaces for filter   
