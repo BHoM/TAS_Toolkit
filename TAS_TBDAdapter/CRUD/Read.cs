@@ -223,6 +223,46 @@ namespace BH.Adapter.TAS
                 }
             }
 
+            //Clean up elements to remove any potential duplications
+            List<BuildingElement> rtnElements = new List<BuildingElement>();
+            while(nonOpeningElements.Count > 0)
+            {
+                string elementID = (nonOpeningElements[0].EnvironmentContextProperties() as EnvironmentContextProperties) != null ? (nonOpeningElements[0].EnvironmentContextProperties() as EnvironmentContextProperties).ElementID : "";
+                
+                if(elementID == "")
+                {
+                    rtnElements.Add(nonOpeningElements[0]);
+                    nonOpeningElements.RemoveAt(0);
+                    continue;
+                }
+
+                List<BuildingElement> matchingIDs = nonOpeningElements.BuildingElementsByElementID(elementID);
+                if (matchingIDs.Count == 1)
+                {
+                    rtnElements.Add(nonOpeningElements[0]);
+                    nonOpeningElements.RemoveAt(0);
+                    continue;
+                }
+
+                if (matchingIDs.Count == 2)
+                {
+                    rtnElements.Add(matchingIDs.MergeBuildingElement());
+                    nonOpeningElements.Remove(matchingIDs[0]);
+                    nonOpeningElements.Remove(matchingIDs[1]);
+                }
+                else
+                {
+                    BuildingElement merged = matchingIDs[0];
+                    nonOpeningElements.Remove(matchingIDs[0]);
+                    for (int x = 1; x < matchingIDs.Count; x++)
+                    {
+                        merged = merged.MergeBuildingElement(matchingIDs[x]);
+                        nonOpeningElements.Remove(matchingIDs[x]);
+                    }
+                    rtnElements.Add(merged);
+                }
+            }
+
             return nonOpeningElements;
         }
 
