@@ -28,8 +28,10 @@ using System.Threading.Tasks;
 
 using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment.Gains;
+using BHEE = BH.oM.Environment.Elements;
 using BHP = BH.oM.Environment.Properties;
 using BHG = BH.oM.Geometry;
+using TBD;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
@@ -52,20 +54,57 @@ namespace BH.Engine.TAS
             tasData.Add("InternalGainDescription", tbdInternalGain.description);
             tasData.Add("InternalDomesticHotWater", tbdInternalGain.domesticHotWater);
 
+            //Lighting
+            BHE.Gain lightGain = new BHE.Gain();
+            lightGain.Name = tbdInternalGain.name;
+
+            BHP.GainPropertiesLighting lightingGain = new BHP.GainPropertiesLighting();
+            lightingGain.GainUnit = oM.Environment.Gains.GainUnit.Illuminance;
+            lightingGain.RadiantFraction = tbdInternalGain.lightingRadProp;
+            lightingGain.ViewCoefficient = tbdInternalGain.lightingViewCoefficient;
+            lightingGain.Value = tbdInternalGain.targetIlluminance;
+            gains.Add(lightGain);
+
+            //Occupancy
             BHE.Gain occupantGain = new BHE.Gain();
             occupantGain.Name = tbdInternalGain.name;
 
             BHP.GainPropertiesPeople peopleGain = new BHP.GainPropertiesPeople();
+            peopleGain.SensibleGain = tbdInternalGain.personGain; //ToDo - review if this is the best place for this! W/person
+            peopleGain.LatentGain = tbdInternalGain.personGain;//ToDo - review if this is the best place for this! W/person
+            //ToDO: Profile
+            //peopleGain.Profile = 
+            
+            TBD.profile tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticOSG);
+            BHEE.Profile aProfile = null;
+            aProfile.ProfileType = BHEE.ProfileType.Hourly;
+            aProfile.MultiplicationFactor = tbdProfile.factor;
+            aProfile.SetBackValue = tbdProfile.setbackValue;
+            aProfile.Function = tbdProfile.function;
+            //aProfile.Values = GetHourlyValues(tbdProfile);
+
+            //double[] aResult = new double[24];
+
+            //for (int i = 1; i <= 24; i++)
+            //    aResult[i - 1] = tbdProfile.hourlyValues[i];
+
+            //aProfile.Values = aResult;
+
+            //                aHourlyValues = GetHourlyValues(aProfile);
+
+
+
+            peopleGain.GainUnit = BHE.GainUnit.PeoplePerSquareMetre;
             peopleGain.GainType = BHE.GainType.People;
-            peopleGain.GainUnit = BHE.GainUnit.NumberOfPeople;
             peopleGain.RadiantFraction = tbdInternalGain.occupantRadProp;
             peopleGain.ViewCoefficient = tbdInternalGain.occupantViewCoefficient;
-            peopleGain.SensibleGain = tbdInternalGain.personGain; //ToDo - review if this is the best place for this!
+
             occupantGain.GainProperties = peopleGain;
             occupantGain.CustomData = tasData;
 
             gains.Add(occupantGain);
 
+            //Equipment
             BHE.Gain equipGain = new BHE.Gain();
             equipGain.Name = tbdInternalGain.name;
 
@@ -79,14 +118,7 @@ namespace BH.Engine.TAS
 
             gains.Add(equipGain);
 
-            BHE.Gain lightGain = new BHE.Gain();
-            lightGain.Name = tbdInternalGain.name;
-
-            BHP.GainPropertiesLighting lightingGain = new BHP.GainPropertiesLighting();
-            lightingGain.GainUnit = oM.Environment.Gains.GainUnit.Illuminance;
-            lightingGain.RadiantFraction = tbdInternalGain.lightingRadProp;
-            lightingGain.ViewCoefficient = tbdInternalGain.lightingViewCoefficient;
-            lightingGain.Value = tbdInternalGain.targetIlluminance;
+            //ToDo:Pollutant
 
             //tbdInternalGain.freshAirRate; //ToDo: Figure this one out later...
 

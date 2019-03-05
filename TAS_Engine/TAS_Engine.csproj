@@ -133,6 +133,7 @@
     <Compile Include="Query\MinElevation.cs" />
     <Compile Include="Query\PlanPerimeter.cs" />
     <Compile Include="Query\QueryType.cs" />
+    <Compile Include="Query\GetNumberOfPeople.cs" />
     <Compile Include="Query\SurfaceType.cs" />
     <Compile Include="Query\ThermostatLimits.cs" />
   </ItemGroup>
