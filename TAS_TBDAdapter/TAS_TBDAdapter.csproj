@@ -56,9 +56,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BHoM\Build\DataManipulation_oM.dll</HintPath>
     </Reference>
-    <Reference Include="EDSL.ReportGenerator">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Environmental Design Solutions Ltd\Tas\EDSL.ReportGenerator.dll</HintPath>
-    </Reference>
     <Reference Include="Environment_Engine">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\BHoM_Engine\Build\Environment_Engine.dll</HintPath>
