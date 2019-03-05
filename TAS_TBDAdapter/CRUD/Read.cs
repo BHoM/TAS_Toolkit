@@ -90,13 +90,13 @@ namespace BH.Adapter.TAS
         {
             TBD.Building building = tbdDocument.Building;
 
-            List<Space> spaces = new List<Space>();
+            List <Space> spaces = new List<Space>();
 
             int zoneIndex = 0;
             while (building.GetZone(zoneIndex) != null)
             {
                 TBD.zone zone = tbdDocument.Building.GetZone(zoneIndex);
-                spaces.Add(Engine.TAS.Convert.ToBHoM(zone));
+                spaces.Add(Engine.TAS.Convert.ToBHoM(zone, tbdDocument));
                 zoneIndex++;
             }
 

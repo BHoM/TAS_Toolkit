@@ -41,7 +41,7 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.Space from TAS TBD Zone")]
         [Input("tbdSpace", "TAS TBD Zone")]
         [Output("BHoM Environmental Space object")]
-        public static BHE.Space ToBHoM(this TBD.zone tbdSpace)
+        public static BHE.Space ToBHoM(this TBD.zone tbdSpace, TBD.TBDDocument tbdDocument)
         {
             BHE.Space space = new BHE.Space();
             space.Number = tbdSpace.number.ToString();
@@ -100,6 +100,14 @@ namespace BH.Engine.TAS
             tasData.Add("SizeHeating", tbdSpace.sizeHeating);
             tasData.Add("Volume", tbdSpace.volume);
             tasData.Add("WallFloorAreaRatio", tbdSpace.wallFloorAreaRatio);
+
+            double[] YearlyPeopleSensibleSepcificGain = Query.GetNumberOfPeople(tbdDocument, tbdSpace);
+            //double MaxSpecificSensibleGain = YearlyPeopleSensibleSepcificGain.Max();
+            //double[] YearlyPeopleLatenteSepcificGain = Query.GetNumberOfPeople(tbdDocument, tbdSpace, TBD.Profiles.ticOLG);
+            //double MaxSpecificLatentGain = YearlyPeopleLatenteSepcificGain.Max();
+            //double NumberOfPeople = PeopleDesity / tbdSpace.floorArea;
+
+                //TBDFile.GetTemperatureSetPoints(aTBDDocument, TBD.Profiles.ticLL);
 
             space.CustomData = tasData;
 
