@@ -63,6 +63,10 @@
     <Reference Include="Geometry_oM">
       <HintPath>..\..\BHoM\Build\Geometry_oM.dll</HintPath>
     </Reference>
+    <Reference Include="Interop.TAS3D">
+      <HintPath>..\lib\Interop.TAS3D.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Interop.TBD, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
@@ -143,15 +147,6 @@
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="TAS3D">
-      <Guid>{C4AC86A0-5A0E-487B-A1A7-D18CC8E62FB3}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
