@@ -56,73 +56,121 @@ namespace BH.Engine.TAS
 
             //Lighting
             BHE.Gain lightGain = new BHE.Gain();
-            lightGain.Name = tbdInternalGain.name;
+            lightGain.Name = "L " + tbdInternalGain.name;
+            lightGain.GainType = BHE.GainType.Lighting;
 
             BHP.GainPropertiesLighting lightingGain = new BHP.GainPropertiesLighting();
-            lightingGain.GainUnit = oM.Environment.Gains.GainUnit.Illuminance;
+            lightingGain.GainType = BHE.GainType.Lighting;
+            lightingGain.GainUnit = BHE.GainUnit.WattsPerSquareMetre;
             lightingGain.RadiantFraction = tbdInternalGain.lightingRadProp;
             lightingGain.ViewCoefficient = tbdInternalGain.lightingViewCoefficient;
-            lightingGain.Value = tbdInternalGain.targetIlluminance;
+            tasData.Add("targetIlluminance", tbdInternalGain.targetIlluminance);
+
+            TBD.profile tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticLG);
+            BHEE.Profile aProfile = tbdProfile.ToBHoM(BHEE.ProfileCategory.Gain);
+            lightingGain.Profile = aProfile;
+
+            lightGain.GainProperties = lightingGain;
+            lightGain.CustomData = tasData;
             gains.Add(lightGain);
 
             //Occupancy
             BHE.Gain occupantGain = new BHE.Gain();
-            occupantGain.Name = tbdInternalGain.name;
+            occupantGain.Name = "O " + tbdInternalGain.name;
+            occupantGain.GainType = BHE.GainType.People;
 
             BHP.GainPropertiesPeople peopleGain = new BHP.GainPropertiesPeople();
-            peopleGain.SensibleGain = tbdInternalGain.personGain; //ToDo - review if this is the best place for this! W/person
-            peopleGain.LatentGain = tbdInternalGain.personGain;//ToDo - review if this is the best place for this! W/person
-            //ToDO: Profile
-            //peopleGain.Profile = 
-            
-            TBD.profile tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticOSG);
-            BHEE.Profile aProfile = null;
-            aProfile.ProfileType = BHEE.ProfileType.Hourly;
-            aProfile.MultiplicationFactor = tbdProfile.factor;
-            aProfile.SetBackValue = tbdProfile.setbackValue;
-            aProfile.Function = tbdProfile.function;
-            //aProfile.Values = GetHourlyValues(tbdProfile);
+            tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticOSG);
+            //curent limitation it works if we use hourly or yearl profile apprach with 0-1 values and factor as max
+            peopleGain.SensibleGain = tbdProfile.factor; //Unit W/m2 sensible gain
+            TBD.profile tbdProfileLat = tbdInternalGain.GetProfile((int)TBD.Profiles.ticOLG);
+            peopleGain.LatentGain = tbdProfileLat.factor; //Unit W/m2 latent gain
+            double aPeopleDesity = (peopleGain.SensibleGain + peopleGain.LatentGain) / tbdInternalGain.personGain; //Unit people/m2
+            aProfile = tbdProfile.ToBHoM(BHEE.ProfileCategory.Gain);
 
-            //double[] aResult = new double[24];
-
-            //for (int i = 1; i <= 24; i++)
-            //    aResult[i - 1] = tbdProfile.hourlyValues[i];
-
-            //aProfile.Values = aResult;
-
-            //                aHourlyValues = GetHourlyValues(aProfile);
-
-
+            for (int i = 0; i < aProfile.Values.Count; i++)
+                aProfile.Values[i] = aProfile.Values[i] * aPeopleDesity;
 
             peopleGain.GainUnit = BHE.GainUnit.PeoplePerSquareMetre;
             peopleGain.GainType = BHE.GainType.People;
             peopleGain.RadiantFraction = tbdInternalGain.occupantRadProp;
             peopleGain.ViewCoefficient = tbdInternalGain.occupantViewCoefficient;
 
+            peopleGain.Profile = aProfile;
             occupantGain.GainProperties = peopleGain;
             occupantGain.CustomData = tasData;
-
             gains.Add(occupantGain);
 
-            //Equipment
+            //Equipment Sens
             BHE.Gain equipGain = new BHE.Gain();
-            equipGain.Name = tbdInternalGain.name;
+            equipGain.Name = "EqS " + tbdInternalGain.name;
+            equipGain.GainType = BHE.GainType.Equipment;
+            BHP.GainPropertiesEquipmentSensible equipmentSensibleGain = new BHP.GainPropertiesEquipmentSensible();
+            equipmentSensibleGain.GainType = BHE.GainType.Equipment;
+            equipmentSensibleGain.GainUnit = BHE.GainUnit.WattsPerSquareMetre;
+            equipmentSensibleGain.RadiantFraction = tbdInternalGain.equipmentRadProp;
+            equipmentSensibleGain.ViewCoefficient = tbdInternalGain.equipmentViewCoefficient;
 
-            BHP.GainPropertiesEquipmentSensible equipmentGain = new BHP.GainPropertiesEquipmentSensible();
-            equipmentGain.GainType = BHE.GainType.Equipment;
-            equipmentGain.GainUnit = BHE.GainUnit.WattsPerSquareMetre;
-            equipmentGain.RadiantFraction = tbdInternalGain.equipmentRadProp;
-            equipmentGain.ViewCoefficient = tbdInternalGain.equipmentViewCoefficient;
-            equipGain.GainProperties = equipmentGain;
+            tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticESG);
+            aProfile = tbdProfile.ToBHoM(BHEE.ProfileCategory.Gain);
+            equipmentSensibleGain.Profile = aProfile;
+
+            equipGain.GainProperties = equipmentSensibleGain;
             equipGain.CustomData = tasData;
-
             gains.Add(equipGain);
 
-            //ToDo:Pollutant
+            //Equipment Lat
+            equipGain = new BHE.Gain();
+            equipGain.Name = "EqL " + tbdInternalGain.name;
+            equipGain.GainType = BHE.GainType.Equipment;
+            BHP.GainPropertiesEquipmentLatent equipmentLatentGain = new BHP.GainPropertiesEquipmentLatent();
+            equipmentLatentGain.GainType = BHE.GainType.Equipment;
+            equipmentLatentGain.GainUnit = BHE.GainUnit.WattsPerSquareMetre;
+
+            tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticELG);
+            aProfile = tbdProfile.ToBHoM(BHEE.ProfileCategory.Gain);
+            equipmentLatentGain.Profile = aProfile;
+
+            equipGain.GainProperties = equipmentLatentGain;
+            equipGain.CustomData = tasData;
+            gains.Add(equipGain);
+            occupantGain.CustomData = tasData;
+
+            //Pollutant
+            BHE.Gain pollGain = new BHE.Gain();
+            pollGain.Name = "P " + tbdInternalGain.name;
+            pollGain.GainType = BHE.GainType.Equipment;
+            BHP.GainPropertiesPollutant pollutanttGain = new BHP.GainPropertiesPollutant();
+            pollutanttGain.GainType = BHE.GainType.Pollutant;
+            pollutanttGain.GainUnit = BHE.GainUnit.LitresPerHourPerSquareMetre;
+
+            tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticCOG);
+            aProfile = tbdProfile.ToBHoM(BHEE.ProfileCategory.Gain);
+            pollutanttGain.Profile = aProfile;
+
+            pollGain.GainProperties = pollutanttGain;
+            pollGain.CustomData = tasData;
+            gains.Add(pollGain);
+
+            //Infiltration
+            BHE.Gain infGain = new BHE.Gain();
+            infGain.Name = "I " + tbdInternalGain.name;
+            infGain.GainType = BHE.GainType.Equipment;
+            BHP.GainPropertiesPollutant infiltrationGain = new BHP.GainPropertiesPollutant();
+            infiltrationGain.GainType = BHE.GainType.Infiltration;
+            infiltrationGain.GainUnit = BHE.GainUnit.AirChangesPerHour;
+
+            tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticI);
+            aProfile = tbdProfile.ToBHoM(BHEE.ProfileCategory.Gain);
+            infiltrationGain.Profile = aProfile;
+
+            infGain.GainProperties = infiltrationGain;
+            infGain.CustomData = tasData;
+            gains.Add(infGain);
+
 
             //tbdInternalGain.freshAirRate; //ToDo: Figure this one out later...
 
-            occupantGain.CustomData = tasData;
             return gains;
         }
 
@@ -160,4 +208,5 @@ namespace BH.Engine.TAS
             return tbdInternalGain;
         }
     }
+
 }
