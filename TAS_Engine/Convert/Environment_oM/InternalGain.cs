@@ -156,7 +156,7 @@ namespace BH.Engine.TAS
             BHE.Gain infGain = new BHE.Gain();
             infGain.Name = "I " + tbdInternalGain.name;
             infGain.GainType = BHE.GainType.Equipment;
-            BHP.GainPropertiesPollutant infiltrationGain = new BHP.GainPropertiesPollutant();
+            BHP.GainPropertiesInfiltration infiltrationGain = new BHP.GainPropertiesInfiltration();
             infiltrationGain.GainType = BHE.GainType.Infiltration;
             infiltrationGain.GainUnit = BHE.GainUnit.AirChangesPerHour;
 
