@@ -120,7 +120,8 @@
     <Compile Include="Convert\ToList.cs" />
     <Compile Include="Create\SetHour.cs" />
     <Compile Include="Create\IsExternalFilterQuery.cs" />
-    <Compile Include="Create\SimulationResult.cs" />
+    <Compile Include="Create\ToTBD\BuildingElement.cs" />
+    <Compile Include="Create\ToTSD\SimulationResult.cs" />
     <Compile Include="Modify\FixBuildingElementType.cs" />
     <Compile Include="Modify\SetTags.cs" />
     <Compile Include="Modify\UpdateCustomDataValue.cs" />
@@ -158,7 +159,9 @@
       <Name>TAS_oM</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Create\ToBHoM\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
