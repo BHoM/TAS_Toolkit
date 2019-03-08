@@ -210,16 +210,15 @@ namespace BH.Engine.TAS
         public static TBD.zoneSurface ToTASSurface(this BHE.BuildingElement element, TBD.zoneSurface tbdSurface)
         {
             //ToDo: Fix this
-            /*if (element == null) return tbdSurface;
+            if (element == null) return tbdSurface;
 
             if (element.CustomData.ContainsKey("SpaceID"))
                 tbdSurface.zone.name = element.CustomData["SpaceID"].ToString();
             if (element.CustomData.ContainsKey("AdjacentSpaceID") && element.CustomData["AdjacentSpaceID"].ToString() != "-1")
                 tbdSurface.type = TBD.SurfaceType.tbdLink;
-
-            TBD.Perimeter p = element.PanelCurve.ICollapseToPolyline(BHG.Tolerance.Angle).ToTAS();
-
-            return tbdSurface;*/
+            //TODO:Add method to Polyline (?)
+            //TBD.Perimeter p = element.PanelCurve.ICollapseToPolyline(BHG.Tolerance.Angle).ToTAS();
+            return tbdSurface;
 
             throw new NotImplementedException("Coming soon");
         }
