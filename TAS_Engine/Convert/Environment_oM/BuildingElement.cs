@@ -1,26 +1,4 @@
-﻿/*
- * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2018, the respective contributors. All rights reserved.
- *
- * Each contributor holds copyright over their respective contributions.
- * The project versioning (Git) records all such contribution source information.
- *                                           
- *                                                                              
- * The BHoM is free software: you can redistribute it and/or modify         
- * it under the terms of the GNU Lesser General Public License as published by  
- * the Free Software Foundation, either version 3.0 of the License, or          
- * (at your option) any later version.                                          
- *                                                                              
- * The BHoM is distributed in the hope that it will be useful,              
- * but WITHOUT ANY WARRANTY; without even the implied warranty of               
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                 
- * GNU Lesser General Public License for more details.                          
- *                                                                            
- * You should have received a copy of the GNU Lesser General Public License     
- * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
- */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -99,14 +77,14 @@ namespace BH.Engine.TAS
             while ((roomSurface = tbdSurface.GetRoomSurface(surfaceIndex)) != null)
             {
                 TBD.Perimeter tbdPerimeter = roomSurface.GetPerimeter();
-                if(tbdPerimeter != null)
+                if (tbdPerimeter != null)
                 {
                     panelCurve.Add(tbdPerimeter.ToBHoM());
 
                     //Add openings
                     int openingIndex = 0;
                     TBD.Polygon openingPolygon = null;
-                    while ((openingPolygon = tbdPerimeter.GetHole(openingIndex)) != null )
+                    while ((openingPolygon = tbdPerimeter.GetHole(openingIndex)) != null)
                     {
                         element.Openings.Add(openingPolygon.ToBHoMOpening(roomSurface));
                         openingIndex++;
@@ -128,7 +106,7 @@ namespace BH.Engine.TAS
                     else
                         element.PanelCurve = Geometry.Create.PolyCurve(polylines);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     BH.Engine.Reflection.Compute.RecordWarning("An error occurred in building element ID - " + element.BHoM_Guid + " - error was: " + e.ToString());
                     element.PanelCurve = Geometry.Create.PolyCurve(panelCurve);
@@ -157,12 +135,12 @@ namespace BH.Engine.TAS
 
             return element;
         }
+
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElement from a BHoM Environmental BuildingElement")]
         [Input("element", "BHoM Environmental BuildingElement")]
         [Output("TAS TBD BuildingElement")]
-        public static TBD.buildingElementClass ToTAS(this BHE.BuildingElement element)
+        public static TBD.buildingElement ToTAS(this BHE.BuildingElement element, TBD.buildingElement tbdElement, TBD.Construction tbdConstruction)
         {
-            TBD.buildingElementClass tbdElement = new TBD.buildingElementClass();
             if (element == null) return tbdElement;
 
             tbdElement.name = element.Name;
@@ -172,42 +150,6 @@ namespace BH.Engine.TAS
             if (elementProperties != null)
                 tbdElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
             if (envContextProperties != null)
-                tbdElement.GUID = envContextProperties.ElementID;
-
-            TBD.ConstructionClass construction = elementProperties.Construction.ToTAS();
-            tbdElement.AssignConstruction(construction);
-
-            Dictionary<string, object> tasData = element.CustomData;
-
-            if (tasData != null)
-            {
-                tbdElement.colour = (tasData.ContainsKey("ElementColour") ? System.Convert.ToUInt32(tasData["ElementColour"]) : 0);
-                tbdElement.description = (tasData.ContainsKey("ElementDescription") ? tasData["ElementDescription"].ToString() : "");
-                tbdElement.ghost = (tasData.ContainsKey("ElementIsAir") ? (((bool)tasData["ElementIsAir"]) ? 1 : 0) : 0);
-                tbdElement.ground = (tasData.ContainsKey("ElementIsGround") ? (((bool)tasData["ElementIsGround"]) ? 1 : 0) : 0);
-                tbdElement.GUID = (tasData.ContainsKey("ElementGUID") ? tasData["ElementGUID"].ToString() : "");
-                tbdElement.width = (tasData.ContainsKey("ElementWidth") ? (float)System.Convert.ToDouble(tasData["ElementWidth"]) : 0);
-            }
-
-            return tbdElement;
-        }
-
-        /*
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElement from a BHoM Environmental BuildingElement")]
-        [Input("element", "BHoM Environmental BuildingElement")]
-        [Output("TAS TBD BuildingElement")]
-        public static TBD.buildingElement ToTAS(this BHE.BuildingElement element, TBD.buildingElement tbdElement, TBD.Construction tbdConstruction)
-        {
-            //TBD.buildingElementClass tbdElement = new TBD.buildingElementClass();
-            if (element == null) return tbdElement;
-
-            tbdElement.name = element.Name;
-
-            BHP.ElementProperties elementProperties = element.ElementProperties() as BHP.ElementProperties;
-            BHP.EnvironmentContextProperties envContextProperties = element.EnvironmentContextProperties() as BHP.EnvironmentContextProperties;
-            if (elementProperties != null)
-                tbdElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
-            if(envContextProperties != null)
                 tbdElement.GUID = envContextProperties.ElementID;
 
             TBD.Construction construction = elementProperties.Construction.ToTAS(tbdConstruction);
@@ -225,20 +167,9 @@ namespace BH.Engine.TAS
                 tbdElement.width = (tasData.ContainsKey("ElementWidth") ? (float)System.Convert.ToDouble(tasData["ElementWidth"]) : 0);
             }
 
-            BHP.BuildingElementContextProperties BEContextProperties = element.ContextProperties() as BHP.BuildingElementContextProperties;
-            if (elementProperties != null)
-                tbdElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
-            if(BEContextProperties!=null)
-                //tbdElement.GUID=BEContextProperties.ElementID;
-            if(element.BuildingElementProperties != null && element.BuildingElementProperties.Construction != null)
-            {
-                element.BuildingElementProperties.Construction.ToTAS(tbdConstruction);
-                tbdElement.AssignConstruction(tbdConstruction);
-            }       
-                
             return tbdElement;
         }
-        */
+
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD ZoneSurface from a BHoM Environmental BuildingElement")]
         [Input("element", "BHoM Environmental BuildingElement")]
         [Output("TAS TBD ZoneSurface")]
@@ -248,33 +179,18 @@ namespace BH.Engine.TAS
 
             /*TBD.zoneSurfaceClass tbdElement = new TBD.zoneSurfaceClass();
             if (element == null) return tbdElement;
+
             if (element.CustomData.ContainsKey("SpaceID"))
                 tbdElement.zone.name = element.CustomData["SpaceID"].ToString();
+
             if (element.CustomData.ContainsKey("AdjacentSpaceID"))
                 tbdElement.linkSurface.zone.name = element.CustomData["AdjacentSpaceID"].ToString();
+
             
+
             return tbdElement;*/
 
             throw new NotImplementedException("Not yet implemented");
         }
-        /*
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD ZoneSurface from a BHoM Environmental BuildingElement")]
-        [Input("element", "BHoM Environmental BuildingElement")]
-        [Output("TAS TBD ZoneSurface")]
-        public static TBD.zoneSurface ToTASSurface(this BHE.BuildingElement element, TBD.zoneSurface tbdSurface)
-        {
-            //ToDo: Fix this
-            if (element == null) return tbdSurface;
-
-            if (element.CustomData.ContainsKey("SpaceID"))
-                tbdSurface.zone.name = element.CustomData["SpaceID"].ToString();
-            if (element.CustomData.ContainsKey("AdjacentSpaceID") && element.CustomData["AdjacentSpaceID"].ToString() != "-1")
-                tbdSurface.type = TBD.SurfaceType.tbdLink;
-            //TODO:Add method to Polyline (?)
-            //TBD.Perimeter p = element.PanelCurve.ICollapseToPolyline(BHG.Tolerance.Angle).ToTAS();
-            return tbdSurface;
-
-            throw new NotImplementedException("Coming soon");
-        }*/
     }
 }
