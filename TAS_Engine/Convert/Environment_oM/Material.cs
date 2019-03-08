@@ -83,7 +83,7 @@ namespace BH.Engine.TAS
 
             BHE.MaterialType matType = ((TBD.MaterialTypes)tbdMaterial.type).ToBHoM();
 
-            switch(matType)
+            switch (matType)
             {
                 case BHE.MaterialType.Gas:
                     return new BHP.MaterialPropertiesGas
@@ -135,7 +135,7 @@ namespace BH.Engine.TAS
         [Output("TAS TBD MaterialType")]
         public static TBD.MaterialTypes ToTAS(this BHE.MaterialType type)
         {
-            switch(type)
+            switch (type)
             {
                 case BHE.MaterialType.Gas:
                     return TBD.MaterialTypes.tcdGasLayer;
@@ -151,8 +151,9 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Material from a BHoM Environmental Material")]
         [Input("material", "BHoM Environmental Material")]
         [Output("TAS TBD Material")]
-        public static TBD.material ToTAS(this BHM.Material material, TBD.material tbdMaterial)
+        public static TBD.materialClass ToTAS(this BHM.Material material)
         {
+            TBD.materialClass tbdMaterial = new TBD.materialClass();
             if (material == null) return tbdMaterial;
 
             tbdMaterial.name = material.Name;
