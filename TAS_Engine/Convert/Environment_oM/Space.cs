@@ -101,13 +101,12 @@ namespace BH.Engine.TAS
             tasData.Add("Volume", tbdSpace.volume);
             tasData.Add("WallFloorAreaRatio", tbdSpace.wallFloorAreaRatio);
 
-            double[] YearlyPeopleSensibleSepcificGain = Query.GetNumberOfPeople(tbdDocument, tbdSpace);
+            //Proces to extract Number of people directly into space if needed
+            //double[] YearlyPeopleSensibleSepcificGain = Query.GetNumberOfPeople(tbdDocument, tbdSpace);
             //double MaxSpecificSensibleGain = YearlyPeopleSensibleSepcificGain.Max();
             //double[] YearlyPeopleLatenteSepcificGain = Query.GetNumberOfPeople(tbdDocument, tbdSpace, TBD.Profiles.ticOLG);
             //double MaxSpecificLatentGain = YearlyPeopleLatenteSepcificGain.Max();
             //double NumberOfPeople = PeopleDesity / tbdSpace.floorArea;
-
-                //TBDFile.GetTemperatureSetPoints(aTBDDocument, TBD.Profiles.ticLL);
 
             space.CustomData = tasData;
 
