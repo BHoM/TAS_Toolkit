@@ -53,6 +53,7 @@ namespace BH.Engine.TAS
             tasData.Add("InternalGainActivityID", tbdInternalGain.activityID);
             tasData.Add("InternalGainDescription", tbdInternalGain.description);
             tasData.Add("InternalDomesticHotWater", tbdInternalGain.domesticHotWater);
+            tasData.Add("targetIlluminance", tbdInternalGain.targetIlluminance);
 
             //Lighting
             BHE.Gain lightGain = new BHE.Gain();
@@ -64,7 +65,7 @@ namespace BH.Engine.TAS
             lightingGain.GainUnit = BHE.GainUnit.WattsPerSquareMetre;
             lightingGain.RadiantFraction = tbdInternalGain.lightingRadProp;
             lightingGain.ViewCoefficient = tbdInternalGain.lightingViewCoefficient;
-            tasData.Add("targetIlluminance", tbdInternalGain.targetIlluminance);
+
 
             TBD.profile tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticLG);
             BHEE.Profile aProfile = tbdProfile.ToBHoM(BHEE.ProfileCategory.Gain);
@@ -134,7 +135,7 @@ namespace BH.Engine.TAS
             equipGain.GainProperties = equipmentLatentGain;
             equipGain.CustomData = tasData;
             gains.Add(equipGain);
-            occupantGain.CustomData = tasData;
+
 
             //Pollutant
             BHE.Gain pollGain = new BHE.Gain();

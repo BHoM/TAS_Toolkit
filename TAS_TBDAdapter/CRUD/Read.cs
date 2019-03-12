@@ -55,7 +55,7 @@ namespace BH.Adapter.TAS
             //else if (type == typeof(BuildingElement))
             //    return ReadPanels();
             //else if (type == typeof(ElementProperties))
-              //  return ReadElementsProperties();
+            //  return ReadElementsProperties();
             else if (type == typeof(BH.oM.Environment.Materials.Material))
                 return ReadMaterials();
             else if (type == typeof(BH.oM.Architecture.Elements.Level))
@@ -90,7 +90,7 @@ namespace BH.Adapter.TAS
         {
             TBD.Building building = tbdDocument.Building;
 
-            List <Space> spaces = new List<Space>();
+            List<Space> spaces = new List<Space>();
 
             int zoneIndex = 0;
             while (building.GetZone(zoneIndex) != null)
@@ -203,7 +203,7 @@ namespace BH.Adapter.TAS
 
                 List<BuildingElement> frames = frameElements.Where(x => x.Openings.Where(y => y.CustomData.ContainsKey("TAS_ParentBuildingElementGUID") && y.CustomData["TAS_ParentBuildingElementGUID"].ToString() == elementID).Count() > 0).ToList();
 
-                foreach(BuildingElement frame in frames)
+                foreach (BuildingElement frame in frames)
                 {
                     BuildingElement pane = panes.Where(x => (x.EnvironmentContextProperties() as EnvironmentContextProperties).TypeName == frame.Name.Replace("frame", "pane")).FirstOrDefault();
 
@@ -278,7 +278,7 @@ namespace BH.Adapter.TAS
                 BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
                 TBD.Construction construction = tbdBuildingElement.GetConstruction();
                 BH.oM.Environment.Elements.BuildingElementType bHoMBuildingElementType = BH.Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
-                
+
                 //elementProperties.Add(Engine.TAS.Convert.ToBHoM(((construction, bHoMBuildingElementType));
                 //ToDo: FIX THIS
                 buildingElementIndex++;
