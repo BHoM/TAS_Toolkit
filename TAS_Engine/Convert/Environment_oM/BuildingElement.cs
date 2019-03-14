@@ -144,7 +144,7 @@ namespace BH.Engine.TAS
             if (element == null) return tbdElement;
 
             tbdElement.name = element.Name;
-
+           
             BHP.ElementProperties elementProperties = element.ElementProperties() as BHP.ElementProperties;
             BHP.EnvironmentContextProperties envContextProperties = element.EnvironmentContextProperties() as BHP.EnvironmentContextProperties;
             if (elementProperties != null)

@@ -102,13 +102,13 @@ namespace BH.Engine.TAS
         {
             //if (building == null) return tbdBuilding;
             TBD.Building tbdBuilding = new TBD.Building();
-            //BHE.Building building = new BHE.Building();
-            //tbdbuilding.name = tbdBuilding.name;
             tbdBuilding.name = building.Name;
             tbdBuilding.latitude = (float)building.Latitude;
             tbdBuilding.longitude = (float)building.Longitude;
             tbdBuilding.maxBuildingAltitude = (float)building.Elevation;
-
+            
+            
+            
             Dictionary<string, object> tasData = building.CustomData;
 
             if (tasData != null)
