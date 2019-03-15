@@ -100,15 +100,15 @@ namespace BH.Engine.TAS
         [Output("TAS TBD Building")]
         public static TBD.Building ToTAS(this BHE.Building building)
         {
-            //if (building == null) return tbdBuilding;
             TBD.Building tbdBuilding = new TBD.Building();
+            if (building == null) return tbdBuilding;
             tbdBuilding.name = building.Name;
             tbdBuilding.latitude = (float)building.Latitude;
             tbdBuilding.longitude = (float)building.Longitude;
             tbdBuilding.maxBuildingAltitude = (float)building.Elevation;
             
             
-            
+            /*
             Dictionary<string, object> tasData = building.CustomData;
 
             if (tasData != null)
@@ -128,7 +128,7 @@ namespace BH.Engine.TAS
                     short year = System.Convert.ToInt16(tasData["BuildingYear"]);
                     tbdBuilding.year = year;
                 }
-            }
+            }*/
 
             return tbdBuilding;
         }
