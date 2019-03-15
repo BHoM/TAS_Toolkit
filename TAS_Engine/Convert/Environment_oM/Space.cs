@@ -119,8 +119,6 @@ namespace BH.Engine.TAS
         public static TBD.zone ToTAS(this BHE.Space space, TBD.zone tbdSpace)
         {
             if (space == null) return tbdSpace;
-            //tbdSpace.number = System.Convert.ToInt32(space.Number);
-            //tbdSpace.number = int.Parse("space.Number");
             tbdSpace.name = space.Name;
             tbdSpace.maxHeatingLoad=(float)space.HeatingLoad;
             tbdSpace.maxCoolingLoad = (float)space.CoolingLoad;

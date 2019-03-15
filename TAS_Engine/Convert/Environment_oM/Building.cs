@@ -106,15 +106,11 @@ namespace BH.Engine.TAS
             tbdBuilding.latitude = (float)building.Latitude;
             tbdBuilding.longitude = (float)building.Longitude;
             tbdBuilding.maxBuildingAltitude = (float)building.Elevation;
-            
-            
-            /*
+
             Dictionary<string, object> tasData = building.CustomData;
 
             if (tasData != null)
             {
-                //In TAS GUID is automatically generated so we do not need to add
-                //tbdBuilding.GUID = (tasData.ContainsKey("BuildingGUID") ? tasData["BuildingGUID"].ToString() : "");
                 tbdBuilding.description = (tasData.ContainsKey("BuildingDescription") ? tasData["BuildingDescription"].ToString() : "");
                 tbdBuilding.northAngle = (tasData.ContainsKey("BuildingNorthAngle") ? (float)System.Convert.ToDouble(tasData["BuildingNorthAngle"]) : 0);
                 tbdBuilding.path3DFile = (tasData.ContainsKey("BuildingPath3DFile") ? tasData["BuildingPath3DFile"].ToString() : "");
@@ -122,13 +118,12 @@ namespace BH.Engine.TAS
                 tbdBuilding.peakHeating = (tasData.ContainsKey("BuildingPeakHeating") ? (float)System.Convert.ToDouble(tasData["BuildingPeakHeating"]) : 0);
                 tbdBuilding.TBDGUID = (tasData.ContainsKey("BuildingTBDGUID") ? tasData["BuildingTBDGUID"].ToString() : "");
                 tbdBuilding.timeZone = (tasData.ContainsKey("BuildingTimeZone") ? (float)System.Convert.ToDouble(tasData["BuildingTimeZone"]) : 0);
-
-                if(tasData.ContainsKey("BuildingYear"))
+                if (tasData.ContainsKey("BuildingYear"))
                 {
                     short year = System.Convert.ToInt16(tasData["BuildingYear"]);
                     tbdBuilding.year = year;
                 }
-            }*/
+            }
 
             return tbdBuilding;
         }
