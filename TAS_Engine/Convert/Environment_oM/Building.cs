@@ -108,7 +108,6 @@ namespace BH.Engine.TAS
             tbdBuilding.maxBuildingAltitude = (float)building.Elevation;
 
             Dictionary<string, object> tasData = building.CustomData;
-
             if (tasData != null)
             {
                 tbdBuilding.description = (tasData.ContainsKey("BuildingDescription") ? tasData["BuildingDescription"].ToString() : "");
@@ -116,13 +115,25 @@ namespace BH.Engine.TAS
                 tbdBuilding.path3DFile = (tasData.ContainsKey("BuildingPath3DFile") ? tasData["BuildingPath3DFile"].ToString() : "");
                 tbdBuilding.peakCooling = (tasData.ContainsKey("BuildingPeakCooling") ? (float)System.Convert.ToDouble(tasData["BuildingPeakCooling"]) : 0);
                 tbdBuilding.peakHeating = (tasData.ContainsKey("BuildingPeakHeating") ? (float)System.Convert.ToDouble(tasData["BuildingPeakHeating"]) : 0);
-                tbdBuilding.TBDGUID = (tasData.ContainsKey("BuildingTBDGUID") ? tasData["BuildingTBDGUID"].ToString() : "");
+                tbdBuilding.GUID = (tasData.ContainsKey("BuildingTBDGUID") ? tasData["BuildingTBDGUID"].ToString() : "");
                 tbdBuilding.timeZone = (tasData.ContainsKey("BuildingTimeZone") ? (float)System.Convert.ToDouble(tasData["BuildingTimeZone"]) : 0);
                 if (tasData.ContainsKey("BuildingYear"))
                 {
                     short year = System.Convert.ToInt16(tasData["BuildingYear"]);
                     tbdBuilding.year = year;
                 }
+
+                //foreach (BH.oM.Environment.Elements.Space aSpace in building.Spaces)
+                //{
+                //    success &= Create(aSpace, building);
+                //}
+
+
+                //        private bool Create(BH.oM.Environment.Elements.Space space)
+                //{
+                //    TBD.zone tbdzone = tbdDocument.Building.AddZone();
+                //    tbdzone.name = space.Name;
+                //}
             }
 
             return tbdBuilding;

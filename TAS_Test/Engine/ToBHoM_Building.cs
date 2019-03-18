@@ -42,16 +42,17 @@ using System.Runtime.InteropServices;
 namespace TAS_Test.Engine.Convert
 {
     [TestClass]
-    public class ToTAS_Building
+    public class ToBHoM_Building
     {
         [TestMethod]
-        public void TestToTAS_Building()
+        public void TestToBHoM_Building()
         {
-            //Determines whether a Building created by ToTAS has it's given name.   
-            //TBD.Building building = new TBD.Building();
-            //string buildingName = "TestBuildingName";
-            //building.name = buildingName;
-            //Assert.IsTrue(building.name.Equals("TestBuildingName"));
+            //Determines whether a Building created by ToBHoM has it's given name.   
+            BHE.Building building = new BHE.Building();
+            string buildingName = "TestBuildingName";
+            building.Name = buildingName;
+            Assert.IsTrue(building.Name.Equals("TestBuildingName"));
         }
     }
 }
+          

@@ -102,6 +102,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Engine\ToBHoM_Building.cs" />
     <Compile Include="Engine\ToTAS_Building.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
