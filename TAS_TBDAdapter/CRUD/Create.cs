@@ -96,13 +96,12 @@ namespace BH.Adapter.TAS
                 tbdSpace.name = space.Name;
                 tbdSpace.maxHeatingLoad = (float)space.HeatingLoad;
                 tbdSpace.maxCoolingLoad = (float)space.CoolingLoad;
-                /*{
-                    foreach (BHE.Elements.InternalCondition condition in space.InternalConditions)
-                        tbdSpace.AssignIC(condition.ToTAS(), true);
-                    Dictionary<string, object> tasData = space.CustomData;
-                }*/
-                Dictionary<string, object> tasData = space.CustomData;
 
+                //{
+                //    foreach (BHE.Elements.InternalCondition condition in space.InternalConditions)
+                //        tbdSpace.AssignIC(condition.ToTAS(), true);
+                //}
+                Dictionary<string, object> tasData = space.CustomData;
                 if (tasData != null)
                 {
                     tbdSpace.colour = (tasData.ContainsKey("SpaceColour") ? System.Convert.ToUInt32(tasData["SpaceColour"]) : 0);
@@ -127,12 +126,12 @@ namespace BH.Adapter.TAS
         /***************************************************/
         private bool Create(BH.oM.Environment.Elements.Building building)
         {
+            bool success = true;
             TBD.Building tbdBuilding = tbdDocument.Building;
             tbdBuilding.name = building.Name;
             tbdBuilding.latitude = (float)building.Latitude;
             tbdBuilding.longitude = (float)building.Longitude;
             tbdBuilding.maxBuildingAltitude = (float)building.Elevation;
-
             Dictionary<string, object> tasData = building.CustomData;
 
             if (tasData != null)
@@ -142,34 +141,24 @@ namespace BH.Adapter.TAS
                 tbdBuilding.path3DFile = (tasData.ContainsKey("BuildingPath3DFile") ? tasData["BuildingPath3DFile"].ToString() : "");
                 tbdBuilding.peakCooling = (tasData.ContainsKey("BuildingPeakCooling") ? (float)System.Convert.ToDouble(tasData["BuildingPeakCooling"]) : 0);
                 tbdBuilding.peakHeating = (tasData.ContainsKey("BuildingPeakHeating") ? (float)System.Convert.ToDouble(tasData["BuildingPeakHeating"]) : 0);
-                tbdBuilding.TBDGUID = (tasData.ContainsKey("BuildingTBDGUID") ? tasData["BuildingTBDGUID"].ToString() : "");
+                tbdBuilding.GUID = (tasData.ContainsKey("BuildingTBDGUID") ? tasData["BuildingTBDGUID"].ToString() : "");
                 tbdBuilding.timeZone = (tasData.ContainsKey("BuildingTimeZone") ? (float)System.Convert.ToDouble(tasData["BuildingTimeZone"]) : 0);
-
                 if (tasData.ContainsKey("BuildingYear"))
                 {
                     short year = System.Convert.ToInt16(tasData["BuildingYear"]);
                     tbdBuilding.year = year;
                 }
-
-
-                /*
-                foreach (BH.oM.Environment.Elements.Space  aSpace in building.Spaces)
-                {
-                    success &= Create(aSpace, building);
-                }*/
-
-
-                /*private bool Create(BH.oM.Environment.Elements.Space space)
-                {
-                    TBD.zone tbdzone = tbdDocument.Building.AddZone();
-                    tbdzone.name = space.Name;*/
             }
-
-            bool success = true;
+            //{ 
+            //foreach (BH.oM.Environment.Elements.Space aSpace in tbdBuilding.Spaces)
+            //    {
+            //        success &= Create(aSpace, building);
+            //    }
+            //}
             return success;
-        } 
-    
-    
+        }
+
+
 
         /***************************************************/
 

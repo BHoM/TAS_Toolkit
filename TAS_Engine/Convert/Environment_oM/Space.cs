@@ -120,24 +120,22 @@ namespace BH.Engine.TAS
         {
             if (space == null) return tbdSpace;
             tbdSpace.name = space.Name;
-            tbdSpace.maxHeatingLoad=(float)space.HeatingLoad;
+            tbdSpace.maxHeatingLoad = (float)space.HeatingLoad;
             tbdSpace.maxCoolingLoad = (float)space.CoolingLoad;
-            
-            /*
-            BHE.InternalCondition BHoMcondition = null;
-            int conditionIndex = 0;
-            while ((BHoMcondition=space.InternalConditions(conditionIndex))!=null)
-            {
-                tbdSpace.GetIC(conditionIndex) = space.InternalConditions(conditionIndex);
-                conditionIndex++;
-            }
 
-            
-            {
-                foreach (BHE.InternalCondition condition in space.InternalConditions)
-                    tbdSpace.AssignIC(condition.ToTAS(), true);
-            }
-            */
+            //BHE.InternalCondition BHoMcondition = null;
+            //int conditionIndex = 0;
+            //while ((BHoMcondition=space.InternalConditions(conditionIndex))!=null)
+            //{
+            //    tbdSpace.GetIC(conditionIndex) = space.InternalConditions(conditionIndex);
+            //    conditionIndex++;
+            //}
+
+            //{
+            //    foreach (BHE.InternalCondition condition in space.InternalConditions)
+            //        tbdSpace.AssignIC(condition.ToTAS(), true);
+            //}
+
             Dictionary<string, object> tasData = space.CustomData;
 
             if (tasData != null)
