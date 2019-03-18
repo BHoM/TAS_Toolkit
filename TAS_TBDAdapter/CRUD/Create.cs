@@ -186,6 +186,8 @@ namespace BH.Adapter.TAS
         {
             TBD.Construction tbdConstruction = tbdDocument.Building.AddConstruction(null);
             tbdConstruction.name = elementProperties.Construction.Name;
+
+
             tbdConstruction.materialWidth[0] = (float)elementProperties.Construction.Thickness;
             return true;
         }
