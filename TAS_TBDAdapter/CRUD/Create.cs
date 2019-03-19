@@ -166,6 +166,34 @@ namespace BH.Adapter.TAS
         {
             TBD.buildingElement tbdBuildingElement = tbdDocument.Building.AddBuildingElement();
             tbdBuildingElement.name = buildingElement.Name;
+
+            BHP.ElementProperties elementProperties = buildingElement.ElementProperties() as BHP.ElementProperties;
+            if (elementProperties != null)
+                tbdBuildingElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
+            //TBD.Construction construction = elementProperties.Construction.ToTAS();
+            //tbdBuildingElement.AssignConstruction(construction);
+
+            BHP.EnvironmentContextProperties envContextProperties = buildingElement.EnvironmentContextProperties() as BHP.EnvironmentContextProperties;
+            if (envContextProperties != null)
+                tbdBuildingElement.GUID = envContextProperties.ElementID;
+            //tbdElement.description = envContextProperties.Description;
+
+            BHP.BuildingElementContextProperties BEContextProperties = buildingElement.ContextProperties() as BHP.BuildingElementContextProperties;
+            if (BEContextProperties != null)
+                tbdBuildingElement.colour = System.Convert.ToUInt32(BEContextProperties.Colour);
+
+
+            //Dictionary<string, object> tasData = buildingElement.CustomData;
+
+            //if (tasData != null)
+            //{
+            //    tbdBuildingElement.colour = (tasData.ContainsKey("ElementColour") ? System.Convert.ToUInt32(tasData["ElementColour"]) : 0);
+            //    tbdBuildingElement.description = (tasData.ContainsKey("ElementDescription") ? tasData["ElementDescription"].ToString() : "");
+            //    tbdBuildingElement.ghost = (tasData.ContainsKey("ElementIsAir") ? (((bool)tasData["ElementIsAir"]) ? 1 : 0) : 0);
+                //    tbdBuildingElement.ground = (tasData.ContainsKey("ElementIsGround") ? (((bool)tasData["ElementIsGround"]) ? 1 : 0) : 0);
+                //    tbdBuildingElement.GUID = (tasData.ContainsKey("ElementGUID") ? tasData["ElementGUID"].ToString() : "");
+                //    tbdBuildingElement.width = (tasData.ContainsKey("ElementWidth") ? (float)System.Convert.ToDouble(tasData["ElementWidth"]) : 0);
+            //}
             return true;
         }
 
@@ -203,25 +231,26 @@ namespace BH.Adapter.TAS
             tbdCondition.name = internalCondition.Name;
             //Way of converting bool to int
             tbdCondition.includeSolarInMRT = (internalCondition.IncludeSolarInMeanRadiantTemp ? 1 : 0);
-            Dictionary<string, object> tasData = internalCondition.CustomData;
 
+            Dictionary<string, object> tasData = internalCondition.CustomData;
             if (tasData != null)
             {
                 tbdCondition.description=(tasData.ContainsKey("InternalConditionDescription")?tasData["InternalConditionDescription"].ToString():"");
             }
+            //TODO: Add Daytypes, Internalgain, Thermostat
+
             //foreach (BHE.Elements.SimulationDayType dayType in internalCondition.DayTypes)
             //    tbdCondition.SetDayType(dayType.ToTAS(), true);
+            //TBD.InternalGain internalGain = tbdCondition.GetInternalGain();
+            //internalGain = internalCondition.Gains.ToTAS();
+            //TBD.Thermostat thermostat = tbdCondition.GetThermostat();
+
             TBD.Emitter heatingEmitter = tbdCondition.GetHeatingEmitter();
             heatingEmitter = internalCondition.Emitters.Where(x => x.EmitterType == BHE.Elements.EmitterType.Heating).First().ToTAS(heatingEmitter);
 
             TBD.Emitter coolingEmitter = tbdCondition.GetCoolingEmitter();
             coolingEmitter = internalCondition.Emitters.Where(x => x.EmitterType == BHE.Elements.EmitterType.Cooling).First().ToTAS(coolingEmitter);
-
-            //TBD.InternalGain internalGain = tbdCondition.GetInternalGain();
-            //internalGain = internalCondition.Gains.ToTAS();
-
-            //TBD.Thermostat thermostat = tbdCondition.GetThermostat();
-
+            
             return true;
         }
 
