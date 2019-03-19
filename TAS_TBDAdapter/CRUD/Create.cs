@@ -199,8 +199,28 @@ namespace BH.Adapter.TAS
 
         private bool Create(BHE.Elements.InternalCondition internalCondition)
         {
-            TBD.InternalCondition tbdInternalCondition = tbdDocument.Building.AddIC(null);
-            tbdInternalCondition.name = internalCondition.Name;
+            TBD.InternalCondition tbdCondition = tbdDocument.Building.AddIC(null);
+            tbdCondition.name = internalCondition.Name;
+            //Way of converting bool to int
+            tbdCondition.includeSolarInMRT = (internalCondition.IncludeSolarInMeanRadiantTemp ? 1 : 0);
+            Dictionary<string, object> tasData = internalCondition.CustomData;
+
+            if (tasData != null)
+            {
+                tbdCondition.description=(tasData.ContainsKey("InternalConditionDescription")?tasData["InternalConditionDescription"].ToString():"");
+            }
+            //foreach (BHE.Elements.SimulationDayType dayType in internalCondition.DayTypes)
+            //    tbdCondition.SetDayType(dayType.ToTAS(), true);
+            TBD.Emitter heatingEmitter = tbdCondition.GetHeatingEmitter();
+            heatingEmitter = internalCondition.Emitters.Where(x => x.EmitterType == BHE.Elements.EmitterType.Heating).First().ToTAS(heatingEmitter);
+
+            TBD.Emitter coolingEmitter = tbdCondition.GetCoolingEmitter();
+            coolingEmitter = internalCondition.Emitters.Where(x => x.EmitterType == BHE.Elements.EmitterType.Cooling).First().ToTAS(coolingEmitter);
+
+            //TBD.InternalGain internalGain = tbdCondition.GetInternalGain();
+            //internalGain = internalCondition.Gains.ToTAS();
+
+            //TBD.Thermostat thermostat = tbdCondition.GetThermostat();
 
             return true;
         }
