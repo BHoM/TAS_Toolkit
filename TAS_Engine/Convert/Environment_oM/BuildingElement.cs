@@ -144,11 +144,13 @@ namespace BH.Engine.TAS
             if (element == null) return tbdElement;
 
             tbdElement.name = element.Name;
-           
+            
             BHP.ElementProperties elementProperties = element.ElementProperties() as BHP.ElementProperties;
             BHP.EnvironmentContextProperties envContextProperties = element.EnvironmentContextProperties() as BHP.EnvironmentContextProperties;
             if (elementProperties != null)
                 tbdElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
+            //TBD.Construction construction = elementProperties.Construction.ToTAS();
+            //tbdElement.AssignConstruction(construction);
             if (envContextProperties != null)
                 tbdElement.GUID = envContextProperties.ElementID;
 
@@ -166,6 +168,13 @@ namespace BH.Engine.TAS
                 tbdElement.GUID = (tasData.ContainsKey("ElementGUID") ? tasData["ElementGUID"].ToString() : "");
                 tbdElement.width = (tasData.ContainsKey("ElementWidth") ? (float)System.Convert.ToDouble(tasData["ElementWidth"]) : 0);
             }
+
+            //tbdElement.description = envContextProperties.Description;
+
+            BHP.BuildingElementContextProperties BEContextProperties = element.ContextProperties() as BHP.BuildingElementContextProperties;
+            if (BEContextProperties != null)
+                tbdElement.colour = System.Convert.ToUInt32(BEContextProperties.Colour);
+
 
             return tbdElement;
         }
