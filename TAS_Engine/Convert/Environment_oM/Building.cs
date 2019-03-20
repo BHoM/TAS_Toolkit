@@ -110,7 +110,6 @@ namespace BH.Engine.TAS
             Dictionary<string, object> tasData = building.CustomData;
             if (tasData != null)
             {
-                tbdBuilding.latitude = (tasData.ContainsKey("latitude") ? (float)System.Convert.ToDouble(tasData["latitude"]) : 0);
                 tbdBuilding.description = (tasData.ContainsKey("BuildingDescription") ? tasData["BuildingDescription"].ToString() : "");
                 tbdBuilding.northAngle = (tasData.ContainsKey("BuildingNorthAngle") ? (float)System.Convert.ToDouble(tasData["BuildingNorthAngle"]) : 0);
                 tbdBuilding.path3DFile = (tasData.ContainsKey("BuildingPath3DFile") ? tasData["BuildingPath3DFile"].ToString() : "");
@@ -123,18 +122,6 @@ namespace BH.Engine.TAS
                     short year = System.Convert.ToInt16(tasData["BuildingYear"]);
                     tbdBuilding.year = year;
                 }
-
-
-                TBD.zone tbdSpace = tbdBuilding.AddZone();
-
-                //{
-                //    success &= Create(aSpace, building);
-                //}
-                //private bool Create(BH.oM.Environment.Elements.Space space)
-                //   {
-                //        TBD.zone tbdzone = tbdDocument.Building.AddZone();
-                //        tbdzone.name = space.Name;
-                //    }
             }
                 return tbdBuilding;
         }

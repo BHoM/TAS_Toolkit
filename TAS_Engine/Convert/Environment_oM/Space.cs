@@ -49,14 +49,6 @@ namespace BH.Engine.TAS
             space.CoolingLoad = tbdSpace.maxCoolingLoad;
             space.HeatingLoad = tbdSpace.maxHeatingLoad;
 
-            TBD.InternalCondition tbdCondition = null;
-            int conditionIndex = 0;
-            while((tbdCondition = tbdSpace.GetIC(conditionIndex)) != null)
-            {
-                space.InternalConditions.Add(tbdCondition.ToBHoM());
-                conditionIndex++;
-            }
-
             //Adding data to Extended Poroperties--------------------------------------------------------------------------------------------------------------
 
             //EnvironmentContextProperties
@@ -123,19 +115,6 @@ namespace BH.Engine.TAS
             tbdSpace.maxHeatingLoad = (float)space.HeatingLoad;
             tbdSpace.maxCoolingLoad = (float)space.CoolingLoad;
             
-            //BHE.InternalCondition BHoMcondition = null;
-            //int conditionIndex = 0;
-            //while ((BHoMcondition = space.InternalConditions(conditionIndex)) != null)
-            //{
-            //    tbdSpace.GetIC(conditionIndex) = space.InternalConditions(conditionIndex);
-            //    conditionIndex++;
-            //}
-
-            //{
-            //    foreach (BHE.InternalCondition condition in space.InternalConditions)
-            //        tbdSpace.AssignIC(condition.ToTAS(), true);
-            //}
-
             Dictionary<string, object> tasData = space.CustomData;
 
             if (tasData != null)
@@ -152,6 +131,7 @@ namespace BH.Engine.TAS
                 tbdSpace.length = (tasData.ContainsKey("Length") ? (float)System.Convert.ToDouble(tasData["Length"]) : 0);
                 tbdSpace.sizeCooling = (tasData.ContainsKey("SizeCooling") ? System.Convert.ToInt32(tasData["SizeCooling"]) : 0);
                 tbdSpace.sizeHeating = (tasData.ContainsKey("SizeHeating") ? System.Convert.ToInt32(tasData["SizeHeating"]) : 0);
+                //tbdSpace.variableConvectionCoefficient = (tasData.ContainsKey("variableConvectionCoefficient") ? tasData["variableConvectionCoefficient"].ToString() : "");
                 tbdSpace.volume = (tasData.ContainsKey("Volume") ? (float)System.Convert.ToDouble(tasData["Volume"]) : 0);
                 tbdSpace.wallFloorAreaRatio = (tasData.ContainsKey("WallFloorAreaRatio") ? (float)System.Convert.ToDouble(tasData["WallFloorAreaRatio"]) : 0);
             }
