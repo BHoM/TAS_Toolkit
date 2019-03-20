@@ -97,10 +97,6 @@ namespace BH.Adapter.TAS
                 tbdSpace.maxHeatingLoad = (float)space.HeatingLoad;
                 tbdSpace.maxCoolingLoad = (float)space.CoolingLoad;
 
-                //{
-                //    foreach (BHE.Elements.InternalCondition condition in space.InternalConditions)
-                //        tbdSpace.AssignIC(condition.ToTAS(), true);
-                //}
                 Dictionary<string, object> tasData = space.CustomData;
                 if (tasData != null)
                 {
@@ -119,6 +115,12 @@ namespace BH.Adapter.TAS
                     tbdSpace.volume = (tasData.ContainsKey("Volume") ? (float)System.Convert.ToDouble(tasData["Volume"]) : 0);
                     tbdSpace.wallFloorAreaRatio = (tasData.ContainsKey("WallFloorAreaRatio") ? (float)System.Convert.ToDouble(tasData["WallFloorAreaRatio"]) : 0);
                 }
+                //TODO:Add creation of IC
+
+                //{
+                //    foreach (BHE.Elements.InternalCondition condition in space.InternalConditions)
+                //        tbdSpace.AssignIC(condition.ToTAS(), true);
+                //}
             }
             return success;
 
@@ -147,19 +149,30 @@ namespace BH.Adapter.TAS
                 {
                     short year = System.Convert.ToInt16(tasData["BuildingYear"]);
                     tbdBuilding.year = year;
+                    //TODO:Make Longitude, Latitude, NorthAngle work for PushTBD
+                    //TODO:Add Facadelength, Length, VariableConvectionCoefficient for PushTBD
+                    //TODO:Add creation of Spaces
+
+                    //}
+                    //foreach(BH.oM.Environment.Elements.Space space in building)
+                    //tbdBuilding.AddZone();
+                    //{
+                    //    TBD.zone tbdSpace = tbdDocument.Building.AddZone();
+                    //    //TBD.zone tbdSpace = tbdDocument.Building.AddZone();
+
+                    //{
+                    //    foreach (BH.oM.Environment.Elements.Space aSpace in )
+                    //    {
+                    //        TBD.zone tbdSpace = tbdDocument.Building.AddZone();
+                    //        //success &= Create(aSpace, true);
+                    //    }
+                    //}
                 }
             }
-            //{ 
-            //foreach (BH.oM.Environment.Elements.Space aSpace in tbdBuilding.Spaces)
-            //    {
-            //        success &= Create(aSpace, building);
-            //    }
-            //}
-            return success;
+
+                    return success;
         }
-
-
-
+        
         /***************************************************/
 
         private bool Create(BHE.Elements.BuildingElement buildingElement)
@@ -167,29 +180,31 @@ namespace BH.Adapter.TAS
             TBD.buildingElement tbdBuildingElement = tbdDocument.Building.AddBuildingElement();
             tbdBuildingElement.name = buildingElement.Name;
 
-            BHP.ElementProperties elementProperties = buildingElement.ElementProperties() as BHP.ElementProperties;
-            if (elementProperties != null)
-                tbdBuildingElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
-            //TBD.Construction construction = elementProperties.Construction.ToTAS();
-            //tbdBuildingElement.AssignConstruction(construction);
-
             BHP.EnvironmentContextProperties envContextProperties = buildingElement.EnvironmentContextProperties() as BHP.EnvironmentContextProperties;
             if (envContextProperties != null)
                 tbdBuildingElement.GUID = envContextProperties.ElementID;
-            //tbdElement.description = envContextProperties.Description;
+                tbdBuildingElement.description = envContextProperties.Description;
 
-            BHP.BuildingElementContextProperties BEContextProperties = buildingElement.ContextProperties() as BHP.BuildingElementContextProperties;
-            if (BEContextProperties != null)
-                tbdBuildingElement.colour = System.Convert.ToUInt32(BEContextProperties.Colour);
+            BHP.ElementProperties elementProperties = buildingElement.ElementProperties() as BHP.ElementProperties;
+            if (elementProperties != null)
+                tbdBuildingElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
 
+            //TODO:Make Colour, Construction, GUID work for PushTBD
+
+            //TBD.Construction construction = elementProperties.Construction.ToTAS();
+            //tbdBuildingElement.AssignConstruction(construction);
+
+            //BHP.BuildingElementContextProperties BEContextProperties = buildingElement.ContextProperties() as BHP.BuildingElementContextProperties;
+            //if (BEContextProperties != null)
+            //    tbdBuildingElement.colour = System.Convert.ToUInt32(BEContextProperties.Colour);
 
             //Dictionary<string, object> tasData = buildingElement.CustomData;
-
             //if (tasData != null)
             //{
-            //    tbdBuildingElement.colour = (tasData.ContainsKey("ElementColour") ? System.Convert.ToUInt32(tasData["ElementColour"]) : 0);
-            //    tbdBuildingElement.description = (tasData.ContainsKey("ElementDescription") ? tasData["ElementDescription"].ToString() : "");
-            //    tbdBuildingElement.ghost = (tasData.ContainsKey("ElementIsAir") ? (((bool)tasData["ElementIsAir"]) ? 1 : 0) : 0);
+            //        tbdBuildingElement.colour = (tasData.ContainsKey("BuildingElementColour") ? System.Convert.ToUInt32(tasData["BuildingElementColour"]) : 0);
+            //        tbdBuildingElement.colour = (tasData.ContainsKey("ElementColour") ? System.Convert.ToUInt32(tasData["ElementColour"]) : 0);
+                //    tbdBuildingElement.description = (tasData.ContainsKey("ElementDescription") ? tasData["ElementDescription"].ToString() : "");
+                //    tbdBuildingElement.ghost = (tasData.ContainsKey("ElementIsAir") ? (((bool)tasData["ElementIsAir"]) ? 1 : 0) : 0);
                 //    tbdBuildingElement.ground = (tasData.ContainsKey("ElementIsGround") ? (((bool)tasData["ElementIsGround"]) ? 1 : 0) : 0);
                 //    tbdBuildingElement.GUID = (tasData.ContainsKey("ElementGUID") ? tasData["ElementGUID"].ToString() : "");
                 //    tbdBuildingElement.width = (tasData.ContainsKey("ElementWidth") ? (float)System.Convert.ToDouble(tasData["ElementWidth"]) : 0);
@@ -206,6 +221,7 @@ namespace BH.Adapter.TAS
 
 
             tbdConstruction.materialWidth[0] = (float)elementProperties.Construction.Thickness;
+            
             return true;
         }
 
@@ -229,7 +245,6 @@ namespace BH.Adapter.TAS
         {
             TBD.InternalCondition tbdCondition = tbdDocument.Building.AddIC(null);
             tbdCondition.name = internalCondition.Name;
-            //Way of converting bool to int
             tbdCondition.includeSolarInMRT = (internalCondition.IncludeSolarInMeanRadiantTemp ? 1 : 0);
 
             Dictionary<string, object> tasData = internalCondition.CustomData;
@@ -237,6 +252,13 @@ namespace BH.Adapter.TAS
             {
                 tbdCondition.description=(tasData.ContainsKey("InternalConditionDescription")?tasData["InternalConditionDescription"].ToString():"");
             }
+
+            TBD.Emitter heatingEmitter = tbdCondition.GetHeatingEmitter();
+            heatingEmitter = internalCondition.Emitters.Where(x => x.EmitterType == BHE.Elements.EmitterType.Heating).First().ToTAS(heatingEmitter);
+
+            TBD.Emitter coolingEmitter = tbdCondition.GetCoolingEmitter();
+            coolingEmitter = internalCondition.Emitters.Where(x => x.EmitterType == BHE.Elements.EmitterType.Cooling).First().ToTAS(coolingEmitter);
+
             //TODO: Add Daytypes, Internalgain, Thermostat
 
             //foreach (BHE.Elements.SimulationDayType dayType in internalCondition.DayTypes)
@@ -245,12 +267,6 @@ namespace BH.Adapter.TAS
             //internalGain = internalCondition.Gains.ToTAS();
             //TBD.Thermostat thermostat = tbdCondition.GetThermostat();
 
-            TBD.Emitter heatingEmitter = tbdCondition.GetHeatingEmitter();
-            heatingEmitter = internalCondition.Emitters.Where(x => x.EmitterType == BHE.Elements.EmitterType.Heating).First().ToTAS(heatingEmitter);
-
-            TBD.Emitter coolingEmitter = tbdCondition.GetCoolingEmitter();
-            coolingEmitter = internalCondition.Emitters.Where(x => x.EmitterType == BHE.Elements.EmitterType.Cooling).First().ToTAS(coolingEmitter);
-            
             return true;
         }
 

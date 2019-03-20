@@ -31,17 +31,17 @@ namespace BH.Engine.TAS
             BHE.Construction elementConstruction = tbdElement.GetConstruction().ToBHoM();
 
             element.Name = tbdElement.name;
-
+            
             //ElementProperties
             BHP.ElementProperties elementProperties = new BHP.ElementProperties();
             elementProperties.BuildingElementType = elementType;
             elementProperties.Construction = elementConstruction;
             element.ExtendedProperties.Add(elementProperties);
-
+            
             //EnvironmentContextProperties
             BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
             environmentContextProperties.ElementID = tbdSurface.GUID.RemoveBrackets();
-            environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + tbdSurface.buildingElement.GUID.RemoveBrackets();
+            environmentContextProperties.Description =tbdElement.description;
             environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
             element.ExtendedProperties.Add(environmentContextProperties);
 
@@ -142,15 +142,14 @@ namespace BH.Engine.TAS
         public static TBD.buildingElement ToTAS(this BHE.BuildingElement element, TBD.buildingElement tbdElement, TBD.Construction tbdConstruction)
         {
             if (element == null) return tbdElement;
-
-            tbdElement.name = element.Name;
-            
+                        
             BHP.ElementProperties elementProperties = element.ElementProperties() as BHP.ElementProperties;
-            BHP.EnvironmentContextProperties envContextProperties = element.EnvironmentContextProperties() as BHP.EnvironmentContextProperties;
             if (elementProperties != null)
                 tbdElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
             //TBD.Construction construction = elementProperties.Construction.ToTAS();
             //tbdElement.AssignConstruction(construction);
+
+            BHP.EnvironmentContextProperties envContextProperties = element.EnvironmentContextProperties() as BHP.EnvironmentContextProperties;
             if (envContextProperties != null)
                 tbdElement.GUID = envContextProperties.ElementID;
 
@@ -171,10 +170,11 @@ namespace BH.Engine.TAS
 
             //tbdElement.description = envContextProperties.Description;
 
-            BHP.BuildingElementContextProperties BEContextProperties = element.ContextProperties() as BHP.BuildingElementContextProperties;
-            if (BEContextProperties != null)
-                tbdElement.colour = System.Convert.ToUInt32(BEContextProperties.Colour);
+            //BHP.BuildingElementContextProperties BEContextProperties = element.ContextProperties() as BHP.BuildingElementContextProperties;
+            //if (BEContextProperties != null)
+            //    tbdElement.colour = System.Convert.ToUInt32(BEContextProperties.Colour);
 
+            //Dictionary<string, object> tasData = buildingElement.CustomData;
 
             return tbdElement;
         }
