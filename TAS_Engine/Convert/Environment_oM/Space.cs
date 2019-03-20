@@ -122,10 +122,10 @@ namespace BH.Engine.TAS
             tbdSpace.name = space.Name;
             tbdSpace.maxHeatingLoad = (float)space.HeatingLoad;
             tbdSpace.maxCoolingLoad = (float)space.CoolingLoad;
-
+            
             //BHE.InternalCondition BHoMcondition = null;
             //int conditionIndex = 0;
-            //while ((BHoMcondition=space.InternalConditions(conditionIndex))!=null)
+            //while ((BHoMcondition = space.InternalConditions(conditionIndex)) != null)
             //{
             //    tbdSpace.GetIC(conditionIndex) = space.InternalConditions(conditionIndex);
             //    conditionIndex++;

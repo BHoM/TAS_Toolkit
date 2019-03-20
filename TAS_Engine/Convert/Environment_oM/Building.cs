@@ -103,13 +103,14 @@ namespace BH.Engine.TAS
             TBD.Building tbdBuilding = new TBD.Building();
             if (building == null) return tbdBuilding;
             tbdBuilding.name = building.Name;
-            tbdBuilding.latitude = (float)building.Latitude;
+            //tbdBuilding.latitude = (float)building.Latitude;
             tbdBuilding.longitude = (float)building.Longitude;
             tbdBuilding.maxBuildingAltitude = (float)building.Elevation;
 
             Dictionary<string, object> tasData = building.CustomData;
             if (tasData != null)
             {
+                tbdBuilding.latitude = (tasData.ContainsKey("latitude") ? (float)System.Convert.ToDouble(tasData["latitude"]) : 0);
                 tbdBuilding.description = (tasData.ContainsKey("BuildingDescription") ? tasData["BuildingDescription"].ToString() : "");
                 tbdBuilding.northAngle = (tasData.ContainsKey("BuildingNorthAngle") ? (float)System.Convert.ToDouble(tasData["BuildingNorthAngle"]) : 0);
                 tbdBuilding.path3DFile = (tasData.ContainsKey("BuildingPath3DFile") ? tasData["BuildingPath3DFile"].ToString() : "");
@@ -123,20 +124,19 @@ namespace BH.Engine.TAS
                     tbdBuilding.year = year;
                 }
 
-                //foreach (BH.oM.Environment.Elements.Space aSpace in building.Spaces)
+
+                TBD.zone tbdSpace = tbdBuilding.AddZone();
+
                 //{
                 //    success &= Create(aSpace, building);
                 //}
-
-
-                //        private bool Create(BH.oM.Environment.Elements.Space space)
-                //{
-                //    TBD.zone tbdzone = tbdDocument.Building.AddZone();
-                //    tbdzone.name = space.Name;
-                //}
+                //private bool Create(BH.oM.Environment.Elements.Space space)
+                //   {
+                //        TBD.zone tbdzone = tbdDocument.Building.AddZone();
+                //        tbdzone.name = space.Name;
+                //    }
             }
-
-            return tbdBuilding;
+                return tbdBuilding;
         }
     }
 }
