@@ -103,7 +103,7 @@ namespace BH.Engine.TAS
             TBD.Building tbdBuilding = new TBD.Building();
             if (building == null) return tbdBuilding;
             tbdBuilding.name = building.Name;
-            //tbdBuilding.latitude = (float)building.Latitude;
+            tbdBuilding.latitude = (float)building.Latitude;
             tbdBuilding.longitude = (float)building.Longitude;
             tbdBuilding.maxBuildingAltitude = (float)building.Elevation;
 

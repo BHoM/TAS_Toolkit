@@ -168,12 +168,7 @@ namespace BH.Engine.TAS
                 tbdElement.width = (tasData.ContainsKey("ElementWidth") ? (float)System.Convert.ToDouble(tasData["ElementWidth"]) : 0);
             }
 
-            //BHP.BuildingElementContextProperties BEContextProperties = element.ContextProperties() as BHP.BuildingElementContextProperties;
-            //if (BEContextProperties != null)
-            //    tbdElement.colour = System.Convert.ToUInt32(BEContextProperties.Colour);
-
             //Dictionary<string, object> tasData = buildingElement.CustomData;
-
             return tbdElement;
         }
 

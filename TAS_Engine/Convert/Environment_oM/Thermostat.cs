@@ -70,16 +70,16 @@ namespace BH.Engine.TAS
             if (thermostat == null) return tbdThermostat;
 
             tbdThermostat.name = thermostat.Name;
-            tbdThermostat.controlRange = (float)thermostat.ControlRange;
-            tbdThermostat.proportionalControl = (thermostat.ProportionalControl ? 1 : 0);
+            //tbdThermostat.controlRange = (float)thermostat.ControlRange;
+            //tbdThermostat.proportionalControl = (thermostat.ProportionalControl ? 1 : 0);
 
-            Dictionary<string, object> tasData = thermostat.CustomData;
+            //Dictionary<string, object> tasData = thermostat.CustomData;
 
-            if (tasData != null)
-            {
-                tbdThermostat.radiantProportion = (tasData.ContainsKey("RadiantProportion") ? (float)System.Convert.ToDouble(tasData["RadiantProportion"]) : 0);
-                tbdThermostat.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
-            }
+            //if (tasData != null)
+            //{
+            //    tbdThermostat.radiantProportion = (tasData.ContainsKey("RadiantProportion") ? (float)System.Convert.ToDouble(tasData["RadiantProportion"]) : 0);
+            //    tbdThermostat.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
+            //}
 
             return tbdThermostat;
         }

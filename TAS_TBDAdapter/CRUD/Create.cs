@@ -125,7 +125,7 @@ namespace BH.Adapter.TAS
             bool success = true;
             TBD.Building tbdBuilding = tbdDocument.Building;
             tbdBuilding.name = building.Name;
-            //tbdBuilding.latitude = (float)building.Latitude;
+            tbdBuilding.latitude = (float)building.Latitude;
             tbdBuilding.longitude = (float)building.Longitude;
             tbdBuilding.maxBuildingAltitude = (float)building.Elevation;
             Dictionary<string, object> tasData = building.CustomData;
@@ -166,17 +166,23 @@ namespace BH.Adapter.TAS
             BHP.ElementProperties elementProperties = buildingElement.ElementProperties() as BHP.ElementProperties;
             if (elementProperties != null)
                 tbdBuildingElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
-                //TBD.Construction construction = elementProperties.Construction.ToTAS();
-                //tbdBuildingElement.AssignConstruction(construction);
+            //TBD.Construction construction = elementProperties.Construction.ToTAS();
+            //tbdBuildingElement.AssignConstruction(construction);
 
             //TODO:Make Colour, Construction, GUID work for PushTBD
 
-            //BHP.BuildingElementContextProperties BEContextProperties = buildingElement.ContextProperties() as BHP.BuildingElementContextProperties;
-            //if (BEContextProperties != null)
-            //    tbdBuildingElement.colour = System.Convert.ToUInt32(BEContextProperties.Colour);
-
             //Dictionary<string, object> tasData = buildingElement.CustomData;
             //if (tasData != null)
+            //{
+            //    BHP.BuildingElementContextProperties BEContextProperties = buildingElement.ContextProperties() as BHP.BuildingElementContextProperties;
+            //    if (BEContextProperties != null)
+
+            //        //tbdBuildingElement.colour = System.Convert.ToUInt32(BEContextProperties.Colour);
+            //        tbdBuildingElement.colour = (tasData.ContainsKey("BuildingElementColour") ? System.Convert.ToUInt32(tasData["BuildingElementColour"]) : 0);
+            //}
+
+            //buildingElementContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdElement.colour).ToString();
+
             //{
             //        tbdBuildingElement.colour = (tasData.ContainsKey("BuildingElementColour") ? System.Convert.ToUInt32(tasData["BuildingElementColour"]) : 0);
             //        tbdBuildingElement.colour = (tasData.ContainsKey("ElementColour") ? System.Convert.ToUInt32(tasData["ElementColour"]) : 0);
@@ -191,17 +197,23 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private bool Create(BHE.Properties.ElementProperties elementProperties)
+        //private bool Create(BHE.Properties.ElementProperties elementProperties)
+        //{
+        //    TBD.Construction tbdConstruction = tbdDocument.Building.AddConstruction(null);
+        //    tbdConstruction.name = elementProperties.Construction.Name;
+        //    //tbdConstruction.additionalHeatTransfer = (float)elementProperties.Construction.AdditionalHeatTransfer;
+
+        //    //tbdConstruction.materialWidth[0] = (float)elementProperties.Construction.Thickness;
+            
+        //    return true;
+        //}
+        private bool Create(BHE.Elements.Construction construction)
         {
-            TBD.Construction tbdConstruction = tbdDocument.Building.AddConstruction(null);
-            tbdConstruction.name = elementProperties.Construction.Name;
-
-
-            tbdConstruction.materialWidth[0] = (float)elementProperties.Construction.Thickness;
+            //TBD.Construction tbdConstruction = tbdDocument.Building.AddConstruction(null);
+            //tbdConstruction.name = construction.Name;
             
             return true;
         }
-
         /***************************************************/
 
         private bool Create(BHE.Elements.Panel buildingElementPanel)
@@ -242,7 +254,7 @@ namespace BH.Adapter.TAS
             //    tbdCondition.SetDayType(dayType.ToTAS(), true);
             //TBD.InternalGain internalGain = tbdCondition.GetInternalGain();
             //internalGain = internalCondition.Gains.ToTAS();
-            //TBD.Thermostat thermostat = tbdCondition.GetThermostat();
+            TBD.Thermostat thermostat = tbdCondition.GetThermostat();
 
             return true;
         }
