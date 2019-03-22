@@ -197,16 +197,16 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        //private bool Create(BHE.Properties.ElementProperties elementProperties)
-        //{
-        //    TBD.Construction tbdConstruction = tbdDocument.Building.AddConstruction(null);
-        //    tbdConstruction.name = elementProperties.Construction.Name;
-        //    //tbdConstruction.additionalHeatTransfer = (float)elementProperties.Construction.AdditionalHeatTransfer;
+        private bool Create(BHE.Properties.ElementProperties elementProperties)
+        {
+            TBD.Construction tbdConstruction = tbdDocument.Building.AddConstruction(null);
+            tbdConstruction.name = elementProperties.Construction.Name;
+            //tbdConstruction.additionalHeatTransfer = (float)elementProperties.Construction.AdditionalHeatTransfer;
 
-        //    //tbdConstruction.materialWidth[0] = (float)elementProperties.Construction.Thickness;
-            
-        //    return true;
-        //}
+            //tbdConstruction.materialWidth[0] = (float)elementProperties.Construction.Thickness;
+
+            return true;
+        }
         private bool Create(BHE.Elements.Construction construction)
         {
             //TBD.Construction tbdConstruction = tbdDocument.Building.AddConstruction(null);
