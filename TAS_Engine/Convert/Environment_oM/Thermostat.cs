@@ -46,18 +46,18 @@ namespace BH.Engine.TAS
 
             BHE.Thermostat thermostat = new BHE.Thermostat();
             thermostat.Name = tbdThermostat.name;
-            thermostat.ControlRange = tbdThermostat.controlRange;
-            thermostat.ProportionalControl = tbdThermostat.proportionalControl != 0;
+            //thermostat.ControlRange = tbdThermostat.controlRange;
+            //thermostat.ProportionalControl = tbdThermostat.proportionalControl != 0;
 
-            thermostat.Profiles = tbdThermostat.Profiles();
+            //thermostat.Profiles = tbdThermostat.Profiles();
 
-            Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("RadiantProportion", tbdThermostat.radiantProportion);
-            tasData.Add("Description", tbdThermostat.description);
-            tasData.Add("UpperLimit", tbdThermostat.GetSingleValueUpperLimit());
-            tasData.Add("LowerLimit", tbdThermostat.GetSingleValueLowerLimit());
+            //Dictionary<string, object> tasData = new Dictionary<string, object>();
+            //tasData.Add("RadiantProportion", tbdThermostat.radiantProportion);
+            //tasData.Add("Description", tbdThermostat.description);
+            //tasData.Add("UpperLimit", tbdThermostat.GetSingleValueUpperLimit());
+            //tasData.Add("LowerLimit", tbdThermostat.GetSingleValueLowerLimit());
 
-            thermostat.CustomData = tasData;
+            //thermostat.CustomData = tasData;
 
             return thermostat;
         }
