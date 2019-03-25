@@ -81,7 +81,7 @@ namespace BH.Engine.TAS
 
             tbdCondition.name = internalCondition.Name;
             tbdCondition.includeSolarInMRT = (internalCondition.IncludeSolarInMeanRadiantTemp ? 1 : 0);
-            
+
             Dictionary<string, object> tasData = internalCondition.CustomData;
 
             if (tasData != null)
@@ -101,7 +101,7 @@ namespace BH.Engine.TAS
             //TBD.InternalGain internalGain = tbdCondition.GetInternalGain();
             //internalGain = internalCondition.Gains.ToTAS();
 
-            TBD.Thermostat thermostat = tbdCondition.GetThermostat();
+            //TBD.Thermostat thermostat = tbdCondition.GetThermostat();
 
             return tbdCondition;
         }
