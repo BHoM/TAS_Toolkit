@@ -114,7 +114,7 @@ namespace BH.Engine.TAS
             tbdSpace.name = space.Name;
             tbdSpace.maxHeatingLoad = (float)space.HeatingLoad;
             tbdSpace.maxCoolingLoad = (float)space.CoolingLoad;
-            
+
             Dictionary<string, object> tasData = space.CustomData;
 
             if (tasData != null)

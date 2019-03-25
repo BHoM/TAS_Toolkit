@@ -152,16 +152,17 @@ namespace BH.Engine.TAS
             BHP.EnvironmentContextProperties envContextProperties = element.EnvironmentContextProperties() as BHP.EnvironmentContextProperties;
             if (envContextProperties != null)
                 tbdElement.GUID = envContextProperties.ElementID;
-
-            TBD.Construction construction = elementProperties.Construction.ToTAS();
-            tbdElement.AssignConstruction(construction);
+                tbdElement.description = envContextProperties.Description;
+            //tbdConstruction = elementProperties.Construction.ToTAS();
+            //TBD.Construction construction = elementProperties.Construction.ToTAS();
+            //tbdElement.AssignConstruction(tbdConstruction);
 
             Dictionary<string, object> tasData = element.CustomData;
 
             if (tasData != null)
             {
                 tbdElement.colour = (tasData.ContainsKey("ElementColour") ? System.Convert.ToUInt32(tasData["ElementColour"]) : 0);
-                tbdElement.description = (tasData.ContainsKey("ElementDescription") ? tasData["ElementDescription"].ToString() : "");
+                //tbdElement.description = (tasData.ContainsKey("ElementDescription") ? tasData["ElementDescription"].ToString() : "");
                 tbdElement.ghost = (tasData.ContainsKey("ElementIsAir") ? (((bool)tasData["ElementIsAir"]) ? 1 : 0) : 0);
                 tbdElement.ground = (tasData.ContainsKey("ElementIsGround") ? (((bool)tasData["ElementIsGround"]) ? 1 : 0) : 0);
                 tbdElement.GUID = (tasData.ContainsKey("ElementGUID") ? tasData["ElementGUID"].ToString() : "");

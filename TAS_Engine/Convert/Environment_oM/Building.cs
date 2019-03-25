@@ -123,7 +123,7 @@ namespace BH.Engine.TAS
                     tbdBuilding.year = year;
                 }
             }
-                return tbdBuilding;
+            return tbdBuilding;
         }
     }
 }
