@@ -152,9 +152,8 @@ namespace BH.Engine.TAS
         [Input("material", "BHoM Environmental Material")]
         [Output("TAS TBD Material")]
         //public static TBD.materialClass ToTAS(this BHM.Material material)
-        public static TBD.material ToTAS(this BHM.Material material)
+        public static TBD.material ToTAS(this BHM.Material material, TBD.material tbdMaterial)
         {
-            TBD.material tbdMaterial = new TBD.material();
             if (material == null) return tbdMaterial;
             if (material != null)
                 tbdMaterial.name = material.Name;
