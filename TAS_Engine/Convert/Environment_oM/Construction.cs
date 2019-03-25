@@ -108,9 +108,8 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Construction from a BHoM Environmental Construction")]
         [Input("construction", "BHoM Environmental Construction")]
         [Output("TAS TBD Construction")]
-        public static TBD.Construction ToTAS(this BHEE.Construction construction)
+        public static TBD.Construction ToTAS(this BHEE.Construction construction, TBD.Construction tbdConstruction)
         {
-            TBD.ConstructionClass tbdConstruction = new TBD.ConstructionClass();
             if (construction == null) return tbdConstruction;
 
             tbdConstruction.name = construction.Name;
@@ -118,55 +117,10 @@ namespace BH.Engine.TAS
             tbdConstruction.additionalHeatTransfer = (float)construction.AdditionalHeatTransfer;
             tbdConstruction.FFactor = (float)construction.FFactor;
             tbdConstruction.type = construction.ConstructionType.ToTAS();
-            //bool success = true;
-            //foreach (BH.oM.Environment.Materials.Material aMaterial in construction.Materials)
-            //{
-            //    success &= Create(aMaterial);
-            //}
-
-            //foreach (BHM.Material material in construction.Materials)
-            //{
-            //    TBD.material tbdMaterial = tbdConstruction.AddMaterial();
-
-            //    tbdMaterial.name = material.Name;
-            //    tbdMaterial.width = (float)material.Thickness;
-            //    tbdMaterial.type = (int)material.MaterialType.ToTAS();
-            //    switch (material.MaterialType)
-            //    {
-            //        case BHE.Elements.MaterialType.Gas:
-            //            tbdMaterial.convectionCoefficient = (float)((BHP.MaterialPropertiesGas)material.MaterialProperties).ConvectionCoefficient;
-            //            tbdMaterial.vapourDiffusionFactor = (float)((BHP.MaterialPropertiesGas)material.MaterialProperties).VapourDiffusionFactor;
-            //            tbdMaterial.description = ((BHP.MaterialPropertiesGas)material.MaterialProperties).Description;
-
-            //            break;
-            //        case BHE.Elements.MaterialType.Opaque:
-            //            tbdMaterial.conductivity = (float)((BHP.MaterialPropertiesOpaque)material.MaterialProperties).Conductivity;
-            //            tbdMaterial.specificHeat = (float)((BHP.MaterialPropertiesOpaque)material.MaterialProperties).SpecificHeat;
-            //            tbdMaterial.density = (float)((BHP.MaterialPropertiesOpaque)material.MaterialProperties).Density;
-            //            tbdMaterial.vapourDiffusionFactor = (float)((BHP.MaterialPropertiesOpaque)material.MaterialProperties).VapourDiffusionFactor;
-            //            tbdMaterial.externalSolarReflectance = (float)((BHP.MaterialPropertiesOpaque)material.MaterialProperties).SolarReflectanceExternal;
-            //            tbdMaterial.internalSolarReflectance = (float)((BHP.MaterialPropertiesOpaque)material.MaterialProperties).SolarReflectanceInternal;
-            //            tbdMaterial.externalLightReflectance = (float)((BHP.MaterialPropertiesOpaque)material.MaterialProperties).LightReflectanceExternal;
-            //            tbdMaterial.internalLightReflectance = (float)((BHP.MaterialPropertiesOpaque)material.MaterialProperties).LightReflectanceInternal;
-            //            tbdMaterial.externalEmissivity = (float)((BHP.MaterialPropertiesOpaque)material.MaterialProperties).EmissivityExternal;
-            //            tbdMaterial.internalEmissivity = (float)((BHP.MaterialPropertiesOpaque)material.MaterialProperties).EmissivityInternal;
-            //            tbdMaterial.description = ((BHP.MaterialPropertiesOpaque)material.MaterialProperties).Description;
-            //            break;
-            //        case BHE.Elements.MaterialType.Transparent:
-            //            tbdMaterial.conductivity = (float)((BHP.MaterialPropertiesTransparent)material.MaterialProperties).Conductivity;
-            //            tbdMaterial.vapourDiffusionFactor = (float)((BHP.MaterialPropertiesTransparent)material.MaterialProperties).VapourDiffusionFactor;
-            //            tbdMaterial.solarTransmittance = (float)((BHP.MaterialPropertiesTransparent)material.MaterialProperties).SolarTransmittance;
-            //            tbdMaterial.externalSolarReflectance = (float)((BHP.MaterialPropertiesTransparent)material.MaterialProperties).SolarReflectanceExternal;
-            //            tbdMaterial.internalSolarReflectance = (float)((BHP.MaterialPropertiesTransparent)material.MaterialProperties).SolarReflectanceInternal;
-            //            tbdMaterial.lightTransmittance = (float)((BHP.MaterialPropertiesTransparent)material.MaterialProperties).LightTransmittance;
-            //            tbdMaterial.externalLightReflectance = (float)((BHP.MaterialPropertiesTransparent)material.MaterialProperties).LightReflectanceExternal;
-            //            tbdMaterial.internalLightReflectance = (float)((BHP.MaterialPropertiesTransparent)material.MaterialProperties).LightReflectanceInternal;
-            //            tbdMaterial.externalEmissivity = (float)((BHP.MaterialPropertiesTransparent)material.MaterialProperties).EmissivityExternal;
-            //            tbdMaterial.internalEmissivity = (float)((BHP.MaterialPropertiesTransparent)material.MaterialProperties).EmissivityInternal;
-            //            tbdMaterial.description = ((BHP.MaterialPropertiesTransparent)material.MaterialProperties).Description;
-            //            break;
-            //    }
-            //}
+            foreach (BH.oM.Environment.Materials.Material aMaterial in construction.Materials)
+            {
+                aMaterial.ToTAS(tbdConstruction.AddMaterial());
+            }
 
             Dictionary<string, object> tasData = construction.CustomData;
 
