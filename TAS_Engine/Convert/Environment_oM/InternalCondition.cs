@@ -63,7 +63,7 @@ namespace BH.Engine.TAS
 
             internalCondition.Emitters.Add(tbdCondition.GetHeatingEmitter().ToBHoM());
             internalCondition.Emitters.Add(tbdCondition.GetCoolingEmitter().ToBHoM());
-            //internalCondition.Gains = tbdCondition.GetInternalGain().ToBHoM();
+            internalCondition.Gains = tbdCondition.GetInternalGain().ToBHoM();
             internalCondition.Thermostat = tbdCondition.GetThermostat().ToBHoM();
 
             return internalCondition;
@@ -94,9 +94,9 @@ namespace BH.Engine.TAS
 
             TBD.Emitter coolingEmitter = tbdCondition.GetCoolingEmitter();
             coolingEmitter = internalCondition.Emitters.Where(x => x.EmitterType == BHEE.EmitterType.Cooling).First().ToTAS(coolingEmitter);
-
-            //TBD.InternalGain internalGain = tbdCondition.GetInternalGain();
-            //internalGain = internalCondition.Gains.ToTAS();
+            
+            TBD.InternalGain internalGain = tbdCondition.GetInternalGain();
+            internalGain = internalCondition.Gains.ToTAS(internalGain);
 
             TBD.Thermostat thermostat = tbdCondition.GetThermostat();
             thermostat = internalCondition.Thermostat.ToTAS(thermostat);
