@@ -46,18 +46,16 @@ namespace BH.Engine.TAS
 
             BHE.Thermostat thermostat = new BHE.Thermostat();
             thermostat.Name = tbdThermostat.name;
-            //thermostat.ControlRange = tbdThermostat.controlRange;
-            //thermostat.ProportionalControl = tbdThermostat.proportionalControl != 0;
+            thermostat.ControlRange = tbdThermostat.controlRange;
+            thermostat.ProportionalControl = tbdThermostat.proportionalControl != 0;
 
-            //thermostat.Profiles = tbdThermostat.Profiles();
+            Dictionary<string, object> tasData = thermostat.CustomData;
 
-            //Dictionary<string, object> tasData = new Dictionary<string, object>();
-            //tasData.Add("RadiantProportion", tbdThermostat.radiantProportion);
-            //tasData.Add("Description", tbdThermostat.description);
-            //tasData.Add("UpperLimit", tbdThermostat.GetSingleValueUpperLimit());
-            //tasData.Add("LowerLimit", tbdThermostat.GetSingleValueLowerLimit());
-
-            //thermostat.CustomData = tasData;
+            if (tasData != null)
+            {
+                tasData.Add("RadiantProportion", tbdThermostat.radiantProportion);
+                tasData.Add("Description", tbdThermostat.description);
+            }
 
             return thermostat;
         }
@@ -70,16 +68,16 @@ namespace BH.Engine.TAS
             if (thermostat == null) return tbdThermostat;
 
             tbdThermostat.name = thermostat.Name;
-            //tbdThermostat.controlRange = (float)thermostat.ControlRange;
-            //tbdThermostat.proportionalControl = (thermostat.ProportionalControl ? 1 : 0);
+            tbdThermostat.controlRange = (float)thermostat.ControlRange;
+            tbdThermostat.proportionalControl = (thermostat.ProportionalControl ? 1 : 0);
 
-            //Dictionary<string, object> tasData = thermostat.CustomData;
+            Dictionary<string, object> tasData = thermostat.CustomData;
 
-            //if (tasData != null)
-            //{
-            //    tbdThermostat.radiantProportion = (tasData.ContainsKey("RadiantProportion") ? (float)System.Convert.ToDouble(tasData["RadiantProportion"]) : 0);
-            //    tbdThermostat.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
-            //}
+            if (tasData != null)
+            {
+                tbdThermostat.radiantProportion = (tasData.ContainsKey("RadiantProportion") ? (float)System.Convert.ToDouble(tasData["RadiantProportion"]) : 0);
+                tbdThermostat.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
+            }
 
             return tbdThermostat;
         }

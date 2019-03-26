@@ -20,7 +20,7 @@ namespace BH.Engine.TAS
     public static partial class Convert
     {
         [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental BuildingElement from a TAS TBD BuildingElement and TAS TBD ZoneSurface")]
-        [Input("tbdElement", "TAS TBD BuildingElement")]
+        [Input("tbdBuildingElement", "TAS TBD BuildingElement")]
         [Input("tbdSurface", "TAS TBD ZoneSurface")]
         [Output("BHoM Environmental BuildingElement")]
         public static BHE.BuildingElement ToBHoM(this TBD.buildingElement tbdElement, TBD.zoneSurface tbdSurface)
@@ -108,7 +108,7 @@ namespace BH.Engine.TAS
                 }
                 catch (Exception e)
                 {
-                    BH.Engine.Reflection.Compute.RecordWarning("An error occurred in building element ID - " + element.BHoM_Guid + " - error was: " + e.ToString());
+                    BH.Engine.Reflection.Compute.RecordWarning("An error occurred in building buildingElement ID - " + element.BHoM_Guid + " - error was: " + e.ToString());
                     element.PanelCurve = Geometry.Create.PolyCurve(panelCurve);
                 }
             }
@@ -137,61 +137,72 @@ namespace BH.Engine.TAS
         }
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElement from a BHoM Environmental BuildingElement")]
-        [Input("element", "BHoM Environmental BuildingElement")]
+        [Input("buildingElement", "BHoM Environmental BuildingElement")]
         [Output("TAS TBD BuildingElement")]
-        public static TBD.buildingElement ToTAS(this BHE.BuildingElement element, TBD.buildingElement tbdElement, TBD.Construction tbdConstruction)
+        public static TBD.buildingElement ToTAS(this BHE.BuildingElement buildingElement, TBD.buildingElement tbdBuildingElement)
+        //public static TBD.buildingElement ToTAS(this BHE.BuildingElement buildingElement, TBD.buildingElement tbdBuildingElement, TBD.Construction tbdConstruction)
         {
-            if (element == null) return tbdElement;
-                        
-            BHP.ElementProperties elementProperties = element.ElementProperties() as BHP.ElementProperties;
-            if (elementProperties != null)
-                tbdElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
-            //TBD.Construction construction = elementProperties.Construction.ToTAS();
-            //tbdElement.AssignConstruction(construction);
+            if (buildingElement == null) return tbdBuildingElement;
 
-            BHP.EnvironmentContextProperties envContextProperties = element.EnvironmentContextProperties() as BHP.EnvironmentContextProperties;
+            tbdBuildingElement.name = buildingElement.Name;
+
+            BHP.EnvironmentContextProperties envContextProperties = buildingElement.EnvironmentContextProperties() as BHP.EnvironmentContextProperties;
             if (envContextProperties != null)
-                tbdElement.GUID = envContextProperties.ElementID;
-                tbdElement.description = envContextProperties.Description;
-            //tbdConstruction = elementProperties.Construction.ToTAS();
-            //TBD.Construction construction = elementProperties.Construction.ToTAS();
-            //tbdElement.AssignConstruction(tbdConstruction);
+                tbdBuildingElement.GUID = envContextProperties.ElementID;
+            tbdBuildingElement.description = envContextProperties.Description;
 
-            Dictionary<string, object> tasData = element.CustomData;
+            BHP.ElementProperties elementProperties = buildingElement.ElementProperties() as BHP.ElementProperties;
+            //if (elementProperties != null)
+                tbdBuildingElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
+            //TBD.Construction construction = elementProperties.Construction.ToTAS();
+            //tbdBuildingElement.AssignConstruction(construction);
+
+            //TODO: Make Colour, Construction, GUID work for PushTBD
+
+
+            Dictionary<string, object> tasData = buildingElement.CustomData;
 
             if (tasData != null)
-            {
-                tbdElement.colour = (tasData.ContainsKey("ElementColour") ? System.Convert.ToUInt32(tasData["ElementColour"]) : 0);
-                //tbdElement.description = (tasData.ContainsKey("ElementDescription") ? tasData["ElementDescription"].ToString() : "");
-                tbdElement.ghost = (tasData.ContainsKey("ElementIsAir") ? (((bool)tasData["ElementIsAir"]) ? 1 : 0) : 0);
-                tbdElement.ground = (tasData.ContainsKey("ElementIsGround") ? (((bool)tasData["ElementIsGround"]) ? 1 : 0) : 0);
-                tbdElement.GUID = (tasData.ContainsKey("ElementGUID") ? tasData["ElementGUID"].ToString() : "");
-                tbdElement.width = (tasData.ContainsKey("ElementWidth") ? (float)System.Convert.ToDouble(tasData["ElementWidth"]) : 0);
-            }
+            //{
+            //    BHP.BuildingElementContextProperties BEContextProperties = buildingElement.ContextProperties() as BHP.BuildingElementContextProperties;
+            //    if (BEContextProperties != null)
 
-            //Dictionary<string, object> tasData = buildingElement.CustomData;
-            return tbdElement;
+                    //tbdBuildingElement.colour = System.Convert.ToUInt32(BEContextProperties.Colour);
+            //        tbdBuildingElement.colour = (tasData.ContainsKey("BuildingElementColour") ? System.Convert.ToUInt32(tasData["BuildingElementColour"]) : 0);
+            //}
+
+            //buildingElementContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdBuildingElement.colour).ToString();
+
+            {
+                tbdBuildingElement.colour = (tasData.ContainsKey("ElementColour") ? System.Convert.ToUInt32(tasData["ElementColour"]) : 0);
+                //tbdBuildingElement.description = (tasData.ContainsKey("ElementDescription") ? tasData["ElementDescription"].ToString() : "");
+                tbdBuildingElement.ghost = (tasData.ContainsKey("ElementIsAir") ? (((bool)tasData["ElementIsAir"]) ? 1 : 0) : 0);
+                tbdBuildingElement.ground = (tasData.ContainsKey("ElementIsGround") ? (((bool)tasData["ElementIsGround"]) ? 1 : 0) : 0);
+                tbdBuildingElement.GUID = (tasData.ContainsKey("ElementGUID") ? tasData["ElementGUID"].ToString() : "");
+                tbdBuildingElement.width = (tasData.ContainsKey("ElementWidth") ? (float)System.Convert.ToDouble(tasData["ElementWidth"]) : 0);
+            }
+            return tbdBuildingElement;
         }
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD ZoneSurface from a BHoM Environmental BuildingElement")]
-        [Input("element", "BHoM Environmental BuildingElement")]
+        [Input("buildingElement", "BHoM Environmental BuildingElement")]
         [Output("TAS TBD ZoneSurface")]
         public static TBD.zoneSurfaceClass ToTASSurface(this BHE.BuildingElement element)
         {
             //ToDo: Finish this, connect the geometry to the zoneSurface and other additional data as appropriate
 
-            /*TBD.zoneSurfaceClass tbdElement = new TBD.zoneSurfaceClass();
-            if (element == null) return tbdElement;
+            /*TBD.zoneSurfaceClass tbdBuildingElement = new TBD.zoneSurfaceClass();
+            if (buildingElement == null) return tbdBuildingElement;
 
-            if (element.CustomData.ContainsKey("SpaceID"))
-                tbdElement.zone.name = element.CustomData["SpaceID"].ToString();
+            if (buildingElement.CustomData.ContainsKey("SpaceID"))
+                tbdBuildingElement.zone.name = buildingElement.CustomData["SpaceID"].ToString();
 
-            if (element.CustomData.ContainsKey("AdjacentSpaceID"))
-                tbdElement.linkSurface.zone.name = element.CustomData["AdjacentSpaceID"].ToString();
+            if (buildingElement.CustomData.ContainsKey("AdjacentSpaceID"))
+                tbdBuildingElement.linkSurface.zone.name = buildingElement.CustomData["AdjacentSpaceID"].ToString();
 
             
 
-            return tbdElement;*/
+            return tbdBuildingElement;*/
 
             throw new NotImplementedException("Not yet implemented");
         }

@@ -98,9 +98,9 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Building from a BHoM Environmental Building")]
         [Input("building", "BHoM Environmental Building")]
         [Output("TAS TBD Building")]
-        public static TBD.Building ToTAS(this BHE.Building building)
+        public static TBD.Building ToTAS(this BHE.Building building, TBD.Building tbdBuilding)
         {
-            TBD.Building tbdBuilding = new TBD.Building();
+            //TBD.Building tbdBuilding = new TBD.Building();
             if (building == null) return tbdBuilding;
             tbdBuilding.name = building.Name;
             tbdBuilding.latitude = (float)building.Latitude;
