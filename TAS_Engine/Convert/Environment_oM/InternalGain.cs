@@ -185,7 +185,7 @@ namespace BH.Engine.TAS
             if (internalGains == null) internalGains = new List<BHE.Gain>();
 
             List<TBD.InternalGain> gains = new List<TBD.InternalGain>();
-            
+            //TODO: Add new versions of Internal Gains
             /*
             tbdInternalGain.name = gains.Name;
             tbdInternalGain.targetIlluminance = (float)gain.Illuminance;

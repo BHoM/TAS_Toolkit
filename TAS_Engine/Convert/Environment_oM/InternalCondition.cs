@@ -72,11 +72,8 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD InternalCondition from BH.oM.Environment.Elements.InternalCondition")]
         [Input("internalCondition", "BHoM Environmental InternalCondition object")]
         [Output("TAS TBD InternalCondition")]
-        public static TBD.InternalCondition ToTAS(this BHEE.InternalCondition internalCondition)
+        public static TBD.InternalCondition ToTAS(this BHEE.InternalCondition internalCondition, TBD.InternalCondition tbdCondition)
         {
-            TBD.InternalCondition tbdCondition = new TBD.InternalCondition();
-
-            //TBD.InternalConditionClass tbdCondition = new TBD.InternalConditionClass();
             if (internalCondition == null) return tbdCondition;
 
             tbdCondition.name = internalCondition.Name;
@@ -101,7 +98,8 @@ namespace BH.Engine.TAS
             //TBD.InternalGain internalGain = tbdCondition.GetInternalGain();
             //internalGain = internalCondition.Gains.ToTAS();
 
-            //TBD.Thermostat thermostat = tbdCondition.GetThermostat();
+            TBD.Thermostat thermostat = tbdCondition.GetThermostat();
+            thermostat = internalCondition.Thermostat.ToTAS(thermostat);
 
             return tbdCondition;
         }
