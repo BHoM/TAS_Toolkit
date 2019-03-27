@@ -110,6 +110,9 @@ namespace BH.Engine.TAS
         [Output("TAS TBD Zone")]
         public static TBD.zone ToTAS(this BHE.Space space, TBD.zone tbdSpace)
         {
+            //TODO:Assign Internal Conditions to Zones
+            //TODO:Assign Building Elements (Surfaces) to Zones
+
             if (space == null) return tbdSpace;
             tbdSpace.name = space.Name;
             tbdSpace.maxHeatingLoad = (float)space.HeatingLoad;

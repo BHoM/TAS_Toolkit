@@ -73,7 +73,10 @@ namespace BH.Engine.TAS
         [Input("internalCondition", "BHoM Environmental InternalCondition object")]
         [Output("TAS TBD InternalCondition")]
         public static TBD.InternalCondition ToTAS(this BHEE.InternalCondition internalCondition, TBD.InternalCondition tbdCondition)
-        {
+        {            
+            
+            //TODO:Add SimulationDaytype
+
             if (internalCondition == null) return tbdCondition;
 
             tbdCondition.name = internalCondition.Name;

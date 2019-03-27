@@ -98,6 +98,7 @@ namespace BH.Engine.TAS
         [Output("TAS TBD Polygon")]
         public static TBD.Polygon ToTAS(this BHE.Opening opening, TBD.Polygon tbdPolygon)
         {
+            //TODO:Add properties for Opening
             tbdPolygon = opening.OpeningCurve.ICollapseToPolyline(BH.oM.Geometry.Tolerance.Angle).ToTASPolygon(tbdPolygon);
             return tbdPolygon;
         }

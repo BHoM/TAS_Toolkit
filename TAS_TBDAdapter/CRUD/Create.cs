@@ -115,6 +115,8 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
+            //TODO: Remove ElementProperties?
+
         //private bool Create(BHE.Properties.ElementProperties elementProperties)
         //{
         //    TBD.Construction tbdConstruction = tbdDocument.Building.AddConstruction(null);
@@ -124,6 +126,8 @@ namespace BH.Adapter.TAS
         //    return true;
         //}
         /***************************************************/
+        
+            //TODO: Pull Constructions vid Building Elements
 
         //private bool Create(BHE.Elements.Construction construction, TBD.buildingElement tbdBuildingElement=null)
         //{

@@ -100,7 +100,9 @@ namespace BH.Engine.TAS
         [Output("TAS TBD Building")]
         public static TBD.Building ToTAS(this BHE.Building building, TBD.Building tbdBuilding)
         {
-            //TBD.Building tbdBuilding = new TBD.Building();
+            //TODO:Add BuildingHeightAdjustmentFactor, MeanHeightOfSurroundings, TerrainType, NumberOfPreconditioningDays, GroundSolarReflectance, ExternalPollutant
+            //TODO:Check if Longitude, Latitude, NorthAngle, Timezone, Path3Dfile, BuildingYear is pushed
+
             if (building == null) return tbdBuilding;
             tbdBuilding.name = building.Name;
             tbdBuilding.latitude = (float)building.Latitude;

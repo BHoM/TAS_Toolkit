@@ -83,6 +83,8 @@ namespace BH.Engine.TAS
         [Output("TAS TBD Emitter")]
         public static TBD.Emitter ToTAS(this BHE.Emitter emitter, TBD.Emitter tbdEmitter)
         {
+            //TODO:Gain list (Heating and Cooling factors) are not pushed. The View Coefficient, Radiant Proportion, Temperatures are pushed. Capacity Compensation is not pushed.
+
             if (emitter == null) return tbdEmitter;
 
             tbdEmitter.name = emitter.Name;
