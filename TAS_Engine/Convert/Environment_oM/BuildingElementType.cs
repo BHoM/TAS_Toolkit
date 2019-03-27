@@ -195,17 +195,61 @@ namespace BH.Engine.TAS
                 // here we will need to have two levels or recognision ASHRAEBuilidingElementType as per new idraw graph
                 //Agreed - but we also need to implement our extended building element types in core BHoM so this might solve that?
 
-                //Check were we are refering this to
-                case BHE.BuildingElementType.Wall:
-                    return TBD.BuildingElementType.EXTERNALWALL; //What about the other TBD Wall types??
+                case BHE.BuildingElementType.Ceiling:
+                    return TBD.BuildingElementType.CEILING;
+                case BHE.BuildingElementType.UndergroundCeiling:
+                    return TBD.BuildingElementType.UNDERGROUNDCEILING;
                 case BHE.BuildingElementType.Roof:
                     return TBD.BuildingElementType.ROOFELEMENT;
-                case BHE.BuildingElementType.Ceiling:
-                    return TBD.BuildingElementType.UNDERGROUNDCEILING;
+                case BHE.BuildingElementType.Rooflight:
+                    return TBD.BuildingElementType.ROOFLIGHT;
+                case BHE.BuildingElementType.RooflightWithFrame:
+                    return TBD.BuildingElementType.ROOFLIGHT;
+
+                case BHE.BuildingElementType.CurtainWall:
+                    return TBD.BuildingElementType.CURTAINWALL;
+                case BHE.BuildingElementType.WallInternal:
+                    return TBD.BuildingElementType.INTERNALWALL;
+                case BHE.BuildingElementType.WallExternal:
+                    return TBD.BuildingElementType.EXTERNALWALL;
+                case BHE.BuildingElementType.UndergroundWall:
+                    return TBD.BuildingElementType.UNDERGROUNDWALL;
+                case BHE.BuildingElementType.Wall:
+                    return TBD.BuildingElementType.EXTERNALWALL;
+
+                case BHE.BuildingElementType.FloorExposed:
+                    return TBD.BuildingElementType.EXPOSEDFLOOR;
+                case BHE.BuildingElementType.FloorInternal:
+                    return TBD.BuildingElementType.INTERNALFLOOR;
+                case BHE.BuildingElementType.FloorRaised:
+                    return TBD.BuildingElementType.RAISEDFLOOR;
+                case BHE.BuildingElementType.SlabOnGrade:
+                    return TBD.BuildingElementType.INTERNALFLOOR;
                 case BHE.BuildingElementType.Floor:
                     return TBD.BuildingElementType.INTERNALFLOOR;
+                case BHE.BuildingElementType.UndergroundSlab:
+                    return TBD.BuildingElementType.UNDERGROUNDSLAB;
+
+                case BHE.BuildingElementType.Shade:
+                    return TBD.BuildingElementType.SHADEELEMENT;
+                case BHE.BuildingElementType.Frame:
+                    return TBD.BuildingElementType.FRAMEELEMENT;
+                case BHE.BuildingElementType.Door:
+                    return TBD.BuildingElementType.DOORELEMENT;
+                case BHE.BuildingElementType.VehicleDoor:
+                    return TBD.BuildingElementType.VEHICLEDOOR;
+                case BHE.BuildingElementType.SolarPanel:
+                    return TBD.BuildingElementType.SOLARPANEL;
+   
+                case BHE.BuildingElementType.Glazing:
+                    return TBD.BuildingElementType.GLAZING;
+                case BHE.BuildingElementType.Window:
+                    return TBD.BuildingElementType.GLAZING;
+                case BHE.BuildingElementType.WindowWithFrame:
+                    return TBD.BuildingElementType.GLAZING;
+
                 default:
-                    return TBD.BuildingElementType.EXTERNALWALL;
+                    return TBD.BuildingElementType.NULLELEMENT;
             }
         }
     }

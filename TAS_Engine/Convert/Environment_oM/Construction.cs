@@ -110,8 +110,11 @@ namespace BH.Engine.TAS
         [Output("TAS TBD Construction")]
         public static TBD.Construction ToTAS(this BHEE.Construction construction, TBD.Construction tbdConstruction)
         {
-            if (construction == null) return tbdConstruction;
+            //TODO:Thickness of material is not showing on overview of Opaque Constructions
+            //TODO:Solar Absorptance (Ext and Int Surface), Emissivity (Ext and Int), Conductance, Time Constant is not pushed
 
+            if (construction == null) return tbdConstruction;
+            
             tbdConstruction.name = construction.Name;
             //tbdConstruction.GUID = construction.BHoM_Guid.ToString();
             tbdConstruction.additionalHeatTransfer = (float)construction.AdditionalHeatTransfer;
