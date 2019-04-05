@@ -111,7 +111,7 @@ namespace BH.Engine.TAS
         public static TBD.Construction ToTAS(this BHEE.Construction construction, TBD.Construction tbdConstruction)
         {
             //TODO:Thickness of material is not showing on overview of Opaque Constructions
-            //TODO:Solar Absorptance (Ext and Int Surface), Emissivity (Ext and Int), Conductance, Time Constant is not pushed
+            //TODO:Solar Absorptance (Ext and Int Surface), Emissivity (Ext and Int), Conductance, Time Constant is not pushed for Opaque Constructions
 
             if (construction == null) return tbdConstruction;
             

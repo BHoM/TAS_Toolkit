@@ -97,6 +97,7 @@ namespace BH.Adapter.TAS
             return true;
 
         }
+
         /***************************************************/
 
         private bool Create(BH.oM.Environment.Elements.Building building)
@@ -106,67 +107,28 @@ namespace BH.Adapter.TAS
         }
 
         /***************************************************/
+
         private bool CreateCollection(IEnumerable<BHE.Elements.BuildingElement> buildingElements, TBD.Construction tbdConstruction=null)
         {
+            //TODO:Add constructions to BuildingElements
+
             //Dictionary<string, TBD.Construction> tbdConstructions = new Dictionary<string, TBD.Construction>();
             //foreach (BHE.Elements.Construction construction in BH.Engine.Environment.Query.UniqueConstructions)
-
             //{
             //    tbdConstructions.Add(construction.UniqueConstructionName(), construction.ToTAS(tbdConstruction));
             //}
+
             if (tbdConstruction == null)
                 tbdConstruction = tbdDocument.Building.AddConstruction(null);
+
             foreach (BHE.Elements.BuildingElement buildingElement in buildingElements)
             {
                 buildingElement.ToTAS(tbdDocument.Building.AddBuildingElement(), tbdConstruction);
             }
             return true;
         }
-
-        //private bool Create(BHE.Elements.BuildingElement buildingElement, TBD.Construction tbdConstruction)
-        //{
-        //    if (BH.Engine.Environment.Query.UniqueConstructions(buildingElement) = true)
-
-        //        buildingElement.ToTAS(tbdDocument.Building.AddBuildingElement(), tbdConstruction)
-        //    return true;
-        //}
-
-        ///***************************************************/
-
-        //private bool Create(List<BHE.Elements.BuildingElement> buildingElements, TBD.Construction tbdConstruction)
-        //{
-        //    List<BHE.Elements.Construction> UniqueConstructions = BH.Engine.Environment.Query.UniqueConstructions(buildingElements);
-        //    //    buildingElement.ToTAS(tbdBuildingElement,tbdConstruction)
-
-        //    buildingElements[0].ToTAS(tbdDocument.Building.AddBuildingElement(), tbdConstruction);
-        //    return true;
-        //}
-
-
+      
         /***************************************************/
-
-        //TODO: Remove ElementProperties?
-
-        //private bool Create(BHE.Properties.ElementProperties elementProperties)
-        //{
-        //    TBD.Construction tbdConstruction = tbdDocument.Building.AddConstruction(null);
-        //    tbdConstruction.name = elementProperties.Construction.Name;
-
-        //    tbdConstruction.materialWidth[0] = (float)elementProperties.Construction.Thickness;
-        //    return true;
-        //}
-        /***************************************************/
-
-        //TODO: Pull Constructions vid Building Elements
-
-        //private bool Create(BHE.Elements.Construction construction, TBD.buildingElement tbdBuildingElement=null)
-        //{
-        //    if (tbdBuildingElement == null)
-        //        tbdBuildingElement = tbdDocument.Building.AddBuildingElement();
-        //    construction.ToTAS(tbdBuildingElement.AssignConstruction(construction.ToTAS(tbdDocument.Building.AddConstruction(null)));
-
-        //    return true;
-        //}
 
         private bool Create(BHE.Elements.Construction construction)
         {

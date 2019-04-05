@@ -141,46 +141,30 @@ namespace BH.Engine.TAS
         [Output("TAS TBD BuildingElement")]
         public static TBD.buildingElement ToTAS(this BHE.BuildingElement buildingElement, TBD.buildingElement tbdBuildingElement, TBD.Construction tbdConstruction)
         {
-            //TODO: Make Colour, GUID work for Pushing. Assign Construction.
-            //TODO:Number of BuildingElements on the TAS Building Summary is too high
-            //TODO:BuildingElements are showing up as duplicated in the TAS folder
-            //TODO:What about ApertureType, FeatureShading, SubstituteElement?
-
             if (buildingElement == null) return tbdBuildingElement;
             tbdBuildingElement.name = buildingElement.Name;
 
             BHP.EnvironmentContextProperties envContextProperties = buildingElement.EnvironmentContextProperties() as BHP.EnvironmentContextProperties;
             if (envContextProperties != null)
                 tbdBuildingElement.GUID = envContextProperties.ElementID;
-            tbdBuildingElement.description = envContextProperties.Description;
+                tbdBuildingElement.description = envContextProperties.Description;
 
             BHP.ElementProperties elementProperties = buildingElement.ElementProperties() as BHP.ElementProperties;
             if (elementProperties != null)
                 tbdBuildingElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
                 tbdBuildingElement.AssignConstruction(tbdConstruction);
 
+            return tbdBuildingElement;
+
+            //TODO: Make Colour, GUID work for Pushing. Assign Construction.
+            //TODO:Number of BuildingElements on the TAS Building Summary is too high
+            //TODO:BuildingElements are showing up as duplicated in the TAS folder
+            //TODO:What about ApertureType, FeatureShading, SubstituteElement?
+
             //BHP.BuildingElementContextProperties BEContextProperties = buildingElement.ContextProperties() as BHP.BuildingElementContextProperties;
             //if (BEContextProperties != null)
-            /*tbdBuildingElement.colour = BEContextProperties.Colour(); *///BH.Engine.Environment.Query.GetRGB((uint)BEContextProperties.Colour);
+            /*tbdBuildingElement.colour = BEContextProperties.Colour(); *///BH.Engine.Environment.Query.GetRGB((uint)BEContextProperties.Colour);         
 
-            //Dictionary<string, object> tasData = buildingElement.CustomData;
-            //if (tasData != null)
-            //{
-            //{
-            //    BHP.BuildingElementContextProperties BEContextProperties = buildingElement.ContextProperties() as BHP.BuildingElementContextProperties;
-            //if (BEContextProperties != null)
-            //        tbdBuildingElement.colour = System.Convert.ToUInt32(BEContextProperties.Colour);
-            //        tbdBuildingElement.colour = (tasData.ContainsKey("BuildingElementColour") ? System.Convert.ToUInt32(tasData["BuildingElementColour"]) : 0);
-            //buildingElementContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdBuildingElement.colour).ToString();
-            //}
-
-            //    tbdBuildingElement.colour = (tasData.ContainsKey("ElementColour") ? System.Convert.ToUInt32(tasData["ElementColour"]) : 0);
-            //    tbdBuildingElement.ghost = (tasData.ContainsKey("ElementIsAir") ? (((bool)tasData["ElementIsAir"]) ? 1 : 0) : 0);
-            //    tbdBuildingElement.ground = (tasData.ContainsKey("ElementIsGround") ? (((bool)tasData["ElementIsGround"]) ? 1 : 0) : 0);
-            //    tbdBuildingElement.GUID = (tasData.ContainsKey("ElementGUID") ? tasData["ElementGUID"].ToString() : "");
-            //    tbdBuildingElement.width = (tasData.ContainsKey("ElementWidth") ? (float)System.Convert.ToDouble(tasData["ElementWidth"]) : 0);
-            //}                
-            return tbdBuildingElement;
         }
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD ZoneSurface from a BHoM Environmental BuildingElement")]
@@ -198,8 +182,6 @@ namespace BH.Engine.TAS
 
             if (buildingElement.CustomData.ContainsKey("AdjacentSpaceID"))
                 tbdBuildingElement.linkSurface.zone.name = buildingElement.CustomData["AdjacentSpaceID"].ToString();
-
-            
 
             return tbdBuildingElement;*/
 

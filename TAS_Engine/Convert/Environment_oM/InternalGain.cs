@@ -212,6 +212,7 @@ namespace BH.Engine.TAS
                         tbdInternalGain.equipmentRadProp = (equipmentData2.ContainsKey("EquipmentRadiation") ? (float)System.Convert.ToDouble(equipmentData2["EquipmentRadiation"]) : 0);
                         tbdInternalGain.equipmentViewCoefficient = (equipmentData2.ContainsKey("EquipmentViewCoefficient") ? (float)System.Convert.ToDouble(equipmentData2["EquipmentViewCoefficient"]) : 0);
                 }
+
                 //Dictionary<string, object> tasData = internalGain.CustomData;
                 //List<BHE.Gain> gains = new List<BHE.Gain>();
                 //foreach (BHE.Gain internalGain in internalGains)
