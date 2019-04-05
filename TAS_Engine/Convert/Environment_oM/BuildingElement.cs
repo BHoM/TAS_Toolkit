@@ -152,8 +152,8 @@ namespace BH.Engine.TAS
             BHP.ElementProperties elementProperties = buildingElement.ElementProperties() as BHP.ElementProperties;
             if (elementProperties != null)
                 tbdBuildingElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
-                tbdBuildingElement.AssignConstruction(tbdConstruction);
-
+                TBD.Construction construction = elementProperties.Construction.ToTAS(tbdConstruction);
+            tbdBuildingElement.AssignConstruction(construction);
             return tbdBuildingElement;
 
             //TODO: Make Colour, GUID work for Pushing. Assign Construction.
