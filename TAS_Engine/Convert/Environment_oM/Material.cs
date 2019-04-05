@@ -151,7 +151,6 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Material from a BHoM Environmental Material")]
         [Input("material", "BHoM Environmental Material")]
         [Output("TAS TBD Material")]
-        //public static TBD.materialClass ToTAS(this BHM.Material material)
         public static TBD.material ToTAS(this BHM.Material material, TBD.material tbdMaterial)
         {
             if (material == null) return tbdMaterial;
@@ -181,7 +180,7 @@ namespace BH.Engine.TAS
                     tbdMaterial.description = ((BHP.MaterialPropertiesOpaque)material.MaterialProperties).Description;
 
                     break;
-                case BHE.MaterialType.Transparent: //Thickness is showing
+                case BHE.MaterialType.Transparent:
                     tbdMaterial.conductivity = (float)((BHP.MaterialPropertiesTransparent)material.MaterialProperties).Conductivity;
                     tbdMaterial.vapourDiffusionFactor = (float)((BHP.MaterialPropertiesTransparent)material.MaterialProperties).VapourDiffusionFactor;
                     tbdMaterial.solarTransmittance = (float)((BHP.MaterialPropertiesTransparent)material.MaterialProperties).SolarTransmittance;
