@@ -70,53 +70,42 @@ namespace BH.Engine.TAS
             return BHE.SimulationDayType.Undefined;
         }
 
-        public static TBD.dayTypeClass ToTAS(this BHE.SimulationDayType dayType)
+        public static string ToTASString(this BHE.SimulationDayType dayType)
         {
-            TBD.dayTypeClass tbdDayType = new TBD.dayTypeClass();
-
-            switch(dayType)
+            switch (dayType)
             {
                 case BHE.SimulationDayType.Weekday:
-                    tbdDayType.name = "Weekday";
-                    break;
+                    return "Weekday";
                 case BHE.SimulationDayType.Monday:
-                    tbdDayType.name = "Monday";
-                    break;
+                    return "Monday";
                 case BHE.SimulationDayType.Tuesday:
-                    tbdDayType.name = "Tuesday";
-                    break;
+                    return "Tuesday";
                 case BHE.SimulationDayType.Wednesday:
-                    tbdDayType.name = "Wednesday";
-                    break;
+                    return "Wednesday";
                 case BHE.SimulationDayType.Thursday:
-                    tbdDayType.name = "Thursday";
-                    break;
+                    return "Thursday";
                 case BHE.SimulationDayType.Friday:
-                    tbdDayType.name = "Friday";
-                    break;
+                    return "Friday";
                 case BHE.SimulationDayType.Saturday:
-                    tbdDayType.name = "Saturday";
-                    break;
+                    return "Saturday";
                 case BHE.SimulationDayType.Sunday:
-                    tbdDayType.name = "Sunday";
-                    break;
+                    return "Sunday";
                 case BHE.SimulationDayType.PublicHoliday:
-                    tbdDayType.name = "Public Holiday";
-                    break;
+                    return "Public Holiday";
                 case BHE.SimulationDayType.CoolingDesignDay:
-                    tbdDayType.name = "CDD";
-                    break;
+                    return "CDD";
                 case BHE.SimulationDayType.HeatingDesignDay:
-                    tbdDayType.name = "HDD";
-                    break;
+                    return "HDD";
                 case BHE.SimulationDayType.Weekend:
-                    tbdDayType.name = "Weekend";
-                    break;
+                    return "Weekend";
                 default:
-                    tbdDayType.name = "";
-                    break;
+                    return "";
             }
+        }
 
+        public static TBD.dayType ToTAS(this BHE.SimulationDayType dayType, TBD.dayType tbdDayType)
+        {
+            tbdDayType.name = dayType.ToTASString();
             return tbdDayType;
         }
     }

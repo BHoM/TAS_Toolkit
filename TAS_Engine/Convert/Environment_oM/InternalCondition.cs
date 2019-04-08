@@ -53,13 +53,13 @@ namespace BH.Engine.TAS
             tasData.Add("InternalConditionDescription", tbdCondition.description);
             internalCondition.CustomData = tasData;
 
-            //int getTypeIndex = 0;
-            //TBD.dayType tbdDayType = null;
-            //while ((tbdDayType = tbdCondition.GetDayType(getTypeIndex)) != null)
-            //{
-            //    internalCondition.DayTypes.Add(tbdDayType.ToBHoM());
-            //    getTypeIndex++;
-            //}
+            int getTypeIndex = 0;
+            TBD.dayType tbdDayType = null;
+            while ((tbdDayType = tbdCondition.GetDayType(getTypeIndex)) != null)
+            {
+                internalCondition.DayTypes.Add(tbdDayType.ToBHoM());
+                getTypeIndex++;
+            }
 
             internalCondition.Emitters.Add(tbdCondition.GetHeatingEmitter().ToBHoM());
             internalCondition.Emitters.Add(tbdCondition.GetCoolingEmitter().ToBHoM());
@@ -72,7 +72,7 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD InternalCondition from BH.oM.Environment.Elements.InternalCondition")]
         [Input("internalCondition", "BHoM Environmental InternalCondition object")]
         [Output("TAS TBD InternalCondition")]
-        public static TBD.InternalCondition ToTAS(this BHEG.InternalCondition internalCondition, TBD.InternalCondition tbdCondition)
+        public static TBD.InternalCondition ToTAS(this BHEG.InternalCondition internalCondition, TBD.InternalCondition tbdCondition, TBD.Calendar tbdCalendar)
         {            
             
             //TODO:Add SimulationDaytype
@@ -89,8 +89,43 @@ namespace BH.Engine.TAS
                 tbdCondition.description = (tasData.ContainsKey("InternalConditionDescription") ? tasData["InternalConditionDescription"].ToString() : "");
             }
 
+            foreach (BHEG.SimulationDayType dayType in internalCondition.DayTypes)
+            {
+                TBD.dayType tbdDayType = null;
+                int cal = 1;
+                TBD.dayType cDayType = null;
+                while ((cDayType = tbdCalendar.dayTypes(cal)) != null)
+                {
+                    if (cDayType.name == dayType.ToTASString())
+                    {
+                        tbdDayType = cDayType;
+                        break;
+                    }
+                    cal++;
+                }
+
+                if (tbdDayType == null)
+                    tbdDayType = dayType.ToTAS(tbdCalendar.AddDayType());
+
+                tbdCondition.SetDayType(tbdDayType, true);
+            }
+
             //foreach (BHEE.SimulationDayType dayType in internalCondition.DayTypes)
-            //    tbdCondition.SetDayType(dayType.ToTAS(), true);
+            //{
+            //    TBD.dayType tbdDayType = dayType.ToTAS();
+            //    int cal = 1;
+            //    TBD.dayType cDayType = null;
+            //    while((cDayType = tbdCalendar.dayTypes(cal)) != null)
+            //    {
+            //        if(cDayType.name == tbdDayType.name)
+            //        {
+            //            tbdDayType = cDayType;
+            //            break;
+            //        }
+            //        cal++;
+            //    }
+            //    tbdCondition.SetDayType(tbdDayType, true);
+            //}
 
             TBD.Emitter heatingEmitter = tbdCondition.GetHeatingEmitter();
             heatingEmitter = internalCondition.Emitters.Where(x => x.Type == BHEG.EmitterType.Heating).First().ToTAS(heatingEmitter);
