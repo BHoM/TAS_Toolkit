@@ -94,7 +94,7 @@ namespace BH.Adapter.TAS
 
                 }
 
-                CloseTbdDocument();
+                CloseTbdDocument(false);
                 return returnObjs;
 
 
@@ -103,12 +103,12 @@ namespace BH.Adapter.TAS
             {
                 ErrorLog.Add(e.ToString());
                 BH.Engine.Reflection.Compute.RecordError(e.ToString());
-                CloseTbdDocument();
+                CloseTbdDocument(false);
                 return null;
             }
             finally
             {
-                CloseTbdDocument();
+                CloseTbdDocument(false);
             }
         }
 

@@ -58,6 +58,7 @@ namespace BH.Engine.TAS
             while ((tbdMaterial = tbdConstruction.materials(mIndex)) != null)
             {
                 construction.Layers.Add(tbdMaterial.ToBHoM(tbdConstruction));
+                (construction.Layers.Last()).Thickness = (tbdConstruction.materialWidth[mIndex] == 0 ? (construction.Layers.Last()).Thickness : tbdConstruction.materialWidth[mIndex]); // temp solution set material thickness as value from construction.material.thickness
                 thickness += construction.Layers.Last().Thickness;
                 mIndex++;
             }
@@ -86,7 +87,9 @@ namespace BH.Engine.TAS
         public static TBD.Construction ToTAS(this BHPC.Construction construction, TBD.Construction tbdConstruction)
         {
             if (construction == null) return tbdConstruction;
-            
+
+
+
             tbdConstruction.name = construction.Name;
             //tbdConstruction.additionalHeatTransfer = (float)construction.AdditionalHeatTransfer();
             //tbdConstruction.FFactor = (float)construction.FFactor; //ToDo: Fix these from the fragment after fragment implementation
@@ -104,19 +107,28 @@ namespace BH.Engine.TAS
             foreach(BH.oM.Physical.Constructions.Layer layer in construction.Layers)
                 layer.ToTAS(tbdConstruction.AddMaterial());
 
-            if (tbdConstruction.type == TBD.ConstructionTypes.tcdOpaqueConstruction)
+            ////copy construction thickness to material thickness
+            //if (tbdConstruction.type == TBD.ConstructionTypes.tcdOpaqueConstruction)
+            //{
+            //    int mIndex = 1;
+            //    TBD.material m = null;
+            //    while ((m = tbdConstruction.materials(mIndex)) != null)
+            //    {
+            //        tbdConstruction.materials = tbdConstruction.materialWidth[mIndex];
+            //        //tbdConstruction.materialWidth[mIndex] = (float)((construction.Materials.Where(x => x.Name == m.name).FirstOrDefault() as BHM.Material).Thickness);
+            //        mIndex++;
+            //    }
+            //}
+
+            //if (tbdConstruction.type == TBD.ConstructionTypes.tcdOpaqueConstruction)
+            //{
+            int mIndex = 1;
+            TBD.material m = null;
+            while ((m = tbdConstruction.materials(mIndex)) != null)
             {
-                int mIndex = 1;
-                TBD.material m = null;
-                while ((m = tbdConstruction.materials(mIndex)) != null)
-                {
-                    tbdConstruction.materialWidth[mIndex] = (float)(construction.Layers.Where(x => x.Material.Name == m.name).FirstOrDefault().Thickness);
-                    mIndex++;
-                }
+                tbdConstruction.materialWidth[mIndex] = (float)(construction.Layers.Where(x => x.Material.Name == m.name).FirstOrDefault().Thickness);
+                mIndex++;
             }
-            
-            foreach (BHPC.Layer aLayer in construction.Layers)
-                aLayer.ToTAS(tbdConstruction.AddMaterial());
 
             Dictionary<string, object> tasData = construction.CustomData;
 

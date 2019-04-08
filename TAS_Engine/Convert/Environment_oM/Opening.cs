@@ -98,5 +98,19 @@ namespace BH.Engine.TAS
             tbdPolygon = opening.Polyline().ToTASPolygon(tbdPolygon);
             return tbdPolygon;
         }
+         
+        public static TBD.buildingElement ToTAS(this BHE.Opening opening, TBD.buildingElement tbdBuildingElement, TBD.Construction tbdConstruction)
+        {
+            BHE.BuildingElement openingAsElement = new BHE.BuildingElement();
+            openingAsElement.PanelCurve = opening.OpeningCurve;
+            openingAsElement.ExtendedProperties = opening.ExtendedProperties;
+            openingAsElement.BHoM_Guid = opening.BHoM_Guid;
+            openingAsElement.Name = opening.Name;
+            openingAsElement.CustomData = opening.CustomData;
+
+            tbdBuildingElement = openingAsElement.ToTAS(tbdBuildingElement, tbdConstruction);
+
+            return tbdBuildingElement;
+        }
     }
 }
