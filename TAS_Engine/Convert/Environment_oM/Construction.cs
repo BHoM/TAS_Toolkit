@@ -85,9 +85,6 @@ namespace BH.Engine.TAS
         [Output("TAS TBD Construction")]
         public static TBD.Construction ToTAS(this BHPC.Construction construction, TBD.Construction tbdConstruction)
         {
-            //TODO:Thickness of material is not showing on overview of Opaque Constructions
-            //TODO:Solar Absorptance (Ext and Int Surface), Emissivity (Ext and Int), Conductance, Time Constant is not pushed for Opaque Constructions
-
             if (construction == null) return tbdConstruction;
             
             tbdConstruction.name = construction.Name;
@@ -105,17 +102,16 @@ namespace BH.Engine.TAS
             //tbdConstruction.GUID = construction.BHoM_Guid.ToString();
 
             foreach(BH.oM.Physical.Constructions.Layer layer in construction.Layers)
-            {
-                BH.oM.Physical.Materials.Material material = layer.Material;
                 layer.ToTAS(tbdConstruction.AddMaterial());
-                if (tbdConstruction.type == TBD.ConstructionTypes.tcdOpaqueConstruction)
+
+            if (tbdConstruction.type == TBD.ConstructionTypes.tcdOpaqueConstruction)
+            {
+                int mIndex = 1;
+                TBD.material m = null;
+                while ((m = tbdConstruction.materials(mIndex)) != null)
                 {
-                    int mIndex = 1;
-                    while ((tbdConstruction.materials(mIndex)) != null)
-                    {
-                        tbdConstruction.materialWidth[mIndex] = (float)layer.Thickness;
-                        mIndex++;
-                    }
+                    tbdConstruction.materialWidth[mIndex] = (float)(construction.Layers.Where(x => x.Material.Name == m.name).FirstOrDefault().Thickness);
+                    mIndex++;
                 }
             }
             
