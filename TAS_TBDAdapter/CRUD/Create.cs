@@ -166,7 +166,7 @@ namespace BH.Adapter.TAS
 
         private bool Create(BHE.Gains.InternalCondition internalCondition)
         {
-            internalCondition.ToTAS(tbdDocument.Building.AddIC(null));
+            internalCondition.ToTAS(tbdDocument.Building.AddIC(null), tbdDocument.Building.GetCalendar());
             return true;
         }
 
