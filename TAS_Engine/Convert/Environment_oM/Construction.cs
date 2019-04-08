@@ -100,7 +100,23 @@ namespace BH.Engine.TAS
                     tbdConstruction.type = TBD.ConstructionTypes.tcdTransparentConstruction;
                 else
                     tbdConstruction.type = TBD.ConstructionTypes.tcdOpaqueConstruction;
+            }
 
+            //tbdConstruction.GUID = construction.BHoM_Guid.ToString();
+
+            foreach(BH.oM.Physical.Constructions.Layer layer in construction.Layers)
+            {
+                BH.oM.Physical.Materials.Material material = layer.Material;
+                layer.ToTAS(tbdConstruction.AddMaterial());
+                if (tbdConstruction.type == TBD.ConstructionTypes.tcdOpaqueConstruction)
+                {
+                    int mIndex = 1;
+                    while ((tbdConstruction.materials(mIndex)) != null)
+                    {
+                        tbdConstruction.materialWidth[mIndex] = (float)layer.Thickness;
+                        mIndex++;
+                    }
+                }
             }
             
             foreach (BHPC.Layer aLayer in construction.Layers)
