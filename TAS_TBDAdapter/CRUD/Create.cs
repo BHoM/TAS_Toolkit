@@ -112,18 +112,35 @@ namespace BH.Adapter.TAS
         {
             //TODO:Add constructions to BuildingElements
 
-            //Dictionary<string, TBD.Construction> tbdConstructions = new Dictionary<string, TBD.Construction>();
-            //foreach (BHE.Elements.Construction construction in BH.Engine.Environment.Query.UniqueConstructions)
-            //{
-            //    tbdConstructions.Add(construction.UniqueConstructionName(), construction.ToTAS(tbdConstruction));
-            //}
+            List<BHE.Elements.BuildingElement> elements = buildingElements.ToList();
 
-            if (tbdConstruction == null)
+            Dictionary<string, TBD.Construction> tbdConstructions = new Dictionary<string, TBD.Construction>();
+            foreach (BHE.Elements.Construction construction in elements.UniqueConstructions())
+            {
                 tbdConstruction = tbdDocument.Building.AddConstruction(null);
+                tbdConstructions.Add(construction.UniqueConstructionName(), construction.ToTAS(tbdConstruction));
+            }
 
             foreach (BHE.Elements.Panel buildingElement in buildingElements)
             {
-                buildingElement.ToTAS(tbdDocument.Building.AddBuildingElement(), tbdConstruction);
+                TBD.Construction tasCon = null;
+                BHP.ElementProperties elementProperties = buildingElement.ElementProperties() as BHP.ElementProperties;
+                if (elementProperties == null || elementProperties.Construction == null)
+                    tasCon = tbdDocument.Building.AddConstruction(null);
+                else
+                    tasCon = tbdConstructions.Where(x => x.Key == elementProperties.Construction.UniqueConstructionName()).FirstOrDefault().Value;
+                buildingElement.ToTAS(tbdDocument.Building.AddBuildingElement(), tasCon);
+
+                foreach(BHE.Elements.Opening opening in buildingElement.Openings)
+                {
+                    elementProperties = opening.ElementProperties() as BHP.ElementProperties;
+                    if (elementProperties == null || elementProperties.Construction == null)
+                        tasCon = tbdDocument.Building.AddConstruction(null);
+                    else
+                        tasCon = tbdConstructions.Where(x => x.Key == elementProperties.Construction.UniqueConstructionName()).FirstOrDefault().Value;
+
+                    opening.ToTAS(tbdDocument.Building.AddBuildingElement(), tasCon);
+                }
             }
             return true;
         }
