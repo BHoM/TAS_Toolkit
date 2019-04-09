@@ -86,7 +86,7 @@ namespace BH.Engine.TAS
             tbdProfile.factor = (float)profile.MultiplicationFactor;
             tbdProfile.setbackValue = (float)profile.SetBackValue;
 
-            switch(profile.ProfileType)
+            switch (profile.ProfileType)
             {
                 case BHE.ProfileType.Value:
                     tbdProfile.value = (float)profile.Values[0];

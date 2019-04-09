@@ -107,29 +107,12 @@ namespace BH.Engine.TAS
                 tbdCondition.SetDayType(tbdDayType, true);
             }
 
-            //foreach (BHEE.SimulationDayType dayType in internalCondition.DayTypes)
-            //{
-            //    TBD.dayType tbdDayType = dayType.ToTAS();
-            //    int cal = 1;
-            //    TBD.dayType cDayType = null;
-            //    while((cDayType = tbdCalendar.dayTypes(cal)) != null)
-            //    {
-            //        if(cDayType.name == tbdDayType.name)
-            //        {
-            //            tbdDayType = cDayType;
-            //            break;
-            //        }
-            //        cal++;
-            //    }
-            //    tbdCondition.SetDayType(tbdDayType, true);
-            //}
-
             TBD.Emitter heatingEmitter = tbdCondition.GetHeatingEmitter();
             heatingEmitter = internalCondition.Emitters.Where(x => x.Type == BHEG.EmitterType.Heating).First().ToTAS(heatingEmitter);
 
             TBD.Emitter coolingEmitter = tbdCondition.GetCoolingEmitter();
             coolingEmitter = internalCondition.Emitters.Where(x => x.Type == BHEG.EmitterType.Cooling).First().ToTAS(coolingEmitter);
-            
+
             TBD.InternalGain internalGain = tbdCondition.GetInternalGain();
             internalGain = internalCondition.Gains.ToTAS(internalGain);
 

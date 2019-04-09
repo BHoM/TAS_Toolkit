@@ -109,7 +109,6 @@ namespace BH.Engine.TAS
         public static TBD.dayType ToTAS(this BHE.SimulationDayType dayType, TBD.dayType tbdDayType)
         {
             tbdDayType.name = dayType.ToTASString();
-            TBD.Calendar tbdCalendar = new TBD.Calendar();
             return tbdDayType;
         }
     }
