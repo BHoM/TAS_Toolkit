@@ -134,7 +134,7 @@ namespace BH.Engine.TAS
         //public static TBD.InternalGain ToTAS(this List<BHE.Gain> internalGains)
         public static TBD.InternalGain ToTAS(this List<BHE.IGain> internalGains, TBD.InternalGain tbdInternalGain)
         {
-            //TODO:Only name is working, add everything else
+            //TODO: Only name is working, add everything else
 
             if (internalGains == null) return null;
             foreach (BHE.IGain internalGain in internalGains)
@@ -166,91 +166,17 @@ namespace BH.Engine.TAS
                         tbdInternalGain.equipmentViewCoefficient = (equipmentData2.ContainsKey("EquipmentViewCoefficient") ? (float)System.Convert.ToDouble(equipmentData2["EquipmentViewCoefficient"]) : 0);
                 }
 
-                //Dictionary<string, object> tasData = internalGain.CustomData;
-                //List<BHE.Gain> gains = new List<BHE.Gain>();
-                //foreach (BHE.Gain internalGain in internalGains)
+                //if (internalGain.GainType == BHE.GainType.Equipment)
                 //{
-                //    Dictionary<string, object> tasData = new Dictionary<string, object>();
-                //    tasData.Add("InternalGainActivityID", tbdInternalGain.activityID);
-                //    tasData.Add("InternalGainDescription", tbdInternalGain.description);
-                //    tasData.Add("InternalDomesticHotWater", tbdInternalGain.domesticHotWater);
-                //    tasData.Add("targetIlluminance", tbdInternalGain.targetIlluminance);
+                //    BHP.GainPropertiesEquipmentLatent equipmentLatentGain = new BHP.GainPropertiesEquipmentLatent();
                 //}
 
-                //Lighting
-                //TBD.InternalGain lightGain = new TBD.InternalGain();
-                //BHE.Gain lightGain = new BHE.Gain();
-
-                //tbdInternalGain.name = internalGains[292].Name;
-                //BHP.GainPropertiesLighting lightingGain = new BHP.GainPropertiesLighting();
-
-                //tbdInternalGain.lightingViewCoefficient = (float)lightingGain.ViewCoefficient;
-
-                //lightingGain.GainType = BHE.GainType.Lighting;
-                //lightingGain.GainUnit = BHE.GainUnit.WattsPerSquareMetre;
-                //lightingGain.RadiantFraction = tbdInternalGain.lightingRadProp;
-                //lightingGain.ViewCoefficient = tbdInternalGain.lightingViewCoefficient;
-
-                //    Dictionary<string, object> tasData = internalGain.CustomData;
-                //    if (tasData != null)
-                //    {
-                //        tbdInternalGain.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
-                //        tbdInternalGain.equipmentViewCoefficient = (tasData.ContainsKey("EquipmentViewCoefficient") ? (float)System.Convert.ToDouble(tasData["EquipmentViewCoefficient"]) : 0);
-                //        tbdInternalGain.lightingViewCoefficient = (tasData.ContainsKey("LightingViewCoefficient") ? (float)System.Convert.ToDouble(tasData["LightingViewCoefficient"]) : 0);
-                //        tbdInternalGain.occupantViewCoefficient = (tasData.ContainsKey("OccupantViewCoefficient") ? (float)System.Convert.ToDouble(tasData["OccupantViewCoefficient"]) : 0);
-                //        tbdInternalGain.equipmentRadProp = (tasData.ContainsKey("EquipmentRadiation") ? (float)System.Convert.ToDouble(tasData["EquipmentRadiation"]) : 0);
-                //        tbdInternalGain.lightingRadProp = (tasData.ContainsKey("LightingRadiation") ? (float)System.Convert.ToDouble(tasData["LightingRadiation"]) : 0);
-                //        tbdInternalGain.occupantRadProp = (tasData.ContainsKey("OccupantRadiation") ? (float)System.Convert.ToDouble(tasData["OccupantRadiation"]) : 0);
-                //        tbdInternalGain.targetIlluminance = (tasData.ContainsKey("Illuminance") ? (float)System.Convert.ToDouble(tasData["Illuminance"]) : 0);
-                //    }
-
-                //if (internalGains == null) return tbdInternalGain;
-                //    if (tasData != null)
-                //    {
-                //        tbdInternalGain.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
-                //        tbdInternalGain.equipmentViewCoefficient = (tasData.ContainsKey("EquipmentViewCoefficient") ? (float)System.Convert.ToDouble(tasData["EquipmentViewCoefficient"]) : 0);
-                //        tbdInternalGain.lightingViewCoefficient = (tasData.ContainsKey("LightingViewCoefficient") ? (float)System.Convert.ToDouble(tasData["LightingViewCoefficient"]) : 0);
-                //        tbdInternalGain.occupantViewCoefficient = (tasData.ContainsKey("OccupantViewCoefficient") ? (float)System.Convert.ToDouble(tasData["OccupantViewCoefficient"]) : 0);
-                //        tbdInternalGain.equipmentRadProp = (tasData.ContainsKey("EquipmentRadiation") ? (float)System.Convert.ToDouble(tasData["EquipmentRadiation"]) : 0);
-                //        tbdInternalGain.lightingRadProp = (tasData.ContainsKey("LightingRadiation") ? (float)System.Convert.ToDouble(tasData["LightingRadiation"]) : 0);
-                //        tbdInternalGain.occupantRadProp = (tasData.ContainsKey("OccupantRadiation") ? (float)System.Convert.ToDouble(tasData["OccupantRadiation"]) : 0);
-                //        tbdInternalGain.targetIlluminance = (tasData.ContainsKey("Illuminance") ? (float)System.Convert.ToDouble(tasData["Illuminance"]) : 0);
-                //    }
-
+                //if (internalGain.GainType == BHE.GainType.People)  
+                //{
+                //    BHP.GainPropertiesPeople occupantGain = internalGain.GainProperties as BHP.GainPropertiesPeople;
+                //    tbdInternalGain.occupantRadProp = (float)occupantGain.RadiantFraction;
+                //    tbdInternalGain.occupantViewCoefficient = (float)occupantGain.ViewCoefficient;
                 //}
-                //}
-                //if (internalGain.GainType == BHE.GainType.Lighting)
-                //    tbdGain.GetType() = BHE.GainType.Lighting;
-
-                ////Lighting
-                //BHE.Gain lightGain = new BHE.Gain();
-                //lightGain.Name = "L " + tbdInternalGain.name;
-                //lightGain.GainType = BHE.GainType.Lighting;
-
-                //List<TBD.InternalGain> gains = new List<TBD.InternalGain>();
-                ////TODO: Add new versions of Internal Gains
-                /*
-                tbdInternalGain.name = gains.Name;
-                tbdInternalGain.targetIlluminance = (float)gain.Illuminance;
-                tbdInternalGain.freshAirRate = (float)gain.OutsideAirRatePerPerson;
-                tbdInternalGain.personGain = (float)gain.PersonGain;
-                tbdInternalGain.equipmentRadProp = (float)gain.RadiationProperties.EquipmentRadiation;
-                tbdInternalGain.lightingRadProp = (float)gain.RadiationProperties.LightingRadiation;
-                tbdInternalGain.occupantRadProp = (float)gain.RadiationProperties.OccupantRadiation;
-                tbdInternalGain.equipmentViewCoefficient = (float)gain.CoefficientProperties.EquipmentViewCoefficient;
-                tbdInternalGain.lightingViewCoefficient = (float)gain.CoefficientProperties.LightingViewCoefficient;
-                tbdInternalGain.occupantViewCoefficient = (float)gain.CoefficientProperties.OccupantViewCoefficient;
-                Dictionary<string, object> tasData = gains.CustomData;
-
-
-                if (tasData != null)
-                {
-                    tbdInternalGain.activityID = (tasData.ContainsKey("InternalGainActivityID") ? System.Convert.ToInt32(tasData["InternalGainActivityID"]) : 0);
-                    tbdInternalGain.description = (tasData.ContainsKey("InternalGainDescription") ? tasData["InternalGainDescription"].ToString() : "");
-                    tbdInternalGain.domesticHotWater = (tasData.ContainsKey("InternalDomesticHotWater") ? (float)System.Convert.ToDouble(tasData["InternalDomesticHotWater"]) : 0);
-                }
-                */
-                //ToDo: Fix this
             }
             return tbdInternalGain;
         }
