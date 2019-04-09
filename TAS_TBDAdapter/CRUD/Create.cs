@@ -110,7 +110,6 @@ namespace BH.Adapter.TAS
 
         private bool CreateCollection(IEnumerable<BHE.Elements.Panel> buildingElements, TBD.Construction tbdConstruction=null)
         {
-            //TODO:Add constructions to BuildingElements
 
             List<BHE.Elements.BuildingElement> elements = buildingElements.ToList();
 
