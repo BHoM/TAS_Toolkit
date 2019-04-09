@@ -57,6 +57,13 @@ namespace BH.Engine.TAS
                 tasData.Add("Description", tbdThermostat.description);
             }
 
+            //thermostat.Profiles=tbdThermostat.GetProfile(1);
+            //TBD.profile tbdProfile = new TBD.profile();
+            //BHE.ProfileCategory profileCategory = new BHE.ProfileCategory();
+            //tbdProfile.ToBHoM(BHE.ProfileCategory.Gain);
+            //tbdThermostat.GetProfile(1);
+            thermostat.Profiles = tbdThermostat.Profiles();
+            //thermostat.Profiles = tbdProfile.ToBHoM(BHE.Profile);
             return thermostat;
         }
 
@@ -78,8 +85,7 @@ namespace BH.Engine.TAS
                 tbdThermostat.radiantProportion = (tasData.ContainsKey("RadiantProportion") ? (float)System.Convert.ToDouble(tasData["RadiantProportion"]) : 0);
                 tbdThermostat.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
             }
-
-            return tbdThermostat;
+        return tbdThermostat;
         }
     }
 }

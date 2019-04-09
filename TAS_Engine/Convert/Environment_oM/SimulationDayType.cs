@@ -42,6 +42,7 @@ namespace BH.Engine.TAS
         [Output("BHoM Environmental Simulation Day Type enum")]
         public static BHE.SimulationDayType ToBHoM(this TBD.dayType tbdDayType)
         {
+
             if (tbdDayType.name.Equals("Weekday"))
                 return BHE.SimulationDayType.Weekday;
             if (tbdDayType.name.Equals("Monday"))
@@ -70,7 +71,9 @@ namespace BH.Engine.TAS
             return BHE.SimulationDayType.Undefined;
         }
 
-        public static string ToTASString(this BHE.SimulationDayType dayType)
+
+
+    public static string ToTASString(this BHE.SimulationDayType dayType)
         {
             switch (dayType)
             {
@@ -97,7 +100,7 @@ namespace BH.Engine.TAS
                 case BHE.SimulationDayType.HeatingDesignDay:
                     return "HDD";
                 case BHE.SimulationDayType.Weekend:
-                    return "Weekend";
+                    return "Weekend"; 
                 default:
                     return "";
             }
@@ -106,6 +109,7 @@ namespace BH.Engine.TAS
         public static TBD.dayType ToTAS(this BHE.SimulationDayType dayType, TBD.dayType tbdDayType)
         {
             tbdDayType.name = dayType.ToTASString();
+            TBD.Calendar tbdCalendar = new TBD.Calendar();
             return tbdDayType;
         }
     }
