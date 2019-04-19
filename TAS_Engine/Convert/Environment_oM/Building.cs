@@ -65,11 +65,14 @@ namespace BH.Engine.TAS
             building.FragmentProperties.Add(buildingAnalyticalProperties);
 
             //BuildingContextProperties
-            BHP.BuildingContextFragment buildingContextProperties = new BHP.BuildingContextFragment();
             TBD.WeatherYear weatherYear = tbdBuilding.GetWeatherYear();
-            buildingContextProperties.PlaceName = weatherYear.name;
-            buildingContextProperties.WeatherStation = weatherYear.description;
-            building.FragmentProperties.Add(buildingContextProperties);
+            if (weatherYear != null)
+            {
+                BHP.BuildingContextFragment buildingContextProperties = new BHP.BuildingContextFragment();
+                buildingContextProperties.PlaceName = weatherYear.name;
+                buildingContextProperties.WeatherStation = weatherYear.description;
+                building.FragmentProperties.Add(buildingContextProperties);
+            }
 
             //BuildingResultsProperties
             BHP.BuildingResultFragment buildingResultsProperties = new BHP.BuildingResultFragment();
