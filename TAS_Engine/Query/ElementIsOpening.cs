@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2018, the respective contributors. All rights reserved.
  *
@@ -25,21 +25,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using BH.oM.Environment.Results;
+using BHG = BH.oM.Geometry;
+using BHEE = BH.oM.Environment.Elements;
+using BH.Engine.Environment;
+using BH.oM.Geometry;
 
 namespace BH.Engine.TAS
 {
-    public static partial class Create
+    public static partial class Query
     {
-        public static ProfileResult ProfileResult(ProfileResultType type, ProfileResultUnits unit, List<double> results)
+
+        /***************************************************/
+
+        public static bool ElementIsOpening(this TBD.BuildingElementType tbdType)
         {
-            return new oM.Environment.Results.ProfileResult
+            switch (tbdType)
             {
-                ResultType = type,
-                ResultUnit = unit,
-                Results = results,
-            };
+                case TBD.BuildingElementType.ROOFLIGHT:
+                case TBD.BuildingElementType.DOORELEMENT:
+                case TBD.BuildingElementType.VEHICLEDOOR:
+                case TBD.BuildingElementType.GLAZING:
+                case TBD.BuildingElementType.CURTAINWALL:
+                case TBD.BuildingElementType.FRAMEELEMENT:
+                    return true;
+                case TBD.BuildingElementType.NOBETYPE:
+                case TBD.BuildingElementType.NULLELEMENT:
+                    return false;
+                default:
+                    return false;
+            }
+        }
+
+        public static bool OpeningIsFrame(this BHEE.OpeningType openingType)
+        {
+            switch(openingType)
+            {
+                case oM.Environment.Elements.OpeningType.Frame:
+                case BHEE.OpeningType.RooflightWithFrame:
+                case BHEE.OpeningType.WindowWithFrame:
+                    return true;
+
+                default:
+                    return false;
+            }
         }
     }
 }

@@ -27,7 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BHA = BH.oM.Architecture;
-using BHE = BH.oM.Environment.Elements;
+using BHE = BH.oM.Environment.Gains;
 using BHG = BH.oM.Geometry;
 
 using BH.oM.Reflection.Attributes;
@@ -46,11 +46,11 @@ namespace BH.Engine.TAS
 
             BHE.Emitter emitter = new BHE.Emitter();
             emitter.Name = tbdEmitter.name;
-            emitter.EmitterProperties.RadiantProportion = tbdEmitter.radiantProportion;
-            emitter.EmitterProperties.ViewCoefficient = tbdEmitter.viewCoefficient;
-            emitter.EmitterProperties.SwitchOffOutsideTemp = tbdEmitter.offOutsideTemp;
-            emitter.EmitterProperties.MaxOutsideTemp = tbdEmitter.maxOutsideTemp;
-            emitter.EmitterType = tbdEmitter.emitterType.ToBHoM();
+            emitter.RadiantProportion = tbdEmitter.radiantProportion;
+            emitter.ViewCoefficient = tbdEmitter.viewCoefficient;
+            emitter.SwitchOffOutsideTemperature = tbdEmitter.offOutsideTemp;
+            emitter.MaximumOutsideTemperature = tbdEmitter.maxOutsideTemp;
+            emitter.Type = tbdEmitter.emitterType.ToBHoM();
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("EmitterDescription", tbdEmitter.description);
@@ -88,11 +88,11 @@ namespace BH.Engine.TAS
             if (emitter == null) return tbdEmitter;
 
             tbdEmitter.name = emitter.Name;
-            tbdEmitter.radiantProportion = (float)emitter.EmitterProperties.RadiantProportion;
-            tbdEmitter.viewCoefficient = (float)emitter.EmitterProperties.ViewCoefficient;
-            tbdEmitter.offOutsideTemp = (float)emitter.EmitterProperties.SwitchOffOutsideTemp;
-            tbdEmitter.maxOutsideTemp = (float)emitter.EmitterProperties.MaxOutsideTemp;
-            tbdEmitter.emitterType = emitter.EmitterType.ToTAS();
+            tbdEmitter.radiantProportion = (float)emitter.RadiantProportion;
+            tbdEmitter.viewCoefficient = (float)emitter.ViewCoefficient;
+            tbdEmitter.offOutsideTemp = (float)emitter.SwitchOffOutsideTemperature;
+            tbdEmitter.maxOutsideTemp = (float)emitter.MaximumOutsideTemperature;
+            tbdEmitter.emitterType = emitter.Type.ToTAS();
 
             Dictionary<string, object> tasData = emitter.CustomData;
 

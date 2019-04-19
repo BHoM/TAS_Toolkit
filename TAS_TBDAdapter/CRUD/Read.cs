@@ -28,12 +28,14 @@ using System.Linq;
 using BH.oM.Base;
 using BHE = BH.oM.Environment;
 using BH.oM.Environment.Elements;
+using BH.oM.Environment.Gains;
 using BH.oM.Environment.Properties;
-using BH.oM.Environment.Interface;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Environment;
 using BH.Engine.TAS;
 using BHP = BH.oM.Environment.Properties;
+using BH.oM.Physical.Properties.Construction;
+using BH.oM.Physical.Properties;
 
 namespace BH.Adapter.TAS
 {
@@ -48,7 +50,7 @@ namespace BH.Adapter.TAS
 
             if (type == typeof(Building))
                 return ReadBuilding();
-            else if (type == typeof(BuildingElement))
+            else if (type == typeof(Panel))
                 return ReadBuildingElements();
             else if (type == typeof(Space))
                 return ReadSpaces();
@@ -56,7 +58,7 @@ namespace BH.Adapter.TAS
             //    return ReadPanels();
             //else if (type == typeof(ElementProperties))
             //  return ReadElementsProperties();
-            else if (type == typeof(BH.oM.Environment.Materials.Material))
+            else if (type == typeof(Layer))
                 return ReadMaterials();
             else if (type == typeof(BH.oM.Architecture.Elements.Level))
                 return ReadLevels();
@@ -127,10 +129,10 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private List<BuildingElement> ReadPanels(List<string> ids = null)
+        private List<Panel> ReadPanels(List<string> ids = null)
         {
 
-            List<BuildingElement> panels = new List<BuildingElement>();
+            List<Panel> panels = new List<Panel>();
 
             int zoneIndex = 0;
             while (tbdDocument.Building.GetZone(zoneIndex) != null)
@@ -160,10 +162,10 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        public List<BuildingElement> ReadBuildingElements(List<string> ids = null)
+        public List<Panel> ReadBuildingElements(List<string> ids = null)
         {
             TBD.Building building = tbdDocument.Building;
-            List<BuildingElement> buildingElements = new List<BuildingElement>();
+            List<Panel> buildingElements = new List<Panel>();
 
             int zoneIndex = 0;
             TBD.zone zone = null;
@@ -183,40 +185,35 @@ namespace BH.Adapter.TAS
             }
 
             //Clean up building elements with openings and constructions
-            List<BuildingElement> nonOpeningElements = buildingElements.ElementsWithoutType(BuildingElementType.WindowWithFrame).ElementsWithoutType(BuildingElementType.Window).ElementsWithoutType(BuildingElementType.Rooflight).ElementsWithoutType(BuildingElementType.RooflightWithFrame).ElementsWithoutType(BuildingElementType.Glazing).ElementsWithoutType(BuildingElementType.Frame).ElementsWithoutType(BuildingElementType.Door);
+            List<Panel> nonOpeningElements = buildingElements.Where(x => !((bool)x.CustomData["ElementIsOpening"])).ToList();
 
-            List<BuildingElement> frameElements = buildingElements.ElementsByType(BuildingElementType.WindowWithFrame);
-            frameElements.AddRange(buildingElements.ElementsByType(BuildingElementType.RooflightWithFrame));
-            frameElements.AddRange(buildingElements.ElementsByType(BuildingElementType.Frame));
+            List<Panel> frameElements = buildingElements.Where(x => ((bool)x.CustomData["ElementIsOpening"]) && ((bool)x.CustomData["OpeningIsFrame"])).ToList();
 
-            List<BuildingElement> panes = buildingElements.ElementsByType(BuildingElementType.Window);
-            panes.AddRange(buildingElements.ElementsByType(BuildingElementType.Rooflight));
-            panes.AddRange(buildingElements.ElementsByType(BuildingElementType.Glazing));
-            panes.AddRange(buildingElements.ElementsByType(BuildingElementType.Door));
+            List<Panel> panes = buildingElements.Where(x => ((bool)x.CustomData["ElementIsOpening"]) && !((bool)x.CustomData["OpeningIsFrame"])).ToList();
 
-            foreach (BuildingElement element in nonOpeningElements)
+            foreach (Panel element in nonOpeningElements)
             {
                 //Sort out opening construction
-                string elementID = (element.EnvironmentContextProperties() as EnvironmentContextProperties).ElementID;
+                OriginContextFragment originContext = element.FindFragment<OriginContextFragment>(typeof(OriginContextFragment));
+                string elementID = (originContext != null ? originContext.ElementID : "");
 
                 element.Openings = new List<Opening>();
 
-                List<BuildingElement> frames = frameElements.Where(x => x.Openings.Where(y => y.CustomData.ContainsKey("TAS_ParentBuildingElementGUID") && y.CustomData["TAS_ParentBuildingElementGUID"].ToString() == elementID).Count() > 0).ToList();
+                List<Panel> frames = frameElements.Where(x => x.Openings.Where(y => y.CustomData.ContainsKey("TAS_ParentBuildingElementGUID") && y.CustomData["TAS_ParentBuildingElementGUID"].ToString() == elementID).Count() > 0).ToList();
 
-                foreach (BuildingElement frame in frames)
+                foreach (Panel frame in frames)
                 {
-                    BuildingElement pane = panes.Where(x => (x.EnvironmentContextProperties() as EnvironmentContextProperties).TypeName == frame.Name.Replace("frame", "pane")).FirstOrDefault();
+                    Panel pane = panes.Where(x => (x.FindFragment<OriginContextFragment>(typeof(OriginContextFragment))).TypeName == frame.Name.Replace("frame", "pane")).FirstOrDefault();
 
                     if (pane != null)
                     {
                         Opening newOpening = new Opening();
-                        newOpening.OpeningCurve = frame.PanelCurve;
-                        newOpening.ExtendedProperties = new List<IBHoMExtendedProperties>(pane.ExtendedProperties);
+                        newOpening.Edges = frame.ExternalEdges;
+                        newOpening.FragmentProperties = new List<IBHoMFragment>(pane.FragmentProperties);
 
-                        string oldname = (newOpening.EnvironmentContextProperties() as BHP.EnvironmentContextProperties).TypeName;
-                        (newOpening.EnvironmentContextProperties() as BHP.EnvironmentContextProperties).TypeName = oldname.RemoveStringPart(" -pane");
+                        string oldname = (newOpening.FindFragment<OriginContextFragment>(typeof(OriginContextFragment))).TypeName;
+                        (newOpening.FindFragment<OriginContextFragment>(typeof(OriginContextFragment))).TypeName = oldname.RemoveStringPart(" -pane");
                         newOpening.Name = oldname.RemoveStringPart(" -pane");
-                        newOpening.ExtendedProperties.Add(frame.PropertiesByType(typeof(FrameProperties)));
 
                         element.Openings.Add(newOpening);
                     }
@@ -227,10 +224,10 @@ namespace BH.Adapter.TAS
         }
 
         //get external surfaces for filter   
-        public List<BuildingElement> ReadExternalBuildingElements(List<string> ids = null)
+        public List<Panel> ReadExternalBuildingElements(List<string> ids = null)
         {
             TBD.Building building = tbdDocument.Building;
-            List<BuildingElement> buildingElements = new List<BuildingElement>();
+            List<Panel> buildingElements = new List<Panel>();
 
             int zoneIndex = 0;
             TBD.zone zone = null;
@@ -261,30 +258,6 @@ namespace BH.Adapter.TAS
 
 
             return buildingElements;
-        }
-
-        /***************************************************/
-
-        public List<ElementProperties> ReadElementsProperties(List<string> ids = null)
-        {
-            TBD.Building building = tbdDocument.Building;
-
-            List<ElementProperties> elementProperties = new List<ElementProperties>();
-
-            int buildingElementIndex = 0;
-            TBD.buildingElement tbdBuildingElement = null;
-            while ((tbdBuildingElement = tbdDocument.Building.GetBuildingElement(buildingElementIndex)) != null)
-            {
-                BuildingElementType aBuildingElementType = Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
-                TBD.Construction construction = tbdBuildingElement.GetConstruction();
-                BH.oM.Environment.Elements.BuildingElementType bHoMBuildingElementType = BH.Engine.TAS.Convert.ToBHoM((TBD.BuildingElementType)tbdBuildingElement.BEType);
-
-                //elementProperties.Add(Engine.TAS.Convert.ToBHoM(((construction, bHoMBuildingElementType));
-                //ToDo: FIX THIS
-                buildingElementIndex++;
-            }
-
-            return elementProperties;
         }
 
         /***************************************************/
@@ -336,11 +309,11 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private List<BHE.Interface.IMaterial> ReadMaterials(List<string> ids = null)
+        private List<Layer> ReadMaterials(List<string> ids = null)
         {
             TBD.Building building = tbdDocument.Building;
 
-            List<BHE.Interface.IMaterial> material = new List<BHE.Interface.IMaterial>();
+            List<Layer> material = new List<Layer>();
 
             int constructionIndex = 0;
             while (building.GetConstruction(constructionIndex) != null)
@@ -353,7 +326,7 @@ namespace BH.Adapter.TAS
                 {
                     TBD.material tbdMaterial = building.GetConstruction(constructionIndex).materials(materialIndex);
 
-                    material.Add(Engine.TAS.Convert.ToBHoM(tbdMaterial));
+                    material.Add(Engine.TAS.Convert.ToBHoM(tbdMaterial, currConstruction));
                     materialIndex++;
                 }
 

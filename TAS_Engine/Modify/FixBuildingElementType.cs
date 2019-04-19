@@ -39,17 +39,16 @@ namespace BH.Engine.TAS
         [Input("bHoMObject", "BHoMObject")]
         [Input("tag", "tag to be set")]
         [Output("IBHoMObject")]
-        public static BuildingElementType FixType(this BuildingElementType bHoMBuildingElementType, TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)
+        public static OpeningType FixType(this OpeningType bHoMBuildingElementType, TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)
         {
-            if (bHoMBuildingElementType == oM.Environment.Elements.BuildingElementType.Frame)
+            if (bHoMBuildingElementType == OpeningType.Frame)
             {
                 if (tbdBuildingElement.name.Contains("-frame"))
                 {
                     if (tbdZoneSurface.inclination == 0)
-                        bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.RooflightWithFrame;
+                        bHoMBuildingElementType = OpeningType.RooflightWithFrame;
                     else
-                        bHoMBuildingElementType = oM.Environment.Elements.BuildingElementType.WindowWithFrame;
-
+                        bHoMBuildingElementType = OpeningType.WindowWithFrame;
                 }
             }
 

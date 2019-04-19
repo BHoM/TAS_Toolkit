@@ -42,7 +42,7 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental Simulation Result from a TAS TSD Surface Simulation")]
         [Input("tsdData", "TAS TSD Surface Data")]
         [Output("BHoM Environmental Simulation Result")]
-        public static BHR.SimulationResult ToBHoM(this TSD.SurfaceData tsdData, BHR.ProfileResultUnits unitType, BHR.ProfileResultType resultType, int hour, int day)
+        public static BHR.SimulationResult ToBHoM(this TSD.SurfaceData tsdData, BHR.ProfileResultUnit unitType, BHR.ProfileResultType resultType, int hour, int day)
         {
             TSD.tsdSurfaceArray? srfType = resultType.ToTASSurfaceType();
             if (srfType == null)
@@ -54,11 +54,11 @@ namespace BH.Engine.TAS
             List<double> results = new List<double>();
             switch (unitType)
             {
-                case BHR.ProfileResultUnits.Yearly:
+                case BHR.ProfileResultUnit.Yearly:
                     object yearRes = tsdData.GetAnnualSurfaceResult((int)srfType.Value);
                     results = ToDoubleList(yearRes);
                     break;
-                case BHR.ProfileResultUnits.Daily:
+                case BHR.ProfileResultUnit.Daily:
                     if (day < 1 || day > 365)
                     {
                         BHER.RecordError("Please set a day between 1 and 365 inclusive");
@@ -67,7 +67,7 @@ namespace BH.Engine.TAS
                     object dayRes = tsdData.GetDailySurfaceResult(day, (int)srfType.Value);
                     results = ToDoubleList(dayRes);
                     break;
-                case BHR.ProfileResultUnits.Hourly:
+                case BHR.ProfileResultUnit.Hourly:
                     if (hour < 1 || hour > 24)
                     {
                         BHER.RecordError("Please set an hour between 1 and 24 inclusive");
@@ -82,7 +82,7 @@ namespace BH.Engine.TAS
 
             BHR.SimulationResult result = new BHR.SimulationResult();
             result.SimulationResultType = BHR.SimulationResultType.SpaceResult;
-            result.SimulationResults.Add(Create.ProfileResult(resultType, unitType, results));
+            result.SimulationResults.Add(BH.Engine.Environment.Create.ProfileResult(tsdData.BEName, resultType, unitType, results));
 
             return result;
         }

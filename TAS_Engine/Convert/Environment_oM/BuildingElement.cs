@@ -10,6 +10,8 @@ using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
 using BHP = BH.oM.Environment.Properties;
 
+using BHPC = BH.oM.Physical.Properties.Construction;
+
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 
@@ -23,44 +25,51 @@ namespace BH.Engine.TAS
         [Input("tbdBuildingElement", "TAS TBD BuildingElement")]
         [Input("tbdSurface", "TAS TBD ZoneSurface")]
         [Output("BHoM Environmental BuildingElement")]
-        public static BHE.BuildingElement ToBHoM(this TBD.buildingElement tbdElement, TBD.zoneSurface tbdSurface)
+        public static BHE.Panel ToBHoM(this TBD.buildingElement tbdElement, TBD.zoneSurface tbdSurface)
         {
-            BHE.BuildingElement element = new BHE.BuildingElement();
+            BHE.Panel element = new BHE.Panel();
 
-            BHE.BuildingElementType elementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
-            BHE.Construction elementConstruction = tbdElement.GetConstruction().ToBHoM();
+            TBD.BuildingElementType tbdElementType = ((TBD.BuildingElementType)tbdElement.BEType);
+            //Add a flag on the element for the final read
+            element.CustomData.Add("ElementIsOpening", tbdElementType.ElementIsOpening());
+
+            if(tbdElementType.ElementIsOpening())
+            {
+                //Find out what the fix was - frame or pane?
+                BHE.OpeningType fixedOpeningType = tbdElementType.ToBHoMOpeningType().FixType(tbdElement, tbdSurface);
+                element.CustomData.Add("OpeningIsFrame", fixedOpeningType.OpeningIsFrame());
+            }
+
+            BHE.PanelType elementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM();
+            BHPC.Construction elementConstruction = tbdElement.GetConstruction().ToBHoM();
 
             element.Name = tbdElement.name;
-            
-            //ElementProperties
-            BHP.ElementProperties elementProperties = new BHP.ElementProperties();
-            elementProperties.BuildingElementType = elementType;
-            elementProperties.Construction = elementConstruction;
-            element.ExtendedProperties.Add(elementProperties);
+            element.Type = elementType;
+            element.Construction = elementConstruction;
             
             //EnvironmentContextProperties
-            BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
+            BHP.OriginContextFragment environmentContextProperties = new BHP.OriginContextFragment();
             environmentContextProperties.ElementID = tbdSurface.GUID.RemoveBrackets();
             environmentContextProperties.Description =tbdElement.description;
             environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
-            element.ExtendedProperties.Add(environmentContextProperties);
+            element.FragmentProperties.Add(environmentContextProperties);
 
             //BuildingElementContextProperties
-            BHP.BuildingElementContextProperties buildingElementContextProperties = new BHP.BuildingElementContextProperties();
-            buildingElementContextProperties.ConnectedSpaces.Add(tbdSurface.zone.name);
+            BHP.PanelContextFragment buildingElementContextProperties = new BHP.PanelContextFragment();
+            element.ConnectedSpaces.Add(tbdSurface.zone.name);
             if ((int)tbdSurface.type == 3)
-                buildingElementContextProperties.ConnectedSpaces.Add(tbdSurface.linkSurface.zone.name);
+                element.ConnectedSpaces.Add(tbdSurface.linkSurface.zone.name);
             else
-                buildingElementContextProperties.ConnectedSpaces.Add("-1");
+                element.ConnectedSpaces.Add("-1");
 
             buildingElementContextProperties.IsAir = tbdElement.ghost != 0;
             buildingElementContextProperties.IsGround = tbdElement.ground != 0;
             buildingElementContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdElement.colour).ToString();
             buildingElementContextProperties.Reversed = tbdSurface.reversed != 0;
-            element.ExtendedProperties.Add(buildingElementContextProperties);
+            element.FragmentProperties.Add(buildingElementContextProperties);
 
             //BuildingElementAnalyticalProperties
-            BHP.BuildingElementAnalyticalProperties buildingElementAnalyticalProperties = new BHP.BuildingElementAnalyticalProperties();
+            BHP.PanelAnalyticalFragment buildingElementAnalyticalProperties = new BHP.PanelAnalyticalFragment();
             buildingElementAnalyticalProperties.Altitude = tbdSurface.altitude;
             buildingElementAnalyticalProperties.AltitudeRange = tbdSurface.altitudeRange;
             buildingElementAnalyticalProperties.Inclination = tbdSurface.inclination;
@@ -68,7 +77,7 @@ namespace BH.Engine.TAS
             buildingElementAnalyticalProperties.GValue = tbdElement.GValue();
             buildingElementAnalyticalProperties.LTValue = tbdElement.LTValue();
             buildingElementAnalyticalProperties.UValue = tbdElement.UValue();
-            element.ExtendedProperties.Add(buildingElementAnalyticalProperties);
+            element.FragmentProperties.Add(buildingElementAnalyticalProperties);
 
             List<BHG.Polyline> panelCurve = new List<BHG.Polyline>();
             int surfaceIndex = 0;
@@ -95,21 +104,21 @@ namespace BH.Engine.TAS
             }
 
             if (panelCurve.Count == 1)
-                element.PanelCurve = panelCurve.First();
+                element.ExternalEdges = panelCurve.First().ToEdges();
             else
             {
                 try
                 {
                     List<BHG.Polyline> polylines = Geometry.Compute.BooleanUnion(panelCurve, 1e-3);
                     if (polylines.Count == 1)
-                        element.PanelCurve = polylines.First();
+                        element.ExternalEdges = polylines.First().ToEdges();
                     else
-                        element.PanelCurve = Geometry.Create.PolyCurve(polylines);
+                        element.ExternalEdges = Geometry.Create.PolyCurve(polylines).ToEdges();
                 }
                 catch (Exception e)
                 {
                     BH.Engine.Reflection.Compute.RecordWarning("An error occurred in building buildingElement ID - " + element.BHoM_Guid + " - error was: " + e.ToString());
-                    element.PanelCurve = Geometry.Create.PolyCurve(panelCurve);
+                    element.ExternalEdges = Geometry.Create.PolyCurve(panelCurve).ToEdges();
                 }
             }
 
@@ -124,13 +133,12 @@ namespace BH.Engine.TAS
             element.CustomData = element.CustomData;
 
             //AddingExtended Properties for a frame
-            if (elementType == BHE.BuildingElementType.RooflightWithFrame || elementType == BHE.BuildingElementType.WindowWithFrame)
+
+            BHE.OpeningType elementOpeningType = tbdElementType.ToBHoMOpeningType().FixType(tbdElement, tbdSurface);
+            if (elementOpeningType == BHE.OpeningType.RooflightWithFrame || elementOpeningType == BHE.OpeningType.WindowWithFrame)
             {
-                BHP.FrameProperties frameProperties = new BHP.FrameProperties();
-                frameProperties.PaneCurve = (element.Openings.FirstOrDefault() != null ? element.Openings.FirstOrDefault().OpeningCurve : new BHG.PolyCurve());
-                frameProperties.Construction = elementConstruction;
-                //frameProperties.FramePercentage = null; //ToDo fix this
-                element.ExtendedProperties.Add(frameProperties);
+                if(element.Openings.FirstOrDefault() != null)
+                    element.Openings[0].FrameConstruction = elementConstruction;
             }
 
             return element;
@@ -139,20 +147,19 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElement from a BHoM Environmental BuildingElement")]
         [Input("buildingElement", "BHoM Environmental BuildingElement")]
         [Output("TAS TBD BuildingElement")]
-        public static TBD.buildingElement ToTAS(this BHE.BuildingElement buildingElement, TBD.buildingElement tbdBuildingElement, TBD.Construction tbdConstruction)
+        public static TBD.buildingElement ToTAS(this BHE.Panel buildingElement, TBD.buildingElement tbdBuildingElement, TBD.Construction tbdConstruction)
         {
             if (buildingElement == null) return tbdBuildingElement;
             tbdBuildingElement.name = buildingElement.Name;
 
-            BHP.EnvironmentContextProperties envContextProperties = buildingElement.EnvironmentContextProperties() as BHP.EnvironmentContextProperties;
+            BHP.OriginContextFragment envContextProperties = buildingElement.FindFragment<BHP.OriginContextFragment>(typeof(BHP.OriginContextFragment));
             if (envContextProperties != null)
                 tbdBuildingElement.GUID = envContextProperties.ElementID;
                 tbdBuildingElement.description = envContextProperties.Description;
 
-            BHP.ElementProperties elementProperties = buildingElement.ElementProperties() as BHP.ElementProperties;
-            if (elementProperties != null)
-                tbdBuildingElement.BEType = (int)elementProperties.BuildingElementType.ToTAS();
-                TBD.Construction construction = elementProperties.Construction.ToTAS(tbdConstruction);
+            tbdBuildingElement.BEType = (int)buildingElement.Type.ToTAS();
+
+            TBD.Construction construction = buildingElement.Construction.ToTAS(tbdConstruction);
             tbdBuildingElement.AssignConstruction(construction);
             return tbdBuildingElement;
 
@@ -170,7 +177,7 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD ZoneSurface from a BHoM Environmental BuildingElement")]
         [Input("buildingElement", "BHoM Environmental BuildingElement")]
         [Output("TAS TBD ZoneSurface")]
-        public static TBD.zoneSurfaceClass ToTASSurface(this BHE.BuildingElement element)
+        public static TBD.zoneSurfaceClass ToTASSurface(this BHE.Panel element)
         {
             //ToDo: Finish this, connect the geometry to the zoneSurface and other additional data as appropriate
 

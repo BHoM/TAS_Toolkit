@@ -26,8 +26,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using BHI = BH.oM.Environment.Interface;
-
 namespace BH.Engine.TAS
 {
     public static partial class Query
@@ -38,7 +36,6 @@ namespace BH.Engine.TAS
 
             if (tbdConstruction != null)
             {
-                List<BHI.IMaterial> bHoMMaterial = new List<BHI.IMaterial>();
                 int aIndex = 1;
                 TBD.material tbdMaterial = null;
                 while ((tbdMaterial = tbdConstruction.materials(aIndex)) != null)

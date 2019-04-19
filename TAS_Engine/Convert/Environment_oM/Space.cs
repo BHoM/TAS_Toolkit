@@ -34,6 +34,8 @@ using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 using BHP = BH.oM.Environment.Properties;
 
+using BH.Engine.Environment;
+
 namespace BH.Engine.TAS
 {
     public static partial class Convert
@@ -44,36 +46,38 @@ namespace BH.Engine.TAS
         public static BHE.Space ToBHoM(this TBD.zone tbdSpace, TBD.TBDDocument tbdDocument)
         {
             BHE.Space space = new BHE.Space();
-            space.Number = tbdSpace.number.ToString();
-            space.Name = tbdSpace.name;
-            space.CoolingLoad = tbdSpace.maxCoolingLoad;
-            space.HeatingLoad = tbdSpace.maxHeatingLoad;
+            space.Name = tbdSpace.name + tbdSpace.number.ToString();
+
+            BHP.LoadFragment loads = new BHP.LoadFragment();
+            loads.CoolingLoad = tbdSpace.maxCoolingLoad;
+            loads.HeatingLoad = tbdSpace.maxHeatingLoad;
+            space.FragmentProperties.Add(loads);
 
             //Adding data to Extended Poroperties--------------------------------------------------------------------------------------------------------------
 
             //EnvironmentContextProperties
-            BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
+            BHP.OriginContextFragment environmentContextProperties = new BHP.OriginContextFragment();
             environmentContextProperties.ElementID = tbdSpace.GUID.RemoveBrackets();
             environmentContextProperties.Description = tbdSpace.description;
             environmentContextProperties.TypeName = tbdSpace.name;
-            space.ExtendedProperties.Add(environmentContextProperties);
+            space.FragmentProperties.Add(environmentContextProperties);
 
             //SpaceContextProperties
-            BHP.SpaceContextProperties spaceContextProperties = new BHP.SpaceContextProperties();
+            BHP.SpaceContextFragment spaceContextProperties = new BHP.SpaceContextFragment();
             spaceContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdSpace.colour).ToString();
             spaceContextProperties.IsExternal = tbdSpace.external != 0;
 
             //spaceContextProperties.ConnectedElements = tbdSpace.external != 0;
-            space.ExtendedProperties.Add(spaceContextProperties);
+            space.FragmentProperties.Add(spaceContextProperties);
 
             //SpaceAnalyticalProperties
-            BHP.SpaceAnalyticalProperties spaceAnalyticalProperties = new BHP.SpaceAnalyticalProperties();
+            BHP.SpaceAnalyticalFragment spaceAnalyticalProperties = new BHP.SpaceAnalyticalFragment();
             spaceAnalyticalProperties.DaylightFactor = tbdSpace.daylightFactor;
             spaceAnalyticalProperties.FacadeLength = tbdSpace.facadeLength;
             spaceAnalyticalProperties.FixedConvectionCoefficient = tbdSpace.fixedConvectionCoefficient;
             spaceAnalyticalProperties.SizeCoolingMethod =((TBD.SizingType)tbdSpace.sizeCooling).ToBHoM();
             spaceAnalyticalProperties.SizeHeatingMethod = ((TBD.SizingType)tbdSpace.sizeCooling).ToBHoM();
-            space.ExtendedProperties.Add(spaceAnalyticalProperties);
+            space.FragmentProperties.Add(spaceAnalyticalProperties);
 
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
@@ -115,8 +119,14 @@ namespace BH.Engine.TAS
 
             if (space == null) return tbdSpace;
             tbdSpace.name = space.Name;
-            tbdSpace.maxHeatingLoad = (float)space.HeatingLoad;
-            tbdSpace.maxCoolingLoad = (float)space.CoolingLoad;
+
+            BHP.LoadFragment loads = space.FindFragment<BHP.LoadFragment>(typeof(BHP.LoadFragment));
+
+            if (loads != null)
+            {
+                tbdSpace.maxHeatingLoad = (float)loads.HeatingLoad;
+                tbdSpace.maxCoolingLoad = (float)loads.CoolingLoad;
+            }
 
             Dictionary<string, object> tasData = space.CustomData;
 
