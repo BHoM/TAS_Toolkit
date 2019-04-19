@@ -27,7 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BHA = BH.oM.Architecture;
-using BHEE = BH.oM.Environment.Elements;
+using BHEG = BH.oM.Environment.Gains;
 using BHG = BH.oM.Geometry;
 
 using BH.oM.Reflection.Attributes;
@@ -40,11 +40,11 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.InternalCondition from TAS TBD InternalCondition")]
         [Input("tbdCondition", "TAS TBD InternalCondition")]
         [Output("BHoM Environmental InternalCondition object")]
-        public static BHEE.InternalCondition ToBHoM(this TBD.InternalCondition tbdCondition)
+        public static BHEG.InternalCondition ToBHoM(this TBD.InternalCondition tbdCondition)
         {
             if (tbdCondition == null) return null;
 
-            BHEE.InternalCondition internalCondition = new BHEE.InternalCondition();
+            BHEG.InternalCondition internalCondition = new BHEG.InternalCondition();
 
             internalCondition.Name = tbdCondition.name;
             internalCondition.IncludeSolarInMeanRadiantTemp = tbdCondition.includeSolarInMRT != 0;
@@ -72,7 +72,7 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD InternalCondition from BH.oM.Environment.Elements.InternalCondition")]
         [Input("internalCondition", "BHoM Environmental InternalCondition object")]
         [Output("TAS TBD InternalCondition")]
-        public static TBD.InternalCondition ToTAS(this BHEE.InternalCondition internalCondition, TBD.InternalCondition tbdCondition)
+        public static TBD.InternalCondition ToTAS(this BHEG.InternalCondition internalCondition, TBD.InternalCondition tbdCondition)
         {            
             
             //TODO:Add SimulationDaytype
@@ -93,10 +93,10 @@ namespace BH.Engine.TAS
             //    tbdCondition.SetDayType(dayType.ToTAS(), true);
 
             TBD.Emitter heatingEmitter = tbdCondition.GetHeatingEmitter();
-            heatingEmitter = internalCondition.Emitters.Where(x => x.EmitterType == BHEE.EmitterType.Heating).First().ToTAS(heatingEmitter);
+            heatingEmitter = internalCondition.Emitters.Where(x => x.Type == BHEG.EmitterType.Heating).First().ToTAS(heatingEmitter);
 
             TBD.Emitter coolingEmitter = tbdCondition.GetCoolingEmitter();
-            coolingEmitter = internalCondition.Emitters.Where(x => x.EmitterType == BHEE.EmitterType.Cooling).First().ToTAS(coolingEmitter);
+            coolingEmitter = internalCondition.Emitters.Where(x => x.Type == BHEG.EmitterType.Cooling).First().ToTAS(coolingEmitter);
             
             TBD.InternalGain internalGain = tbdCondition.GetInternalGain();
             internalGain = internalCondition.Gains.ToTAS(internalGain);

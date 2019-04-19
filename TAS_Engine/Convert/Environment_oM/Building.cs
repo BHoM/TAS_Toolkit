@@ -51,31 +51,31 @@ namespace BH.Engine.TAS
             //building.Elevation = tbdBuilding.GetWeatherYear().altitude; //Consider switching to this if maxBuildingAltitude does not work
 
             //EnvironmentContextProperties
-            BHP.EnvironmentContextProperties environmentContextProperties = new BHP.EnvironmentContextProperties();
+            BHP.OriginContextFragment environmentContextProperties = new BHP.OriginContextFragment();
             environmentContextProperties.ElementID = tbdBuilding.GUID.RemoveBrackets();
             environmentContextProperties.Description = tbdBuilding.description;
             environmentContextProperties.TypeName = tbdBuilding.name;
-            building.ExtendedProperties.Add(environmentContextProperties);
+            building.FragmentProperties.Add(environmentContextProperties);
 
             //BuildingAnalyticalProperties
-            BHP.BuildingAnalyticalProperties buildingAnalyticalProperties = new BHP.BuildingAnalyticalProperties();
+            BHP.BuildingAnalyticalFragment buildingAnalyticalProperties = new BHP.BuildingAnalyticalFragment();
             buildingAnalyticalProperties.NorthAngle = tbdBuilding.northAngle; //North Angle (degrees) Measured clockwise with respect to the Y - axis of the building plan. 
             buildingAnalyticalProperties.Year = tbdBuilding.year;
             buildingAnalyticalProperties.GMTOffset = tbdBuilding.timeZone;
-            building.ExtendedProperties.Add(buildingAnalyticalProperties);
+            building.FragmentProperties.Add(buildingAnalyticalProperties);
 
             //BuildingContextProperties
-            BHP.BuildingContextProperties buildingContextProperties = new BHP.BuildingContextProperties();
+            BHP.BuildingContextFragment buildingContextProperties = new BHP.BuildingContextFragment();
             TBD.WeatherYear weatherYear = tbdBuilding.GetWeatherYear();
             buildingContextProperties.PlaceName = weatherYear.name;
             buildingContextProperties.WeatherStation = weatherYear.description;
-            building.ExtendedProperties.Add(buildingContextProperties);
+            building.FragmentProperties.Add(buildingContextProperties);
 
             //BuildingResultsProperties
-            BHP.BuildingResultsProperties buildingResultsProperties = new BHP.BuildingResultsProperties();
+            BHP.BuildingResultFragment buildingResultsProperties = new BHP.BuildingResultFragment();
             buildingResultsProperties.PeakCooling = tbdBuilding.peakCooling;
             buildingResultsProperties.PeakHeating = tbdBuilding.peakHeating;
-            building.ExtendedProperties.Add(buildingResultsProperties);
+            building.FragmentProperties.Add(buildingResultsProperties);
 
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 

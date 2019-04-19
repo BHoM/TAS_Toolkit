@@ -36,7 +36,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Create
     {
-        public static BuildingElement BuildingElement(ICurve curve, double height)
+        public static Panel Panel(ICurve curve, double height)
         {
             if (curve == null) return null;
             Vector aVector = Geometry.Create.Vector(0, 0, height);
@@ -48,13 +48,13 @@ namespace BH.Engine.TAS
 
             Plane aPlane = Geometry.Create.Plane(aPoint_Max_1, Geometry.Create.Vector(0, 0, 1));
             ICurve aCurve = Geometry.Modify.Project(curve as dynamic, aPlane);
-            BuildingElement aBuildingElement = Environment.Create.BuildingElement(aCurve);
+            Panel aBuildingElement = Environment.Create.Panel(externalEdges: aCurve.ToEdges());
             return aBuildingElement;
         }
 
-        public static BuildingElement BuildingElement(int elementID)
+        public static Panel BuildingElement(int elementID)
         {
-            BuildingElement aBuildingElement = new BuildingElement()
+            Panel aBuildingElement = new Panel()
             {
             };
 

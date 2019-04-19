@@ -108,7 +108,7 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private bool CreateCollection(IEnumerable<BHE.Elements.BuildingElement> buildingElements, TBD.Construction tbdConstruction=null)
+        private bool CreateCollection(IEnumerable<BHE.Elements.Panel> buildingElements, TBD.Construction tbdConstruction=null)
         {
             //TODO:Add constructions to BuildingElements
 
@@ -121,7 +121,7 @@ namespace BH.Adapter.TAS
             if (tbdConstruction == null)
                 tbdConstruction = tbdDocument.Building.AddConstruction(null);
 
-            foreach (BHE.Elements.BuildingElement buildingElement in buildingElements)
+            foreach (BHE.Elements.Panel buildingElement in buildingElements)
             {
                 buildingElement.ToTAS(tbdDocument.Building.AddBuildingElement(), tbdConstruction);
             }
@@ -130,7 +130,7 @@ namespace BH.Adapter.TAS
       
         /***************************************************/
 
-        private bool Create(BHE.Elements.Construction construction)
+        private bool Create(BH.oM.Physical.Properties.Construction.Construction construction)
         {
             construction.ToTAS(tbdDocument.Building.AddConstruction(null));
 
@@ -139,11 +139,11 @@ namespace BH.Adapter.TAS
         
         /***************************************************/
 
-        private bool Create(BHE.Materials.Material material, TBD.Construction tbdConstruction = null)
+        private bool Create(BH.oM.Physical.Properties.Construction.Layer layer, TBD.Construction tbdConstruction = null)
         {
             if (tbdConstruction == null)
                 tbdConstruction = tbdDocument.Building.AddConstruction(null);
-            material.ToTAS(tbdConstruction.AddMaterial());
+            layer.ToTAS(tbdConstruction.AddMaterial());
             
             return true;
         }
@@ -164,7 +164,7 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private bool Create(BHE.Elements.InternalCondition internalCondition)
+        private bool Create(BHE.Gains.InternalCondition internalCondition)
         {
             internalCondition.ToTAS(tbdDocument.Building.AddIC(null));
             return true;

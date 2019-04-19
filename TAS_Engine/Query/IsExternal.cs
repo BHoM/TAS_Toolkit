@@ -37,7 +37,7 @@ namespace BH.Engine.Adapters.TAS
         [Description("Cheks whatever Building Element is external element. Works only for Building Elements pulled from analytical model and adjacency have been assigned.")]
         [Input("buildingElement", "BuildingElement pulled from TAS model")]
         [Output("IsExternal")]
-        public static bool IsExternal(this BuildingElement buildingElement)
+        public static bool IsExternal(this Panel buildingElement)
         {
             if (buildingElement == null)
                 return false;
@@ -55,7 +55,7 @@ namespace BH.Engine.Adapters.TAS
 
             //int aSpaceId = buildingElement.SpaceId();
             //int aAdjacentSpaceId = buildingElement.AdjacentSpaceId();
-            BuildingElement abuildingElement = buildingElement;
+            Panel abuildingElement = buildingElement;
 
             //return aSpaceId != -1 && aAdjacentSpaceId == -1;
             return false;

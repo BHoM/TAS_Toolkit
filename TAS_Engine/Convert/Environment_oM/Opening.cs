@@ -30,6 +30,7 @@ using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
+using BH.Engine.Environment;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
@@ -52,23 +53,19 @@ namespace BH.Engine.TAS
                 TBD.buildingElement tbdElement = tbdSurface.buildingElement;
 
                 //EnvironmentContextProperties
-                BH.oM.Environment.Properties.EnvironmentContextProperties environmentContextProperties = new oM.Environment.Properties.EnvironmentContextProperties();
+                BH.oM.Environment.Properties.OriginContextFragment environmentContextProperties = new oM.Environment.Properties.OriginContextFragment();
                 environmentContextProperties.ElementID = tbdSurface.GUID.RemoveBrackets();
                 environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + tbdSurface.buildingElement.GUID.RemoveBrackets();
                 //environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
                 environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
-                opening.ExtendedProperties.Add(environmentContextProperties);
+                opening.FragmentProperties.Add(environmentContextProperties);
 
                 opening.Name = environmentContextProperties.TypeName;
-
-                //ElementProperties
-                BH.oM.Environment.Properties.ElementProperties elementProperties = new oM.Environment.Properties.ElementProperties();
-                elementProperties.BuildingElementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM().FixType(tbdElement, tbdSurface);
-                elementProperties.Construction = tbdElement.GetConstruction().ToBHoM();
-                opening.ExtendedProperties.Add(elementProperties);
+                opening.Type = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoMOpeningType().FixType(tbdElement, tbdSurface);
+                opening.OpeningConstruction = tbdElement.GetConstruction().ToBHoM();
 
                 //BuildingElementAnalyticalProperties
-                BH.oM.Environment.Properties.BuildingElementAnalyticalProperties buildingElementAnalyticalProperties = new oM.Environment.Properties.BuildingElementAnalyticalProperties();
+                BH.oM.Environment.Properties.PanelAnalyticalFragment buildingElementAnalyticalProperties = new oM.Environment.Properties.PanelAnalyticalFragment();
                 buildingElementAnalyticalProperties.Altitude = tbdSurface.altitude;
                 buildingElementAnalyticalProperties.AltitudeRange = tbdSurface.altitudeRange;
                 buildingElementAnalyticalProperties.Inclination = tbdSurface.inclination;
@@ -76,12 +73,12 @@ namespace BH.Engine.TAS
                 buildingElementAnalyticalProperties.GValue = tbdElement.GValue();
                 buildingElementAnalyticalProperties.LTValue = tbdElement.LTValue();
                 buildingElementAnalyticalProperties.UValue = tbdElement.UValue();
-                opening.ExtendedProperties.Add(buildingElementAnalyticalProperties);
+                opening.FragmentProperties.Add(buildingElementAnalyticalProperties);
 
                 if (tbdPolygon != null)
-                    opening.OpeningCurve = tbdPolygon.ToBHoM();
+                    opening.Edges = tbdPolygon.ToBHoM().ToEdges();
                 else
-                    opening.OpeningCurve = roomSurface.GetPerimeter().ToBHoM();
+                    opening.Edges = roomSurface.GetPerimeter().ToBHoM().ToEdges();
 
                 if (roomSurface.parentSurface != null && roomSurface.parentSurface.zoneSurface != null && roomSurface.parentSurface.zoneSurface.buildingElement != null)
                 {
@@ -99,7 +96,7 @@ namespace BH.Engine.TAS
         public static TBD.Polygon ToTAS(this BHE.Opening opening, TBD.Polygon tbdPolygon)
         {
             //TODO:Add properties for Opening
-            tbdPolygon = opening.OpeningCurve.ICollapseToPolyline(BH.oM.Geometry.Tolerance.Angle).ToTASPolygon(tbdPolygon);
+            tbdPolygon = opening.ToPolyline().ToTASPolygon(tbdPolygon);
             return tbdPolygon;
         }
     }

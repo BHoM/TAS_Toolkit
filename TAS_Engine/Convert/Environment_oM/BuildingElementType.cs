@@ -39,66 +39,86 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental BuildingElementType from a TAS TBD BuildingElementType")]
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental PanelType from a TAS TBD BuildingElementType")]
         [Input("tbdType", "TAS TBD BuildingElementType")]
-        [Output("BHoM Environmental BuildingElementType")]
-        public static BHE.BuildingElementType ToBHoM(this TBD.BuildingElementType tbdType)
+        [Output("panelType", "BHoM Environmental PanelType")]
+        public static BHE.PanelType ToBHoM(this TBD.BuildingElementType tbdType)
         {
             switch (tbdType)
             {
                 case TBD.BuildingElementType.EXTERNALWALL:
-                    return BHE.BuildingElementType.WallExternal;
+                    return BHE.PanelType.WallExternal;
                 case TBD.BuildingElementType.INTERNALWALL:
-                    return BHE.BuildingElementType.WallInternal;
+                    return BHE.PanelType.WallInternal;
                 case TBD.BuildingElementType.UNDERGROUNDWALL:
-                    return BHE.BuildingElementType.UndergroundWall;
+                    return BHE.PanelType.UndergroundWall;
 
                 case TBD.BuildingElementType.ROOFELEMENT:
-                    return BHE.BuildingElementType.Roof;
-                case TBD.BuildingElementType.ROOFLIGHT:
-                    return BHE.BuildingElementType.Rooflight;
+                    return BHE.PanelType.Roof;
 
                 case TBD.BuildingElementType.CEILING:
-                    return BHE.BuildingElementType.Ceiling;
+                    return BHE.PanelType.Ceiling;
                 case TBD.BuildingElementType.UNDERGROUNDCEILING:
-                    return BHE.BuildingElementType.UndergroundCeiling;
+                    return BHE.PanelType.UndergroundCeiling;
 
                 case TBD.BuildingElementType.EXPOSEDFLOOR:
-                    return BHE.BuildingElementType.FloorExposed;
+                    return BHE.PanelType.FloorExposed;
                 case TBD.BuildingElementType.INTERNALFLOOR:
-                    return BHE.BuildingElementType.FloorInternal;
+                    return BHE.PanelType.FloorInternal;
                 case TBD.BuildingElementType.RAISEDFLOOR:
-                    return BHE.BuildingElementType.FloorRaised;
+                    return BHE.PanelType.FloorRaised;
                 case TBD.BuildingElementType.SLABONGRADE:
-                    return BHE.BuildingElementType.SlabOnGrade;
+                    return BHE.PanelType.SlabOnGrade;
                 case TBD.BuildingElementType.UNDERGROUNDSLAB:
-                    return BHE.BuildingElementType.UndergroundSlab;
-
-                case TBD.BuildingElementType.DOORELEMENT:
-                    return BHE.BuildingElementType.Door;
-                case TBD.BuildingElementType.VEHICLEDOOR:
-                    return BHE.BuildingElementType.VehicleDoor;
-
-                case TBD.BuildingElementType.GLAZING:
-                    return BHE.BuildingElementType.Glazing;
+                    return BHE.PanelType.UndergroundSlab;
 
                 case TBD.BuildingElementType.CURTAINWALL:
-                    return BHE.BuildingElementType.CurtainWall;
-
-                case TBD.BuildingElementType.FRAMEELEMENT:
-                    return BHE.BuildingElementType.Frame;
+                    return BHE.PanelType.CurtainWall;
 
                 case TBD.BuildingElementType.NOBETYPE:
                 case TBD.BuildingElementType.NULLELEMENT:
-                    return BHE.BuildingElementType.Undefined;
+                    return BHE.PanelType.Undefined;
 
                 case TBD.BuildingElementType.SHADEELEMENT:
-                    return BHE.BuildingElementType.Shade;
+                    return BHE.PanelType.Shade;
                 case TBD.BuildingElementType.SOLARPANEL:
-                    return BHE.BuildingElementType.SolarPanel;
+                    return BHE.PanelType.SolarPanel;
 
                 default:
-                    return BHE.BuildingElementType.Wall;
+                    return BHE.PanelType.Wall;
+            }
+        }
+
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental OpeningType from a TAS TBD BuildingElementType")]
+        [Input("tbdType", "TAS TBD BuildingElementType")]
+        [Output("openingType", "BHoM Environmental OpeningType")]
+        public static BHE.OpeningType ToBHoMOpeningType(this TBD.BuildingElementType tbdType)
+        {
+            switch (tbdType)
+            {
+                case TBD.BuildingElementType.ROOFLIGHT:
+                    return BHE.OpeningType.Rooflight;
+
+                case TBD.BuildingElementType.DOORELEMENT:
+                    return BHE.OpeningType.Door;
+                case TBD.BuildingElementType.VEHICLEDOOR:
+                    return BHE.OpeningType.VehicleDoor;
+
+                case TBD.BuildingElementType.GLAZING:
+                    return BHE.OpeningType.Glazing;
+
+                case TBD.BuildingElementType.CURTAINWALL:
+                    return BHE.OpeningType.CurtainWall;
+
+                case TBD.BuildingElementType.FRAMEELEMENT:
+                    return BHE.OpeningType.Frame;
+
+                case TBD.BuildingElementType.NOBETYPE:
+                case TBD.BuildingElementType.NULLELEMENT:
+                    return BHE.OpeningType.Undefined;
+
+                default:
+                    return BHE.OpeningType.Window;
             }
         }
 
@@ -106,15 +126,14 @@ namespace BH.Engine.TAS
         [Input("element", "BHoM Environmental BuildingElement")]
         [Input("spaces", "Collection of BHoM Environmental BuildingElements that define a set of spaces for the building")]
         [Output("TAS TBD BuildingElementType")]
-        public static TBD.BuildingElementType ToTASBuildingElementType(this BHE.BuildingElement element, List<List<BHE.BuildingElement>> spaces = null)
+        public static TBD.BuildingElementType ToTASBuildingElementType(this BHE.Panel element, List<List<BHE.Panel>> spaces = null)
         {
             TBD.BuildingElementType tbdType = TBD.BuildingElementType.NULLELEMENT;
             if (element == null) return tbdType;
-            if (spaces == null) spaces = new List<List<BHE.BuildingElement>>();
+            if (spaces == null) spaces = new List<List<BHE.Panel>>();
             
             int adjacentSpaces = element.AdjacentSpaces(spaces).Count;
-            BHP.ElementProperties elementProperties = element.ElementProperties() as BHP.ElementProperties;
-            if (adjacentSpaces == 0 && elementProperties != null && elementProperties.BuildingElementType != BHE.BuildingElementType.Window && elementProperties.BuildingElementType != BHE.BuildingElementType.Door)
+            if (adjacentSpaces == 0)
                 tbdType = TBD.BuildingElementType.SHADEELEMENT;
 
             if (element.CustomData.ContainsKey("SAM_BuildingElementType"))
@@ -188,64 +207,84 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElementType from a BHoM Environmental BuildingElementType")]
         [Input("type", "BHoM Environmental BuildingElementType")]
         [Output("TAS TBD BuildingElementType")]
-        public static TBD.BuildingElementType ToTAS(this BHE.BuildingElementType bHoMBuildingElementType)
+        public static TBD.BuildingElementType ToTAS(this BHE.PanelType bHoMBuildingElementType)
         {
             switch (bHoMBuildingElementType) // This is just a test, it does not match. We have more BETypes in TAS than in BHoM
             {
                 // here we will need to have two levels or recognision ASHRAEBuilidingElementType as per new idraw graph
                 //Agreed - but we also need to implement our extended building element types in core BHoM so this might solve that?
 
-                case BHE.BuildingElementType.Ceiling:
+                case BHE.PanelType.Ceiling:
                     return TBD.BuildingElementType.CEILING;
-                case BHE.BuildingElementType.UndergroundCeiling:
+                case BHE.PanelType.UndergroundCeiling:
                     return TBD.BuildingElementType.UNDERGROUNDCEILING;
-                case BHE.BuildingElementType.Roof:
+                case BHE.PanelType.Roof:
                     return TBD.BuildingElementType.ROOFELEMENT;
-                case BHE.BuildingElementType.Rooflight:
-                    return TBD.BuildingElementType.ROOFLIGHT;
-                case BHE.BuildingElementType.RooflightWithFrame:
-                    return TBD.BuildingElementType.ROOFLIGHT;
 
-                case BHE.BuildingElementType.CurtainWall:
+                case BHE.PanelType.CurtainWall:
                     return TBD.BuildingElementType.CURTAINWALL;
-                case BHE.BuildingElementType.WallInternal:
+                case BHE.PanelType.WallInternal:
                     return TBD.BuildingElementType.INTERNALWALL;
-                case BHE.BuildingElementType.WallExternal:
+                case BHE.PanelType.WallExternal:
                     return TBD.BuildingElementType.EXTERNALWALL;
-                case BHE.BuildingElementType.UndergroundWall:
+                case BHE.PanelType.UndergroundWall:
                     return TBD.BuildingElementType.UNDERGROUNDWALL;
-                case BHE.BuildingElementType.Wall:
+                case BHE.PanelType.Wall:
                     return TBD.BuildingElementType.EXTERNALWALL;
 
-                case BHE.BuildingElementType.FloorExposed:
+                case BHE.PanelType.FloorExposed:
                     return TBD.BuildingElementType.EXPOSEDFLOOR;
-                case BHE.BuildingElementType.FloorInternal:
+                case BHE.PanelType.FloorInternal:
                     return TBD.BuildingElementType.INTERNALFLOOR;
-                case BHE.BuildingElementType.FloorRaised:
+                case BHE.PanelType.FloorRaised:
                     return TBD.BuildingElementType.RAISEDFLOOR;
-                case BHE.BuildingElementType.SlabOnGrade:
+                case BHE.PanelType.SlabOnGrade:
                     return TBD.BuildingElementType.INTERNALFLOOR;
-                case BHE.BuildingElementType.Floor:
+                case BHE.PanelType.Floor:
                     return TBD.BuildingElementType.INTERNALFLOOR;
-                case BHE.BuildingElementType.UndergroundSlab:
+                case BHE.PanelType.UndergroundSlab:
                     return TBD.BuildingElementType.UNDERGROUNDSLAB;
 
-                case BHE.BuildingElementType.Shade:
+                case BHE.PanelType.Shade:
                     return TBD.BuildingElementType.SHADEELEMENT;
-                case BHE.BuildingElementType.Frame:
-                    return TBD.BuildingElementType.FRAMEELEMENT;
-                case BHE.BuildingElementType.Door:
-                    return TBD.BuildingElementType.DOORELEMENT;
-                case BHE.BuildingElementType.VehicleDoor:
-                    return TBD.BuildingElementType.VEHICLEDOOR;
-                case BHE.BuildingElementType.SolarPanel:
+                case BHE.PanelType.SolarPanel:
                     return TBD.BuildingElementType.SOLARPANEL;
-   
-                case BHE.BuildingElementType.Glazing:
+
+                default:
+                    return TBD.BuildingElementType.NULLELEMENT;
+            }
+        }
+
+        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElementType from a BHoM Environmental OpeningType")]
+        [Input("type", "BHoM Environmental OpeningType")]
+        [Output("TAS TBD BuildingElementType")]
+        public static TBD.BuildingElementType ToTAS(this BHE.OpeningType bHoMBuildingElementType)
+        {
+            switch (bHoMBuildingElementType) // This is just a test, it does not match. We have more BETypes in TAS than in BHoM
+            {
+                // here we will need to have two levels or recognision ASHRAEBuilidingElementType as per new idraw graph
+                //Agreed - but we also need to implement our extended building element types in core BHoM so this might solve that?
+
+                case BHE.OpeningType.Rooflight:
+                    return TBD.BuildingElementType.ROOFLIGHT;
+                case BHE.OpeningType.RooflightWithFrame:
+                    return TBD.BuildingElementType.ROOFLIGHT;
+
+                case BHE.OpeningType.CurtainWall:
+                    return TBD.BuildingElementType.CURTAINWALL;
+
+                case BHE.OpeningType.Frame:
+                    return TBD.BuildingElementType.FRAMEELEMENT;
+                case BHE.OpeningType.Door:
+                    return TBD.BuildingElementType.DOORELEMENT;
+                case BHE.OpeningType.VehicleDoor:
+                    return TBD.BuildingElementType.VEHICLEDOOR;
+
+                case BHE.OpeningType.Glazing:
                     return TBD.BuildingElementType.GLAZING;
-                case BHE.BuildingElementType.Window:
+                case BHE.OpeningType.Window:
                     return TBD.BuildingElementType.GLAZING;
-                case BHE.BuildingElementType.WindowWithFrame:
+                case BHE.OpeningType.WindowWithFrame:
                     return TBD.BuildingElementType.GLAZING;
 
                 default:
