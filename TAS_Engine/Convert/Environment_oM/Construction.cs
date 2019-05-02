@@ -29,13 +29,13 @@ using System.Threading.Tasks;
 using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment;
 using BHEE = BH.oM.Environment.Elements;
-using BHM = BH.oM.Environment.Materials;
+using BHM = BH.oM.Environment.MaterialFragments;
 using BHG = BH.oM.Geometry;
-using BHP = BH.oM.Environment.Properties;
+using BHP = BH.oM.Environment.Fragments;
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 
-using BHPC = BH.oM.Physical.Properties.Construction;
+using BHPC = BH.oM.Physical.Constructions;
 using BH.Engine.Environment;
 
 namespace BH.Engine.TAS

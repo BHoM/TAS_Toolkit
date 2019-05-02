@@ -8,9 +8,9 @@ using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
-using BHP = BH.oM.Environment.Properties;
+using BHP = BH.oM.Environment.Fragments;
 
-using BHPC = BH.oM.Physical.Properties.Construction;
+using BHPC = BH.oM.Physical.Constructions;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;

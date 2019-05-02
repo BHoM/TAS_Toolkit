@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using BH.oM.Base;
 using BHE = BH.oM.Environment;
 using BH.oM.Environment.Elements;
-using BH.oM.Environment.Properties;
+using BH.oM.Environment.Fragments;
 using BHG = BH.oM.Geometry;
 using BH.Engine;
 using TSD;

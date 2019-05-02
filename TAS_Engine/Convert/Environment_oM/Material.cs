@@ -28,12 +28,12 @@ using System.Threading.Tasks;
 
 using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment.Elements;
-using BHM = BH.oM.Environment.Materials;
-using BHP = BH.oM.Environment.Properties;
+using BHM = BH.oM.Environment.MaterialFragments;
+using BHP = BH.oM.Environment.Fragments;
 using BHG = BH.oM.Geometry;
 
-using BHPM = BH.oM.Physical.Properties;
-using BHPMC = BH.oM.Physical.Properties.Construction;
+using BHPM = BH.oM.Physical.Materials;
+using BHPMC = BH.oM.Physical.Constructions;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;

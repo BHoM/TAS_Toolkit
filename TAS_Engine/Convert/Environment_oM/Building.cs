@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
-using BHP = BH.oM.Environment.Properties;
+using BHP = BH.oM.Environment.Fragments;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;

@@ -29,13 +29,13 @@ using BH.oM.Base;
 using BHE = BH.oM.Environment;
 using BH.oM.Environment.Elements;
 using BH.oM.Environment.Gains;
-using BH.oM.Environment.Properties;
+using BH.oM.Environment.Fragments;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Environment;
 using BH.Engine.TAS;
-using BHP = BH.oM.Environment.Properties;
-using BH.oM.Physical.Properties.Construction;
-using BH.oM.Physical.Properties;
+using BHP = BH.oM.Environment.Fragments;
+using BH.oM.Physical.Constructions;
+using BH.oM.Physical.Materials;
 
 namespace BH.Adapter.TAS
 {
