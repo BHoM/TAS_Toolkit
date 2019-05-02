@@ -53,7 +53,7 @@ namespace BH.Engine.TAS
                 TBD.buildingElement tbdElement = tbdSurface.buildingElement;
 
                 //EnvironmentContextProperties
-                BH.oM.Environment.Properties.OriginContextFragment environmentContextProperties = new oM.Environment.Properties.OriginContextFragment();
+                BH.oM.Environment.Fragments.OriginContextFragment environmentContextProperties = new oM.Environment.Fragments.OriginContextFragment();
                 environmentContextProperties.ElementID = tbdSurface.GUID.RemoveBrackets();
                 environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + tbdSurface.buildingElement.GUID.RemoveBrackets();
                 //environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
@@ -65,7 +65,7 @@ namespace BH.Engine.TAS
                 opening.OpeningConstruction = tbdElement.GetConstruction().ToBHoM();
 
                 //BuildingElementAnalyticalProperties
-                BH.oM.Environment.Properties.PanelAnalyticalFragment buildingElementAnalyticalProperties = new oM.Environment.Properties.PanelAnalyticalFragment();
+                BH.oM.Environment.Fragments.PanelAnalyticalFragment buildingElementAnalyticalProperties = new oM.Environment.Fragments.PanelAnalyticalFragment();
                 buildingElementAnalyticalProperties.Altitude = tbdSurface.altitude;
                 buildingElementAnalyticalProperties.AltitudeRange = tbdSurface.altitudeRange;
                 buildingElementAnalyticalProperties.Inclination = tbdSurface.inclination;

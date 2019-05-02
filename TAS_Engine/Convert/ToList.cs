@@ -32,7 +32,7 @@ using TBD;
 using TSD;
 using TAS3D;
 using BHEE = BH.Engine.Environment;
-using BH.oM.Environment.Properties;
+using BH.oM.Environment.Fragments;
 using BH.oM.Environment.Elements;
 using System.Collections;
 

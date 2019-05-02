@@ -33,7 +33,7 @@ using BHG = BH.oM.Geometry;
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 using BH.Engine.Environment;
-using BHP = BH.oM.Environment.Properties;
+using BHP = BH.oM.Environment.Fragments;
 
 namespace BH.Engine.TAS
 {

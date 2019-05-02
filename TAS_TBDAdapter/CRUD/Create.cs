@@ -26,7 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BH.oM.Base;
 using BHE = BH.oM.Environment;
-using BHM = BH.oM.Environment.Materials;
+using BHM = BH.oM.Environment.MaterialFragments;
 using BHG = BH.oM.Geometry;
 using System.Runtime.InteropServices;
 using BH.Engine.Environment;
@@ -35,7 +35,7 @@ using System.Threading.Tasks;
 using BHA = BH.oM.Architecture;
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
-using BHP = BH.oM.Environment.Properties;
+using BHP = BH.oM.Environment.Fragments;
 using BH.Engine.TAS;
 
 namespace BH.Adapter.TAS
@@ -130,7 +130,7 @@ namespace BH.Adapter.TAS
       
         /***************************************************/
 
-        private bool Create(BH.oM.Physical.Properties.Construction.Construction construction)
+        private bool Create(BH.oM.Physical.Constructions.Construction construction)
         {
             construction.ToTAS(tbdDocument.Building.AddConstruction(null));
 
@@ -139,7 +139,7 @@ namespace BH.Adapter.TAS
         
         /***************************************************/
 
-        private bool Create(BH.oM.Physical.Properties.Construction.Layer layer, TBD.Construction tbdConstruction = null)
+        private bool Create(BH.oM.Physical.Constructions.Layer layer, TBD.Construction tbdConstruction = null)
         {
             if (tbdConstruction == null)
                 tbdConstruction = tbdDocument.Building.AddConstruction(null);
