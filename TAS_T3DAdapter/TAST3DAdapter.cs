@@ -41,24 +41,29 @@ namespace BH.Adapter.TAS
         /***************************************************/
         /**** Constructors                              ****/
         /***************************************************/
-
-        public TasT3DAdapter(string gbXMLFile = "", string t3dFile = "", string tbdFile = "", bool runShadingCalculations = false, bool fixNormals = false)
+        public TasT3DAdapter()
         {
-            //TBD application
-            //ProjectFolder = projectFolder;
-            GBXMLFile = gbXMLFile;
-            TBDFile = tbdFile;
-            T3DFile = t3dFile;
-            RunShadingCalculations = runShadingCalculations;
-            FixNormals = fixNormals;
-
-
-            AdapterId = BH.Engine.TAS.Convert.TBDAdapterID;
-            Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
-            Config.ProcessInMemory = false;
-            Config.SeparateProperties = false;  //Set to true after Dependency types have been implemented
-            Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
+            BH.Engine.Reflection.Compute.RecordError("The TAS3D Adapter has not been fully implemented yet and cannot be used. For queries please contact the Building Environments Development team (https://github.com/BuroHappoldEngineering/BuildingEnvironments_Toolkit/wiki/Roles)");
+            throw new NotImplementedException();
         }
+
+        //public TasT3DAdapter(string gbXMLFile = "", string t3dFile = "", string tbdFile = "", bool runShadingCalculations = false, bool fixNormals = false)
+        //{
+        //    //TBD application
+        //    //ProjectFolder = projectFolder;
+        //    GBXMLFile = gbXMLFile;
+        //    TBDFile = tbdFile;
+        //    T3DFile = t3dFile;
+        //    RunShadingCalculations = runShadingCalculations;
+        //    FixNormals = fixNormals;
+
+
+        //    AdapterId = BH.Engine.TAS.Convert.TBDAdapterID;
+        //    Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
+        //    Config.ProcessInMemory = false;
+        //    Config.SeparateProperties = false;  //Set to true after Dependency types have been implemented
+        //    Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
+        //}
 
         public override List<IObject> Push(IEnumerable<IObject> objects = null, string tag = "", Dictionary<string, object> config = null)
         {
