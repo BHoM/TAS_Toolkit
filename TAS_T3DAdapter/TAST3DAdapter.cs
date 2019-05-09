@@ -42,7 +42,7 @@ namespace BH.Adapter.TAS
         /**** Constructors                              ****/
         /***************************************************/
 
-        public TasT3DAdapter(string gbXMLFile = "", string tbdFile = "", string t3dFile = "", bool runShadingCalculations = false)
+        public TasT3DAdapter(string gbXMLFile = "", string tbdFile = "", string t3dFile = "", bool runShadingCalculations = false, bool fixNormals = false)
         {
             //TBD application
             //ProjectFolder = projectFolder;
@@ -50,7 +50,7 @@ namespace BH.Adapter.TAS
             TBDFile = tbdFile;
             T3DFile = t3dFile;
             RunShadingCalculations = runShadingCalculations;
-
+            FixNormals = fixNormals;
 
 
             AdapterId = BH.Engine.TAS.Convert.TBDAdapterID;
@@ -65,7 +65,7 @@ namespace BH.Adapter.TAS
             GetT3DDocument();
 
             bool success = true;
-            MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
+            /*MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
             foreach (var typeGroup in objects.GroupBy(x => x.GetType()))
             {
                 MethodInfo miListObject = miToList.MakeGenericMethod(new[] { typeGroup.Key });
@@ -73,7 +73,9 @@ namespace BH.Adapter.TAS
                 var list = miListObject.Invoke(typeGroup, new object[] { typeGroup });
 
                 success &= Create(list as dynamic, false);
-            }
+            }*/
+
+            t3dDocument.ImportGBXML(GBXMLFile, 1, (FixNormals ? 1 : 0), 1); //Overwrite existing file (first '1') and create zones from spaces (second '1')
 
             CloseT3DDocument();
             return success ? objects.ToList() : new List<IObject>();
@@ -133,6 +135,7 @@ namespace BH.Adapter.TAS
         private string T3DFile = null;
         private string TBDFile = null;
         private bool RunShadingCalculations = false;
+        private bool FixNormals = false;
 
         /***************************************************/
         /**** Private Methods                           ****/
