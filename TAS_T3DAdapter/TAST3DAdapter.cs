@@ -76,9 +76,25 @@ namespace BH.Adapter.TAS
             }*/
 
             t3dDocument.ImportGBXML(GBXMLFile, 1, (FixNormals ? 1 : 0), 1); //Overwrite existing file (first '1') and create zones from spaces (second '1')
+            RemoveUnusedZones();
 
             CloseT3DDocument();
             return success ? objects.ToList() : new List<IObject>();
+        }
+
+        private void RemoveUnusedZones()
+        {
+            List<TAS3D.Zone> zones = new List<Zone>();
+            int index = 1;
+            TAS3D.Zone zone = null;
+            while((zone = t3dDocument.Building.GetZone(index)) != null)
+            {
+                if (zone.isUsed == 0)
+                    zones.Add(zone);
+                index++;
+            }
+
+            zones.ForEach(x => x.Delete());
         }
 
         public override IEnumerable<object> Pull(IQuery query, Dictionary<string, object> config = null)
