@@ -42,9 +42,9 @@ namespace BH.Adapter.TAS
         /**** Public Methods                            ****/
         /***************************************************/
 
-        //protected override IEnumerable<IBHoMObject> Read(Type type, IList indices = null)
-        //{
-        
+        protected override IEnumerable<IBHoMObject> Read(Type type, IList indices = null)
+        {
+            return null;
 
 
     //        if (type == typeof(Building))
@@ -67,7 +67,7 @@ namespace BH.Adapter.TAS
     //            return ReadInternalCondition();
     //        else
     //            return Read(); //Read everything
-    //    }
+        }
 
     //    public List<IBHoMObject> Read()
     //    {
