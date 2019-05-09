@@ -42,7 +42,7 @@ namespace BH.Adapter.TAS
         /**** Constructors                              ****/
         /***************************************************/
 
-        public TasT3DAdapter(string gbXMLFile = "", string tbdFile = "", string t3dFile = "", bool runShadingCalculations = false, bool fixNormals = false)
+        public TasT3DAdapter(string gbXMLFile = "", string t3dFile = "", string tbdFile = "", bool runShadingCalculations = false, bool fixNormals = false)
         {
             //TBD application
             //ProjectFolder = projectFolder;
@@ -60,7 +60,7 @@ namespace BH.Adapter.TAS
             Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
         }
 
-        public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
+        public override List<IObject> Push(IEnumerable<IObject> objects = null, string tag = "", Dictionary<string, object> config = null)
         {
             GetT3DDocument();
 
