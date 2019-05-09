@@ -37,7 +37,7 @@ namespace BH.Adapter.TAS
         /**** Constructors                              ****/
         /***************************************************/
 
-        public TasTBDAdapter(string tBDFilePath = "")
+        public TasT3DAdapter(string tBDFilePath = "")
         {
             //TBD application
             tbdFilePath = tBDFilePath;
@@ -83,7 +83,7 @@ namespace BH.Adapter.TAS
                     switch (BH.Engine.TAS.Query.QueryType(aFilterQuery))
                     {
                         case BH.oM.TAS.QueryType.IsExternal:
-                            returnObjs.AddRange(ReadExternalBuildingElements());
+                            //returnObjs.AddRange(ReadExternalBuildingElements());
                             break;
                         default:
                             //modified to allow filtering element we need
@@ -164,7 +164,7 @@ namespace BH.Adapter.TAS
                 if (tbdDocument != null)
                 {
                     // issue with closing files and not closing 
-                    ClearCOMObject(tbdDocument);
+                   // ClearCOMObject(tbdDocument);
                     tbdDocument = null;
                 }
 
