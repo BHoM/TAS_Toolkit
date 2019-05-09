@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Architecture_oM, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BHoM\Build\Architecture_oM.dll</HintPath>
+    </Reference>
     <Reference Include="BHoM, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BHoM\Build\BHoM.dll</HintPath>
@@ -42,9 +46,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BHoM\Build\DataManipulation_oM.dll</HintPath>
     </Reference>
+    <Reference Include="Environment_Engine, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BHoM_Engine\Build\Environment_Engine.dll</HintPath>
+    </Reference>
     <Reference Include="Environment_oM, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BHoM\Build\Environment_oM.dll</HintPath>
+    </Reference>
+    <Reference Include="Geometry_oM, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BHoM\Build\Geometry_oM.dll</HintPath>
     </Reference>
     <Reference Include="Interop.TAS3D">
       <HintPath>..\lib\Interop.TAS3D.dll</HintPath>
@@ -89,6 +101,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CRUD\Create.cs" />
     <Compile Include="CRUD\Read.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TAST3DAdapter.cs" />
