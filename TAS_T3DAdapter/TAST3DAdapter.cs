@@ -27,7 +27,12 @@ using System.Reflection;
 using BH.oM.DataManipulation.Queries;
 using BH.oM.Base;
 
+using TAS3D;
+
 using BH.oM.TAS;
+
+using System.ComponentModel;
+using BH.oM.Reflection.Attributes;
 
 namespace BH.Adapter.TAS
 {
@@ -37,10 +42,16 @@ namespace BH.Adapter.TAS
         /**** Constructors                              ****/
         /***************************************************/
 
-        public TasT3DAdapter(string tBDFilePath = "")
+        public TasT3DAdapter(string gbXMLFile = "", string tbdFile = "", string t3dFile = "", bool runShadingCalculations = false)
         {
             //TBD application
-            tbdFilePath = tBDFilePath;
+            //ProjectFolder = projectFolder;
+            GBXMLFile = gbXMLFile;
+            TBDFile = tbdFile;
+            T3DFile = t3dFile;
+            RunShadingCalculations = runShadingCalculations;
+
+
 
             AdapterId = BH.Engine.TAS.Convert.TBDAdapterID;
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
@@ -51,7 +62,7 @@ namespace BH.Adapter.TAS
 
         public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
         {
-            GetTbdDocument();
+            GetT3DDocument();
 
             bool success = true;
             MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
@@ -64,7 +75,7 @@ namespace BH.Adapter.TAS
                 success &= Create(list as dynamic, false);
             }
 
-            CloseTbdDocument();
+            CloseT3DDocument();
             return success ? objects.ToList() : new List<IObject>();
         }
 
@@ -76,9 +87,9 @@ namespace BH.Adapter.TAS
 
 
                 FilterQuery aFilterQuery = query as FilterQuery;
-                GetTbdDocumentReadOnly(); //Open the TBD Document for pulling data from
+                GetT3DDocument(); //Open the TBD Document for pulling data from
 
-                if (tbdDocument != null)
+                if (t3dDocument != null)
                 {
                     switch (BH.Engine.TAS.Query.QueryType(aFilterQuery))
                     {
@@ -94,7 +105,7 @@ namespace BH.Adapter.TAS
 
                 }
 
-                CloseTbdDocument();
+                CloseT3DDocument();
                 return returnObjs;
 
 
@@ -103,12 +114,12 @@ namespace BH.Adapter.TAS
             {
                 ErrorLog.Add(e.ToString());
                 BH.Engine.Reflection.Compute.RecordError(e.ToString());
-                CloseTbdDocument();
+                CloseT3DDocument();
                 return null;
             }
             finally
             {
-                CloseTbdDocument();
+                CloseT3DDocument();
             }
         }
 
@@ -116,56 +127,46 @@ namespace BH.Adapter.TAS
         /**** Private Fields                            ****/
         /***************************************************/
 
-        private TBD.TBDDocument tbdDocument = null;
-        private string tbdFilePath = null;
+        private TAS3D.T3DDocument t3dDocument = null;
+        private string ProjectFolder = null;
+        private string GBXMLFile = null;
+        private string T3DFile = null;
+        private string TBDFile = null;
+        private bool RunShadingCalculations = false;
 
         /***************************************************/
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private TBD.TBDDocument GetTbdDocument()
+        private TAS3D.T3DDocument GetT3DDocument()
         {
-            tbdDocument = new TBD.TBDDocument();
-            if (!String.IsNullOrEmpty(tbdFilePath) && System.IO.File.Exists(tbdFilePath))
-                tbdDocument.open(tbdFilePath);
+            t3dDocument = new TAS3D.T3DDocument();
+            if (!String.IsNullOrEmpty(ProjectFolder) && System.IO.File.Exists(ProjectFolder))
+                t3dDocument.Open(T3DFile);
 
-            else if (!String.IsNullOrEmpty(tbdFilePath))
-                tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
+            else if (!String.IsNullOrEmpty(ProjectFolder))
+                t3dDocument.Create();
 
             else
                 ErrorLog.Add("The TBD file does not exist");
-            return tbdDocument;
-        }
-
-        private TBD.TBDDocument GetTbdDocumentReadOnly()
-        {
-            tbdDocument = new TBD.TBDDocument();
-            if (!String.IsNullOrEmpty(tbdFilePath) && System.IO.File.Exists(tbdFilePath))
-                tbdDocument.openReadOnly(tbdFilePath);
-
-            else if (!String.IsNullOrEmpty(tbdFilePath))
-                tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
-
-            else
-                ErrorLog.Add("The TBD file does not exist");
-            return tbdDocument;
+            return t3dDocument;
         }
 
         // we close and save TBD
-        private void CloseTbdDocument(bool save = true)
+        private void CloseT3DDocument(bool save = true)
         {
-            if (tbdDocument != null)
+            if (t3dDocument != null)
             {
                 if (save == true)
-                    tbdDocument.save();
+                    t3dDocument.Save(T3DFile);
 
-                tbdDocument.close();
+                t3dDocument.Close();
 
-                if (tbdDocument != null)
+                if (t3dDocument != null)
                 {
                     // issue with closing files and not closing 
-                   // ClearCOMObject(tbdDocument);
-                    tbdDocument = null;
+                    ClearCOMObject(t3dDocument);
+                    t3dDocument = null;
                 }
 
             }
