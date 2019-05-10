@@ -25,11 +25,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using BH.oM.Reflection.Attributes;
 
 namespace BH.Engine.TAS
 {
     public static partial class Query
     {
+        [Description("BH.Engine.TAS Query- Get Single Upper Limit")]
+        [Input("tbdICThermostat", "tbd IC Thermostat")]
+        [Output("maxUL", "return max UpperLimit value")]
         public static float GetSingleValueUpperLimit(this TBD.Thermostat tbdICThermostat)
         {
             float maxUL = 150;
@@ -64,6 +69,9 @@ namespace BH.Engine.TAS
             return maxUL;
         }
 
+        [Description("BH.Engine.TAS Query- Get Single Lower Limit")]
+        [Input("tbdICThermostat", "tbd IC Thermostat")]
+        [Output("minLL", "return max lowerLimit value")]
         public static float GetSingleValueLowerLimit(this TBD.Thermostat tbdICThermostat)
         {
             float minLL = -50;

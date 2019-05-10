@@ -21,6 +21,7 @@
  */
 
 using System;
+using TBD;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,39 +38,29 @@ namespace BH.Engine.TAS
     public static partial class Query
     {
 
-        /***************************************************/
-        [Description("BH.Engine.TAS Query- Get TBD Building Element from building by Name")]
-        [Input("tbdBuilding", "TBD Building")]
-        [Input("name", "string name for building element ")]
-        [Output("tbdBuildingElement", "return building element")]
-        public static TBD.buildingElement BuildingElement(TBD.Building tbdBuilding, string name)
-        {
-            int index = 0;
-            TBD.buildingElement tbdBuildingElement = null;
-            while ((tbdBuildingElement = tbdBuilding.GetBuildingElement(index)) != null)
-            {
-                if (tbdBuildingElement.name == name)
-                    return tbdBuildingElement;
-                index++;
-            }
+        ///***************************************************/
+        //[Description("BH.Engine.TAS Query- Get TBD Building  from TBD File")]
+        //[Input("tbdFile", "The full file path of the TBD file")]
+        //[Input("run", "Set to true when you want to run the component, default false")]
+        //[Output("tbdBuilding", "return building")]
+        //public static TBD.Building Building(string tbdFile, bool run = false)
+        //{
+        //    if (!run) return null;
 
-            return null;
-        }
+        //    if (string.IsNullOrEmpty(tbdFile))
+        //    {
+        //        BH.Engine.Reflection.Compute.RecordError("Please provide a valid TBD file path");
+        //        return null; ;
+        //    }
+
+        //    TBDDocument tbdDocument = new TBDDocument();
+        //    tbdDocument.open(tbdFile);
+        //    TBD.Building tbdBuilding = tbdDocument.Building; 
+
+        //    return tbdBuilding;
+        //}
         
-        public static TBD.buildingElement BuildingElement(TBD.Building tbdBuilding, BH.oM.Geometry.ICurve panelCurve)
-        {
-            /*int index = 0;
-            TBD.buildingElement tbdBuildingElement = null;
-            while ((tbdBuildingElement = tbdBuilding.GetBuildingElement(index)) != null)
-            {
-                if (tbdBuildingElement. == panelCurve)
-                    return tbdBuildingElement;
-                index++;
-            }*/
-
-            return null;
-        }
-
+        
         /***************************************************/
     }
 }
