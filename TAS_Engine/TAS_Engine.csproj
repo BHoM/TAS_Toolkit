@@ -100,6 +100,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compute\T3DShading.cs" />
     <Compile Include="Convert\AdapterID.cs" />
     <Compile Include="Convert\Architecture_oM\Level.cs" />
     <Compile Include="Convert\Environment_oM\Building.cs" />
