@@ -133,8 +133,11 @@
     <Compile Include="Modify\UpdateCustomDataValue.cs" />
     <Compile Include="Objects\EqualityComparers\Comparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\Building.cs" />
     <Compile Include="Query\CleanString.cs" />
     <Compile Include="Query\ConstructionThickness.cs" />
+    <Compile Include="Compute\TBDSizing.cs" />
+    <Compile Include="Query\TBD3dVisualisation.cs" />
     <Compile Include="Query\ElementIsOpening.cs" />
     <Compile Include="Query\ListValues.cs" />
     <Compile Include="Query\Profiles.cs" />
