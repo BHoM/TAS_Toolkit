@@ -112,7 +112,7 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets TAS T3D Zone from BH.oM.Environment.Elements.Space")]
         [Input("space", "BHoM Environmental InternalCondition object")]
         [Output("TAS T3D Zone")]
-        public static TAS3D.Zone ToTAS(this BHE.Space space, TAS3D.Zone t3dSpace)
+        public static TAS3D.Zone ToTAS3D(this BHE.Space space, TAS3D.Zone t3dSpace)
         {
             if (space == null) return t3dSpace;
             t3dSpace.name = space.Name;

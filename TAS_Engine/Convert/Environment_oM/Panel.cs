@@ -144,6 +144,22 @@ namespace BH.Engine.TAS
             return element;
         }
 
+        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS T3D BuildingElement from a BHoM Environmental BuildingElement")]
+        [Input("buildingElement", "BHoM Environmental BuildingElement")]
+        [Output("TAS T3D BuildingElement")]
+        public static TAS3D.Element ToTAS3D(this BHE.Panel buildingElement, TAS3D.Element t3dBuildingElement)
+        {
+            if (buildingElement == null) return t3dBuildingElement;
+            t3dBuildingElement.name = buildingElement.Name;
+            BHP.OriginContextFragment envContextProperties = buildingElement.FindFragment<BHP.OriginContextFragment>(typeof(BHP.OriginContextFragment));
+            if (envContextProperties != null)
+            {
+                t3dBuildingElement.GUID = envContextProperties.ElementID;
+                t3dBuildingElement.description = envContextProperties.Description;
+            }
+            return t3dBuildingElement;
+        }
+
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElement from a BHoM Environmental BuildingElement")]
         [Input("buildingElement", "BHoM Environmental BuildingElement")]
         [Output("TAS TBD BuildingElement")]
