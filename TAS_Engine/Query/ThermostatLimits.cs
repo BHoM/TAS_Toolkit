@@ -32,7 +32,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Query
     {
-        [Description("BH.Engine.TAS Query- Get Single Upper Limit")]
+        [Description("Get Single Upper Limit")]
         [Input("tbdICThermostat", "tbd IC Thermostat")]
         [Output("maxUL", "return max UpperLimit value")]
         public static float GetSingleValueUpperLimit(this TBD.Thermostat tbdICThermostat)
@@ -69,7 +69,7 @@ namespace BH.Engine.TAS
             return maxUL;
         }
 
-        [Description("BH.Engine.TAS Query- Get Single Lower Limit")]
+        [Description("Get Single Lower Limit")]
         [Input("tbdICThermostat", "tbd IC Thermostat")]
         [Output("minLL", "return max lowerLimit value")]
         public static float GetSingleValueLowerLimit(this TBD.Thermostat tbdICThermostat)

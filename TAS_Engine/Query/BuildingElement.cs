@@ -38,7 +38,7 @@ namespace BH.Engine.TAS
     {
 
         /***************************************************/
-        [Description("BH.Engine.TAS Query- Get TBD Building Element from building by Name")]
+        [Description("Get TBD Building Element from building by Name")]
         [Input("tbdBuilding", "TBD Building")]
         [Input("name", "string name for building element ")]
         [Output("tbdBuildingElement", "return building element")]

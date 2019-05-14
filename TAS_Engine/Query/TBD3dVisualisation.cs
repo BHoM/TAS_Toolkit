@@ -42,7 +42,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Query
     {
-        [Description("BH.Engine.TAS Query- Get TAS TBD 3d Visulisation, when finish close window and click False to end process. Use Shift + Middle mouse")]
+        [Description("Get TAS TBD 3d Visulisation, when finish close window and click False to end process. Use Shift + Middle mouse")]
         [Input("tbdFile", "The full file path of the TBD file")]
         [Input("run", "Set to true when you want to run the component, default false")]
         [Output("success", "True if TBD file has been successfully run, false otherwise")]
@@ -57,9 +57,14 @@ namespace BH.Engine.TAS
                 return false;
             }
 
+
             TBDDocument tbdDocument = new TBDDocument();
-            tbdDocument.openReadOnly(tbdFile);
-            tbdDocument.ShowVisualisation();
+            if (tbdDocument != null)
+            {
+                tbdDocument.openReadOnly(tbdFile);
+                tbdDocument.ShowVisualisation();
+
+            }
 
 
             return true;
