@@ -151,6 +151,7 @@ namespace BH.Engine.TAS
         {
             if (buildingElement == null) return t3dBuildingElement;
             t3dBuildingElement.name = buildingElement.Name;
+            t3dBuildingElement.BEType = (int)buildingElement.Type.ToTAS();
 
             BHP.OriginContextFragment envContextProperties = buildingElement.FindFragment<BHP.OriginContextFragment>(typeof(BHP.OriginContextFragment));
             if (envContextProperties != null)
@@ -162,13 +163,16 @@ namespace BH.Engine.TAS
             BHP.PanelContextFragment panelContextProperties = buildingElement.FindFragment<BHP.PanelContextFragment>(typeof(BHP.PanelContextFragment));
             if (panelContextProperties != null)
             {
-
-                //buildingElementContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdElement.colour).ToString();
-                //t3dBuildingElement.colour = panelContextProperties.Colour;
                 t3dBuildingElement.ghost = panelContextProperties.IsAir;
-                t3dBuildingElement.ground=panelContextProperties.IsGround;
+                t3dBuildingElement.ground = panelContextProperties.IsGround;
+                Dictionary<string, object> tasData = panelContextProperties.CustomData;
+                if (tasData != null)
+                {
+                    t3dBuildingElement.colour = (tasData.ContainsKey("SpaceColour") ? System.Convert.ToUInt32(tasData["SpaceColour"]) : 0);
+                }
             }
-            //Add Colour, Thickness, Transparent, InternalShadows, IncludeSlopingFloorArea, Type.
+
+            //Add Thickness, Transparent, InternalShadows, IncludeSlopingFloorArea.
             return t3dBuildingElement;
         }
 
@@ -198,7 +202,7 @@ namespace BH.Engine.TAS
 
             //BHP.BuildingElementContextProperties BEContextProperties = buildingElement.ContextProperties() as BHP.BuildingElementContextProperties;
             //if (BEContextProperties != null)
-            /*tbdBuildingElement.colour = BEContextProperties.Colour(); *///BH.Engine.Environment.Query.GetRGB((uint)BEContextProperties.Colour);         
+            //tbdBuildingElement.colour = BEContextProperties.Colour(); *///BH.Engine.Environment.Query.GetRGB((uint)BEContextProperties.Colour);         
 
         }
 

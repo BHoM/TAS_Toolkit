@@ -89,6 +89,24 @@ namespace BH.Engine.TAS
             return opening;
         }
 
+        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS T3D Polygon from a BHoM Environmental Opening")]
+        [Input("opening", "BHoM Environmental Opening")]
+        [Output("TAS T3D Polygon")]
+        public static TAS3D.window ToTAS(this BHE.Opening opening, TAS3D.window t3dOpening)
+        {
+            t3dOpening.name = opening.Name;
+            t3dOpening.width = opening.Width();
+            t3dOpening.height = opening.Height();
+            
+            Dictionary<string, object> tasData = opening.CustomData;
+            if (tasData != null)
+            {
+                t3dOpening.colour = (tasData.ContainsKey("OpeningColour") ? System.Convert.ToUInt32(tasData["SpaceColour"]) : 0);
+                
+            }
+            return t3dOpening;
+        }
+
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Polygon from a BHoM Environmental Opening")]
         [Input("opening", "BHoM Environmental Opening")]
         [Output("TAS TBD Polygon")]

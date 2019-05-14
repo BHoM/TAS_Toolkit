@@ -123,7 +123,12 @@ namespace BH.Engine.TAS
                 t3dSpace.colour = (tasData.ContainsKey("SpaceColour") ? System.Convert.ToUInt32(tasData["SpaceColour"]) : 0);
                 t3dSpace.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
                 t3dSpace.GUID = (tasData.ContainsKey("GUID") ? tasData["GUID"].ToString() : "");
-                //t3dSpace.external = (tasData.ContainsKey("External") ? System.Convert.ToInt32(tasData["External"]) : 0);
+
+                if (tasData.ContainsKey("External"))
+                    t3dSpace.external = true;
+                else
+                    t3dSpace.external = false;
+                
             }
             return t3dSpace;
         }
