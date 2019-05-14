@@ -97,6 +97,24 @@ namespace BH.Engine.TAS
 
             return building;
         }
+        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS T3D Building from a BHoM Environmental Building")]
+        [Input("building", "BHoM Environmental Building")]
+        [Output("TAS T3D Building")]
+        public static TAS3D.Building ToTAS(this BHE.Building building, TAS3D.Building t3dBuilding)
+        {
+            if (building == null) return t3dBuilding;
+            t3dBuilding.name = building.Name;
+            t3dBuilding.latitude = building.Latitude;
+            t3dBuilding.longitude = building.Longitude;
+
+            Dictionary<string, object> tasData = building.CustomData;
+            if(tasData!=null)
+            {
+                t3dBuilding.description = (tasData.ContainsKey("BuildingDescription") ? tasData["BuildingDescription"].ToString() : "");
+                t3dBuilding.northAngle = (tasData.ContainsKey("BuildingNorthAngle") ? (float)System.Convert.ToDouble(tasData["BuildingNorthAngle"]) : 0);
+            }
+            return t3dBuilding;
+        }
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Building from a BHoM Environmental Building")]
         [Input("building", "BHoM Environmental Building")]
