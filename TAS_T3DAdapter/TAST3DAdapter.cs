@@ -41,10 +41,22 @@ namespace BH.Adapter.TAS
         /***************************************************/
         /**** Constructors                              ****/
         /***************************************************/
-        public TasT3DAdapter()
+        //public TasT3DAdapter()
+        //{
+        //    BH.Engine.Reflection.Compute.RecordError("The TAS3D Adapter has not been fully implemented yet and cannot be used. For queries please contact the Building Environments Development team (https://github.com/BuroHappoldEngineering/BuildingEnvironments_Toolkit/wiki/Roles)");
+        //    throw new NotImplementedException();
+        //}
+
+        public TasT3DAdapter(string t3DFilePath = "")
         {
-            BH.Engine.Reflection.Compute.RecordError("The TAS3D Adapter has not been fully implemented yet and cannot be used. For queries please contact the Building Environments Development team (https://github.com/BuroHappoldEngineering/BuildingEnvironments_Toolkit/wiki/Roles)");
-            throw new NotImplementedException();
+            //T3D application
+            t3dFilePath = t3DFilePath;
+
+            AdapterId = BH.Engine.TAS.Convert.T3DAdapterID;
+            Config.MergeWithComparer = false;  
+            Config.ProcessInMemory = false;
+            Config.SeparateProperties = false;  
+            Config.UseAdapterId = false;      
         }
 
         //public TasT3DAdapter(string gbXMLFile = "", string t3dFile = "", string tbdFile = "", bool runShadingCalculations = false, bool fixNormals = false)
@@ -70,7 +82,7 @@ namespace BH.Adapter.TAS
             GetT3DDocument();
 
             bool success = true;
-            /*MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
+            MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
             foreach (var typeGroup in objects.GroupBy(x => x.GetType()))
             {
                 MethodInfo miListObject = miToList.MakeGenericMethod(new[] { typeGroup.Key });
@@ -78,7 +90,7 @@ namespace BH.Adapter.TAS
                 var list = miListObject.Invoke(typeGroup, new object[] { typeGroup });
 
                 success &= Create(list as dynamic, false);
-            }*/
+            }
 
             t3dDocument.ImportGBXML(GBXMLFile, 1, (FixNormals ? 1 : 0), 1); //Overwrite existing file (first '1') and create zones from spaces (second '1')
             RemoveUnusedZones();
@@ -156,6 +168,7 @@ namespace BH.Adapter.TAS
         private string TBDFile = null;
         private bool RunShadingCalculations = false;
         private bool FixNormals = false;
+        private string t3dFilePath = null;
 
         /***************************************************/
         /**** Private Methods                           ****/

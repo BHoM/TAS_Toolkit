@@ -128,8 +128,8 @@ namespace BH.Engine.TAS
                     t3dSpace.external = true;
                 else
                     t3dSpace.external = false;
-                
             }
+
             return t3dSpace;
         }
 

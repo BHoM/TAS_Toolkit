@@ -70,10 +70,57 @@ namespace BH.Adapter.TAS
             } while (intrefcount > 0);
             Object = null;
         }
+
+        /***************************************************/
+        /**** Create methods                            ****/
+        /***************************************************/
+
+        private bool CreateCollection(IEnumerable<IBHoMObject> objects)
+        {
+            bool success = true;
+            foreach (IBHoMObject obj in objects)
+            {
+                success &= Create(obj as dynamic);
+            }
+            return success;
+        }
+
+        /***************************************************/
+
+        //private bool CreateCollection(IEnumerable<BHE.Elements.Space> spaces)
+        //{
+        //    foreach (BHE.Elements.Space space in spaces)
+        //    {
+        //        space.ToTAS3D(t3dDocument.Building.AddZoneSet());
+        //    }
+        //    return true;
+        //}
+
+        /***************************************************/
+
+        private bool Create(BH.oM.Environment.Elements.Building building)
+        {
+            building.ToTAS3D(t3dDocument.Building);
+            return true;
+        }
+
+        /***************************************************/
+        
+        private bool Create(BHE.Elements.Panel buildingElementPanel)
+        {
+            throw new NotImplementedException();
+        }
+
+        /***************************************************/
+
+        private bool Create(BHE.Elements.Opening buildingElementOpening)
+        {
+            throw new NotImplementedException();
+        }
+
+        /***************************************************/
+
     }
-
-    /***************************************************/
-
 }
 
 

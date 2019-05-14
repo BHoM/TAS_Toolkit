@@ -32,5 +32,6 @@ namespace BH.Engine.TAS
     {
         public const string TBDAdapterID = "TAS_TBD_id";
         public const string TSDAdapterID = "TAS_TSD_id";
+        public const string T3DAdapterID = "TAS_T3D_id";
     }
 }
