@@ -151,12 +151,24 @@ namespace BH.Engine.TAS
         {
             if (buildingElement == null) return t3dBuildingElement;
             t3dBuildingElement.name = buildingElement.Name;
+
             BHP.OriginContextFragment envContextProperties = buildingElement.FindFragment<BHP.OriginContextFragment>(typeof(BHP.OriginContextFragment));
             if (envContextProperties != null)
             {
                 t3dBuildingElement.GUID = envContextProperties.ElementID;
                 t3dBuildingElement.description = envContextProperties.Description;
             }
+
+            BHP.PanelContextFragment panelContextProperties = buildingElement.FindFragment<BHP.PanelContextFragment>(typeof(BHP.PanelContextFragment));
+            if (panelContextProperties != null)
+            {
+
+                //buildingElementContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdElement.colour).ToString();
+                //t3dBuildingElement.colour = panelContextProperties.Colour;
+                t3dBuildingElement.ghost = panelContextProperties.IsAir;
+                t3dBuildingElement.ground=panelContextProperties.IsGround;
+            }
+            //Add Colour, Thickness, Transparent, InternalShadows, IncludeSlopingFloorArea, Type.
             return t3dBuildingElement;
         }
 
