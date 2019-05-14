@@ -43,7 +43,7 @@ namespace BH.Engine.TAS
     public static partial class Compute
     {
 
-        [Description("BH.Engine.TAS Compute - Run Design Day Sizing")]
+        [Description("Run Design Day Sizing")]
         [Input("tbdFile", "The full file path of the TBD file")]
         [Input("run", "Set to true when you want to run the component, default false")]
         [Output("success", "True if sizing has been successfully run, false otherwise")]
@@ -76,7 +76,7 @@ namespace BH.Engine.TAS
 
         }
 
-        [Description("BH.Engine.TAS Compute - Run Dynamic Simulation")]
+        [Description("Run Dynamic Simulation")]
         [Input("tbdFile", "The full file path of the TBD file")]
         [Input("startDay", "Set start day, default 0")]
         [Input("endDay", "Set end day, default 365")]
@@ -100,10 +100,13 @@ namespace BH.Engine.TAS
             tbdDocument.open(tbdFile);
 
             string tsdFile = tbdFile.Replace(".tbd", ".tsd");
+            if (tbdDocument != null)
+            {
+                tbdDocument.simulate(startDay, endDay, autoViewResults ? 1 : 0, 1, 0, 0, tsdFile, 0, 0);
+                tbdDocument.save();
+                tbdDocument.close();
 
-            tbdDocument.simulate(startDay, endDay, autoViewResults ? 1 : 0, 1, 0, 0, tsdFile, 0, 0);
-            tbdDocument.save();
-            tbdDocument.close();
+            }
 
             int intrefcountTBD = 0;
             do
