@@ -109,6 +109,24 @@ namespace BH.Engine.TAS
             return space;
         }
 
+        [Description("BH.Engine.TAS.Convert ToTAS => gets TAS T3D Zone from BH.oM.Environment.Elements.Space")]
+        [Input("space", "BHoM Environmental InternalCondition object")]
+        [Output("TAS T3D Zone")]
+        public static TAS3D.Zone ToTAS(this BHE.Space space, TAS3D.Zone t3dSpace)
+        {
+            if (space == null) return t3dSpace;
+            t3dSpace.name = space.Name;
+
+            Dictionary<string, object> tasData = space.CustomData;
+            if (tasData != null)
+            {
+                t3dSpace.colour = (tasData.ContainsKey("SpaceColour") ? System.Convert.ToUInt32(tasData["SpaceColour"]) : 0);
+                t3dSpace.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
+                t3dSpace.GUID = (tasData.ContainsKey("GUID") ? tasData["GUID"].ToString() : "");
+            }
+            return t3dSpace;
+        }
+
         [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD Zone from BH.oM.Environment.Elements.Space")]
         [Input("space", "BHoM Environmental InternalCondition object")]
         [Output("TAS TBD Zone")]
