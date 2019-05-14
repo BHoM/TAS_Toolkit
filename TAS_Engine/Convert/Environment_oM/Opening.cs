@@ -31,6 +31,7 @@ using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
 using BH.Engine.Environment;
+using BHP = BH.oM.Environment.Fragments;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
@@ -97,13 +98,19 @@ namespace BH.Engine.TAS
             t3dOpening.name = opening.Name;
             t3dOpening.width = opening.Width();
             t3dOpening.height = opening.Height();
-            
+
+            BHP.OriginContextFragment envContextProperties = opening.FindFragment<BHP.OriginContextFragment>(typeof(BHP.OriginContextFragment));
+            if (envContextProperties != null)
+                t3dOpening.description = envContextProperties.Description;
+
             Dictionary<string, object> tasData = opening.CustomData;
             if (tasData != null)
             {
-                t3dOpening.colour = (tasData.ContainsKey("OpeningColour") ? System.Convert.ToUInt32(tasData["SpaceColour"]) : 0);
-                
+                t3dOpening.colour = (tasData.ContainsKey("OpeningColour") ? System.Convert.ToUInt32(tasData["OpeningColour"]) : 0);
+                t3dOpening.level = (tasData.ContainsKey("OpeningLevel") ? System.Convert.ToUInt32(tasData["OpeningLevel"]) : 0);
             }
+
+            // Add Placement, Transparency, Internal Shadows, Frame dimensions
             return t3dOpening;
         }
 
