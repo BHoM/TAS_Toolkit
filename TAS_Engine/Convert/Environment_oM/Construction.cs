@@ -91,11 +91,12 @@ namespace BH.Engine.TAS
             if (construction == null) return tbdConstruction;
             
             tbdConstruction.name = construction.Name;
-            tbdConstruction.additionalHeatTransfer = (float)construction.AdditionalHeatTransfer();
-            //tbdConstruction.FFactor = (float)construction.FFactor;
-            if (construction.Layers.Count > 0)
+            //tbdConstruction.additionalHeatTransfer = (float)construction.AdditionalHeatTransfer();
+            //tbdConstruction.FFactor = (float)construction.FFactor; //ToDo: Fix these from the fragment after fragment implementation
+
+            if (construction.Layers.Count > 0 && construction.Layers[0].Material != null)
             {
-                if ((construction.Layers[0].Material.Properties.Where(x => x.GetType() == typeof(BHM.IEnvironmentMaterial)).FirstOrDefault() as BHM.IEnvironmentMaterial).GetType() == typeof(BHM.SolidMaterial) && ((construction.Layers[0].Material.Properties.Where(x => x.GetType() == typeof(BHM.IEnvironmentMaterial)).FirstOrDefault() as BHM.IEnvironmentMaterial) as BHM.SolidMaterial).Transparency != 0)
+                if (construction.Layers[0].Material.IsTransparent())
                     tbdConstruction.type = TBD.ConstructionTypes.tcdTransparentConstruction;
                 else
                     tbdConstruction.type = TBD.ConstructionTypes.tcdOpaqueConstruction;

@@ -31,6 +31,7 @@ using BHE = BH.oM.Environment.Elements;
 using BHM = BH.oM.Environment.MaterialFragments;
 using BHP = BH.oM.Environment.Fragments;
 using BHG = BH.oM.Geometry;
+using BH.Engine.Environment;
 
 using BHPM = BH.oM.Physical.Materials;
 using BHPMC = BH.oM.Physical.Constructions;
@@ -87,7 +88,6 @@ namespace BH.Engine.TAS
                         LightReflectanceInternal = tbdMaterial.internalLightReflectance,
                         EmissivityExternal = tbdMaterial.externalEmissivity,
                         EmissivityInternal = tbdMaterial.internalEmissivity,
-                        AdditionalHeatTransfer = tbdConstruction.additionalHeatTransfer,
                     };
                 case TBD.MaterialTypes.tcdTransparentLayer:
                     return new BHM.SolidMaterial
@@ -104,8 +104,6 @@ namespace BH.Engine.TAS
                         LightReflectanceInternal = tbdMaterial.internalLightReflectance,
                         EmissivityExternal = tbdMaterial.externalEmissivity,
                         EmissivityInternal = tbdMaterial.internalEmissivity,
-                        Transparency = 1,
-                        AdditionalHeatTransfer = tbdConstruction.additionalHeatTransfer,
                     };
                 case TBD.MaterialTypes.tcdGasLayer:
                     return new BHM.GasMaterial
@@ -114,7 +112,6 @@ namespace BH.Engine.TAS
                         Description = tbdMaterial.description,
                         ConvectionCoefficient = tbdMaterial.convectionCoefficient,
                         VapourDiffusionFactor = tbdMaterial.vapourDiffusionFactor,
-                        AdditionalHeatTransfer = tbdConstruction.additionalHeatTransfer,
                     };
                 default:
                     return new BHM.SolidMaterial();
@@ -127,15 +124,13 @@ namespace BH.Engine.TAS
         public static TBD.MaterialTypes ToTASType(this BHPM.Material material)
         {
             BHM.IEnvironmentMaterial envMaterial = material.Properties.Where(x => x.GetType() == typeof(BHM.IEnvironmentMaterial)).FirstOrDefault() as BHM.IEnvironmentMaterial;
-            if (envMaterial.GetType() == typeof(BHM.SolidMaterial))
-            {
-                if ((envMaterial as BHM.SolidMaterial).Transparency != 0)
-                    return TBD.MaterialTypes.tcdTransparentLayer;
-                else
-                    return TBD.MaterialTypes.tcdOpaqueLayer;
-            }
-            else if (envMaterial.GetType() == typeof(BHM.GasMaterial))
+
+            if (envMaterial.GetType() == typeof(BHM.GasMaterial))
                 return TBD.MaterialTypes.tcdGasLayer;
+            else if (material.IsTransparent())
+                return TBD.MaterialTypes.tcdTransparentLayer;
+            else
+                return TBD.MaterialTypes.tcdOpaqueLayer;
 
             return TBD.MaterialTypes.tcdOpaqueLayer;
         }
@@ -165,7 +160,7 @@ namespace BH.Engine.TAS
                 case TBD.MaterialTypes.tcdOpaqueLayer: //Thickness not showing
                     tbdMaterial.conductivity = (float)((BHM.SolidMaterial)envMat).Conductivity;
                     tbdMaterial.specificHeat = (float)((BHM.SolidMaterial)envMat).SpecificHeat;
-                    tbdMaterial.density = (float)layer.Material.Density;
+                    tbdMaterial.density = (float)((BHM.SolidMaterial)envMat).Density;
                     tbdMaterial.vapourDiffusionFactor = (float)((BHM.SolidMaterial)envMat).VapourDiffusionFactor;
                     tbdMaterial.externalSolarReflectance = (float)((BHM.SolidMaterial)envMat).SolarReflectanceExternal;
                     tbdMaterial.internalSolarReflectance = (float)((BHM.SolidMaterial)envMat).SolarReflectanceInternal;
