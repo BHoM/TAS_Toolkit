@@ -104,8 +104,8 @@
     <Compile Include="Convert\AdapterID.cs" />
     <Compile Include="Convert\Architecture_oM\Level.cs" />
     <Compile Include="Convert\Environment_oM\Building.cs" />
-    <Compile Include="Convert\Environment_oM\BuildingElement.cs" />
-    <Compile Include="Convert\Environment_oM\BuildingElementType.cs" />
+    <Compile Include="Convert\Environment_oM\Panel.cs" />
+    <Compile Include="Convert\Environment_oM\PanelType.cs" />
     <Compile Include="Convert\Environment_oM\Construction.cs" />
     <Compile Include="Convert\Environment_oM\Emitter.cs" />
     <Compile Include="Convert\Environment_oM\InternalCondition.cs" />
@@ -130,6 +130,7 @@
     <Compile Include="Create\ToTBD\BHoMObject.cs" />
     <Compile Include="Create\ToTBD\Panel.cs" />
     <Compile Include="Modify\FixBuildingElementType.cs" />
+    <Compile Include="Modify\Round.cs" />
     <Compile Include="Modify\SetTags.cs" />
     <Compile Include="Modify\UpdateCustomDataValue.cs" />
     <Compile Include="Objects\EqualityComparers\Comparer.cs" />
