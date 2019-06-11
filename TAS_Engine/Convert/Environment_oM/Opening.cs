@@ -76,9 +76,9 @@ namespace BH.Engine.TAS
                 opening.FragmentProperties.Add(buildingElementAnalyticalProperties);
 
                 if (tbdPolygon != null)
-                    opening.Edges = tbdPolygon.ToBHoM().ToEdges();
+                    opening.Edges = tbdPolygon.ToBHoM().CleanPolyline().ToEdges();
                 else
-                    opening.Edges = roomSurface.GetPerimeter().ToBHoM().ToEdges();
+                    opening.Edges = roomSurface.GetPerimeter().ToBHoM().CleanPolyline().ToEdges();
 
                 if (roomSurface.parentSurface != null && roomSurface.parentSurface.zoneSurface != null && roomSurface.parentSurface.zoneSurface.buildingElement != null)
                 {

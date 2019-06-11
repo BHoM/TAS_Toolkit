@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2018, the respective contributors. All rights reserved.
  *
@@ -20,6 +20,7 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
+using System;
 using System.ComponentModel;
 using System.Collections.Generic;
 
@@ -34,23 +35,22 @@ namespace BH.Engine.TAS
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Sets Tag for BHoMObject.")]
-        [Input("bHoMObject", "BHoMObject")]
-        [Input("tag", "tag to be set")]
-        [Output("IBHoMObject")]
-        public static IBHoMObject SetTag(this IBHoMObject bHoMObject, string tag)
+        [Description("Returns a float number rounded to the specified number of decimal places")]
+        [Input("number", "A floating point number to round")]
+        [Input("decimals", "The number of decimals to round to - default 3 decimal places (e.g. round 3.14159 to 3.141")]
+        [Output("number", "The floating point number rounded to the specified number of decimal places")]
+        public static float Round(this float number, int decimals = 3)
         {
-            if (bHoMObject == null)
-                return null;
+            return (float)Math.Round(number, decimals);
+        }
 
-            IBHoMObject aIBHoMObject = bHoMObject.GetShallowClone();
-
-            if (aIBHoMObject.Tags == null)
-                aIBHoMObject.Tags = new HashSet<string>();
-
-            aIBHoMObject.Tags.Add(tag);
-
-            return aIBHoMObject;
+        [Description("Returns a double number rounded to the specified number of decimal places")]
+        [Input("number", "A double to round")]
+        [Input("decimals", "The number of decimals to round to - default 3 decimal places (e.g. round 3.14159 to 3.141")]
+        [Output("number", "The double number rounded to the specified number of decimal places")]
+        public static double Round(this double number, int decimals = 3)
+        {
+            return Math.Round(number, decimals);
         }
 
         /***************************************************/

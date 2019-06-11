@@ -25,7 +25,7 @@ using System.ComponentModel;
 using BH.oM.Base;
 using BH.oM.Reflection.Attributes;
 
-namespace BH.Engine.Adapters.TAS
+namespace BH.Engine.TAS
 {
     public static partial class Modify
     {

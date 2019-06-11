@@ -104,21 +104,21 @@ namespace BH.Engine.TAS
             }
 
             if (panelCurve.Count == 1)
-                element.ExternalEdges = panelCurve.First().ToEdges();
+                element.ExternalEdges = panelCurve.First().CleanPolyline().ToEdges();
             else
             {
                 try
                 {
                     List<BHG.Polyline> polylines = Geometry.Compute.BooleanUnion(panelCurve, 1e-3);
                     if (polylines.Count == 1)
-                        element.ExternalEdges = polylines.First().ToEdges();
+                        element.ExternalEdges = polylines.First().CleanPolyline().ToEdges();
                     else
-                        element.ExternalEdges = Geometry.Create.PolyCurve(polylines).ToEdges();
+                        element.ExternalEdges = Geometry.Create.PolyCurve(polylines).ICollapseToPolyline(BH.oM.Geometry.Tolerance.Angle).CleanPolyline().ToEdges();
                 }
                 catch (Exception e)
                 {
                     BH.Engine.Reflection.Compute.RecordWarning("An error occurred in building buildingElement ID - " + element.BHoM_Guid + " - error was: " + e.ToString());
-                    element.ExternalEdges = Geometry.Create.PolyCurve(panelCurve).ToEdges();
+                    element.ExternalEdges = Geometry.Create.PolyCurve(panelCurve).ICollapseToPolyline(BH.oM.Geometry.Tolerance.Angle).CleanPolyline().ToEdges();
                 }
             }
 
