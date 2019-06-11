@@ -56,7 +56,6 @@ namespace BH.Engine.TAS
                 BH.oM.Environment.Fragments.OriginContextFragment environmentContextProperties = new oM.Environment.Fragments.OriginContextFragment();
                 environmentContextProperties.ElementID = tbdSurface.GUID.RemoveBrackets();
                 environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + tbdSurface.buildingElement.GUID.RemoveBrackets();
-                //environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
                 environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
                 opening.FragmentProperties.Add(environmentContextProperties);
 
@@ -66,13 +65,13 @@ namespace BH.Engine.TAS
 
                 //BuildingElementAnalyticalProperties
                 BH.oM.Environment.Fragments.PanelAnalyticalFragment buildingElementAnalyticalProperties = new oM.Environment.Fragments.PanelAnalyticalFragment();
-                buildingElementAnalyticalProperties.Altitude = tbdSurface.altitude;
-                buildingElementAnalyticalProperties.AltitudeRange = tbdSurface.altitudeRange;
-                buildingElementAnalyticalProperties.Inclination = tbdSurface.inclination;
-                buildingElementAnalyticalProperties.Orientation = tbdSurface.orientation;
-                buildingElementAnalyticalProperties.GValue = tbdElement.GValue();
-                buildingElementAnalyticalProperties.LTValue = tbdElement.LTValue();
-                buildingElementAnalyticalProperties.UValue = tbdElement.UValue();
+                buildingElementAnalyticalProperties.Altitude = tbdSurface.altitude.Round();
+                buildingElementAnalyticalProperties.AltitudeRange = tbdSurface.altitudeRange.Round();
+                buildingElementAnalyticalProperties.Inclination = tbdSurface.inclination.Round();
+                buildingElementAnalyticalProperties.Orientation = tbdSurface.orientation.Round();
+                buildingElementAnalyticalProperties.GValue = tbdElement.GValue().Round();
+                buildingElementAnalyticalProperties.LTValue = tbdElement.LTValue().Round();
+                buildingElementAnalyticalProperties.UValue = tbdElement.UValue().Round();
                 opening.FragmentProperties.Add(buildingElementAnalyticalProperties);
 
                 if (tbdPolygon != null)
