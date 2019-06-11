@@ -67,8 +67,8 @@ namespace BH.Engine.TAS
             {
                 BHG.Polyline levelCurve = tbdStorey.GetPerimeter(0).ToBHoM();
                 double elevation = levelCurve.ControlPoints.First().Z;
-                level.Name = "Level " + elevation;
-                level.Elevation = elevation;
+                level.Name = "Level " + elevation.Round();
+                level.Elevation = elevation.Round();
             }
 
             return level;
@@ -82,7 +82,7 @@ namespace BH.Engine.TAS
             BHA.Level level = new BHA.Level();
 
             level.Name = tbdFloor.name;
-            level.Elevation = tbdFloor.level;
+            level.Elevation = tbdFloor.level.Round();
 
             return level;
         }

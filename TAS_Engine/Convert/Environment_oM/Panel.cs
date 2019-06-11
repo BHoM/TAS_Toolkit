@@ -70,13 +70,13 @@ namespace BH.Engine.TAS
 
             //BuildingElementAnalyticalProperties
             BHP.PanelAnalyticalFragment buildingElementAnalyticalProperties = new BHP.PanelAnalyticalFragment();
-            buildingElementAnalyticalProperties.Altitude = tbdSurface.altitude;
-            buildingElementAnalyticalProperties.AltitudeRange = tbdSurface.altitudeRange;
-            buildingElementAnalyticalProperties.Inclination = tbdSurface.inclination;
-            buildingElementAnalyticalProperties.Orientation = tbdSurface.orientation;
-            buildingElementAnalyticalProperties.GValue = tbdElement.GValue();
-            buildingElementAnalyticalProperties.LTValue = tbdElement.LTValue();
-            buildingElementAnalyticalProperties.UValue = tbdElement.UValue();
+            buildingElementAnalyticalProperties.Altitude = tbdSurface.altitude.Round();
+            buildingElementAnalyticalProperties.AltitudeRange = tbdSurface.altitudeRange.Round();
+            buildingElementAnalyticalProperties.Inclination = tbdSurface.inclination.Round();
+            buildingElementAnalyticalProperties.Orientation = tbdSurface.orientation.Round();
+            buildingElementAnalyticalProperties.GValue = tbdElement.GValue().Round();
+            buildingElementAnalyticalProperties.LTValue = tbdElement.LTValue().Round();
+            buildingElementAnalyticalProperties.UValue = tbdElement.UValue().Round();
             element.FragmentProperties.Add(buildingElementAnalyticalProperties);
 
             List<BHG.Polyline> panelCurve = new List<BHG.Polyline>();
@@ -125,10 +125,10 @@ namespace BH.Engine.TAS
             element.CustomData.Add("SurfaceGUID", tbdSurface.GUID.RemoveBrackets());
             element.CustomData.Add("SurfaceName", "Z_" + tbdSurface.zone.number + "_" + tbdSurface.number + "_" + tbdSurface.zone.name);
             element.CustomData.Add("SurfaceType", tbdSurface.type);
-            element.CustomData.Add("SurfaceArea", tbdSurface.area);
-            element.CustomData.Add("SurfaceInternalArea", tbdSurface.internalArea);
-            element.CustomData.Add("ElementWidth", tbdElement.width);
-            element.CustomData.Add("MaterialLayersThickness", tbdElement.GetConstruction().ConstructionThickness());
+            element.CustomData.Add("SurfaceArea", tbdSurface.area.Round());
+            element.CustomData.Add("SurfaceInternalArea", tbdSurface.internalArea.Round());
+            element.CustomData.Add("ElementWidth", tbdElement.width.Round());
+            element.CustomData.Add("MaterialLayersThickness", tbdElement.GetConstruction().ConstructionThickness().Round());
 
             element.CustomData = element.CustomData;
 
