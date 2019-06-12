@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BH.oM.Data.Requests;
+using BH.oM.DataManipulation.Queries;
 using BH.oM.Base;
 
 using TAS3D;
@@ -114,20 +114,21 @@ namespace BH.Adapter.TAS
             zones.ForEach(x => x.Delete());
         }
 
-        public override IEnumerable<object> Pull(IRequest request, Dictionary<string, object> config = null)
+        public override IEnumerable<object> Pull(IQuery query, Dictionary<string, object> config = null)
         {
             try
             {
                 List<IBHoMObject> returnObjs = new List<IBHoMObject>();
 
-                FilterRequest aFilterQuery = request as FilterRequest;
+
+                FilterQuery aFilterQuery = query as FilterQuery;
                 GetT3DDocument(); //Open the TBD Document for pulling data from
 
                 if (t3dDocument != null)
                 {
-                    switch (BH.Engine.TAS.Query.RequestType(aFilterQuery))
+                    switch (BH.Engine.TAS.Query.QueryType(aFilterQuery))
                     {
-                        case BH.oM.TAS.RequestType.IsExternal:
+                        case BH.oM.TAS.QueryType.IsExternal:
                             //returnObjs.AddRange(ReadExternalBuildingElements());
                             break;
                         default:
@@ -184,11 +185,11 @@ namespace BH.Adapter.TAS
                 t3dDocument.Create();
 
             else
-                ErrorLog.Add("The T3D file does not exist");
+                ErrorLog.Add("The TBD file does not exist");
             return t3dDocument;
         }
 
-        // we close and save T3D
+        // we close and save TBD
         private void CloseT3DDocument(bool save = true)
         {
             if (t3dDocument != null)
