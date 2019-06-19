@@ -209,7 +209,7 @@ namespace BH.Adapter.TAS
                     {
                         Opening newOpening = new Opening();
                         newOpening.Edges = frame.ExternalEdges;
-                        newOpening.FragmentProperties = new List<IBHoMFragment>(pane.FragmentProperties);
+                        newOpening.Fragments = new List<IBHoMFragment>(pane.Fragments);
 
                         string oldname = (newOpening.FindFragment<OriginContextFragment>(typeof(OriginContextFragment))).TypeName;
                         (newOpening.FindFragment<OriginContextFragment>(typeof(OriginContextFragment))).TypeName = oldname.RemoveStringPart(" -pane");
