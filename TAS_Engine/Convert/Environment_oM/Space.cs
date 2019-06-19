@@ -51,7 +51,7 @@ namespace BH.Engine.TAS
             BHP.LoadFragment loads = new BHP.LoadFragment();
             loads.CoolingLoad = tbdSpace.maxCoolingLoad;
             loads.HeatingLoad = tbdSpace.maxHeatingLoad;
-            space.FragmentProperties.Add(loads);
+            space.Fragments.Add(loads);
 
             //Adding data to Extended Poroperties--------------------------------------------------------------------------------------------------------------
 
@@ -60,7 +60,7 @@ namespace BH.Engine.TAS
             environmentContextProperties.ElementID = tbdSpace.GUID.RemoveBrackets();
             environmentContextProperties.Description = tbdSpace.description;
             environmentContextProperties.TypeName = tbdSpace.name;
-            space.FragmentProperties.Add(environmentContextProperties);
+            space.Fragments.Add(environmentContextProperties);
 
             //SpaceContextProperties
             BHP.SpaceContextFragment spaceContextProperties = new BHP.SpaceContextFragment();
@@ -68,7 +68,7 @@ namespace BH.Engine.TAS
             spaceContextProperties.IsExternal = tbdSpace.external != 0;
 
             //spaceContextProperties.ConnectedElements = tbdSpace.external != 0;
-            space.FragmentProperties.Add(spaceContextProperties);
+            space.Fragments.Add(spaceContextProperties);
 
             //SpaceAnalyticalProperties
             BHP.SpaceAnalyticalFragment spaceAnalyticalProperties = new BHP.SpaceAnalyticalFragment();
@@ -77,7 +77,7 @@ namespace BH.Engine.TAS
             spaceAnalyticalProperties.FixedConvectionCoefficient = tbdSpace.fixedConvectionCoefficient;
             spaceAnalyticalProperties.SizeCoolingMethod =((TBD.SizingType)tbdSpace.sizeCooling).ToBHoM();
             spaceAnalyticalProperties.SizeHeatingMethod = ((TBD.SizingType)tbdSpace.sizeCooling).ToBHoM();
-            space.FragmentProperties.Add(spaceAnalyticalProperties);
+            space.Fragments.Add(spaceAnalyticalProperties);
 
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 

@@ -55,14 +55,14 @@ namespace BH.Engine.TAS
             environmentContextProperties.ElementID = tbdBuilding.GUID.RemoveBrackets();
             environmentContextProperties.Description = tbdBuilding.description;
             environmentContextProperties.TypeName = tbdBuilding.name;
-            building.FragmentProperties.Add(environmentContextProperties);
+            building.Fragments.Add(environmentContextProperties);
 
             //BuildingAnalyticalProperties
             BHP.BuildingAnalyticalFragment buildingAnalyticalProperties = new BHP.BuildingAnalyticalFragment();
             buildingAnalyticalProperties.NorthAngle = tbdBuilding.northAngle; //North Angle (degrees) Measured clockwise with respect to the Y - axis of the building plan. 
             buildingAnalyticalProperties.Year = tbdBuilding.year;
             buildingAnalyticalProperties.GMTOffset = tbdBuilding.timeZone;
-            building.FragmentProperties.Add(buildingAnalyticalProperties);
+            building.Fragments.Add(buildingAnalyticalProperties);
 
             //BuildingContextProperties
             TBD.WeatherYear weatherYear = tbdBuilding.GetWeatherYear();
@@ -71,14 +71,14 @@ namespace BH.Engine.TAS
                 BHP.BuildingContextFragment buildingContextProperties = new BHP.BuildingContextFragment();
                 buildingContextProperties.PlaceName = weatherYear.name;
                 buildingContextProperties.WeatherStation = weatherYear.description;
-                building.FragmentProperties.Add(buildingContextProperties);
+                building.Fragments.Add(buildingContextProperties);
             }
 
             //BuildingResultsProperties
             BHP.BuildingResultFragment buildingResultsProperties = new BHP.BuildingResultFragment();
             buildingResultsProperties.PeakCooling = tbdBuilding.peakCooling;
             buildingResultsProperties.PeakHeating = tbdBuilding.peakHeating;
-            building.FragmentProperties.Add(buildingResultsProperties);
+            building.Fragments.Add(buildingResultsProperties);
 
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 

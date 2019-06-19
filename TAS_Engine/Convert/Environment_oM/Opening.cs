@@ -57,7 +57,7 @@ namespace BH.Engine.TAS
                 environmentContextProperties.ElementID = tbdSurface.GUID.RemoveBrackets();
                 environmentContextProperties.Description = tbdSurface.buildingElement.name + " - " + tbdSurface.buildingElement.GUID.RemoveBrackets();
                 environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
-                opening.FragmentProperties.Add(environmentContextProperties);
+                opening.Fragments.Add(environmentContextProperties);
 
                 opening.Name = environmentContextProperties.TypeName;
                 opening.Type = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoMOpeningType().FixType(tbdElement, tbdSurface);
@@ -72,7 +72,7 @@ namespace BH.Engine.TAS
                 buildingElementAnalyticalProperties.GValue = tbdElement.GValue().Round();
                 buildingElementAnalyticalProperties.LTValue = tbdElement.LTValue().Round();
                 buildingElementAnalyticalProperties.UValue = tbdElement.UValue().Round();
-                opening.FragmentProperties.Add(buildingElementAnalyticalProperties);
+                opening.Fragments.Add(buildingElementAnalyticalProperties);
 
                 if (tbdPolygon != null)
                     opening.Edges = tbdPolygon.ToBHoM().CleanPolyline().ToEdges();

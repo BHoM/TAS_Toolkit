@@ -52,7 +52,7 @@ namespace BH.Engine.TAS
             environmentContextProperties.ElementID = tbdSurface.GUID.RemoveBrackets();
             environmentContextProperties.Description =tbdElement.description;
             environmentContextProperties.TypeName = tbdSurface.buildingElement.name;
-            element.FragmentProperties.Add(environmentContextProperties);
+            element.Fragments.Add(environmentContextProperties);
 
             //BuildingElementContextProperties
             BHP.PanelContextFragment buildingElementContextProperties = new BHP.PanelContextFragment();
@@ -66,7 +66,7 @@ namespace BH.Engine.TAS
             buildingElementContextProperties.IsGround = tbdElement.ground != 0;
             buildingElementContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdElement.colour).ToString();
             buildingElementContextProperties.Reversed = tbdSurface.reversed != 0;
-            element.FragmentProperties.Add(buildingElementContextProperties);
+            element.Fragments.Add(buildingElementContextProperties);
 
             //BuildingElementAnalyticalProperties
             BHP.PanelAnalyticalFragment buildingElementAnalyticalProperties = new BHP.PanelAnalyticalFragment();
@@ -77,7 +77,7 @@ namespace BH.Engine.TAS
             buildingElementAnalyticalProperties.GValue = tbdElement.GValue().Round();
             buildingElementAnalyticalProperties.LTValue = tbdElement.LTValue().Round();
             buildingElementAnalyticalProperties.UValue = tbdElement.UValue().Round();
-            element.FragmentProperties.Add(buildingElementAnalyticalProperties);
+            element.Fragments.Add(buildingElementAnalyticalProperties);
 
             List<BHG.Polyline> panelCurve = new List<BHG.Polyline>();
             int surfaceIndex = 0;
