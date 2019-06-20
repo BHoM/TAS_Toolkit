@@ -20,17 +20,38 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
+using System.ComponentModel;
+
+using BH.oM.Data.Requests;
+using BH.oM.Reflection.Attributes;
+
+using BH.oM.TAS;
+
 namespace BH.Engine.TAS
 {
-    public static partial class Convert
+    public static partial class Query
     {
-        public static class FilterQuery
-        {
-            public const string QueryType = "QueryType";
-            //public const string FilterQueries = "FilterQueries";
-            //public const string DefaultDiscipline = "DefaultDiscipline";
-            //public const string TypeName = "TypeName";
+        /***************************************************/
+        /**** Public Methods                            ****/
+        /***************************************************/
 
+        [Description("Returns Query Type of given FilterQuery")]
+        [Input("filterQuery", "FilterQuery")]
+        [Output("QueryType")]
+        public static RequestType RequestType(this FilterRequest filterRequest)
+        {
+            if (filterRequest == null)
+                return BH.oM.TAS.RequestType.Undefined;
+
+            if (!filterRequest.Equalities.ContainsKey(Convert.FilterRequest.RequestType))
+                return BH.oM.TAS.RequestType.Undefined;
+
+            if (filterRequest.Equalities[Convert.FilterRequest.RequestType] is BH.oM.TAS.RequestType || filterRequest.Equalities[Convert.FilterRequest.RequestType] is int)
+                return (BH.oM.TAS.RequestType)filterRequest.Equalities[Convert.FilterRequest.RequestType];
+
+            return BH.oM.TAS.RequestType.Undefined;
         }
+
+        /***************************************************/
     }
 }

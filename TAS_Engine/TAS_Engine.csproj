@@ -49,8 +49,8 @@
       <HintPath>..\..\BHoM_Adapter\Build\BHoM_Adapter.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DataManipulation_oM">
-      <HintPath>..\..\BHoM\Build\DataManipulation_oM.dll</HintPath>
+    <Reference Include="Data_oM">
+      <HintPath>..\..\BHoM\Build\Data_oM.dll</HintPath>
     </Reference>
     <Reference Include="Environment_Engine">
       <SpecificVersion>False</SpecificVersion>
@@ -121,7 +121,7 @@
     <Compile Include="Convert\Environment_oM\Results\SimulationResultBuilding.cs" />
     <Compile Include="Convert\Environment_oM\Space.cs" />
     <Compile Include="Convert\Environment_oM\Thermostat.cs" />
-    <Compile Include="Convert\FilterQuery.cs" />
+    <Compile Include="Convert\FilterRequest.cs" />
     <Compile Include="Convert\Geometry_oM\Point.cs" />
     <Compile Include="Convert\Geometry_oM\Polyline.cs" />
     <Compile Include="Convert\ToList.cs" />
@@ -149,7 +149,7 @@
     <Compile Include="Query\IsExternal.cs" />
     <Compile Include="Query\MinElevation.cs" />
     <Compile Include="Query\PlanPerimeter.cs" />
-    <Compile Include="Query\QueryType.cs" />
+    <Compile Include="Query\RequestType.cs" />
     <Compile Include="Query\GetNumberOfPeople.cs" />
     <Compile Include="Query\SurfaceType.cs" />
     <Compile Include="Query\ThermostatLimits.cs" />

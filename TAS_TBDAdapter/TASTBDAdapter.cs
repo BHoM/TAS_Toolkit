@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BH.oM.DataManipulation.Queries;
+using BH.oM.Data.Requests;
 using BH.oM.Base;
 
 using BH.oM.TAS;
@@ -68,21 +68,21 @@ namespace BH.Adapter.TAS
             return success ? objects.ToList() : new List<IObject>();
         }
 
-        public override IEnumerable<object> Pull(IQuery query, Dictionary<string, object> config = null)
+        public override IEnumerable<object> Pull(IRequest request, Dictionary<string, object> config = null)
         {
             try
             {
                 List<IBHoMObject> returnObjs = new List<IBHoMObject>();
 
 
-                FilterQuery aFilterQuery = query as FilterQuery;
+                FilterRequest aFilterQuery = request as FilterRequest;
                 GetTbdDocumentReadOnly(); //Open the TBD Document for pulling data from
 
                 if (tbdDocument != null)
                 {
-                    switch (BH.Engine.TAS.Query.QueryType(aFilterQuery))
+                    switch (BH.Engine.TAS.Query.RequestType(aFilterQuery))
                     {
-                        case BH.oM.TAS.QueryType.IsExternal:
+                        case BH.oM.TAS.RequestType.IsExternal:
                             returnObjs.AddRange(ReadExternalBuildingElements());
                             break;
                         default:

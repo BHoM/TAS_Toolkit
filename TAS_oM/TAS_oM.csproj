@@ -55,7 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\QueryType.cs" />
+    <Compile Include="Enums\RequestType.cs" />
     <Compile Include="Enums\ResultType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

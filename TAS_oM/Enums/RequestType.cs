@@ -20,38 +20,12 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-using System.ComponentModel;
-
-using BH.oM.DataManipulation.Queries;
-using BH.oM.Reflection.Attributes;
-
-using BH.oM.TAS;
-
-namespace BH.Engine.TAS
+namespace BH.oM.TAS
 {
-    public static partial class Query
+
+    public enum RequestType
     {
-        /***************************************************/
-        /**** Public Methods                            ****/
-        /***************************************************/
-
-        [Description("Returns Query Type of given FilterQuery")]
-        [Input("filterQuery", "FilterQuery")]
-        [Output("QueryType")]
-        public static QueryType QueryType(this FilterQuery filterQuery)
-        {
-            if (filterQuery == null)
-                return BH.oM.TAS.QueryType.Undefined;
-
-            if (!filterQuery.Equalities.ContainsKey(Convert.FilterQuery.QueryType))
-                return BH.oM.TAS.QueryType.Undefined;
-
-            if (filterQuery.Equalities[Convert.FilterQuery.QueryType] is BH.oM.TAS.QueryType || filterQuery.Equalities[Convert.FilterQuery.QueryType] is int)
-                return (BH.oM.TAS.QueryType)filterQuery.Equalities[Convert.FilterQuery.QueryType];
-
-            return BH.oM.TAS.QueryType.Undefined;
-        }
-
-        /***************************************************/
+        Undefined,
+        IsExternal,
     }
 }

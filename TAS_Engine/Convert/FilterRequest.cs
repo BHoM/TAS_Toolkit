@@ -20,12 +20,17 @@
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
 
-namespace BH.oM.TAS
+namespace BH.Engine.TAS
 {
-
-    public enum QueryType
+    public static partial class Convert
     {
-        Undefined,
-        IsExternal,
+        public static class FilterRequest
+        {
+            public const string RequestType = "RequestType";
+            //public const string FilterQueries = "FilterQueries";
+            //public const string DefaultDiscipline = "DefaultDiscipline";
+            //public const string TypeName = "TypeName";
+
+        }
     }
 }
