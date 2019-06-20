@@ -95,7 +95,7 @@ namespace BH.Engine.TAS
         public static TBD.Polygon ToTAS(this BHE.Opening opening, TBD.Polygon tbdPolygon)
         {
             //TODO:Add properties for Opening
-            tbdPolygon = opening.ToPolyline().ToTASPolygon(tbdPolygon);
+            tbdPolygon = opening.Polyline().ToTASPolygon(tbdPolygon);
             return tbdPolygon;
         }
     }
