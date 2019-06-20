@@ -22,7 +22,7 @@
 
 using System.ComponentModel;
 
-using BH.oM.DataManipulation.Queries;
+using BH.oM.Data.Requests;
 using BH.oM.Environment.Elements;
 using BH.oM.Reflection.Attributes;
 
@@ -34,11 +34,11 @@ namespace BH.Engine.TAS
         [Description("Creates FilterQuery which filters all Building.")]
         [Input("TBC", "TBC")]
         [Output("FilterQuery")]
-        public static FilterQuery IsExternalFilterQuery()
+        public static FilterRequest IsExternalFilterRequest()
         {
-            FilterQuery aFilterQuery = new FilterQuery();
+            FilterRequest aFilterQuery = new FilterRequest();
             //aFilterQuery.Type = typeof(Space);
-            aFilterQuery.Equalities[Convert.FilterQuery.QueryType] = BH.oM.TAS.QueryType.IsExternal;
+            aFilterQuery.Equalities[Convert.FilterRequest.RequestType] = BH.oM.TAS.RequestType.IsExternal;
             return aFilterQuery;
         }
     }

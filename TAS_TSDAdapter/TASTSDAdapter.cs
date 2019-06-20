@@ -26,7 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using BH.oM.DataManipulation.Queries;
+using BH.oM.Data.Requests;
 using BH.oM.Base;
 using BH.Engine;
 using BH.oM.Environment.Results;
@@ -132,20 +132,20 @@ namespace BH.Adapter.TAS
             throw new NotImplementedException("Pushing to TAS TSD files has not been implemented yet");
         }
 
-        public override IEnumerable<object> Pull(IQuery query, Dictionary<string, object> config = null)
+        public override IEnumerable<object> Pull(IRequest request, Dictionary<string, object> config = null)
         {
             try
             {
                 List<IBHoMObject> returnObjs = new List<IBHoMObject>();
 
-                FilterQuery aFilterQuery = query as FilterQuery;
+                FilterRequest aFilterQuery = request as FilterRequest;
                 GetTsdDocumentReadOnly (); //Open the TSD Document for pulling data from
 
                 if (tsdDocument != null)
                 {
-                    switch (BH.Engine.TAS.Query.QueryType(aFilterQuery))
+                    switch (BH.Engine.TAS.Query.RequestType(aFilterQuery))
                     {
-                        case BH.oM.TAS.QueryType.IsExternal:
+                        case BH.oM.TAS.RequestType.IsExternal:
                             break;
                         default:
                             //modified to allow filtering element we need
