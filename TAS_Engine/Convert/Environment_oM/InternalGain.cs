@@ -41,11 +41,11 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.InternalGain from TAS TBD InternalGain")]
         [Input("tbdInternalGain", "TAS TBD InternalGain")]
         [Output("BHoM Environmental InternalGain object")]
-        public static List<BHE.Gain> ToBHoM(this TBD.InternalGain tbdInternalGain)
+        public static List<BHE.IGain> ToBHoM(this TBD.InternalGain tbdInternalGain)
         {
             if (tbdInternalGain == null) return null;
 
-            List<BHE.Gain> gains = new List<BHE.Gain>();
+            List<BHE.IGain> gains = new List<BHE.IGain>();
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("InternalGainActivityID", tbdInternalGain.activityID);
@@ -54,114 +54,71 @@ namespace BH.Engine.TAS
             tasData.Add("targetIlluminance", tbdInternalGain.targetIlluminance);
 
             //Lighting
-            BHE.Gain lightGain = new BHE.Gain();
+            BHE.Lighting lightGain = new BHE.Lighting();
             lightGain.Name = "L " + tbdInternalGain.name;
-            lightGain.Type = BHE.GainType.Lighting;
-          
-
-            BHE.LightingGain lightingGain = new BHE.LightingGain();
-            lightingGain.Unit = BHE.GainUnit.WattsPerSquareMetre;
-            lightingGain.RadiantFraction = tbdInternalGain.lightingRadProp;
-            lightingGain.ViewCoefficient = tbdInternalGain.lightingViewCoefficient;
+            lightGain.RadiantFraction = tbdInternalGain.lightingRadProp;
+            lightGain.ViewCoefficient = tbdInternalGain.lightingViewCoefficient;
 
             TBD.profile tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticLG);
             BHE.Profile aProfile = tbdProfile.ToBHoM(BHE.ProfileCategory.Gain);
-            lightingGain.Profile = aProfile;
-
-            lightGain.Properties = lightingGain;
+            lightGain.Profile = aProfile;
             lightGain.CustomData = tasData;
             gains.Add(lightGain);
 
             //Occupancy
-            BHE.Gain occupantGain = new BHE.Gain();
+            BHE.People occupantGain = new BHE.People();
             occupantGain.Name = "O " + tbdInternalGain.name;
-            occupantGain.Type = BHE.GainType.People;
-
-            BHE.PeopleGain peopleGain = new BHE.PeopleGain();
             tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticOSG);
             //curent limitation it works if we use hourly or yearl profile apprach with 0-1 values and factor as max
-            peopleGain.SensibleGain = tbdProfile.factor; //Unit W/m2 sensible gain
+            occupantGain.Sensible = tbdProfile.factor; //Unit W/m2 sensible gain
             TBD.profile tbdProfileLat = tbdInternalGain.GetProfile((int)TBD.Profiles.ticOLG);
-            peopleGain.LatentGain = tbdProfileLat.factor; //Unit W/m2 latent gain
-            double aPeopleDesity = (peopleGain.SensibleGain + peopleGain.LatentGain) / tbdInternalGain.personGain; //Unit people/m2
+            occupantGain.Latent = tbdProfileLat.factor; //Unit W/m2 latent gain
+            double aPeopleDesity = (occupantGain.Sensible + occupantGain.Latent) / tbdInternalGain.personGain; //Unit people/m2
             aProfile = tbdProfile.ToBHoM(BHE.ProfileCategory.Gain);
 
             for (int i = 0; i < aProfile.Values.Count; i++)
                 aProfile.Values[i] = aProfile.Values[i] * aPeopleDesity;
 
-            peopleGain.Unit = BHE.GainUnit.PeoplePerSquareMetre;
-            peopleGain.RadiantFraction = tbdInternalGain.occupantRadProp;
-            peopleGain.ViewCoefficient = tbdInternalGain.occupantViewCoefficient;
+            occupantGain.RadiantFraction = tbdInternalGain.occupantRadProp;
+            occupantGain.ViewCoefficient = tbdInternalGain.occupantViewCoefficient;
 
-            peopleGain.Profile = aProfile;
-            occupantGain.Properties = peopleGain;
+            occupantGain.Profile = aProfile;
             occupantGain.CustomData = tasData;
             gains.Add(occupantGain);
 
-            //Equipment Sens
-            BHE.Gain equipGain = new BHE.Gain();
-            equipGain.Name = "EqS " + tbdInternalGain.name;
-            equipGain.Type = BHE.GainType.Equipment;
-
-            BHE.SensibleEquipmentGain equipmentSensibleGain = new BHE.SensibleEquipmentGain();
-            equipmentSensibleGain.Unit = BHE.GainUnit.WattsPerSquareMetre;
-            equipmentSensibleGain.RadiantFraction = tbdInternalGain.equipmentRadProp;
-            equipmentSensibleGain.ViewCoefficient = tbdInternalGain.equipmentViewCoefficient;
+            //Equipment
+            BHE.Equipment equipGain = new BHE.Equipment();
+            equipGain.Name = "Equipment " + tbdInternalGain.name;
+            equipGain.RadiantFraction = tbdInternalGain.equipmentRadProp;
+            equipGain.ViewCoefficient = tbdInternalGain.equipmentViewCoefficient;
 
             tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticESG);
             aProfile = tbdProfile.ToBHoM(BHE.ProfileCategory.Gain);
-            equipmentSensibleGain.Profile = aProfile;
+            equipGain.Profile = aProfile;
 
-            equipGain.Properties = equipmentSensibleGain;
-            equipGain.CustomData = tasData;
-            gains.Add(equipGain);
-
-            //Equipment Lat
-            equipGain = new BHE.Gain();
-            equipGain.Name = "EqL " + tbdInternalGain.name;
-            equipGain.Type = BHE.GainType.Equipment;
-
-            BHE.LatentEquipmentGain equipmentLatentGain = new BHE.LatentEquipmentGain();
-            equipmentLatentGain.Unit = BHE.GainUnit.WattsPerSquareMetre;
-
-            tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticELG);
-            aProfile = tbdProfile.ToBHoM(BHE.ProfileCategory.Gain);
-            equipmentLatentGain.Profile = aProfile;
-
-            equipGain.Properties = equipmentLatentGain;
             equipGain.CustomData = tasData;
             gains.Add(equipGain);
 
 
             //Pollutant
-            BHE.Gain pollGain = new BHE.Gain();
+            BHE.Pollutant pollGain = new BHE.Pollutant();
             pollGain.Name = "P " + tbdInternalGain.name;
-            pollGain.Type = BHE.GainType.Equipment;
-
-            BHE.PollutantGain pollutanttGain = new BHE.PollutantGain();
-            pollutanttGain.Unit = BHE.GainUnit.LitresPerHourPerSquareMetre;
 
             tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticCOG);
             aProfile = tbdProfile.ToBHoM(BHE.ProfileCategory.Gain);
-            pollutanttGain.Profile = aProfile;
+            pollGain.Profile = aProfile;
 
-            pollGain.Properties = pollutanttGain;
             pollGain.CustomData = tasData;
             gains.Add(pollGain);
 
             //Infiltration
-            BHE.Gain infGain = new BHE.Gain();
+            BHE.Infiltration infGain = new BHE.Infiltration();
             infGain.Name = "I " + tbdInternalGain.name;
-            infGain.Type = BHE.GainType.Equipment;
-
-            BHE.InfiltrationGain infiltrationGain = new BHE.InfiltrationGain();
-            infiltrationGain.Unit = BHE.GainUnit.AirChangesPerHour;
 
             tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticI);
             aProfile = tbdProfile.ToBHoM(BHE.ProfileCategory.Gain);
-            infiltrationGain.Profile = aProfile;
+            infGain.Profile = aProfile;
 
-            infGain.Properties = infiltrationGain;
             infGain.CustomData = tasData;
             gains.Add(infGain);
 
@@ -175,17 +132,17 @@ namespace BH.Engine.TAS
         [Input("internalGain", "BHoM Environmental InternalGain object")]
         [Output("TAS TBD InternalGain")]
         //public static TBD.InternalGain ToTAS(this List<BHE.Gain> internalGains)
-        public static TBD.InternalGain ToTAS(this List<BHE.Gain> internalGains, TBD.InternalGain tbdInternalGain)
+        public static TBD.InternalGain ToTAS(this List<BHE.IGain> internalGains, TBD.InternalGain tbdInternalGain)
         {
             //TODO:Only name is working, add everything else
 
             if (internalGains == null) return null;
-            foreach (BHE.Gain internalGain in internalGains)
+            foreach (BHE.IGain internalGain in internalGains)
             {
-                if (internalGain.Type == BHE.GainType.Lighting)
+                if (internalGain.GetType() == typeof(BHE.Lighting))
                 {
                     tbdInternalGain.name = internalGain.Name;
-                    BHE.LightingGain lightingGain = new BHE.LightingGain();
+                    BHE.Lighting lightingGain = new BHE.Lighting();
                     Dictionary<string, object> lightingData = internalGain.CustomData;
                     if (lightingData != null)
                         tbdInternalGain.lightingRadProp = (lightingData.ContainsKey("LightingRadiation") ? (float)System.Convert.ToDouble(lightingData["LightingRadiation"]) : 0);
@@ -195,10 +152,10 @@ namespace BH.Engine.TAS
                         tbdInternalGain.lightingRadProp = (lightingData2.ContainsKey("LightingRadiation") ? (float)System.Convert.ToDouble(lightingData2["LightingRadiation"]) : 0);
                         tbdInternalGain.lightingViewCoefficient = (lightingData2.ContainsKey("LightViewCoefficient") ? (float)System.Convert.ToDouble(lightingData2["LightViewCoefficient"]) : 0);
                 }
-                if (internalGain.Type == BHE.GainType.Equipment)
+                if (internalGain.GetType() == typeof(BHE.Equipment))
                 {
                     tbdInternalGain.name = internalGain.Name;
-                    BHE.LatentEquipmentGain equipmentLatentGain = new BHE.LatentEquipmentGain();
+                    BHE.Equipment equipmentLatentGain = new BHE.Equipment();
                     Dictionary<string, object> equipmentData = internalGain.CustomData;
                     if (equipmentData != null)
                         tbdInternalGain.equipmentRadProp = (equipmentData.ContainsKey("EquipmentRadiation") ? (float)System.Convert.ToDouble(equipmentData["EquipmentRadiation"]) : 0);
