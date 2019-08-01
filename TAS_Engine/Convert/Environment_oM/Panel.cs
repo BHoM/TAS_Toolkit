@@ -60,9 +60,16 @@ namespace BH.Engine.TAS
             //    element.ConnectedSpaces.Add(tbdSurface.linkSurface.zone.name);
             //else
             //    element.ConnectedSpaces.Add("-1");
+            if (buildingElementContextProperties.IsAir == true)
+                t3dElement.ghost = true;
+            else
+                t3dElement.ghost = false;
 
-            //buildingElementContextProperties.IsAir = t3dElement.ghost != 0;
-            //buildingElementContextProperties.IsGround = t3dElement.ground != 0;
+            if (buildingElementContextProperties.IsGround == true)
+                t3dElement.ground = true;
+            else
+                t3dElement.ground = false;
+            
             buildingElementContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(t3dElement.colour).ToString();
             //buildingElementContextProperties.Reversed = t3dElement.reversed != 0;
             element.Fragments.Add(buildingElementContextProperties);

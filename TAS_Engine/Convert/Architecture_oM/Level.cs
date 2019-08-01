@@ -38,6 +38,24 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
+        //[Description("BH.Engine.TAS.Convert ToBHoM => gets a list of BHoM Architectural Levels from a TAS T3D Building")]
+        //[Input("tbdBuilding", "TAS T3D Building")]
+        //[Output("BHoM Architectural Levels")]
+        //public static List<BHA.Level> ToBHoMLevels(this TAS3D.Building t3dBuilding)
+        //{
+        //    List<BHA.Level> levels = new List<BHA.Level>();
+
+        //    int storeyIndex = 0;
+        //    TAS3D.BuildingStorey storey = null;
+        //    while ((storey = t3dBuilding.GetStorey(storeyIndex)) != null)
+        //    {
+        //        levels.Add(storey.ToBHoM());
+        //        storeyIndex++;
+        //    }
+
+        //    return levels;
+        //}
+
         [Description("BH.Engine.TAS.Convert ToBHoM => gets a list of BHoM Architectural Levels from a TAS TBD Building")]
         [Input("tbdBuilding", "TAS TBD Building")]
         [Output("BHoM Architectural Levels")]

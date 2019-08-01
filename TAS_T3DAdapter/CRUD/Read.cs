@@ -50,7 +50,7 @@ namespace BH.Adapter.TAS
             if (type == typeof(Building))
                 return ReadBuilding();
             //else if (type == typeof(Panel))
-            //    return ReadBuildingElements();
+                //return ReadBuildingElements();
             if (type == typeof(Space))
                 return ReadSpaces();
             //        //else if (type == typeof(BuildingElement))
@@ -73,7 +73,7 @@ namespace BH.Adapter.TAS
         {
             List<IBHoMObject> bhomObjects = new List<IBHoMObject>();
 
-            //bhomObjects.AddRange(ReadBuilding());
+            bhomObjects.AddRange(ReadBuilding());
             bhomObjects.AddRange(ReadSpaces());
             //bhomObjects.AddRange(ReadBuildingElements());
             //        bhomObjects.AddRange(ReadConstruction());
@@ -222,7 +222,7 @@ namespace BH.Adapter.TAS
         //    return nonOpeningElements;
         //}
 
-        ////get external surfaces for filter   
+        //get external surfaces for filter   
         //public List<Panel> ReadExternalBuildingElements(List<string> ids = null)
         //{
         //    TAS3D.Building building = t3dDocument.Building;

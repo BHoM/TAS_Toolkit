@@ -26,11 +26,8 @@ using System.Linq;
 using System.Reflection;
 using BH.oM.Data.Requests;
 using BH.oM.Base;
-
 using TAS3D;
-
 using BH.oM.TAS;
-
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 
@@ -41,11 +38,6 @@ namespace BH.Adapter.TAS
         /***************************************************/
         /**** Constructors                              ****/
         /***************************************************/
-        //public TasT3DAdapter()
-        //{
-        //    BH.Engine.Reflection.Compute.RecordError("The TAS3D Adapter has not been fully implemented yet and cannot be used. For queries please contact the Building Environments Development team (https://github.com/BuroHappoldEngineering/BuildingEnvironments_Toolkit/wiki/Roles)");
-        //    throw new NotImplementedException();
-        //}
 
         public TasT3DAdapter(string t3DFilePath = "")
         {
@@ -58,24 +50,6 @@ namespace BH.Adapter.TAS
             Config.SeparateProperties = false;  //Set to true after Dependency types have been implemented
             Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented 
         }
-
-        //public TasT3DAdapter(string gbXMLFile = "", string t3dFile = "", string tbdFile = "", bool runShadingCalculations = false, bool fixNormals = false)
-        //{
-        //    //TBD application
-        //    //ProjectFolder = projectFolder;
-        //    GBXMLFile = gbXMLFile;
-        //    TBDFile = tbdFile;
-        //    T3DFile = t3dFile;
-        //    RunShadingCalculations = runShadingCalculations;
-        //    FixNormals = fixNormals;
-
-
-        //    AdapterId = BH.Engine.TAS.Convert.TBDAdapterID;
-        //    Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
-        //    Config.ProcessInMemory = false;
-        //    Config.SeparateProperties = false;  //Set to true after Dependency types have been implemented
-        //    Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
-        //}
 
         public override List<IObject> Push(IEnumerable<IObject> objects = null, string tag = "", Dictionary<string, object> config = null)
         {
@@ -91,9 +65,6 @@ namespace BH.Adapter.TAS
 
                 success &= Create(list as dynamic, false);
             }
-
-            //t3dDocument.ImportGBXML(GBXMLFile, 1, (FixNormals ? 1 : 0), 1); //Overwrite existing file (first '1') and create zones from spaces (second '1')
-            //RemoveUnusedZones();
 
             CloseT3DDocument();
             return success ? objects.ToList() : new List<IObject>();
