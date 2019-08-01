@@ -52,7 +52,7 @@ namespace BH.Adapter.TAS
 
             if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
             {
-                //success = CreateCollection(objects as dynamic);
+                success = CreateCollection(objects as dynamic);
             }
 
             return success;
@@ -91,7 +91,8 @@ namespace BH.Adapter.TAS
         //{
         //    foreach (BHE.Elements.Space space in spaces)
         //    {
-        //        space.ToTAS3D(t3dDocument.Building.AddZoneSet());
+        //        space.ToTAS3D(t3dDocument.Building.AddZoneSet()); 
+        //Add functionality for AddZone 
         //    }
         //    return true;
         //}
@@ -105,7 +106,40 @@ namespace BH.Adapter.TAS
         }
 
         /***************************************************/
-        
+
+        //private bool CreateCollection(IEnumerable<BHE.Elements.Panel> buildingElements, TAS3D.Construction t3dConstruction = null)
+        //{
+        //    if (t3dConstruction == null)
+        //        t3dConstruction = t3dDocument.Building.AddConstruction(null);
+
+        //    foreach (BHE.Elements.Panel buildingElement in buildingElements)
+        //    {
+        //        buildingElement.ToTAS3D(t3dDocument.Building.AddBuildingElement(), tbdConstruction);
+        //    }
+        //    return true;
+        //}
+
+        /***************************************************/
+
+        //private bool Create(BH.oM.Physical.Constructions.Construction construction)
+        //{
+        //    construction.ToTAS3D(t3dDocument.Building.AddConstruction(null));
+
+        //    return true;
+        //}   
+
+        /***************************************************/
+        //private bool Create(BH.oM.Physical.Constructions.Layer layer, TAS3D.Construction t3dConstruction=null)
+        //{
+        //    if (t3dConstruction == null)
+        //        t3dConstruction = t3dDocument.Building.AddConstruction(null);
+        //    layer.toTAS3D(t3dConstruction.AddMaterial());
+
+        //    return true;
+        //}
+
+        /***************************************************/
+
         private bool Create(BHE.Elements.Panel buildingElementPanel)
         {
             throw new NotImplementedException();
@@ -117,6 +151,14 @@ namespace BH.Adapter.TAS
         {
             throw new NotImplementedException();
         }
+
+        /***************************************************/
+
+        //private bool Create(BHE.Gains.InternalCondition internalCondition)
+        //{
+        //    internalCondition.ToTAS3D(t3dDocument.Building.AddIC(null));
+        //    return true;
+        //}
 
         /***************************************************/
 

@@ -53,10 +53,10 @@ namespace BH.Adapter.TAS
             t3dFilePath = t3DFilePath;
 
             AdapterId = BH.Engine.TAS.Convert.T3DAdapterID;
-            Config.MergeWithComparer = false;  
+            Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
             Config.ProcessInMemory = false;
-            Config.SeparateProperties = false;  
-            Config.UseAdapterId = false;      
+            Config.SeparateProperties = false;  //Set to true after Dependency types have been implemented
+            Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented 
         }
 
         //public TasT3DAdapter(string gbXMLFile = "", string t3dFile = "", string tbdFile = "", bool runShadingCalculations = false, bool fixNormals = false)
@@ -92,27 +92,27 @@ namespace BH.Adapter.TAS
                 success &= Create(list as dynamic, false);
             }
 
-            t3dDocument.ImportGBXML(GBXMLFile, 1, (FixNormals ? 1 : 0), 1); //Overwrite existing file (first '1') and create zones from spaces (second '1')
-            RemoveUnusedZones();
+            //t3dDocument.ImportGBXML(GBXMLFile, 1, (FixNormals ? 1 : 0), 1); //Overwrite existing file (first '1') and create zones from spaces (second '1')
+            //RemoveUnusedZones();
 
             CloseT3DDocument();
             return success ? objects.ToList() : new List<IObject>();
         }
 
-        private void RemoveUnusedZones()
-        {
-            List<TAS3D.Zone> zones = new List<Zone>();
-            int index = 1;
-            TAS3D.Zone zone = null;
-            while((zone = t3dDocument.Building.GetZone(index)) != null)
-            {
-                if (zone.isUsed == 0)
-                    zones.Add(zone);
-                index++;
-            }
+        //private void RemoveUnusedZones()
+        //{
+        //    List<TAS3D.Zone> zones = new List<Zone>();
+        //    int index = 1;
+        //    TAS3D.Zone zone = null;
+        //    while((zone = t3dDocument.Building.GetZone(index)) != null)
+        //    {
+        //        if (zone.isUsed == 0)
+        //            zones.Add(zone);
+        //        index++;
+        //    }
 
-            zones.ForEach(x => x.Delete());
-        }
+        //    zones.ForEach(x => x.Delete());
+        //}
 
         public override IEnumerable<object> Pull(IRequest request, Dictionary<string, object> config = null)
         {
@@ -121,7 +121,7 @@ namespace BH.Adapter.TAS
                 List<IBHoMObject> returnObjs = new List<IBHoMObject>();
 
                 FilterRequest aFilterQuery = request as FilterRequest;
-                GetT3DDocument(); //Open the TBD Document for pulling data from
+                GetT3DDocument(); //Open the T3D Document for pulling data from
 
                 if (t3dDocument != null)
                 {
@@ -162,13 +162,14 @@ namespace BH.Adapter.TAS
         /***************************************************/
 
         private TAS3D.T3DDocument t3dDocument = null;
-        private string ProjectFolder = null;
-        private string GBXMLFile = null;
-        private string T3DFile = null;
-        private string TBDFile = null;
-        private bool RunShadingCalculations = false;
-        private bool FixNormals = false;
         private string t3dFilePath = null;
+        //private string ProjectFolder = null;
+        //private string GBXMLFile = null;
+        //private string T3DFile = null;
+        //private string TBDFile = null;
+        //private bool RunShadingCalculations = false;
+        //private bool FixNormals = false;
+
 
         /***************************************************/
         /**** Private Methods                           ****/
@@ -177,11 +178,11 @@ namespace BH.Adapter.TAS
         private TAS3D.T3DDocument GetT3DDocument()
         {
             t3dDocument = new TAS3D.T3DDocument();
-            if (!String.IsNullOrEmpty(ProjectFolder) && System.IO.File.Exists(ProjectFolder))
-                t3dDocument.Open(T3DFile);
+            if (!String.IsNullOrEmpty(t3dFilePath) && System.IO.File.Exists(t3dFilePath))
+                t3dDocument.Open(t3dFilePath);
 
-            else if (!String.IsNullOrEmpty(ProjectFolder))
-                t3dDocument.Create();
+            else if (!String.IsNullOrEmpty(t3dFilePath))
+                t3dDocument.Create(); //Use Create(t3dFilePath); ?
 
             else
                 ErrorLog.Add("The T3D file does not exist");
@@ -194,9 +195,9 @@ namespace BH.Adapter.TAS
             if (t3dDocument != null)
             {
                 if (save == true)
-                    t3dDocument.Save(T3DFile);
+                    t3dDocument.Save(t3dFilePath); //Use Save(); ?
 
-                t3dDocument.Close();
+                t3dDocument.Close(); // Use close(t3dFilePath); ?
 
                 if (t3dDocument != null)
                 {
@@ -204,12 +205,9 @@ namespace BH.Adapter.TAS
                     ClearCOMObject(t3dDocument);
                     t3dDocument = null;
                 }
-
             }
-
         }
     }
-
     /***************************************************/
 }
 
