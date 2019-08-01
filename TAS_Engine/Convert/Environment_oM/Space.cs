@@ -40,75 +40,6 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.Space from TAS TBD Zone")]
-        [Input("tbdSpace", "TAS TBD Zone")]
-        [Output("BHoM Environmental Space object")]
-        public static BHE.Space ToBHoM(this TBD.zone tbdSpace, TBD.TBDDocument tbdDocument)
-        {
-            BHE.Space space = new BHE.Space();
-            space.Name = tbdSpace.name + tbdSpace.number.ToString();
-
-            BHP.LoadFragment loads = new BHP.LoadFragment();
-            loads.CoolingLoad = tbdSpace.maxCoolingLoad;
-            loads.HeatingLoad = tbdSpace.maxHeatingLoad;
-            space.Fragments.Add(loads);
-
-            //Adding data to Extended Poroperties--------------------------------------------------------------------------------------------------------------
-
-            //EnvironmentContextProperties
-            BHP.OriginContextFragment environmentContextProperties = new BHP.OriginContextFragment();
-            environmentContextProperties.ElementID = tbdSpace.GUID.RemoveBrackets();
-            environmentContextProperties.Description = tbdSpace.description;
-            environmentContextProperties.TypeName = tbdSpace.name;
-            space.Fragments.Add(environmentContextProperties);
-
-            //SpaceContextProperties
-            BHP.SpaceContextFragment spaceContextProperties = new BHP.SpaceContextFragment();
-            spaceContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdSpace.colour).ToString();
-            spaceContextProperties.IsExternal = tbdSpace.external != 0;
-
-            //spaceContextProperties.ConnectedElements = tbdSpace.external != 0;
-            space.Fragments.Add(spaceContextProperties);
-
-            //SpaceAnalyticalProperties
-            BHP.SpaceAnalyticalFragment spaceAnalyticalProperties = new BHP.SpaceAnalyticalFragment();
-            spaceAnalyticalProperties.DaylightFactor = tbdSpace.daylightFactor;
-            spaceAnalyticalProperties.FacadeLength = tbdSpace.facadeLength;
-            spaceAnalyticalProperties.FixedConvectionCoefficient = tbdSpace.fixedConvectionCoefficient;
-            spaceAnalyticalProperties.SizeCoolingMethod =((TBD.SizingType)tbdSpace.sizeCooling).ToBHoM();
-            spaceAnalyticalProperties.SizeHeatingMethod = ((TBD.SizingType)tbdSpace.sizeCooling).ToBHoM();
-            space.Fragments.Add(spaceAnalyticalProperties);
-
-            //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
-
-            Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("SpaceColour", tbdSpace.colour);
-            tasData.Add("DaylightFactor", tbdSpace.daylightFactor);
-            tasData.Add("Description", tbdSpace.description);
-            tasData.Add("ExposedPerimeter", tbdSpace.exposedPerimeter);
-            tasData.Add("External", tbdSpace.external);
-            tasData.Add("FacadeLength", tbdSpace.facadeLength);
-            tasData.Add("FixedConvectionCoefficient", tbdSpace.fixedConvectionCoefficient);
-            tasData.Add("FloorArea", tbdSpace.floorArea);
-            tasData.Add("GUID", tbdSpace.GUID.RemoveBrackets());
-            tasData.Add("Length", tbdSpace.length);
-            tasData.Add("SizeCooling", tbdSpace.sizeCooling);
-            tasData.Add("SizeHeating", tbdSpace.sizeHeating);
-            tasData.Add("Volume", tbdSpace.volume);
-            tasData.Add("WallFloorAreaRatio", tbdSpace.wallFloorAreaRatio);
-
-            //Proces to extract Number of people directly into space if needed
-            //double[] YearlyPeopleSensibleSepcificGain = Query.GetNumberOfPeople(tbdDocument, tbdSpace);
-            //double MaxSpecificSensibleGain = YearlyPeopleSensibleSepcificGain.Max();
-            //double[] YearlyPeopleLatenteSepcificGain = Query.GetNumberOfPeople(tbdDocument, tbdSpace, TBD.Profiles.ticOLG);
-            //double MaxSpecificLatentGain = YearlyPeopleLatenteSepcificGain.Max();
-            //double NumberOfPeople = PeopleDesity / tbdSpace.floorArea;
-
-            space.CustomData = tasData;
-
-            return space;
-        }
-
         [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.Space from TAS T3D Zone")]
         [Input("t3dSpace", "TAS T3D Zone")]
         [Output("BHoM Environmental Space object")]
@@ -178,6 +109,99 @@ namespace BH.Engine.TAS
             return space;
         }
 
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.Space from TAS TBD Zone")]
+        [Input("tbdSpace", "TAS TBD Zone")]
+        [Output("BHoM Environmental Space object")]
+        public static BHE.Space ToBHoM(this TBD.zone tbdSpace, TBD.TBDDocument tbdDocument)
+        {
+            BHE.Space space = new BHE.Space();
+            space.Name = tbdSpace.name + tbdSpace.number.ToString();
+
+            BHP.LoadFragment loads = new BHP.LoadFragment();
+            loads.CoolingLoad = tbdSpace.maxCoolingLoad;
+            loads.HeatingLoad = tbdSpace.maxHeatingLoad;
+            space.Fragments.Add(loads);
+
+            //Adding data to Extended Poroperties--------------------------------------------------------------------------------------------------------------
+
+            //EnvironmentContextProperties
+            BHP.OriginContextFragment environmentContextProperties = new BHP.OriginContextFragment();
+            environmentContextProperties.ElementID = tbdSpace.GUID.RemoveBrackets();
+            environmentContextProperties.Description = tbdSpace.description;
+            environmentContextProperties.TypeName = tbdSpace.name;
+            space.Fragments.Add(environmentContextProperties);
+
+            //SpaceContextProperties
+            BHP.SpaceContextFragment spaceContextProperties = new BHP.SpaceContextFragment();
+            spaceContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdSpace.colour).ToString();
+            spaceContextProperties.IsExternal = tbdSpace.external != 0;
+
+            //spaceContextProperties.ConnectedElements = tbdSpace.external != 0;
+            space.Fragments.Add(spaceContextProperties);
+
+            //SpaceAnalyticalProperties
+            BHP.SpaceAnalyticalFragment spaceAnalyticalProperties = new BHP.SpaceAnalyticalFragment();
+            spaceAnalyticalProperties.DaylightFactor = tbdSpace.daylightFactor;
+            spaceAnalyticalProperties.FacadeLength = tbdSpace.facadeLength;
+            spaceAnalyticalProperties.FixedConvectionCoefficient = tbdSpace.fixedConvectionCoefficient;
+            spaceAnalyticalProperties.SizeCoolingMethod =((TBD.SizingType)tbdSpace.sizeCooling).ToBHoM();
+            spaceAnalyticalProperties.SizeHeatingMethod = ((TBD.SizingType)tbdSpace.sizeCooling).ToBHoM();
+            space.Fragments.Add(spaceAnalyticalProperties);
+
+            //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
+
+            Dictionary<string, object> tasData = new Dictionary<string, object>();
+            tasData.Add("SpaceColour", tbdSpace.colour);
+            tasData.Add("DaylightFactor", tbdSpace.daylightFactor);
+            tasData.Add("Description", tbdSpace.description);
+            tasData.Add("ExposedPerimeter", tbdSpace.exposedPerimeter);
+            tasData.Add("External", tbdSpace.external);
+            tasData.Add("FacadeLength", tbdSpace.facadeLength);
+            tasData.Add("FixedConvectionCoefficient", tbdSpace.fixedConvectionCoefficient);
+            tasData.Add("FloorArea", tbdSpace.floorArea);
+            tasData.Add("GUID", tbdSpace.GUID.RemoveBrackets());
+            tasData.Add("Length", tbdSpace.length);
+            tasData.Add("SizeCooling", tbdSpace.sizeCooling);
+            tasData.Add("SizeHeating", tbdSpace.sizeHeating);
+            tasData.Add("Volume", tbdSpace.volume);
+            tasData.Add("WallFloorAreaRatio", tbdSpace.wallFloorAreaRatio);
+
+            //Proces to extract Number of people directly into space if needed
+            //double[] YearlyPeopleSensibleSepcificGain = Query.GetNumberOfPeople(tbdDocument, tbdSpace);
+            //double MaxSpecificSensibleGain = YearlyPeopleSensibleSepcificGain.Max();
+            //double[] YearlyPeopleLatenteSepcificGain = Query.GetNumberOfPeople(tbdDocument, tbdSpace, TBD.Profiles.ticOLG);
+            //double MaxSpecificLatentGain = YearlyPeopleLatenteSepcificGain.Max();
+            //double NumberOfPeople = PeopleDesity / tbdSpace.floorArea;
+
+            space.CustomData = tasData;
+
+            return space;
+        }
+
+        [Description("BH.Engine.TAS.Convert ToTAS => gets TAS T3D Zone from BH.oM.Environment.Elements.Space")]
+        [Input("space", "BHoM Environmental InternalCondition object")]
+        [Output("TAS T3D Zone")]
+        public static TAS3D.Zone ToTAS3D(this BHE.Space space, TAS3D.Zone t3dSpace)
+        {
+            if (space == null) return t3dSpace;
+            t3dSpace.name = space.Name;
+
+            Dictionary<string, object> tasData = space.CustomData;
+            if (tasData != null)
+            {
+                t3dSpace.colour = (tasData.ContainsKey("SpaceColour") ? System.Convert.ToUInt32(tasData["SpaceColour"]) : 0);
+                t3dSpace.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
+                t3dSpace.GUID = (tasData.ContainsKey("GUID") ? tasData["GUID"].ToString() : "");
+
+                if (tasData.ContainsKey("External"))
+                    t3dSpace.external = true;
+                else
+                    t3dSpace.external = false;
+            }
+
+            return t3dSpace;
+        }
+
         [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD Zone from BH.oM.Environment.Elements.Space")]
         [Input("space", "BHoM Environmental InternalCondition object")]
         [Output("TAS TBD Zone")]
@@ -219,30 +243,6 @@ namespace BH.Engine.TAS
             }
 
             return tbdSpace;
-        }
-
-        [Description("BH.Engine.TAS.Convert ToTAS => gets TAS T3D Zone from BH.oM.Environment.Elements.Space")]
-        [Input("space", "BHoM Environmental InternalCondition object")]
-        [Output("TAS T3D Zone")]
-        public static TAS3D.Zone ToTAS3D(this BHE.Space space, TAS3D.Zone t3dSpace)
-        {
-            if (space == null) return t3dSpace;
-            t3dSpace.name = space.Name;
-
-            Dictionary<string, object> tasData = space.CustomData;
-            if (tasData != null)
-            {
-                t3dSpace.colour = (tasData.ContainsKey("SpaceColour") ? System.Convert.ToUInt32(tasData["SpaceColour"]) : 0);
-                t3dSpace.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
-                t3dSpace.GUID = (tasData.ContainsKey("GUID") ? tasData["GUID"].ToString() : "");
-
-                if (tasData.ContainsKey("External"))
-                    t3dSpace.external = true;
-                else
-                    t3dSpace.external = false;
-            }
-
-            return t3dSpace;
         }
     }
 }

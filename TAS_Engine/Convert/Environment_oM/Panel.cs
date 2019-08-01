@@ -21,6 +21,129 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental BuildingElement from a TAS T3D BuildingElement and TAS T3D ZoneSurface")]
+        [Input("t3dBuildingElement", "TAS T3D BuildingElement")]
+        [Input("t3dSurface", "TAS T3D ZoneSurface")]
+        [Output("BHoM Environmental BuildingElement")]
+        public static BHE.Panel ToBHoM(this TAS3D.Element t3dElement)
+        {
+            BHE.Panel element = new BHE.Panel();
+
+            //TAS3D.BuildingElementType tbdElementType = ((TAS3D.BuildingElementType)tbdElement.BEType);
+            //Add a flag on the element for the final read
+            //element.CustomData.Add("ElementIsOpening", tbdElementType.ElementIsOpening());
+            
+            //if (t3dElementType.ElementIsOpening())
+            //{
+            //    //Find out what the fix was - frame or pane?
+            //    BHE.OpeningType fixedOpeningType = tbdElementType.ToBHoMOpeningType().FixType(t3dElement, t3dSurface);
+            //    element.CustomData.Add("OpeningIsFrame", fixedOpeningType.OpeningIsFrame());
+            //}
+
+            //BHE.PanelType elementType = ((TAS3D.BuildingElementType)t3dElement.BEType).ToBHoM();
+            //BHPC.Construction elementConstruction = t3dElement.GetConstruction().ToBHoM();
+
+            element.Name = t3dElement.name;
+            //element.Type = t3dElement.BEType;
+            //element.Construction = elementConstruction;
+
+            //EnvironmentContextProperties
+            BHP.OriginContextFragment environmentContextProperties = new BHP.OriginContextFragment();
+            //environmentContextProperties.ElementID = tbdSurface.GUID.RemoveBrackets();
+            environmentContextProperties.Description = t3dElement.description;
+            //environmentContextProperties.TypeName = t3dElement.buildingElement.name;
+            element.Fragments.Add(environmentContextProperties);
+
+            //BuildingElementContextProperties
+            BHP.PanelContextFragment buildingElementContextProperties = new BHP.PanelContextFragment();
+            //element.ConnectedSpaces.Add(tbdSurface.zone.name);
+            //if ((int)tbdSurface.type == 3)
+            //    element.ConnectedSpaces.Add(tbdSurface.linkSurface.zone.name);
+            //else
+            //    element.ConnectedSpaces.Add("-1");
+
+            //buildingElementContextProperties.IsAir = t3dElement.ghost != 0;
+            //buildingElementContextProperties.IsGround = t3dElement.ground != 0;
+            buildingElementContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(t3dElement.colour).ToString();
+            //buildingElementContextProperties.Reversed = t3dElement.reversed != 0;
+            element.Fragments.Add(buildingElementContextProperties);
+
+            //BuildingElementAnalyticalProperties
+            BHP.PanelAnalyticalFragment buildingElementAnalyticalProperties = new BHP.PanelAnalyticalFragment();
+            //buildingElementAnalyticalProperties.Altitude = t3dElement.altitude.Round();
+            //buildingElementAnalyticalProperties.AltitudeRange = t3dElement.altitudeRange.Round();
+            //buildingElementAnalyticalProperties.Inclination = t3dElement.inclination.Round();
+            //buildingElementAnalyticalProperties.Orientation = t3dElement.orientation.Round();
+            //buildingElementAnalyticalProperties.GValue = t3dElement.GValue().Round();
+            //buildingElementAnalyticalProperties.LTValue = t3dElement.LTValue().Round();
+            //buildingElementAnalyticalProperties.UValue = t3dElement.UValue().Round();
+            element.Fragments.Add(buildingElementAnalyticalProperties);
+
+            List<BHG.Polyline> panelCurve = new List<BHG.Polyline>();
+            int surfaceIndex = 0;
+            //TAS3D.RoomSurface roomSurface = null;
+
+            //while ((roomSurface = t3dElement.GetRoomSurface(surfaceIndex)) != null)
+            //{
+            //    TAS3D.Perimeter t3dPerimeter = roomSurface.GetPerimeter();
+            //    if (t3dPerimeter != null)
+            //    {
+            //        panelCurve.Add(t3dPerimeter.ToBHoM());
+
+                    //Add openings
+                    int openingIndex = 0;
+                    //TAS3D.Polygon openingPolygon = null;
+                    //while ((openingPolygon = t3dPerimeter.GetHole(openingIndex)) != null)
+                    //{
+                    //    element.Openings.Add(openingPolygon.ToBHoMOpening(roomSurface));
+                    //    openingIndex++;
+                    //}
+                //}
+
+                surfaceIndex++;
+            //}
+
+            if (panelCurve.Count == 1)
+                element.ExternalEdges = panelCurve.First().CleanPolyline().ToEdges();
+            else
+            {
+                try
+                {
+                    List<BHG.Polyline> polylines = Geometry.Compute.BooleanUnion(panelCurve, 1e-3);
+                    if (polylines.Count == 1)
+                        element.ExternalEdges = polylines.First().CleanPolyline().ToEdges();
+                    else
+                        element.ExternalEdges = Geometry.Create.PolyCurve(polylines).ICollapseToPolyline(BH.oM.Geometry.Tolerance.Angle).CleanPolyline().ToEdges();
+                }
+                catch (Exception e)
+                {
+                    BH.Engine.Reflection.Compute.RecordWarning("An error occurred in building buildingElement ID - " + element.BHoM_Guid + " - error was: " + e.ToString());
+                    element.ExternalEdges = Geometry.Create.PolyCurve(panelCurve).ICollapseToPolyline(BH.oM.Geometry.Tolerance.Angle).CleanPolyline().ToEdges();
+                }
+
+                //element.CustomData.Add("SurfaceGUID", t3dSurface.GUID.RemoveBrackets());
+                //element.CustomData.Add("SurfaceName", "Z_" + t3dSurface.zone.number + "_" + t3dSurface.number + "_" + t3dSurface.zone.name);
+                //element.CustomData.Add("SurfaceType", t3dSurface.type);
+                //element.CustomData.Add("SurfaceArea", t3dSurface.area.Round());
+                //element.CustomData.Add("SurfaceInternalArea", t3dSurface.internalArea.Round());
+                element.CustomData.Add("ElementWidth", t3dElement.width.Round());
+                //element.CustomData.Add("MaterialLayersThickness", t3dElement.GetConstruction().ConstructionThickness().Round());
+
+                element.CustomData = element.CustomData;
+            }
+
+            //AddingExtended Properties for a frame
+
+            //BHE.OpeningType elementOpeningType = t3dElementType.ToBHoMOpeningType().FixType(t3dElement, t3dSurface);
+            //if (elementOpeningType == BHE.OpeningType.RooflightWithFrame || elementOpeningType == BHE.OpeningType.WindowWithFrame)
+            //{
+            //    if (element.Openings.FirstOrDefault() != null)
+            //        element.Openings[0].FrameConstruction = elementConstruction;
+            //}
+
+            return element;
+        }
+
         [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental BuildingElement from a TAS TBD BuildingElement and TAS TBD ZoneSurface")]
         [Input("tbdBuildingElement", "TAS TBD BuildingElement")]
         [Input("tbdSurface", "TAS TBD ZoneSurface")]
