@@ -135,8 +135,6 @@ namespace BH.Adapter.TAS
                             returnObjs.AddRange(Read(aFilterQuery));
                             break;
                     }
-
-
                 }
 
                 CloseT3DDocument();

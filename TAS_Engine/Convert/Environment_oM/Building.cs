@@ -38,6 +38,66 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
+        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental Building from a TAS T3D Building")]
+        [Input("t3dBuilding", "TAS T3D Building")]
+        [Output("BHoM Environmental Building")]
+        public static BHE.Building ToBHoM(this TAS3D.Building t3dBuilding)
+        {
+            BHE.Building building = new BHE.Building();
+            building.Name = t3dBuilding.name;
+            building.Latitude = t3dBuilding.latitude;
+            building.Longitude = t3dBuilding.longitude;
+            //building.Elevation = t3dBuilding.maxBuildingAltitude;
+            //building.Elevation = tbdBuilding.GetWeatherYear().altitude; //Consider switching to this if maxBuildingAltitude does not work
+
+            //EnvironmentContextProperties
+            BHP.OriginContextFragment environmentContextProperties = new BHP.OriginContextFragment();
+            environmentContextProperties.ElementID = t3dBuilding.GUID.RemoveBrackets();
+            environmentContextProperties.Description = t3dBuilding.description;
+            environmentContextProperties.TypeName = t3dBuilding.name;
+            building.Fragments.Add(environmentContextProperties);
+
+            //BuildingAnalyticalProperties
+            BHP.BuildingAnalyticalFragment buildingAnalyticalProperties = new BHP.BuildingAnalyticalFragment();
+            buildingAnalyticalProperties.NorthAngle = t3dBuilding.northAngle; //North Angle (degrees) Measured clockwise with respect to the Y - axis of the building plan. 
+            buildingAnalyticalProperties.Year = t3dBuilding.year;
+            buildingAnalyticalProperties.GMTOffset = t3dBuilding.timeZone;
+            building.Fragments.Add(buildingAnalyticalProperties);
+
+            //BuildingContextProperties
+            //TBD.WeatherYear weatherYear = t3dBuilding.GetWeatherYear();
+            //if (weatherYear != null)
+            //{
+            //    BHP.BuildingContextFragment buildingContextProperties = new BHP.BuildingContextFragment();
+            //    buildingContextProperties.PlaceName = weatherYear.name;
+            //    buildingContextProperties.WeatherStation = weatherYear.description;
+            //    building.Fragments.Add(buildingContextProperties);
+            //}
+
+            //BuildingResultsProperties
+            //BHP.BuildingResultFragment buildingResultsProperties = new BHP.BuildingResultFragment();
+            //buildingResultsProperties.PeakCooling = t3dBuilding.peakCooling;
+            //buildingResultsProperties.PeakHeating = t3dBuilding.peakHeating;
+            //building.Fragments.Add(buildingResultsProperties);
+
+            //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
+
+            Dictionary<string, object> tasData = new Dictionary<string, object>();
+            tasData.Add("BuildingGUID", t3dBuilding.GUID.RemoveBrackets());
+            tasData.Add("BuildingDescription", t3dBuilding.description);
+            tasData.Add("BuildingNorthAngle", t3dBuilding.northAngle);
+            //tasData.Add("BuildingPath3DFile", t3dBuilding.path3DFile);
+            //tasData.Add("BuildingPeakCooling", t3dBuilding.peakCooling);
+            //tasData.Add("BuildingPeakHeating", t3dBuilding.peakHeating);
+            //tasData.Add("BuildingTBDGUID", t3dBuilding.TBDGUID);
+            tasData.Add("BuildingTimeZone", t3dBuilding.timeZone);
+            tasData.Add("BuildingYear", t3dBuilding.year);
+
+            building.CustomData = tasData;
+
+            return building;
+        }
+        
         [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental Building from a TAS TBD Building")]
         [Input("tbdBuilding", "TAS TBD Building")]
         [Output("BHoM Environmental Building")]
