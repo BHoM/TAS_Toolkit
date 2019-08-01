@@ -47,7 +47,7 @@ namespace BH.Engine.TAS
         {
             BHE.Space space = new BHE.Space();
             space.Name = t3dSpace.name.ToString();
-
+            
             //BHP.LoadFragment loads = new BHP.LoadFragment();
             //loads.CoolingLoad = t3dSpace.maxCoolingLoad;
             //loads.HeatingLoad = t3dSpace.maxHeatingLoad;
@@ -65,8 +65,8 @@ namespace BH.Engine.TAS
             //SpaceContextProperties
             BHP.SpaceContextFragment spaceContextProperties = new BHP.SpaceContextFragment();
             spaceContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(t3dSpace.colour).ToString();
-            //spaceContextProperties.IsExternal = tbdSpace.external != 0;
-
+            //spaceContextProperties.IsExternal = t3dSpace.external != 0;
+            
             ////spaceContextProperties.ConnectedElements = tbdSpace.external != 0;
             //space.FragmentProperties.Add(spaceContextProperties);
 
@@ -81,21 +81,21 @@ namespace BH.Engine.TAS
 
             ////Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
-            //Dictionary<string, object> tasData = new Dictionary<string, object>();
-            //tasData.Add("SpaceColour", tbdSpace.colour);
-            //tasData.Add("DaylightFactor", tbdSpace.daylightFactor);
-            //tasData.Add("Description", tbdSpace.description);
-            //tasData.Add("ExposedPerimeter", tbdSpace.exposedPerimeter);
-            //tasData.Add("External", tbdSpace.external);
-            //tasData.Add("FacadeLength", tbdSpace.facadeLength);
-            //tasData.Add("FixedConvectionCoefficient", tbdSpace.fixedConvectionCoefficient);
-            //tasData.Add("FloorArea", tbdSpace.floorArea);
-            //tasData.Add("GUID", tbdSpace.GUID.RemoveBrackets());
-            //tasData.Add("Length", tbdSpace.length);
-            //tasData.Add("SizeCooling", tbdSpace.sizeCooling);
-            //tasData.Add("SizeHeating", tbdSpace.sizeHeating);
-            //tasData.Add("Volume", tbdSpace.volume);
-            //tasData.Add("WallFloorAreaRatio", tbdSpace.wallFloorAreaRatio);
+            Dictionary<string, object> tasData = new Dictionary<string, object>();
+            tasData.Add("SpaceColour", t3dSpace.colour);
+            //tasData.Add("DaylightFactor", t3dSpace.daylightFactor);
+            tasData.Add("Description", t3dSpace.description);
+            //tasData.Add("ExposedPerimeter", t3dSpace.exposedPerimeter);
+            tasData.Add("External", t3dSpace.external);
+            //tasData.Add("FacadeLength", t3dSpace.facadeLength);
+            //tasData.Add("FixedConvectionCoefficient", t3dSpace.fixedConvectionCoefficient);
+            tasData.Add("FloorArea", t3dSpace.floorArea);
+            tasData.Add("GUID", t3dSpace.GUID.RemoveBrackets());
+            //tasData.Add("Length", t3dSpace.length);
+            //tasData.Add("SizeCooling", t3dSpace.sizeCooling);
+            //tasData.Add("SizeHeating", t3dSpace.sizeHeating);
+            tasData.Add("Volume", t3dSpace.volume);
+            //tasData.Add("WallFloorAreaRatio", t3dSpace.wallFloorAreaRatio);
 
             ////Proces to extract Number of people directly into space if needed
             ////double[] YearlyPeopleSensibleSepcificGain = Query.GetNumberOfPeople(tbdDocument, tbdSpace);

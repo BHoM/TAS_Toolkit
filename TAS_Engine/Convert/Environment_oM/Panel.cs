@@ -28,7 +28,8 @@ namespace BH.Engine.TAS
         public static BHE.Panel ToBHoM(this TAS3D.Element t3dElement)
         {
             BHE.Panel element = new BHE.Panel();
-
+            element.Name = t3dElement.name;
+            
             //TAS3D.BuildingElementType tbdElementType = ((TAS3D.BuildingElementType)tbdElement.BEType);
             //Add a flag on the element for the final read
             //element.CustomData.Add("ElementIsOpening", tbdElementType.ElementIsOpening());
@@ -42,14 +43,12 @@ namespace BH.Engine.TAS
 
             //BHE.PanelType elementType = ((TAS3D.BuildingElementType)t3dElement.BEType).ToBHoM();
             //BHPC.Construction elementConstruction = t3dElement.GetConstruction().ToBHoM();
-
-            element.Name = t3dElement.name;
             //element.Type = t3dElement.BEType;
             //element.Construction = elementConstruction;
 
             //EnvironmentContextProperties
             BHP.OriginContextFragment environmentContextProperties = new BHP.OriginContextFragment();
-            //environmentContextProperties.ElementID = tbdSurface.GUID.RemoveBrackets();
+            environmentContextProperties.ElementID = t3dElement.GUID.RemoveBrackets();
             environmentContextProperties.Description = t3dElement.description;
             //environmentContextProperties.TypeName = t3dElement.buildingElement.name;
             element.Fragments.Add(environmentContextProperties);
