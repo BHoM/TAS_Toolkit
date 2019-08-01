@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2018, the respective contributors. All rights reserved.
  *
@@ -19,10 +19,24 @@
  * You should have received a copy of the GNU Lesser General Public License     
  * along with this code. If not, see <https://www.gnu.org/licenses/lgpl-3.0.html>.      
  */
+ 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BH.Adapter;
 
-namespace BH.Adapter.TAS.Queries
+namespace BH.Adapter.TAS
 {
-    public partial class TASTBDAdapter
+    public partial class TasT3DAdapter : BHoMAdapter
     {
+        /***************************************************/
+        /**** Public Methods                            ****/
+        /***************************************************/
+
+
+
+        /***************************************************/
     }
 }

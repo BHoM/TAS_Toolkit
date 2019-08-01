@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2018, the respective contributors. All rights reserved.
  *
@@ -22,7 +22,7 @@
 
 namespace BH.Adapter.TAS.Queries
 {
-    public partial class TASTBDAdapter
+    public partial class TAST3DAdapter
     {
     }
 }
