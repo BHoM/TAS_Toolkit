@@ -60,8 +60,8 @@ namespace BH.Adapter.TAS
             //  return ReadElementsProperties();
             else if (type == typeof(Layer))
                 return ReadMaterials();
-            else if (type == typeof(BH.oM.Architecture.Elements.Level))
-                return ReadLevels();
+            //else if (type == typeof(BH.oM.Architecture.Elements.Level))
+            //    return ReadLevels();
             else if (type == typeof(Construction))
                 return ReadConstruction();
             else if (type == typeof(InternalCondition))
@@ -78,7 +78,7 @@ namespace BH.Adapter.TAS
             bhomObjects.AddRange(ReadSpaces());
             bhomObjects.AddRange(ReadBuildingElements());
             bhomObjects.AddRange(ReadConstruction());
-            bhomObjects.AddRange(ReadLevels());
+            //bhomObjects.AddRange(ReadLevels());
 
             return bhomObjects;
         }
@@ -118,14 +118,14 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private List<BH.oM.Architecture.Elements.Level> ReadLevels(List<string> ids = null)
-        {
-            TBD.Building tbdBuilding = tbdDocument.Building;
-            List<BH.oM.Architecture.Elements.Level> levels = new List<BH.oM.Architecture.Elements.Level>();
-            levels = Engine.TAS.Convert.ToBHoMLevels(tbdBuilding);
+        //private List<BH.oM.Architecture.Elements.Level> ReadLevels(List<string> ids = null)
+        //{
+        //    TBD.Building tbdBuilding = tbdDocument.Building;
+        //    List<BH.oM.Architecture.Elements.Level> levels = new List<BH.oM.Architecture.Elements.Level>();
+        //    levels = Engine.TAS.Convert.ToBHoMLevels(tbdBuilding);
 
-            return levels;
-        }
+        //    return levels;
+        //}
 
         /***************************************************/
 

@@ -91,8 +91,8 @@ namespace BH.Adapter.TAS
         //{
         //    foreach (BHE.Elements.Space space in spaces)
         //    {
-        //        space.ToTAS3D(t3dDocument.Building.AddZoneSet()); 
-        //Add functionality for AddZone 
+        //        space.ToTAS3D(t3dDocument.Building.AddZoneSet());
+        //        Add functionality for AddZone
         //    }
         //    return true;
         //}
@@ -101,7 +101,7 @@ namespace BH.Adapter.TAS
 
         private bool Create(BH.oM.Environment.Elements.Building building)
         {
-            building.ToTAS3D(t3dDocument.Building);
+            building.ToTAS(t3dDocument.Building);
             return true;
         }
 

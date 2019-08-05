@@ -160,7 +160,7 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS T3D Building from a BHoM Environmental Building")]
         [Input("building", "BHoM Environmental Building")]
         [Output("TAS T3D Building")]
-        public static TAS3D.Building ToTAS3D(this BHE.Building building, TAS3D.Building t3dBuilding)
+        public static TAS3D.Building ToTAS(this BHE.Building building, TAS3D.Building t3dBuilding)
         {
             if (building == null) return t3dBuilding;
             t3dBuilding.name = building.Name;

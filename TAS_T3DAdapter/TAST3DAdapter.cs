@@ -41,8 +41,8 @@ namespace BH.Adapter.TAS
 
         public TasT3DAdapter(string t3DFilePath = "")
         {
-            //T3D application
-            t3dFilePath = t3DFilePath;
+        //T3D application
+        t3dFilePath = t3DFilePath;
 
             AdapterId = BH.Engine.TAS.Convert.T3DAdapterID;
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
@@ -93,7 +93,7 @@ namespace BH.Adapter.TAS
 
                 FilterRequest aFilterQuery = request as FilterRequest;
                 GetT3DDocument(); //Open the T3D Document for pulling data from
-
+               
                 if (t3dDocument != null)
                 {
                     switch (BH.Engine.TAS.Query.RequestType(aFilterQuery))
@@ -157,6 +157,20 @@ namespace BH.Adapter.TAS
                 ErrorLog.Add("The T3D file does not exist");
             return t3dDocument;
         }
+
+        //private TAS3D.T3DDocument GetT3DDocumentReadOnly()
+        //{
+        //    t3dDocument = new TAS3D.T3DDocument();
+        //    if (!String.IsNullOrEmpty(t3dFilePath) && System.IO.File.Exists(t3dFilePath))
+        //        t3dDocument.openReadOnly(t3dFilePath);
+
+        //    else if (!String.IsNullOrEmpty(t3dFilePath))
+        //        t3dDocument.Create(); //TODO: what if an existing file has the same name? 
+
+        //    else
+        //        ErrorLog.Add("The TBD file does not exist");
+        //    return t3dDocument;
+        //}
 
         // we close and save T3D
         private void CloseT3DDocument(bool save = true)
