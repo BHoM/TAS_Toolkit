@@ -65,7 +65,7 @@ namespace BH.Engine.TAS
 
             int storeyIndex = 0;
             TBD.BuildingStorey storey = null;
-            while ((storey = tbdBuilding.GetStorey(storeyIndex)) != null)
+            while((storey = tbdBuilding.GetStorey(storeyIndex)) != null)
             {
                 levels.Add(storey.ToBHoM());
                 storeyIndex++;
@@ -117,7 +117,7 @@ namespace BH.Engine.TAS
         //}
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Building from a list of BHoM Architecture Levels")]
-        [Input("levels", "BHoM Architectural Levels")]
+        [Input("levels","BHoM Architectural Levels")]
         [Output("TAS TBD Building")]
         public static TBD.BuildingStoreyClass ToTAS(this List<BHA.Level> levels)
         {

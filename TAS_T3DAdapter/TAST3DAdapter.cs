@@ -41,8 +41,8 @@ namespace BH.Adapter.TAS
 
         public TasT3DAdapter(string t3DFilePath = "")
         {
-        //T3D application
-        t3dFilePath = t3DFilePath;
+            //T3D application
+            t3dFilePath = t3DFilePath;
 
             AdapterId = BH.Engine.TAS.Convert.T3DAdapterID;
             Config.MergeWithComparer = false;   //Set to true after comparers have been implemented

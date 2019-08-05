@@ -48,21 +48,12 @@ namespace BH.Engine.TAS
             building.Latitude = t3dBuilding.latitude;
             building.Longitude = t3dBuilding.longitude;
             //building.Elevation = t3dBuilding.maxBuildingAltitude;
-            //building.Elevation = tbdBuilding.GetWeatherYear().altitude; //Consider switching to this if maxBuildingAltitude does not work
+            //building.Elevation = t3dBuilding.GetWeatherYear().altitude; //Consider switching to this if maxBuildingAltitude does not work
 
             //EnvironmentContextProperties
-            BHP.OriginContextFragment environmentContextProperties = new BHP.OriginContextFragment();
-            environmentContextProperties.ElementID = t3dBuilding.GUID.RemoveBrackets();
-            environmentContextProperties.Description = t3dBuilding.description;
-            environmentContextProperties.TypeName = t3dBuilding.name;
-            building.Fragments.Add(environmentContextProperties);
-
-            //BuildingAnalyticalProperties
-            BHP.BuildingAnalyticalFragment buildingAnalyticalProperties = new BHP.BuildingAnalyticalFragment();
-            buildingAnalyticalProperties.NorthAngle = t3dBuilding.northAngle; //North Angle (degrees) Measured clockwise with respect to the Y - axis of the building plan. 
-            buildingAnalyticalProperties.Year = t3dBuilding.year;
-            buildingAnalyticalProperties.GMTOffset = t3dBuilding.timeZone;
-            building.Fragments.Add(buildingAnalyticalProperties);
+            //BHP.OriginContextFragment environmentContextProperties = new BHP.OriginContextFragment();
+            //environmentContextProperties.ElementID = t3dBuilding.GUID.RemoveBrackets();
+            //building.Fragments.Add(environmentContextProperties);
 
             //BuildingContextProperties
             //TBD.WeatherYear weatherYear = t3dBuilding.GetWeatherYear();
@@ -83,18 +74,18 @@ namespace BH.Engine.TAS
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("BuildingGUID", t3dBuilding.GUID.RemoveBrackets());
+            //tasData.Add("BuildingGUID", t3dBuilding.GUID.RemoveBrackets());
             tasData.Add("BuildingDescription", t3dBuilding.description);
             tasData.Add("BuildingNorthAngle", t3dBuilding.northAngle);
             //tasData.Add("BuildingPath3DFile", t3dBuilding.path3DFile);
             //tasData.Add("BuildingPeakCooling", t3dBuilding.peakCooling);
             //tasData.Add("BuildingPeakHeating", t3dBuilding.peakHeating);
-            //tasData.Add("BuildingTBDGUID", t3dBuilding.TBDGUID);
+            tasData.Add("BuildingT3DGUID", t3dBuilding.GUID);
             tasData.Add("BuildingTimeZone", t3dBuilding.timeZone);
             tasData.Add("BuildingYear", t3dBuilding.year);
 
             building.CustomData = tasData;
-
+            
             return building;
         }
         
@@ -140,7 +131,7 @@ namespace BH.Engine.TAS
             buildingResultsProperties.PeakHeating = tbdBuilding.peakHeating;
             building.Fragments.Add(buildingResultsProperties);
 
-            //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
+            //Extended Poroperties
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("BuildingGUID", tbdBuilding.GUID.RemoveBrackets());
@@ -166,19 +157,24 @@ namespace BH.Engine.TAS
             t3dBuilding.name = building.Name;
             t3dBuilding.latitude = building.Latitude;
             t3dBuilding.longitude = building.Longitude;
-
+            
             Dictionary<string, object> tasData = building.CustomData;
             if(tasData!=null)
             {
                 t3dBuilding.description = (tasData.ContainsKey("BuildingDescription") ? tasData["BuildingDescription"].ToString() : "");
                 t3dBuilding.northAngle = (tasData.ContainsKey("BuildingNorthAngle") ? (float)System.Convert.ToDouble(tasData["BuildingNorthAngle"]) : 0);
+                t3dBuilding.timeZone = (tasData.ContainsKey("BuildingTimeZone") ? (float)System.Convert.ToDouble(tasData["BuildingTimeZone"]) : 0);
                 //t3dBuilding.path3DFile = (tasData.ContainsKey("BuildingPath3DFile") ? tasData["BuildingPath3DFile"].ToString() : "");
                 //t3dBuilding.peakCooling = (tasData.ContainsKey("BuildingPeakCooling") ? (float)System.Convert.ToDouble(tasData["BuildingPeakCooling"]) : 0);
                 //t3dBuilding.peakHeating = (tasData.ContainsKey("BuildingPeakHeating") ? (float)System.Convert.ToDouble(tasData["BuildingPeakHeating"]) : 0);
-                t3dBuilding.GUID = (tasData.ContainsKey("BuildingTBDGUID") ? tasData["BuildingTBDGUID"].ToString() : "");
-                t3dBuilding.timeZone = (tasData.ContainsKey("BuildingTimeZone") ? (float)System.Convert.ToDouble(tasData["BuildingTimeZone"]) : 0);
+                //t3dBuilding.GUID = (tasData.ContainsKey("BuildingT3DGUID") ? tasData["BuildingT3DGUID"].ToString() : "");
+                if (tasData.ContainsKey("BuildingYear"))
+                {
+                    short year = System.Convert.ToInt16(tasData["BuildingYear"]);
+                    t3dBuilding.year = year;
+                }
             }
-            return t3dBuilding;
+                return t3dBuilding;
         }
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Building from a BHoM Environmental Building")]
