@@ -101,9 +101,9 @@ namespace BH.Engine.TAS
          
         public static TBD.buildingElement ToTAS(this BHE.Opening opening, TBD.buildingElement tbdBuildingElement, TBD.Construction tbdConstruction)
         {
-            BHE.BuildingElement openingAsElement = new BHE.BuildingElement();
-            openingAsElement.PanelCurve = opening.OpeningCurve;
-            openingAsElement.ExtendedProperties = opening.ExtendedProperties;
+            BHE.Panel openingAsElement = new BHE.Panel();
+            openingAsElement.ExternalEdges = new List<BHE.Edge>(opening.Edges);
+            openingAsElement.Fragments = opening.Fragments;
             openingAsElement.BHoM_Guid = opening.BHoM_Guid;
             openingAsElement.Name = opening.Name;
             openingAsElement.CustomData = opening.CustomData;
