@@ -66,7 +66,7 @@
     </Reference>
     <Reference Include="Environment_Engine">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\BHoM_Engine\Build\Environment_Engine.dll</HintPath>
+      <HintPath>..\..\BHoM_Engine\Build\Environment_Engine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Environment_oM">
