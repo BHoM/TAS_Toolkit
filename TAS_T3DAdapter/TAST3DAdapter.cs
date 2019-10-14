@@ -134,7 +134,7 @@ namespace BH.Adapter.TAS
             }
             catch (Exception e)
             {
-                ErrorLog.Add(e.ToString());
+               Engine.Reflection.Compute.RecordError(e.ToString());
                 BH.Engine.Reflection.Compute.RecordError(e.ToString());
                 CloseT3DDocument();
                 return null;
@@ -171,7 +171,7 @@ namespace BH.Adapter.TAS
                 t3dDocument.Create();
 
             else
-                ErrorLog.Add("The TBD file does not exist");
+               Engine.Reflection.Compute.RecordError("The TBD file does not exist");
             return t3dDocument;
         }
 
