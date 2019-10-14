@@ -58,13 +58,13 @@ namespace BH.Adapter.TAS
 
         private bool CheckInputCombinations()
         {
-            if(tsdFilePath == "")
+            if (tsdFilePath == "")
             {
                 BH.Engine.Reflection.Compute.RecordError("Please provide a valid TSD input file path");
                 return false;
             }
 
-            if(tsdResultType == TSDResultType.Undefined)
+            if (tsdResultType == TSDResultType.Undefined)
             {
                 BH.Engine.Reflection.Compute.RecordError("Result output cannot be undefined");
                 return false;
@@ -85,25 +85,25 @@ namespace BH.Adapter.TAS
                 return false;
             }
 
-            if((tsdResultType == TSDResultType.CoolingDesignDay || tsdResultType == TSDResultType.HeatingDesignDay) && (SimulationResultType == SimulationResultType.BuildingResult || SimulationResultType == SimulationResultType.BuildingElementResult))
+            if ((tsdResultType == TSDResultType.CoolingDesignDay || tsdResultType == TSDResultType.HeatingDesignDay) && (SimulationResultType == SimulationResultType.BuildingResult || SimulationResultType == SimulationResultType.BuildingElementResult))
             {
                 BH.Engine.Reflection.Compute.RecordError("Heating and Cooling Design Day results are only available on Space Result Types");
                 return false;
             }
 
-            if(ProfileResultUnits == ProfileResultUnit.Daily && (Day < 1 || Day > 365))
+            if (ProfileResultUnits == ProfileResultUnit.Daily && (Day < 1 || Day > 365))
             {
                 BH.Engine.Reflection.Compute.RecordError("Please select a day between 1 and 365 inclusive for Daily Results");
                 return false;
             }
 
-            if(ProfileResultUnits == ProfileResultUnit.Hourly && (Hour < 1 || Hour > 24))
+            if (ProfileResultUnits == ProfileResultUnit.Hourly && (Hour < 1 || Hour > 24))
             {
                 BH.Engine.Reflection.Compute.RecordError("Please select an hour between 1 and 24 inclusive for Hourly Results");
                 return false;
             }
 
-            if(ProfileResultUnits == ProfileResultUnit.Yearly && (Hour != -1 || Day != -1))
+            if (ProfileResultUnits == ProfileResultUnit.Yearly && (Hour != -1 || Day != -1))
             {
                 BH.Engine.Reflection.Compute.RecordWarning("Day and Hour inputs are not used when pulling Yearly Results");
             }
@@ -139,7 +139,7 @@ namespace BH.Adapter.TAS
                 List<IBHoMObject> returnObjs = new List<IBHoMObject>();
 
                 FilterRequest aFilterQuery = request as FilterRequest;
-                GetTsdDocumentReadOnly (); //Open the TSD Document for pulling data from
+                GetTsdDocumentReadOnly(); //Open the TSD Document for pulling data from
 
                 if (tsdDocument != null)
                 {
@@ -176,7 +176,7 @@ namespace BH.Adapter.TAS
         /**** Private Fields                            ****/
         /***************************************************/
 
-        private TSD.TSDDocument tsdDocument=null;
+        private TSD.TSDDocument tsdDocument = null;
         private string tsdFilePath = null;
         private TSDResultType tsdResultType = TSDResultType.Undefined;
         private SimulationResultType SimulationResultType = SimulationResultType.Undefined;
@@ -200,7 +200,7 @@ namespace BH.Adapter.TAS
                 tsdDocument.create(tsdFilePath); //What if an existing file has the same name?
 
             else
-               BH.Engine.Reflection.Compute.RecordError("The TSD file does not exist");
+                BH.Engine.Reflection.Compute.RecordError("The TSD file does not exist");
             return tsdDocument;
         }
         //TODO: Do we need both of these?
@@ -215,19 +215,19 @@ namespace BH.Adapter.TAS
                 tsdDocument.create(tsdFilePath); //What if an existing file has the same name?
 
             else
-               BH.Engine.Reflection.Compute.RecordError("The TSD file does not exist");
+                BH.Engine.Reflection.Compute.RecordError("The TSD file does not exist");
             return tsdDocument;
         }
 
         //Close and save the TSD Document
-        private void CloseTsdDocument(bool save=true)
+        private void CloseTsdDocument(bool save = true)
         {
-            if (tsdDocument!=null)
+            if (tsdDocument != null)
             {
                 if (save == true)
                     tsdDocument.save();
                 tsdDocument.close();
-                if(tsdDocument!=null)
+                if (tsdDocument != null)
                 {
                     ClearCOMObject(tsdDocument);
                     tsdDocument = null;
