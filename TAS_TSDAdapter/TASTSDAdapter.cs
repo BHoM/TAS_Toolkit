@@ -163,7 +163,6 @@ namespace BH.Adapter.TAS
                 BH.Engine.Reflection.Compute.RecordError(ex.ToString());
                 CloseTsdDocument();
                 return null;
-
             }
             finally
             {
