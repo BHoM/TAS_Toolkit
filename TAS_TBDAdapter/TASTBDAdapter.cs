@@ -101,7 +101,7 @@ namespace BH.Adapter.TAS
             }
             catch (Exception e)
             {
-               Engine.Reflection.Compute.RecordError(e.ToString());
+                BH.Engine.Reflection.Compute.RecordError(e.ToString());
                 BH.Engine.Reflection.Compute.RecordError(e.ToString());
                 CloseTbdDocument(false);
                 return null;
@@ -133,7 +133,7 @@ namespace BH.Adapter.TAS
                 tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
 
             else
-               Engine.Reflection.Compute.RecordError("The TBD file does not exist");
+                BH.Engine.Reflection.Compute.RecordError("The TBD file does not exist");
             return tbdDocument;
         }
 
@@ -147,7 +147,7 @@ namespace BH.Adapter.TAS
                 tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
 
             else
-               Engine.Reflection.Compute.RecordError("The TBD file does not exist");
+                BH.Engine.Reflection.Compute.RecordError("The TBD file does not exist");
             return tbdDocument;
         }
 
