@@ -92,7 +92,7 @@ namespace BH.Adapter.TAS
             List<TAS3D.Zone> zones = new List<Zone>();
             int index = 1;
             TAS3D.Zone zone = null;
-            while((zone = t3dDocument.Building.GetZone(index)) != null)
+            while ((zone = t3dDocument.Building.GetZone(index)) != null)
             {
                 if (zone.isUsed == 0)
                     zones.Add(zone);
@@ -134,7 +134,7 @@ namespace BH.Adapter.TAS
             }
             catch (Exception e)
             {
-               BH.Engine.Reflection.Compute.RecordError(e.ToString());
+                BH.Engine.Reflection.Compute.RecordError(e.ToString());
                 BH.Engine.Reflection.Compute.RecordError(e.ToString());
                 CloseT3DDocument();
                 return null;
@@ -171,7 +171,7 @@ namespace BH.Adapter.TAS
                 t3dDocument.Create();
 
             else
-               BH.Engine.Reflection.Compute.RecordError("The TBD file does not exist");
+                BH.Engine.Reflection.Compute.RecordError("The TBD file does not exist");
             return t3dDocument;
         }
 
