@@ -200,7 +200,7 @@ namespace BH.Adapter.TAS
                 tsdDocument.create(tsdFilePath); //What if an existing file has the same name?
 
             else
-                ErrorLog.Add("The TSD file does not exist");
+               Engine.Reflection.Compute.RecordError("The TSD file does not exist");
             return tsdDocument;
         }
         //TODO: Do we need both of these?
@@ -215,7 +215,7 @@ namespace BH.Adapter.TAS
                 tsdDocument.create(tsdFilePath); //What if an existing file has the same name?
 
             else
-                ErrorLog.Add("The TSD file does not exist");
+               Engine.Reflection.Compute.RecordError("The TSD file does not exist");
             return tsdDocument;
         }
 
