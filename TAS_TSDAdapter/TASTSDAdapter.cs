@@ -50,9 +50,7 @@ namespace BH.Adapter.TAS
             if (!CheckInputCombinations()) return;
 
             AdapterId = BH.Engine.TAS.Convert.TSDAdapterID;
-            Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
             Config.ProcessInMemory = false;
-            Config.SeparateProperties = false;  //Set to true after Dependency types have been implemented
             Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
         }
 
@@ -122,7 +120,7 @@ namespace BH.Adapter.TAS
 
                 var list = miListObject.Invoke(typeGroup, new object[] { typeGroup });
 
-                success &= Create(list as dynamic, false);
+                success &= Create(list as dynamic);
             }
 
             CloseTsdDocument();
