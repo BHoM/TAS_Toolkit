@@ -43,9 +43,7 @@ namespace BH.Adapter.TAS
             tbdFilePath = tBDFilePath;
 
             AdapterId = BH.Engine.TAS.Convert.TBDAdapterID;
-            Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
             Config.ProcessInMemory = false;
-            Config.SeparateProperties = false;  //Set to true after Dependency types have been implemented
             Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
         }
 
@@ -61,7 +59,7 @@ namespace BH.Adapter.TAS
 
                 var list = miListObject.Invoke(typeGroup, new object[] { typeGroup });
 
-                success &= Create(list as dynamic, false);
+                success &= Create(list as dynamic);
             }
 
             CloseTbdDocument();
@@ -96,8 +94,6 @@ namespace BH.Adapter.TAS
 
                 CloseTbdDocument(false);
                 return returnObjs;
-
-
             }
             catch (Exception e)
             {
