@@ -50,7 +50,6 @@ namespace BH.Adapter.TAS
             if (!CheckInputCombinations()) return;
 
             AdapterId = BH.Engine.TAS.Convert.TSDAdapterID;
-            Config.ProcessInMemory = false;
             Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
         }
 
