@@ -153,8 +153,6 @@ namespace BH.Adapter.TAS
         private string ProjectFolder = null;
         private string GBXMLFile = null;
         private string T3DFile = null;
-        private string TBDFile = null;
-        private bool RunShadingCalculations = false;
         private bool FixNormals = false;
 
         /***************************************************/
