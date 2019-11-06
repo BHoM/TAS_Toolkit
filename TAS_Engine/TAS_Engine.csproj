@@ -78,6 +78,7 @@
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
       <HintPath>..\lib\Interop.TBD.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Interop.TSD">
       <HintPath>..\lib\Interop.TSD.dll</HintPath>

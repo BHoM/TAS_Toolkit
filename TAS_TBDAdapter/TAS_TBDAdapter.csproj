@@ -90,7 +90,7 @@
     </Reference>
     <Reference Include="Interop.TBD, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
       <HintPath>..\lib\Interop.TBD.dll</HintPath>
     </Reference>
     <Reference Include="Interop.TCD">

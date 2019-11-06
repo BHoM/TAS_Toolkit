@@ -167,8 +167,6 @@ namespace BH.Engine.TAS
 
             }
 
-            bool aExists = true;
-
             double[] aYearlyValues = new double[8760];
             int aCount = 0;
             for (int i = 0; i < 365; i++)
@@ -176,10 +174,7 @@ namespace BH.Engine.TAS
                 TBD.dayType aDayType = aDayTypeArray[i];
 
                 if (!aDictionary_DayType.ContainsKey(aDayType.name))
-                {
-                    aExists = false;
                     break;
-                }
 
                 aHourlyValues = aDictionary_DayType[aDayType.name];
                 for (int j = 0; j < 24; j++)
@@ -197,10 +192,7 @@ namespace BH.Engine.TAS
                 TBD.dayType aDayType = aDayTypeArray[i];
 
                 if (!aDictionary_DayType.ContainsKey(aDayType.name))
-                {
-                    aExists = false;
                     break;
-                }
 
                 aHourlyValuesLatent = aDictionary_DayTypeLatent[aDayType.name];
                 for (int j = 0; j < 24; j++)
@@ -212,10 +204,6 @@ namespace BH.Engine.TAS
             }
 
             double[] aNumberOfPeople = new double[7];
-            //if (aExists)
-            //{
-            //    aYearlyValues;
-            //}
 
             double aMaxSpecificSensibleGain = aYearlyValues.Max();//Unit W/m2 sensible gain
             aNumberOfPeople[0] = aMaxSpecificSensibleGain;

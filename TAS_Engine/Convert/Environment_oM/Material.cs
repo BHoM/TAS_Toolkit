@@ -131,8 +131,6 @@ namespace BH.Engine.TAS
                 return TBD.MaterialTypes.tcdTransparentLayer;
             else
                 return TBD.MaterialTypes.tcdOpaqueLayer;
-
-            return TBD.MaterialTypes.tcdOpaqueLayer;
         }
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Material from a BHoM Environmental Material")]
