@@ -31,6 +31,7 @@ using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
 using BH.Engine.Environment;
+using BH.oM.TAS.Settings;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
@@ -42,7 +43,7 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental Opening from a TAS TBD Opening Polygon")]
         [Input("tbdBuilding", "TAS TBD Building")]
         [Output("BHoM Environmental Opening")]
-        public static BHE.Opening ToBHoMOpening(this TBD.Polygon tbdPolygon, TBD.RoomSurface roomSurface)
+        public static BHE.Opening ToBHoMOpening(this TBD.Polygon tbdPolygon, TBD.RoomSurface roomSurface, TASSettings tasSettings)
         {
             BHE.Opening opening = new oM.Environment.Elements.Opening();
             //roomSurface.parentSurface
@@ -75,9 +76,9 @@ namespace BH.Engine.TAS
                 opening.Fragments.Add(buildingElementAnalyticalProperties);
 
                 if (tbdPolygon != null)
-                    opening.Edges = tbdPolygon.ToBHoM().CleanPolyline().ToEdges();
+                    opening.Edges = tbdPolygon.ToBHoM().CleanPolyline(tasSettings.AngleTolerance, tasSettings.MinimumSegmentLength).ToEdges();
                 else
-                    opening.Edges = roomSurface.GetPerimeter().ToBHoM().CleanPolyline().ToEdges();
+                    opening.Edges = roomSurface.GetPerimeter().ToBHoM().CleanPolyline(tasSettings.AngleTolerance, tasSettings.MinimumSegmentLength).ToEdges();
 
                 if (roomSurface.parentSurface != null && roomSurface.parentSurface.zoneSurface != null && roomSurface.parentSurface.zoneSurface.buildingElement != null)
                 {
