@@ -33,6 +33,8 @@ namespace BH.oM.TAS.Settings
         /***************************************************/
         public double DistanceTolerance { get; set; } = BH.oM.Geometry.Tolerance.Distance;
         public double PlanarTolerance { get; set; } = BH.oM.Geometry.Tolerance.Distance;
+        public double MinimumSegmentLength { get; set; } = BH.oM.Geometry.Tolerance.Distance;
+        public double AngleTolerance { get; set; } = BH.oM.Geometry.Tolerance.Angle;
 
         /***************************************************/
     }
