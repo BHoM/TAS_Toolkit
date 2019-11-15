@@ -16,6 +16,7 @@ using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 
 using BH.Engine.Environment;
+using BH.oM.TAS.Settings;
 
 namespace BH.Engine.TAS
 {
@@ -25,7 +26,7 @@ namespace BH.Engine.TAS
         [Input("tbdBuildingElement", "TAS TBD BuildingElement")]
         [Input("tbdSurface", "TAS TBD ZoneSurface")]
         [Output("BHoM Environmental BuildingElement")]
-        public static BHE.Panel ToBHoM(this TBD.buildingElement tbdElement, TBD.zoneSurface tbdSurface)
+        public static BHE.Panel ToBHoM(this TBD.buildingElement tbdElement, TBD.zoneSurface tbdSurface, TASSettings tasSettings)
         {
             BHE.Panel element = new BHE.Panel();
 
@@ -95,7 +96,7 @@ namespace BH.Engine.TAS
                     TBD.Polygon openingPolygon = null;
                     while ((openingPolygon = tbdPerimeter.GetHole(openingIndex)) != null)
                     {
-                        element.Openings.Add(openingPolygon.ToBHoMOpening(roomSurface));
+                        element.Openings.Add(openingPolygon.ToBHoMOpening(roomSurface, tasSettings));
                         openingIndex++;
                     }
                 }
@@ -104,21 +105,21 @@ namespace BH.Engine.TAS
             }
 
             if (panelCurve.Count == 1)
-                element.ExternalEdges = panelCurve.First().CleanPolyline().ToEdges();
+                element.ExternalEdges = panelCurve.First().CleanPolyline(tasSettings.AngleTolerance, tasSettings.MinimumSegmentLength).ToEdges();
             else
             {
                 try
                 {
                     List<BHG.Polyline> polylines = Geometry.Compute.BooleanUnion(panelCurve, 1e-3);
                     if (polylines.Count == 1)
-                        element.ExternalEdges = polylines.First().CleanPolyline().ToEdges();
+                        element.ExternalEdges = polylines.First().CleanPolyline(tasSettings.AngleTolerance, tasSettings.MinimumSegmentLength).ToEdges();
                     else
-                        element.ExternalEdges = Geometry.Create.PolyCurve(polylines).ICollapseToPolyline(BH.oM.Geometry.Tolerance.Angle).CleanPolyline().ToEdges();
+                        element.ExternalEdges = Geometry.Create.PolyCurve(polylines).ICollapseToPolyline(BH.oM.Geometry.Tolerance.Angle).CleanPolyline(tasSettings.AngleTolerance, tasSettings.MinimumSegmentLength).ToEdges();
                 }
                 catch (Exception e)
                 {
                     BH.Engine.Reflection.Compute.RecordWarning("An error occurred in building buildingElement ID - " + element.BHoM_Guid + " - error was: " + e.ToString());
-                    element.ExternalEdges = Geometry.Create.PolyCurve(panelCurve).ICollapseToPolyline(BH.oM.Geometry.Tolerance.Angle).CleanPolyline().ToEdges();
+                    element.ExternalEdges = Geometry.Create.PolyCurve(panelCurve).ICollapseToPolyline(BH.oM.Geometry.Tolerance.Angle).CleanPolyline(tasSettings.AngleTolerance, tasSettings.MinimumSegmentLength).ToEdges();
                 }
             }
 

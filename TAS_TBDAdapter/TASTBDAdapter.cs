@@ -40,7 +40,7 @@ namespace BH.Adapter.TAS
         /**** Constructors                              ****/
         /***************************************************/
 
-        [Description("Produces an TAS Adapter to allow interopability with IES GEM files and the BHoM")]
+        [Description("Produces an TAS Adapter to allow interopability with TAS tBD files and the BHoM")]
         [Input("tBDFilePath", "")]
         [Input("tasSettings", "Input additional settings the adapter should use.")]
         public TasTBDAdapter(string tBDFilePath = "", TASSettings tasSettings = null)
