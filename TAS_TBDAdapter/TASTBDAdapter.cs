@@ -26,6 +26,9 @@ using System.Linq;
 using System.Reflection;
 using BH.oM.Data.Requests;
 using BH.oM.Base;
+using BH.oM.TAS.Settings;
+using System.ComponentModel;
+using BH.oM.Reflection.Attributes;
 
 using BH.oM.TAS;
 
@@ -37,10 +40,19 @@ namespace BH.Adapter.TAS
         /**** Constructors                              ****/
         /***************************************************/
 
-        public TasTBDAdapter(string tBDFilePath = "")
+        [Description("Produces an TAS Adapter to allow interopability with IES GEM files and the BHoM")]
+        [Input("tBDFilePath", "")]
+        [Input("tasSettings", "Input additional settings the adapter should use.")]
+        public TasTBDAdapter(string tBDFilePath = "", TASSettings tasSettings = null)
         {
+            if(tasSettings == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Please set some TAS Settings on the TAS Adapter before pushing");
+                return;
+            }
             //TBD application
             tbdFilePath = tBDFilePath;
+            _tasSettings = tasSettings;
 
             AdapterId = BH.Engine.TAS.Convert.TBDAdapterID;
             Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
@@ -113,6 +125,7 @@ namespace BH.Adapter.TAS
 
         private TBD.TBDDocument tbdDocument = null;
         private string tbdFilePath = null;
+        private TASSettings _tasSettings { get; set; } = null;
 
         /***************************************************/
         /**** Private Methods                           ****/

@@ -30,6 +30,9 @@ using BH.oM.Data.Requests;
 using BH.oM.Base;
 using BH.Engine;
 using BH.oM.Environment.Results;
+using System.ComponentModel;
+using BH.oM.Reflection.Attributes;
+using BH.oM.TAS.Settings;
 
 using BH.oM.TAS;
 
@@ -37,7 +40,16 @@ namespace BH.Adapter.TAS
 {
     public partial class TasTSDAdapter : BHoMAdapter
     {
-        public TasTSDAdapter(string tSDFilePath = "", TSDResultType tsdResultQuery = TSDResultType.Simulation, SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnit resultUnit = ProfileResultUnit.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = -1, int day = -1)
+        [Description("Produces an TAS Adapter to allow interopability with IES GEM files and the BHoM")]
+        [Input("tSDFilePath", "")]
+        [Input("tsdResultQuery", "")]
+        [Input("simType", "")]
+        [Input("resultUnit", "")]
+        [Input("resultType", "")]
+        [Input("hour", "")]
+        [Input("day", "")]
+        [Input("tasSettings", "Input additional settings the adapter should use.")]
+        public TasTSDAdapter(string tSDFilePath = "", TSDResultType tsdResultQuery = TSDResultType.Simulation, SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnit resultUnit = ProfileResultUnit.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = -1, int day = -1, TASSettings tasSettings = null)
         {
             tsdFilePath = tSDFilePath;
             tsdResultType = tsdResultQuery;
@@ -46,6 +58,7 @@ namespace BH.Adapter.TAS
             ProfileResultType = resultType;
             Hour = hour;
             Day = day;
+            _tasSettings = tasSettings;
 
             if (!CheckInputCombinations()) return;
 
@@ -180,6 +193,7 @@ namespace BH.Adapter.TAS
         private ProfileResultType ProfileResultType = ProfileResultType.Undefined;
         private int Hour = 1;
         private int Day = 1;
+        private TASSettings _tasSettings { get; set; } = null;
 
         /***************************************************/
         /**** Private Methods                           ****/
