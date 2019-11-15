@@ -133,6 +133,7 @@
     <Compile Include="Convert\Geometry_oM\Point.cs" />
     <Compile Include="Convert\Geometry_oM\Polyline.cs" />
     <Compile Include="Convert\ToList.cs" />
+    <Compile Include="Create\TASSettings.cs" />
     <Compile Include="Create\SetHour.cs" />
     <Compile Include="Create\IsExternalFilterRequest.cs" />
     <Compile Include="Create\ToTBD\BHoMObject.cs" />
