@@ -41,8 +41,8 @@ namespace BH.Adapter.TAS
         /***************************************************/
 
         [Description("Produces an TAS Adapter to allow interopability with TAS tBD files and the BHoM")]
-        [Input("tBDFilePath", "")]
-        [Input("tasSettings", "Input additional settings the adapter should use.")]
+        [Input("tBDFilePath", "Path to tBD file")]
+        [Input("tasSettings", "Input additional settings the adapter should use")]
         public TasTBDAdapter(string tBDFilePath = "", TASSettings tasSettings = null)
         {
             if(tasSettings == null)
