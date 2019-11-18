@@ -21,8 +21,7 @@ namespace BH.Engine.TAS
         [Input("planarTolerance", "Set tolerance for planar surfaces, default is set to BH.oM.Geometry.Tolerance.Distance")]
         [Input("angleTolerance", "The tolerance of the angle that defines a straight line. Default is set to the value defined by BH.oM.Geometry.Tolerance.Angle")]
         [Input("minimumSegmentLength", "The length of the smallest allowed segment.Default is set to the value defined by BH.oM.Geometry.Tolerance.Distance")]
-
-
+        [Output("tasSettings", "The TAS setting to use with the TAS adapter")]
         public static TASSettings TASSettings(double planarTolerance = BH.oM.Geometry.Tolerance.Distance, double distanceTolerance = BH.oM.Geometry.Tolerance.Distance, double minimumSegmentLength = BH.oM.Geometry.Tolerance.Distance, double angleTolerance = BH.oM.Geometry.Tolerance.Angle)
         {
             return new TASSettings

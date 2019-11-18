@@ -49,6 +49,7 @@ namespace BH.Adapter.TAS
         [Input("hour", "Hour between 1 and 24 inclusive for Hourly Results")]
         [Input("day", "Day between 1 and 365 inclusive for Daily results")]
         [Input("tasSettings", "Input additional settings the adapter should use.")]
+        [Output("adapter","adapter for TAS tSD")]
         public TasTSDAdapter(string tSDFilePath = "", TSDResultType tsdResultQuery = TSDResultType.Simulation, SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnit resultUnit = ProfileResultUnit.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = -1, int day = -1, TASSettings tasSettings = null)
         {
             tsdFilePath = tSDFilePath;
@@ -120,7 +121,8 @@ namespace BH.Adapter.TAS
 
             if (_tasSettings == null)
             {
-                BH.Engine.Reflection.Compute.RecordError("Please set some TAS Settings on the TAS Adapter before pushing");
+                BH.Engine.Reflection.Compute.RecordError("Please set some TAS Settings on the TAS Adapter");
+                return false;
             }
 
             return true;
