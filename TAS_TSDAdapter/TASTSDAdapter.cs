@@ -42,20 +42,15 @@ namespace BH.Adapter.TAS
     {
         [Description("Produces an TAS Adapter to allow interopability with TAS tSD files and the BHoM")]
         [Input("tSDFilePath", "Path to tSD file")]
-        [Input("tsdResultQuery", "")]
-        [Input("simType", "")]
-        [Input("resultUnit", "")]
-        [Input("resultType", "")]
-        [Input("hour", "hour between 1 and 24 inclusive for Hourly Results")]
-        [Input("day", "day between 1 and 336 inclusive for Daily results")]
+        [Input("tsdResultQuery", "TSD retult type, defaults to Simulation")]
+        [Input("simType", "Simulation result type, defaults to BuildingResult")]
+        [Input("resultUnit", "Profile result unit, defaults to Yearly")]
+        [Input("resultType", "Profile result type, defaults to TemperatureExternal")]
+        [Input("hour", "Hour between 1 and 24 inclusive for Hourly Results")]
+        [Input("day", "Day between 1 and 365 inclusive for Daily results")]
         [Input("tasSettings", "Input additional settings the adapter should use.")]
         public TasTSDAdapter(string tSDFilePath = "", TSDResultType tsdResultQuery = TSDResultType.Simulation, SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnit resultUnit = ProfileResultUnit.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = -1, int day = -1, TASSettings tasSettings = null)
         {
-            if(tasSettings == null)
-            {
-                BH.Engine.Reflection.Compute.RecordError("Please set some TAS Settings on the TAS Adapter before pushing");
-                return;
-            }
             tsdFilePath = tSDFilePath;
             tsdResultType = tsdResultQuery;
             SimulationResultType = simType;
@@ -121,6 +116,11 @@ namespace BH.Adapter.TAS
             if (ProfileResultUnits == ProfileResultUnit.Yearly && (Hour != -1 || Day != -1))
             {
                 BH.Engine.Reflection.Compute.RecordWarning("Day and Hour inputs are not used when pulling Yearly Results");
+            }
+
+            if (_tasSettings == null)
+            {
+                BH.Engine.Reflection.Compute.RecordError("Please set some TAS Settings on the TAS Adapter before pushing");
             }
 
             return true;

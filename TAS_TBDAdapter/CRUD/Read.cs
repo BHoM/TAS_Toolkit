@@ -178,7 +178,7 @@ namespace BH.Adapter.TAS
                 {
                     //check to exlude tine area
                     if (zoneSrf.internalArea > 0 || zoneSrf.area > 0.2)
-                        buildingElements.Add(zoneSrf.buildingElement.ToBHoM(zoneSrf));
+                        buildingElements.Add(zoneSrf.buildingElement.ToBHoM(zoneSrf, _tasSettings));
                     zoneSurfaceIndex++;
                 }
                 zoneIndex++;
@@ -248,7 +248,7 @@ namespace BH.Adapter.TAS
                         || zoneSrf.buildingElement.BEType == 19)
                     {
                         //Sometimes we can have a srf object in TAS without a geometry
-                        buildingElements.Add(zoneSrf.buildingElement.ToBHoM(zoneSrf));
+                        buildingElements.Add(zoneSrf.buildingElement.ToBHoM(zoneSrf, _tasSettings));
                     }
 
                     zoneSurfaceIndex++;
