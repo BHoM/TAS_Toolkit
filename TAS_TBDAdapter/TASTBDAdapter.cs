@@ -43,11 +43,12 @@ namespace BH.Adapter.TAS
         [Description("Produces an TAS Adapter to allow interopability with TAS tBD files and the BHoM")]
         [Input("tBDFilePath", "Path to tBD file")]
         [Input("tasSettings", "Input additional settings the adapter should use")]
+        [Output("adapter", "Adapter to TAS tBD")]
         public TasTBDAdapter(string tBDFilePath = "", TASSettings tasSettings = null)
         {
             if(tasSettings == null)
             {
-                BH.Engine.Reflection.Compute.RecordError("Please set some TAS Settings on the TAS Adapter before pushing");
+                BH.Engine.Reflection.Compute.RecordError("Please set some TAS Settings on the TAS Adapter");
                 return;
             }
             //TBD application
