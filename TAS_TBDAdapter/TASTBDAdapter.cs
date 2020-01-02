@@ -1,6 +1,6 @@
 /*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2018, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -55,69 +55,7 @@ namespace BH.Adapter.TAS
             tbdFilePath = tBDFilePath;
             _tasSettings = tasSettings;
 
-            AdapterId = BH.Engine.TAS.Convert.TBDAdapterID;
-            Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
-        }
-
-        public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
-        {
-            GetTbdDocument();
-
-            bool success = true;
-            MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
-            foreach (var typeGroup in objects.GroupBy(x => x.GetType()))
-            {
-                MethodInfo miListObject = miToList.MakeGenericMethod(new[] { typeGroup.Key });
-
-                var list = miListObject.Invoke(typeGroup, new object[] { typeGroup });
-
-                success &= Create(list as dynamic);
-            }
-
-            CloseTbdDocument();
-            return success ? objects.ToList() : new List<IObject>();
-        }
-
-        public override IEnumerable<object> Pull(IRequest request, Dictionary<string, object> config = null)
-        {
-            try
-            {
-                List<IBHoMObject> returnObjs = new List<IBHoMObject>();
-
-
-                FilterRequest aFilterQuery = request as FilterRequest;
-                GetTbdDocumentReadOnly(); //Open the TBD Document for pulling data from
-
-                if (tbdDocument != null)
-                {
-                    switch (BH.Engine.TAS.Query.RequestType(aFilterQuery))
-                    {
-                        case BH.oM.TAS.RequestType.IsExternal:
-                            returnObjs.AddRange(ReadExternalBuildingElements());
-                            break;
-                        default:
-                            //modified to allow filtering element we need
-                            returnObjs.AddRange(Read(aFilterQuery));
-                            break;
-                    }
-
-
-                }
-
-                CloseTbdDocument(false);
-                return returnObjs;
-            }
-            catch (Exception e)
-            {
-                BH.Engine.Reflection.Compute.RecordError(e.ToString());
-                BH.Engine.Reflection.Compute.RecordError(e.ToString());
-                CloseTbdDocument(false);
-                return null;
-            }
-            finally
-            {
-                CloseTbdDocument(false);
-            }
+            AdapterIdName = BH.Engine.TAS.Convert.TBDAdapterID;
         }
 
         /***************************************************/

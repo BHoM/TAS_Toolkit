@@ -33,11 +33,13 @@ using BH.Engine.Environment;
 using TSD;
 using BH.Engine.TAS;
 
+using BH.oM.Adapter;
+
 namespace BH.Adapter.TAS
 {
     public partial class TasTSDAdapter : BHoMAdapter
     {
-        protected override bool Create<T>(IEnumerable<T> objects)
+        protected override bool ICreate<T>(IEnumerable<T> objects, ActionConfig actionConfig = null)
         {
             bool success = true;
             if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))

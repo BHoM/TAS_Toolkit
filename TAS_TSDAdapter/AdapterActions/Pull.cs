@@ -1,6 +1,6 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2018, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -26,9 +26,50 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Data.Requests;
+using BH.oM.Adapter;
+using BH.oM.Base;
+
 namespace BH.Adapter.TAS
 {
     public partial class TasTSDAdapter : BHoMAdapter
     {
+        public override IEnumerable<object> Pull(IRequest request, PullType pullType = PullType.AdapterDefault, ActionConfig actionConfig = null)
+        {
+            try
+            {
+                List<IBHoMObject> returnObjs = new List<IBHoMObject>();
+
+                FilterRequest aFilterQuery = request as FilterRequest;
+                GetTsdDocumentReadOnly(); //Open the TSD Document for pulling data from
+
+                if (tsdDocument != null)
+                {
+                    switch (BH.Engine.TAS.Query.RequestType(aFilterQuery))
+                    {
+                        case BH.oM.TAS.RequestType.IsExternal:
+                            break;
+                        default:
+                            //modified to allow filtering element we need
+                            returnObjs.AddRange(Read(aFilterQuery));
+                            break;
+                    }
+
+                }
+                CloseTsdDocument();
+                return returnObjs;
+
+            }
+            catch (Exception ex)
+            {
+                BH.Engine.Reflection.Compute.RecordError(ex.ToString());
+                CloseTsdDocument();
+                return null;
+            }
+            finally
+            {
+                CloseTsdDocument();
+            }
+        }
     }
 }

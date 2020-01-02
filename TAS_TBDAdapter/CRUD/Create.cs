@@ -38,6 +38,8 @@ using System.ComponentModel;
 using BHP = BH.oM.Environment.Fragments;
 using BH.Engine.TAS;
 
+using BH.oM.Adapter;
+
 namespace BH.Adapter.TAS
 {
     public partial class TasTBDAdapter : BHoMAdapter
@@ -46,7 +48,7 @@ namespace BH.Adapter.TAS
         /**** Protected Methods                         ****/
         /***************************************************/
 
-        protected override bool Create<T>(IEnumerable<T> objects)
+        protected override bool ICreate<T>(IEnumerable<T> objects, ActionConfig actionConfig = null)
         {
             bool success = true;
 
