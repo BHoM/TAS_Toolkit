@@ -23,56 +23,34 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BH.oM.Base;
-using BHE = BH.oM.Environment;
-using BHM = BH.oM.Environment.MaterialFragments;
-using BHG = BH.oM.Geometry;
-using System.Runtime.InteropServices;
-using BH.Engine.Environment;
 using System.Text;
 using System.Threading.Tasks;
-using BHA = BH.oM.Architecture;
-using BH.oM.Reflection.Attributes;
-using System.ComponentModel;
-using BHP = BH.oM.Environment.Fragments;
-using BH.Engine.TAS;
+
+using BH.oM.Data.Requests;
+using BH.oM.Adapter;
+using BH.oM.Base;
 
 namespace BH.Adapter.TAS
 {
     public partial class TasT3DAdapter : BHoMAdapter
     {
-        /***************************************************/
-        /**** Protected Methods                         ****/
-        /***************************************************/
-
-        protected override bool ICreate<T>(IEnumerable<T> objects)
+        public override List<object> Push(IEnumerable<object> objects = null, string tag = "", PushType pushType = PushType.AdapterDefault, ActionConfig actionConfig = null)
         {
+            // If unset, set the pushType to AdapterSettings' value (base AdapterSettings default is FullCRUD).
+            if (pushType == PushType.AdapterDefault)
+                pushType = m_AdapterSettings.DefaultPushType;
+
+            IEnumerable<IBHoMObject> objectsToPush = ProcessObjectsForPush(objects, actionConfig); // Note: default Push only supports IBHoMObjects.
+
+            GetT3DDocument();
+
             bool success = true;
 
-            if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
-            {
-                //success = CreateCollection(objects as dynamic);
-            }
+            t3dDocument.ImportGBXML(GBXMLFile, 1, (FixNormals ? 1 : 0), 1); //Overwrite existing file (first '1') and create zones from spaces (second '1')
+            RemoveUnusedZones();
 
-            return success;
-        }
-
-        /***************************************************/
-
-        public static void ClearCOMObject(object Object)
-        {
-            if (Object == null) return;
-            int intrefcount = 0;
-            do
-            {
-                intrefcount = Marshal.FinalReleaseComObject(Object);
-            } while (intrefcount > 0);
-            Object = null;
+            CloseT3DDocument();
+            return success ? objects.ToList() : new List<object>();
         }
     }
-
-    /***************************************************/
-
 }
-
-

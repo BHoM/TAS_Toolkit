@@ -1,6 +1,6 @@
 ﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2018, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -43,48 +43,8 @@ namespace BH.Adapter.TAS
         /***************************************************/
         public TasT3DAdapter()
         {
-            BH.Engine.Reflection.Compute.RecordError("The TAS3D Adapter has not been fully implemented yet and cannot be used. For queries please contact the Building Environments Development team (https://github.com/BuroHappoldEngineering/BuildingEnvironments_Toolkit/wiki/Roles)");
+            BH.Engine.Reflection.Compute.RecordError("The TAS3D Adapter has not been fully implemented yet and cannot be used. For queries please contact the CODEOWNERS");
             throw new NotImplementedException();
-        }
-
-        //public TasT3DAdapter(string gbXMLFile = "", string t3dFile = "", string tbdFile = "", bool runShadingCalculations = false, bool fixNormals = false)
-        //{
-        //    //TBD application
-        //    //ProjectFolder = projectFolder;
-        //    GBXMLFile = gbXMLFile;
-        //    TBDFile = tbdFile;
-        //    T3DFile = t3dFile;
-        //    RunShadingCalculations = runShadingCalculations;
-        //    FixNormals = fixNormals;
-
-
-        //    AdapterId = BH.Engine.TAS.Convert.TBDAdapterID;
-        //    Config.MergeWithComparer = false;   //Set to true after comparers have been implemented
-        //    Config.ProcessInMemory = false;
-        //    Config.SeparateProperties = false;  //Set to true after Dependency types have been implemented
-        //    Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
-        //}
-
-        public override List<IObject> Push(IEnumerable<IObject> objects = null, string tag = "", Dictionary<string, object> config = null)
-        {
-            GetT3DDocument();
-
-            bool success = true;
-            /*MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
-            foreach (var typeGroup in objects.GroupBy(x => x.GetType()))
-            {
-                MethodInfo miListObject = miToList.MakeGenericMethod(new[] { typeGroup.Key });
-
-                var list = miListObject.Invoke(typeGroup, new object[] { typeGroup });
-
-                success &= Create(list as dynamic, false);
-            }*/
-
-            t3dDocument.ImportGBXML(GBXMLFile, 1, (FixNormals ? 1 : 0), 1); //Overwrite existing file (first '1') and create zones from spaces (second '1')
-            RemoveUnusedZones();
-
-            CloseT3DDocument();
-            return success ? objects.ToList() : new List<IObject>();
         }
 
         private void RemoveUnusedZones()
@@ -100,49 +60,6 @@ namespace BH.Adapter.TAS
             }
 
             zones.ForEach(x => x.Delete());
-        }
-
-        public override IEnumerable<object> Pull(IRequest request, Dictionary<string, object> config = null)
-        {
-            try
-            {
-                List<IBHoMObject> returnObjs = new List<IBHoMObject>();
-
-                FilterRequest aFilterQuery = request as FilterRequest;
-                GetT3DDocument(); //Open the TBD Document for pulling data from
-
-                if (t3dDocument != null)
-                {
-                    switch (BH.Engine.TAS.Query.RequestType(aFilterQuery))
-                    {
-                        case BH.oM.TAS.RequestType.IsExternal:
-                            //returnObjs.AddRange(ReadExternalBuildingElements());
-                            break;
-                        default:
-                            //modified to allow filtering element we need
-                            returnObjs.AddRange(Read(aFilterQuery));
-                            break;
-                    }
-
-
-                }
-
-                CloseT3DDocument();
-                return returnObjs;
-
-
-            }
-            catch (Exception e)
-            {
-                BH.Engine.Reflection.Compute.RecordError(e.ToString());
-                BH.Engine.Reflection.Compute.RecordError(e.ToString());
-                CloseT3DDocument();
-                return null;
-            }
-            finally
-            {
-                CloseT3DDocument();
-            }
         }
 
         /***************************************************/

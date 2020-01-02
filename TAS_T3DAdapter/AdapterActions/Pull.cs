@@ -23,56 +23,54 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BH.oM.Base;
-using BHE = BH.oM.Environment;
-using BHM = BH.oM.Environment.MaterialFragments;
-using BHG = BH.oM.Geometry;
-using System.Runtime.InteropServices;
-using BH.Engine.Environment;
 using System.Text;
 using System.Threading.Tasks;
-using BHA = BH.oM.Architecture;
-using BH.oM.Reflection.Attributes;
-using System.ComponentModel;
-using BHP = BH.oM.Environment.Fragments;
-using BH.Engine.TAS;
+
+using BH.oM.Data.Requests;
+using BH.oM.Adapter;
+using BH.oM.Base;
 
 namespace BH.Adapter.TAS
 {
     public partial class TasT3DAdapter : BHoMAdapter
     {
-        /***************************************************/
-        /**** Protected Methods                         ****/
-        /***************************************************/
-
-        protected override bool ICreate<T>(IEnumerable<T> objects)
+        public override IEnumerable<object> Pull(IRequest request, PullType pullType = PullType.AdapterDefault, ActionConfig actionConfig = null)
         {
-            bool success = true;
-
-            if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
+            try
             {
-                //success = CreateCollection(objects as dynamic);
+                List<IBHoMObject> returnObjs = new List<IBHoMObject>();
+
+                FilterRequest aFilterQuery = request as FilterRequest;
+                GetT3DDocument(); //Open the TBD Document for pulling data from
+
+                if (t3dDocument != null)
+                {
+                    switch (BH.Engine.TAS.Query.RequestType(aFilterQuery))
+                    {
+                        case BH.oM.TAS.RequestType.IsExternal:
+                            //returnObjs.AddRange(ReadExternalBuildingElements());
+                            break;
+                        default:
+                            //modified to allow filtering element we need
+                            returnObjs.AddRange(Read(aFilterQuery));
+                            break;
+                    }
+                }
+
+                CloseT3DDocument();
+                return returnObjs;
             }
-
-            return success;
-        }
-
-        /***************************************************/
-
-        public static void ClearCOMObject(object Object)
-        {
-            if (Object == null) return;
-            int intrefcount = 0;
-            do
+            catch (Exception e)
             {
-                intrefcount = Marshal.FinalReleaseComObject(Object);
-            } while (intrefcount > 0);
-            Object = null;
+                BH.Engine.Reflection.Compute.RecordError(e.ToString());
+                CloseT3DDocument();
+                return null;
+            }
+            finally
+            {
+                CloseT3DDocument();
+                return null;
+            }
         }
     }
-
-    /***************************************************/
-
 }
-
-
