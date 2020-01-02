@@ -1,6 +1,6 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2018, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -26,9 +26,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using BH.oM.Data.Requests;
+using BH.oM.Adapter;
+using BH.oM.Base;
+
+using System.Reflection;
+
 namespace BH.Adapter.TAS
 {
-    public partial class TasTSDAdapter : BHoMAdapter
+    public partial class TasTBDAdapter : BHoMAdapter
     {
+        public override List<object> Push(IEnumerable<object> objects = null, string tag = "", PushType pushType = PushType.AdapterDefault, ActionConfig actionConfig = null)
+        {
+            // If unset, set the pushType to AdapterSettings' value (base AdapterSettings default is FullCRUD).
+            if (pushType == PushType.AdapterDefault)
+                pushType = m_AdapterSettings.DefaultPushType;
+
+            IEnumerable<IBHoMObject> objectsToPush = ProcessObjectsForPush(objects, actionConfig); // Note: default Push only supports IBHoMObjects.
+
+            GetTbdDocument();
+
+            bool success = true;
+            MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
+            foreach (var typeGroup in objects.GroupBy(x => x.GetType()))
+            {
+                MethodInfo miListObject = miToList.MakeGenericMethod(new[] { typeGroup.Key });
+
+                var list = miListObject.Invoke(typeGroup, new object[] { typeGroup });
+
+                success &= Create(list as dynamic);
+            }
+
+            CloseTbdDocument();
+            return success ? objects.ToList() : new List<object>();
+        }
     }
 }

@@ -1,6 +1,6 @@
 /*
  * This file is part of the Buildings and Habitats object Model (BHoM)
- * Copyright (c) 2015 - 2018, the respective contributors. All rights reserved.
+ * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
  * Each contributor holds copyright over their respective contributions.
  * The project versioning (Git) records all such contribution source information.
@@ -63,8 +63,7 @@ namespace BH.Adapter.TAS
 
             if (!CheckInputCombinations()) return;
 
-            AdapterId = BH.Engine.TAS.Convert.TSDAdapterID;
-            Config.UseAdapterId = false;        //Set to true when NextId method and id tagging has been implemented
+            AdapterIdName = BH.Engine.TAS.Convert.TSDAdapterID;
         }
 
         private bool CheckInputCombinations()
@@ -126,66 +125,6 @@ namespace BH.Adapter.TAS
             }
 
             return true;
-        }
-
-        public override List<IObject> Push(IEnumerable<IObject> objects, string tag = "", Dictionary<string, object> config = null)
-        {
-            /*GetTsdDocument();
-            bool success = true;
-            MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
-            foreach (var typeGroup in objects.GroupBy(x => x.GetType()))
-            {
-                MethodInfo miListObject = miToList.MakeGenericMethod(new[] { typeGroup.Key });
-
-                var list = miListObject.Invoke(typeGroup, new object[] { typeGroup });
-
-                success &= Create(list as dynamic);
-            }
-
-            CloseTsdDocument();
-            
-            return success ? objects.ToList() : new List<IObject>();*/
-
-            throw new NotImplementedException("Pushing to TAS TSD files has not been implemented yet");
-        }
-
-        public override IEnumerable<object> Pull(IRequest request, Dictionary<string, object> config = null)
-        {
-            try
-            {
-                List<IBHoMObject> returnObjs = new List<IBHoMObject>();
-
-                FilterRequest aFilterQuery = request as FilterRequest;
-                GetTsdDocumentReadOnly(); //Open the TSD Document for pulling data from
-
-                if (tsdDocument != null)
-                {
-                    switch (BH.Engine.TAS.Query.RequestType(aFilterQuery))
-                    {
-                        case BH.oM.TAS.RequestType.IsExternal:
-                            break;
-                        default:
-                            //modified to allow filtering element we need
-                            returnObjs.AddRange(Read(aFilterQuery));
-                            break;
-                    }
-
-                }
-                CloseTsdDocument();
-                return returnObjs;
-
-            }
-            catch (Exception ex)
-            {
-                BH.Engine.Reflection.Compute.RecordError(ex.ToString());
-                CloseTsdDocument();
-                return null;
-            }
-            finally
-            {
-                CloseTsdDocument();
-            }
-
         }
 
         /***************************************************/

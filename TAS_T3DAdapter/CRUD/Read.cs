@@ -33,6 +33,7 @@ using BH.oM.Environment.Fragments;
 using BH.Engine.TAS;
 using BHP = BH.oM.Environment.Fragments;
 
+using BH.oM.Adapter;
 
 namespace BH.Adapter.TAS
 {
@@ -42,7 +43,7 @@ namespace BH.Adapter.TAS
         /**** Public Methods                            ****/
         /***************************************************/
 
-        protected override IEnumerable<IBHoMObject> IRead(Type type, IList indices = null)
+        protected override IEnumerable<IBHoMObject> IRead(Type type, IList indices = null, ActionConfig actionConfig = null)
         {
             return null;
 

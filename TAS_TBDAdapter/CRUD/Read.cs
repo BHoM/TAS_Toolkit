@@ -37,6 +37,8 @@ using BHP = BH.oM.Environment.Fragments;
 using BH.oM.Physical.Constructions;
 using BH.oM.Physical.Materials;
 
+using BH.oM.Adapter;
+
 namespace BH.Adapter.TAS
 {
     public partial class TasTBDAdapter : BHoMAdapter
@@ -45,7 +47,7 @@ namespace BH.Adapter.TAS
         /**** Public Methods                            ****/
         /***************************************************/
 
-        protected override IEnumerable<IBHoMObject> Read(Type type, IList indices = null)
+        protected override IEnumerable<IBHoMObject> IRead(Type type, IList indices = null, ActionConfig actionConfig = null)
         {
 
             if (type == typeof(Building))

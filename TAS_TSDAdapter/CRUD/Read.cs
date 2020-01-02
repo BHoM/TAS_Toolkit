@@ -14,6 +14,8 @@ using TSD;
 using BH.Engine.TAS;
 using BH.oM.Environment.Results;
 
+using BH.oM.Adapter;
+
 namespace BH.Adapter.TAS
 {
     public partial class TasTSDAdapter : BHoMAdapter
@@ -22,7 +24,7 @@ namespace BH.Adapter.TAS
         /**** Public Methods                            ****/
         /***************************************************/
 
-        protected override IEnumerable<IBHoMObject> Read(Type type, IList indices = null)
+        protected override IEnumerable<IBHoMObject> IRead(Type type, IList indices = null, ActionConfig actionConfig = null)
         {
             return ReadResults();
         }

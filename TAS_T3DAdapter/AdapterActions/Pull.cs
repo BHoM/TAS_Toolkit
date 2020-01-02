@@ -69,7 +69,6 @@ namespace BH.Adapter.TAS
             finally
             {
                 CloseT3DDocument();
-                return null;
             }
         }
     }
