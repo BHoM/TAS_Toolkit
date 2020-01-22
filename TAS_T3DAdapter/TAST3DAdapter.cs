@@ -110,6 +110,17 @@ namespace BH.Adapter.TAS
             }
 
         }
+
+        public static void ClearCOMObject(object Object)
+        {
+            if (Object == null) return;
+            int intrefcount = 0;
+            do
+            {
+                intrefcount = Marshal.FinalReleaseComObject(Object);
+            } while (intrefcount > 0);
+            Object = null;
+        }
     }
 
     /***************************************************/
