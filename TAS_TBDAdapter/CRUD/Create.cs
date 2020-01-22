@@ -54,7 +54,7 @@ namespace BH.Adapter.TAS
 
             if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
             {
-                success = CreateCollection(objects as dynamic);
+                success = Create(objects as dynamic);
             }
 
             return success;
@@ -78,19 +78,14 @@ namespace BH.Adapter.TAS
         /**** Create methods                            ****/
         /***************************************************/
 
-        private bool CreateCollection(IEnumerable<IBHoMObject> objects)
+        private bool Create(IEnumerable<IBHoMObject> objects)
         {
-            bool success = true;
-            foreach (IBHoMObject obj in objects)
-            {
-                success &= Create(obj as dynamic);
-            }
-            return success;
+            return true;
         }
 
         /***************************************************/
 
-        private bool CreateCollection(IEnumerable<BHE.Elements.Space> spaces)
+        private bool Create(IEnumerable<BHE.Elements.Space> spaces)
         {
             foreach (BHE.Elements.Space space in spaces)
             {
@@ -102,15 +97,16 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private bool Create(BH.oM.Environment.Elements.Building building)
+        private bool Create(IEnumerable<BH.oM.Environment.Elements.Building> buildings)
         {
-            building.ToTAS(tbdDocument.Building);
+            foreach(BH.oM.Environment.Elements.Building building in buildings)
+                building.ToTAS(tbdDocument.Building);
             return true;
         }
 
         /***************************************************/
 
-        private bool CreateCollection(IEnumerable<BHE.Elements.Panel> buildingElements, TBD.Construction tbdConstruction=null)
+        private bool Create(IEnumerable<BHE.Elements.Panel> buildingElements, TBD.Construction tbdConstruction=null)
         {
 
             List<BHE.Elements.Panel> elements = buildingElements.ToList();
@@ -148,43 +144,38 @@ namespace BH.Adapter.TAS
       
         /***************************************************/
 
-        private bool Create(BH.oM.Physical.Constructions.Construction construction)
+        private bool Create(IEnumerable<BH.oM.Physical.Constructions.Construction> constructions)
         {
-            construction.ToTAS(tbdDocument.Building.AddConstruction(null));
+            foreach(BH.oM.Physical.Constructions.Construction construction in constructions)
+                construction.ToTAS(tbdDocument.Building.AddConstruction(null));
 
             return true;
         }
         
         /***************************************************/
 
-        private bool Create(BH.oM.Physical.Constructions.Layer layer, TBD.Construction tbdConstruction = null)
+        private bool Create(IEnumerable<BH.oM.Physical.Constructions.Layer> layers, TBD.Construction tbdConstruction = null)
         {
             if (tbdConstruction == null)
                 tbdConstruction = tbdDocument.Building.AddConstruction(null);
-            layer.ToTAS(tbdConstruction.AddMaterial());
+
+            foreach(BH.oM.Physical.Constructions.Layer layer in layers)
+                layer.ToTAS(tbdConstruction.AddMaterial());
             
             return true;
         }
 
         /***************************************************/
 
-        private bool Create(BHE.Elements.Panel buildingElementPanel)
+        private bool Create(IEnumerable<BHE.Gains.InternalCondition> internalConditions)
         {
-            throw new NotImplementedException();
+            foreach (BHE.Gains.InternalCondition internalCondition in internalConditions)
+                internalCondition.ToTAS(tbdDocument.Building.AddIC(null), tbdDocument.Building.GetCalendar());
+            return true;
         }
 
-        /***************************************************/
-
-        private bool Create(BHE.Elements.Opening buildingElementOpening)
+        private bool Create(IEnumerable<object> objects)
         {
-            throw new NotImplementedException();
-        }
-
-        /***************************************************/
-
-        private bool Create(BHE.Gains.InternalCondition internalCondition)
-        {
-            internalCondition.ToTAS(tbdDocument.Building.AddIC(null), tbdDocument.Building.GetCalendar());
             return true;
         }
 
