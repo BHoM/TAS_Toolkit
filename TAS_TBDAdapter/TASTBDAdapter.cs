@@ -56,6 +56,7 @@ namespace BH.Adapter.TAS
             _tasSettings = tasSettings;
 
             AdapterIdName = BH.Engine.TAS.Convert.TBDAdapterID;
+            m_AdapterSettings.DefaultPushType = oM.Adapter.PushType.CreateOnly;
         }
 
         /***************************************************/
