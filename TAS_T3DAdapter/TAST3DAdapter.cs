@@ -34,6 +34,8 @@ using BH.oM.TAS;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 
+using System.Runtime.InteropServices;
+
 namespace BH.Adapter.TAS
 {
     public partial class TasT3DAdapter : BHoMAdapter
