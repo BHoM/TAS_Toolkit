@@ -125,6 +125,8 @@ namespace BH.Engine.TAS
         {
             BHM.IEnvironmentMaterial envMaterial = material.Properties.Where(x => x.GetType() == typeof(BHM.IEnvironmentMaterial)).FirstOrDefault() as BHM.IEnvironmentMaterial;
 
+            if (envMaterial == null) return TBD.MaterialTypes.tcdOpaqueLayer;
+
             if (envMaterial.GetType() == typeof(BHM.GasMaterial))
                 return TBD.MaterialTypes.tcdGasLayer;
             else if (material.IsTransparent())
@@ -147,41 +149,44 @@ namespace BH.Engine.TAS
 
             BHM.IEnvironmentMaterial envMat = layer.Material.Properties.Where(x => x.GetType() == typeof(BHM.IEnvironmentMaterial)).FirstOrDefault() as BHM.IEnvironmentMaterial;
 
-            switch ((TBD.MaterialTypes)tbdMaterial.type)
+            if (envMat != null)
             {
-                case TBD.MaterialTypes.tcdGasLayer:
-                    tbdMaterial.convectionCoefficient = (float)((BHM.GasMaterial)envMat).ConvectionCoefficient;
-                    tbdMaterial.vapourDiffusionFactor = (float)(((BHM.GasMaterial)envMat).VapourResistivity / 5 / layer.Thickness); //Vapour Resistivity / 5GN·s/kg·m / material thickness
-                    tbdMaterial.description = ((BHM.GasMaterial)envMat).Description;
+                switch ((TBD.MaterialTypes)tbdMaterial.type)
+                {
+                    case TBD.MaterialTypes.tcdGasLayer:
+                        tbdMaterial.convectionCoefficient = (float)((BHM.GasMaterial)envMat).ConvectionCoefficient;
+                        tbdMaterial.vapourDiffusionFactor = (float)(((BHM.GasMaterial)envMat).VapourResistivity / 5 / layer.Thickness); //Vapour Resistivity / 5GN·s/kg·m / material thickness
+                        tbdMaterial.description = ((BHM.GasMaterial)envMat).Description;
 
-                    break;
-                case TBD.MaterialTypes.tcdOpaqueLayer: //Thickness not showing
-                    tbdMaterial.conductivity = (float)((BHM.SolidMaterial)envMat).Conductivity;
-                    tbdMaterial.specificHeat = (float)((BHM.SolidMaterial)envMat).SpecificHeat;
-                    tbdMaterial.density = (float)((BHM.SolidMaterial)envMat).Density;
-                    tbdMaterial.vapourDiffusionFactor = (float)(((BHM.SolidMaterial)envMat).VapourResistivity / 5 / layer.Thickness); //Vapour Resistivity / 5GN·s/kg·m / material thickness
-                    tbdMaterial.externalSolarReflectance = (float)((BHM.SolidMaterial)envMat).SolarReflectanceExternal;
-                    tbdMaterial.internalSolarReflectance = (float)((BHM.SolidMaterial)envMat).SolarReflectanceInternal;
-                    tbdMaterial.externalLightReflectance = (float)((BHM.SolidMaterial)envMat).LightReflectanceExternal;
-                    tbdMaterial.internalLightReflectance = (float)((BHM.SolidMaterial)envMat).LightReflectanceInternal;
-                    tbdMaterial.externalEmissivity = (float)((BHM.SolidMaterial)envMat).EmissivityExternal;
-                    tbdMaterial.internalEmissivity = (float)((BHM.SolidMaterial)envMat).EmissivityInternal;
-                    tbdMaterial.description = ((BHM.SolidMaterial)envMat).Description;
+                        break;
+                    case TBD.MaterialTypes.tcdOpaqueLayer: //Thickness not showing
+                        tbdMaterial.conductivity = (float)((BHM.SolidMaterial)envMat).Conductivity;
+                        tbdMaterial.specificHeat = (float)((BHM.SolidMaterial)envMat).SpecificHeat;
+                        tbdMaterial.density = (float)((BHM.SolidMaterial)envMat).Density;
+                        tbdMaterial.vapourDiffusionFactor = (float)(((BHM.SolidMaterial)envMat).VapourResistivity / 5 / layer.Thickness); //Vapour Resistivity / 5GN·s/kg·m / material thickness
+                        tbdMaterial.externalSolarReflectance = (float)((BHM.SolidMaterial)envMat).SolarReflectanceExternal;
+                        tbdMaterial.internalSolarReflectance = (float)((BHM.SolidMaterial)envMat).SolarReflectanceInternal;
+                        tbdMaterial.externalLightReflectance = (float)((BHM.SolidMaterial)envMat).LightReflectanceExternal;
+                        tbdMaterial.internalLightReflectance = (float)((BHM.SolidMaterial)envMat).LightReflectanceInternal;
+                        tbdMaterial.externalEmissivity = (float)((BHM.SolidMaterial)envMat).EmissivityExternal;
+                        tbdMaterial.internalEmissivity = (float)((BHM.SolidMaterial)envMat).EmissivityInternal;
+                        tbdMaterial.description = ((BHM.SolidMaterial)envMat).Description;
 
-                    break;
-                case TBD.MaterialTypes.tcdTransparentLayer:
-                    tbdMaterial.conductivity = (float)((BHM.SolidMaterial)envMat).Conductivity;
-                    tbdMaterial.vapourDiffusionFactor = (float)(((BHM.SolidMaterial)envMat).VapourResistivity / 5 / layer.Thickness); //Vapour Resistivity / 5GN·s/kg·m / material thickness
-                    tbdMaterial.solarTransmittance = (float)((BHM.SolidMaterial)envMat).SolarTransmittance;
-                    tbdMaterial.externalSolarReflectance = (float)((BHM.SolidMaterial)envMat).SolarReflectanceExternal;
-                    tbdMaterial.internalSolarReflectance = (float)((BHM.SolidMaterial)envMat).SolarReflectanceInternal;
-                    tbdMaterial.lightTransmittance = (float)((BHM.SolidMaterial)envMat).LightTransmittance;
-                    tbdMaterial.externalLightReflectance = (float)((BHM.SolidMaterial)envMat).LightReflectanceExternal;
-                    tbdMaterial.internalLightReflectance = (float)((BHM.SolidMaterial)envMat).LightReflectanceInternal;
-                    tbdMaterial.externalEmissivity = (float)((BHM.SolidMaterial)envMat).EmissivityExternal;
-                    tbdMaterial.internalEmissivity = (float)((BHM.SolidMaterial)envMat).EmissivityInternal;
-                    tbdMaterial.description = ((BHM.SolidMaterial)envMat).Description;
-                    break;
+                        break;
+                    case TBD.MaterialTypes.tcdTransparentLayer:
+                        tbdMaterial.conductivity = (float)((BHM.SolidMaterial)envMat).Conductivity;
+                        tbdMaterial.vapourDiffusionFactor = (float)(((BHM.SolidMaterial)envMat).VapourResistivity / 5 / layer.Thickness); //Vapour Resistivity / 5GN·s/kg·m / material thickness
+                        tbdMaterial.solarTransmittance = (float)((BHM.SolidMaterial)envMat).SolarTransmittance;
+                        tbdMaterial.externalSolarReflectance = (float)((BHM.SolidMaterial)envMat).SolarReflectanceExternal;
+                        tbdMaterial.internalSolarReflectance = (float)((BHM.SolidMaterial)envMat).SolarReflectanceInternal;
+                        tbdMaterial.lightTransmittance = (float)((BHM.SolidMaterial)envMat).LightTransmittance;
+                        tbdMaterial.externalLightReflectance = (float)((BHM.SolidMaterial)envMat).LightReflectanceExternal;
+                        tbdMaterial.internalLightReflectance = (float)((BHM.SolidMaterial)envMat).LightReflectanceInternal;
+                        tbdMaterial.externalEmissivity = (float)((BHM.SolidMaterial)envMat).EmissivityExternal;
+                        tbdMaterial.internalEmissivity = (float)((BHM.SolidMaterial)envMat).EmissivityInternal;
+                        tbdMaterial.description = ((BHM.SolidMaterial)envMat).Description;
+                        break;
+                }
             }
             return tbdMaterial;
         }

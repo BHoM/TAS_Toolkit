@@ -87,8 +87,8 @@ namespace BH.Engine.TAS
         public static TBD.Construction ToTAS(this BHPC.Construction construction, TBD.Construction tbdConstruction)
         {
             if (construction == null) return tbdConstruction;
-
-
+            if (construction.Layers == null) return tbdConstruction;
+            if (tbdConstruction == null) return tbdConstruction;
 
             tbdConstruction.name = construction.Name;
             //tbdConstruction.additionalHeatTransfer = (float)construction.AdditionalHeatTransfer();
@@ -126,15 +126,20 @@ namespace BH.Engine.TAS
             TBD.material m = null;
             while ((m = tbdConstruction.materials(mIndex)) != null)
             {
-                tbdConstruction.materialWidth[mIndex] = (float)(construction.Layers.Where(x => x.Material.Name == m.name).FirstOrDefault().Thickness);
+                if(construction.Layers.Where(x => x.Material.Name == m.name).FirstOrDefault() != null)
+                    tbdConstruction.materialWidth[mIndex] = (float)(construction.Layers.Where(x => x.Material.Name == m.name).FirstOrDefault().Thickness);
+
                 mIndex++;
             }
 
-            Dictionary<string, object> tasData = construction.CustomData;
-
-            if (tasData != null)
+            if (construction.CustomData != null)
             {
-                tbdConstruction.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
+                Dictionary<string, object> tasData = construction.CustomData;
+
+                if (tasData != null)
+                {
+                    tbdConstruction.description = (tasData.ContainsKey("Description") ? (tasData["Description"] != null ? tasData["Description"].ToString() : "") : "");
+                }
             }
 
             return tbdConstruction;
