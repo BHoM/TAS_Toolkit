@@ -143,7 +143,6 @@
     <Compile Include="CRUD\Create.cs" />
     <Compile Include="CRUD\Read.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Types\DependencyTypes.cs" />
     <Compile Include="TASTBDAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
