@@ -61,7 +61,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\RequestType.cs" />
     <Compile Include="Enums\ResultType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TASSettings.cs" />

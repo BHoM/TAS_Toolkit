@@ -89,7 +89,7 @@ namespace BH.Adapter.TAS
         {
             foreach (BHE.Elements.Space space in spaces)
             {
-                space.ToTAS(tbdDocument.Building.AddZone());
+                space.ToTAS(m_tbdDocument.Building.AddZone());
             }
             return true;
 
@@ -100,7 +100,7 @@ namespace BH.Adapter.TAS
         private bool Create(IEnumerable<BH.oM.Environment.Elements.Building> buildings)
         {
             foreach(BH.oM.Environment.Elements.Building building in buildings)
-                building.ToTAS(tbdDocument.Building);
+                building.ToTAS(m_tbdDocument.Building);
             return true;
         }
 
@@ -114,7 +114,7 @@ namespace BH.Adapter.TAS
             Dictionary<string, TBD.Construction> tbdConstructions = new Dictionary<string, TBD.Construction>();
             foreach (BH.oM.Physical.Constructions.Construction construction in elements.UniqueConstructions())
             {
-                tbdConstruction = tbdDocument.Building.AddConstruction(null);
+                tbdConstruction = m_tbdDocument.Building.AddConstruction(null);
                 tbdConstructions.Add(construction.UniqueConstructionName(), construction.ToTAS(tbdConstruction));
             }
 
@@ -126,7 +126,7 @@ namespace BH.Adapter.TAS
                     tasCon = tbdDocument.Building.AddConstruction(null);
                 else
                     tasCon = tbdConstructions.Where(x => x.Key == elementProperties.Construction.UniqueConstructionName()).FirstOrDefault().Value;*/
-                buildingElement.ToTAS(tbdDocument.Building.AddBuildingElement(), tasCon);
+                buildingElement.ToTAS(m_tbdDocument.Building.AddBuildingElement(), tasCon);
 
                 foreach(BHE.Elements.Opening opening in buildingElement.Openings)
                 {
@@ -136,7 +136,7 @@ namespace BH.Adapter.TAS
                     else
                         tasCon = tbdConstructions.Where(x => x.Key == elementProperties.Construction.UniqueConstructionName()).FirstOrDefault().Value;
                         */
-                    opening.ToTAS(tbdDocument.Building.AddBuildingElement(), tasCon);
+                    opening.ToTAS(m_tbdDocument.Building.AddBuildingElement(), tasCon);
                 }
             }
             return true;
@@ -147,7 +147,7 @@ namespace BH.Adapter.TAS
         private bool Create(IEnumerable<BH.oM.Physical.Constructions.Construction> constructions)
         {
             foreach(BH.oM.Physical.Constructions.Construction construction in constructions)
-                construction.ToTAS(tbdDocument.Building.AddConstruction(null));
+                construction.ToTAS(m_tbdDocument.Building.AddConstruction(null));
 
             return true;
         }
@@ -157,7 +157,7 @@ namespace BH.Adapter.TAS
         private bool Create(IEnumerable<BH.oM.Physical.Constructions.Layer> layers, TBD.Construction tbdConstruction = null)
         {
             if (tbdConstruction == null)
-                tbdConstruction = tbdDocument.Building.AddConstruction(null);
+                tbdConstruction = m_tbdDocument.Building.AddConstruction(null);
 
             foreach(BH.oM.Physical.Constructions.Layer layer in layers)
                 layer.ToTAS(tbdConstruction.AddMaterial());
@@ -170,7 +170,7 @@ namespace BH.Adapter.TAS
         private bool Create(IEnumerable<BHE.Gains.InternalCondition> internalConditions)
         {
             foreach (BHE.Gains.InternalCondition internalCondition in internalConditions)
-                internalCondition.ToTAS(tbdDocument.Building.AddIC(null), tbdDocument.Building.GetCalendar());
+                internalCondition.ToTAS(m_tbdDocument.Building.AddIC(null), m_tbdDocument.Building.GetCalendar());
             return true;
         }
 

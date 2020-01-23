@@ -135,7 +135,6 @@
     <Compile Include="Convert\ToList.cs" />
     <Compile Include="Create\TASSettings.cs" />
     <Compile Include="Create\SetHour.cs" />
-    <Compile Include="Create\IsExternalFilterRequest.cs" />
     <Compile Include="Create\ToTBD\BHoMObject.cs" />
     <Compile Include="Create\ToTBD\Panel.cs" />
     <Compile Include="Modify\FixBuildingElementType.cs" />
@@ -158,7 +157,6 @@
     <Compile Include="Query\IsExternal.cs" />
     <Compile Include="Query\MinElevation.cs" />
     <Compile Include="Query\PlanPerimeter.cs" />
-    <Compile Include="Query\RequestType.cs" />
     <Compile Include="Query\GetNumberOfPeople.cs" />
     <Compile Include="Query\SurfaceType.cs" />
     <Compile Include="Query\ThermostatLimits.cs" />
