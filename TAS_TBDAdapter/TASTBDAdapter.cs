@@ -63,7 +63,7 @@ namespace BH.Adapter.TAS
         /**** Private Fields                            ****/
         /***************************************************/
 
-        private TBD.TBDDocument tbdDocument = null;
+        private TBD.TBDDocument m_tbdDocument = null;
         private string tbdFilePath = null;
         private TASSettings _tasSettings { get; set; } = null;
 
@@ -73,47 +73,47 @@ namespace BH.Adapter.TAS
 
         private TBD.TBDDocument GetTbdDocument()
         {
-            tbdDocument = new TBD.TBDDocument();
+            m_tbdDocument = new TBD.TBDDocument();
             if (!String.IsNullOrEmpty(tbdFilePath) && System.IO.File.Exists(tbdFilePath))
-                tbdDocument.open(tbdFilePath);
+                m_tbdDocument.open(tbdFilePath);
 
             else if (!String.IsNullOrEmpty(tbdFilePath))
-                tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
+                m_tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
 
             else
                 BH.Engine.Reflection.Compute.RecordError("The TBD file does not exist");
-            return tbdDocument;
+            return m_tbdDocument;
         }
 
         private TBD.TBDDocument GetTbdDocumentReadOnly()
         {
-            tbdDocument = new TBD.TBDDocument();
+            m_tbdDocument = new TBD.TBDDocument();
             if (!String.IsNullOrEmpty(tbdFilePath) && System.IO.File.Exists(tbdFilePath))
-                tbdDocument.openReadOnly(tbdFilePath);
+                m_tbdDocument.openReadOnly(tbdFilePath);
 
             else if (!String.IsNullOrEmpty(tbdFilePath))
-                tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
+                m_tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
 
             else
                 BH.Engine.Reflection.Compute.RecordError("The TBD file does not exist");
-            return tbdDocument;
+            return m_tbdDocument;
         }
 
         // we close and save TBD
         private void CloseTbdDocument(bool save = true)
         {
-            if (tbdDocument != null)
+            if (m_tbdDocument != null)
             {
                 if (save == true)
-                    tbdDocument.save();
+                    m_tbdDocument.save();
 
-                tbdDocument.close();
+                m_tbdDocument.close();
 
-                if (tbdDocument != null)
+                if (m_tbdDocument != null)
                 {
                     // issue with closing files and not closing 
-                    ClearCOMObject(tbdDocument);
-                    tbdDocument = null;
+                    ClearCOMObject(m_tbdDocument);
+                    m_tbdDocument = null;
                 }
 
             }

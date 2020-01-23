@@ -38,26 +38,13 @@ namespace BH.Adapter.TAS
         {
             try
             {
-                List<IBHoMObject> returnObjs = new List<IBHoMObject>();
+                GetTsdDocument(); //Open the TBD Document for pulling data from
 
-                FilterRequest aFilterQuery = request as FilterRequest;
-                GetTsdDocumentReadOnly(); //Open the TSD Document for pulling data from
+                IEnumerable<object> res = base.Pull(request, pullType, actionConfig);
 
-                if (tsdDocument != null)
-                {
-                    switch (BH.Engine.TAS.Query.RequestType(aFilterQuery))
-                    {
-                        case BH.oM.TAS.RequestType.IsExternal:
-                            break;
-                        default:
-                            //modified to allow filtering element we need
-                            returnObjs.AddRange(Read(aFilterQuery));
-                            break;
-                    }
+                CloseTsdDocument(false);
 
-                }
-                CloseTsdDocument();
-                return returnObjs;
+                return res;
 
             }
             catch (Exception ex)

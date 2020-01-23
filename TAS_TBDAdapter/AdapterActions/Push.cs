@@ -38,27 +38,13 @@ namespace BH.Adapter.TAS
     {
         public override List<object> Push(IEnumerable<object> objects = null, string tag = "", PushType pushType = PushType.AdapterDefault, ActionConfig actionConfig = null)
         {
-            // If unset, set the pushType to AdapterSettings' value (base AdapterSettings default is FullCRUD).	
-            if (pushType == PushType.AdapterDefault)
-                pushType = m_AdapterSettings.DefaultPushType;
-
-            IEnumerable<IBHoMObject> objectsToPush = ProcessObjectsForPush(objects, actionConfig); // Note: default Push only supports IBHoMObjects.	
-
             GetTbdDocument();
 
-            bool success = true;
-            MethodInfo miToList = typeof(Enumerable).GetMethod("Cast");
-            foreach (var typeGroup in objects.GroupBy(x => x.GetType()))
-            {
-                MethodInfo miListObject = miToList.MakeGenericMethod(new[] { typeGroup.Key });
-
-                var list = miListObject.Invoke(typeGroup, new object[] { typeGroup });
-
-                success &= Create(list as dynamic);
-            }
+            List<object> objs = base.Push(objects, tag, pushType, actionConfig);
 
             CloseTbdDocument();
-            return success ? objects.ToList() : new List<object>();
+
+            return objs;
         }
     }
 }
