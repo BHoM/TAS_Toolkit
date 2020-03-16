@@ -133,7 +133,6 @@
     <Compile Include="Convert\Environment_oM\Results\SimulationResultBuilding.cs" />
     <Compile Include="Convert\Environment_oM\Space.cs" />
     <Compile Include="Convert\Environment_oM\Thermostat.cs" />
-    <Compile Include="Convert\FilterRequest.cs" />
     <Compile Include="Convert\Geometry_oM\Point.cs" />
     <Compile Include="Convert\Geometry_oM\Polyline.cs" />
     <Compile Include="Convert\ToList.cs" />

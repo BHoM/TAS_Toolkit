@@ -31,7 +31,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Create
     {
-        public static int Hour(int hour)
+        public static int SetHour(int hour)
         {
             return hour;
             
