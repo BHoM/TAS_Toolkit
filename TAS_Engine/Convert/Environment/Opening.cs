@@ -43,7 +43,7 @@ namespace BH.Engine.TAS
         [Description("Gets a BHoM Environmental Opening from a TAS TBD Opening Polygon")]
         [Input("tbdPolygon", "tbdPolygon that represents an opening")]
         [Output("BHoM Environmental Opening")]
-        public static BHE.Opening ToBHoMOpening(this TBD.Polygon tbdPolygon, TBD.RoomSurface roomSurface, TASSettings tasSettings)
+        public static BHE.Opening FromTASOpening(this TBD.Polygon tbdPolygon, TBD.RoomSurface roomSurface, TASSettings tasSettings)
         {
             BHE.Opening opening = new oM.Environment.Elements.Opening();
             //roomSurface.parentSurface
@@ -61,8 +61,8 @@ namespace BH.Engine.TAS
                 opening.Fragments.Add(environmentContextProperties);
 
                 opening.Name = environmentContextProperties.TypeName;
-                opening.Type = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoMOpeningType().FixBuildingElementType(tbdElement, tbdSurface);
-                opening.OpeningConstruction = tbdElement.GetConstruction().ToBHoM();
+                opening.Type = ((TBD.BuildingElementType)tbdElement.BEType).FromTASOpeningType().FixBuildingElementType(tbdElement, tbdSurface);
+                opening.OpeningConstruction = tbdElement.GetConstruction().FromTAS();
 
                 //BuildingElementAnalyticalProperties
                 BH.oM.Environment.Fragments.PanelAnalyticalFragment buildingElementAnalyticalProperties = new oM.Environment.Fragments.PanelAnalyticalFragment();
@@ -76,9 +76,9 @@ namespace BH.Engine.TAS
                 opening.Fragments.Add(buildingElementAnalyticalProperties);
 
                 if (tbdPolygon != null)
-                    opening.Edges = tbdPolygon.ToBHoM().CleanPolyline(tasSettings.AngleTolerance, tasSettings.MinimumSegmentLength).ToEdges();
+                    opening.Edges = tbdPolygon.FromTAS().CleanPolyline(tasSettings.AngleTolerance, tasSettings.MinimumSegmentLength).ToEdges();
                 else
-                    opening.Edges = roomSurface.GetPerimeter().ToBHoM().CleanPolyline(tasSettings.AngleTolerance, tasSettings.MinimumSegmentLength).ToEdges();
+                    opening.Edges = roomSurface.GetPerimeter().FromTAS().CleanPolyline(tasSettings.AngleTolerance, tasSettings.MinimumSegmentLength).ToEdges();
 
                 if (roomSurface.parentSurface != null && roomSurface.parentSurface.zoneSurface != null && roomSurface.parentSurface.zoneSurface.buildingElement != null)
                 {

@@ -45,7 +45,7 @@ namespace BH.Engine.TAS
         [Description("Gets a BHoM Environmental Construction from a TAS TBD Construction")]
         [Input("tbdConstruction", "TAS TBD Construction")]
         [Output("BHoM Environmental Construction")]
-        public static BHPC.Construction ToBHoM(this TBD.Construction tbdConstruction)
+        public static BHPC.Construction FromTAS(this TBD.Construction tbdConstruction)
         {
             if (tbdConstruction == null) return null;
 
@@ -57,7 +57,7 @@ namespace BH.Engine.TAS
             double thickness = 0;
             while ((tbdMaterial = tbdConstruction.materials(mIndex)) != null)
             {
-                construction.Layers.Add(tbdMaterial.ToBHoM(tbdConstruction));
+                construction.Layers.Add(tbdMaterial.FromTAS(tbdConstruction));
                 (construction.Layers.Last()).Thickness = (tbdConstruction.materialWidth[mIndex] == 0 ? (construction.Layers.Last()).Thickness : tbdConstruction.materialWidth[mIndex]); // temp solution set material thickness as value from construction.material.thickness
                 thickness += construction.Layers.Last().Thickness;
                 mIndex++;

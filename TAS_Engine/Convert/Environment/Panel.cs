@@ -48,7 +48,7 @@ namespace BH.Engine.TAS
         [Input("tbdElement", "TAS TBD BuildingElement")]
         [Input("tbdSurface", "TAS TBD ZoneSurface")]
         [Output("BHoM Environmental BuildingElement")]
-        public static BHE.Panel ToBHoM(this TBD.buildingElement tbdElement, TBD.zoneSurface tbdSurface, TASSettings tasSettings)
+        public static BHE.Panel FromTAS(this TBD.buildingElement tbdElement, TBD.zoneSurface tbdSurface, TASSettings tasSettings)
         {
             BHE.Panel element = new BHE.Panel();
 
@@ -59,12 +59,12 @@ namespace BH.Engine.TAS
             if(tbdElementType.ElementIsOpening())
             {
                 //Find out what the fix was - frame or pane?
-                BHE.OpeningType fixedOpeningType = tbdElementType.ToBHoMOpeningType().FixBuildingElementType(tbdElement, tbdSurface);
+                BHE.OpeningType fixedOpeningType = tbdElementType.FromTASOpeningType().FixBuildingElementType(tbdElement, tbdSurface);
                 element.CustomData.Add("OpeningIsFrame", fixedOpeningType.OpeningIsFrame());
             }
 
-            BHE.PanelType elementType = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoM();
-            BHPC.Construction elementConstruction = tbdElement.GetConstruction().ToBHoM();
+            BHE.PanelType elementType = ((TBD.BuildingElementType)tbdElement.BEType).FromTAS();
+            BHPC.Construction elementConstruction = tbdElement.GetConstruction().FromTAS();
 
             element.Name = tbdElement.name;
             element.Type = elementType;
@@ -111,14 +111,14 @@ namespace BH.Engine.TAS
                 TBD.Perimeter tbdPerimeter = roomSurface.GetPerimeter();
                 if (tbdPerimeter != null)
                 {
-                    panelCurve.Add(tbdPerimeter.ToBHoM());
+                    panelCurve.Add(tbdPerimeter.FromTAS());
 
                     //Add openings
                     int openingIndex = 0;
                     TBD.Polygon openingPolygon = null;
                     while ((openingPolygon = tbdPerimeter.GetHole(openingIndex)) != null)
                     {
-                        element.Openings.Add(openingPolygon.ToBHoMOpening(roomSurface, tasSettings));
+                        element.Openings.Add(openingPolygon.FromTASOpening(roomSurface, tasSettings));
                         openingIndex++;
                     }
                 }
@@ -157,7 +157,7 @@ namespace BH.Engine.TAS
 
             //AddingExtended Properties for a frame
 
-            BHE.OpeningType elementOpeningType = tbdElementType.ToBHoMOpeningType().FixBuildingElementType(tbdElement, tbdSurface);
+            BHE.OpeningType elementOpeningType = tbdElementType.FromTASOpeningType().FixBuildingElementType(tbdElement, tbdSurface);
             if (elementOpeningType == BHE.OpeningType.RooflightWithFrame || elementOpeningType == BHE.OpeningType.WindowWithFrame)
             {
                 if(element.Openings.FirstOrDefault() != null)

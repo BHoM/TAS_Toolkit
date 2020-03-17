@@ -46,7 +46,7 @@ namespace BH.Engine.TAS
         [Description("Gets a BHoM Environmental Material from a TAS TBD Material")]
         [Input("tbdMaterial", "TAS TBD Material")]
         [Output("BHoM Environmental Material")]
-        public static BHPMC.Layer ToBHoM(this TBD.material tbdMaterial, TBD.Construction tbdConstruction)
+        public static BHPMC.Layer FromTAS(this TBD.material tbdMaterial, TBD.Construction tbdConstruction)
         {
             if (tbdMaterial == null) return null;
 
@@ -55,7 +55,7 @@ namespace BH.Engine.TAS
 
             BHPM.Material material = new BHPM.Material();
             material.Name = tbdMaterial.name;
-            material.Properties.Add(tbdMaterial.ToBHoMProperties(tbdConstruction));
+            material.Properties.Add(tbdMaterial.FromTASProperties(tbdConstruction));
 
             layer.Material = material;
 
@@ -65,7 +65,7 @@ namespace BH.Engine.TAS
         [Description("Gets a BHoM Environmental MaterialProperties from a TAS TBD Material")]
         [Input("tbdMaterial", "TAS TBD Material")]
         [Output("BHoM Environmental MaterialProperties")]
-        public static BHM.IEnvironmentMaterial ToBHoMProperties(this TBD.material tbdMaterial, TBD.Construction tbdConstruction)
+        public static BHM.IEnvironmentMaterial FromTASProperties(this TBD.material tbdMaterial, TBD.Construction tbdConstruction)
         {
             if (tbdMaterial == null) return null;
 

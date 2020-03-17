@@ -41,7 +41,7 @@ namespace BH.Engine.TAS
         [Description("Gets a list of BHoM Architectural Levels from a TAS TBD Building")]
         [Input("tbdBuilding", "TAS TBD Building")]
         [Output("BHoM Architectural Levels")]
-        public static List<BHA.Level> ToBHoMLevels(this TBD.Building tbdBuilding)
+        public static List<BHA.Level> FromTASLevels(this TBD.Building tbdBuilding)
         {
             List<BHA.Level> levels = new List<BHA.Level>();
 
@@ -49,7 +49,7 @@ namespace BH.Engine.TAS
             TBD.BuildingStorey storey = null;
             while((storey = tbdBuilding.GetStorey(storeyIndex)) != null)
             {
-                levels.Add(storey.ToBHoM());
+                levels.Add(storey.FromTAS());
                 storeyIndex++;
             }
 
@@ -59,13 +59,13 @@ namespace BH.Engine.TAS
         [Description("Gets a BHoM Architectural Level from a TAS TBD Building Storey")]
         [Input("tbdStorey", "TAS TBD Building Storey")]
         [Output("BHoM Architectural Level")]
-        public static BHA.Level ToBHoM(this TBD.BuildingStorey tbdStorey)
+        public static BHA.Level FromTAS(this TBD.BuildingStorey tbdStorey)
         {
             BHA.Level level = new BHA.Level();
 
             if (tbdStorey.GetPerimeter(0) != null)
             {
-                BHG.Polyline levelCurve = tbdStorey.GetPerimeter(0).ToBHoM();
+                BHG.Polyline levelCurve = tbdStorey.GetPerimeter(0).FromTAS();
                 double elevation = levelCurve.ControlPoints.First().Z;
                 level.Name = "Level " + elevation.Round();
                 level.Elevation = elevation.Round();
@@ -77,7 +77,7 @@ namespace BH.Engine.TAS
         [Description("Gets a BHoM Architectural Level from a TAS T3D Floor")]
         [Input("tbdFloor", "TAS T3D Floor")]
         [Output("BHoM Architectural Level")]
-        public static BHA.Level ToBHoM(this TAS3D.Floor tbdFloor)
+        public static BHA.Level FromTAS(this TAS3D.Floor tbdFloor)
         {
             BHA.Level level = new BHA.Level();
 

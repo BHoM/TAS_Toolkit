@@ -41,7 +41,7 @@ namespace BH.Engine.TAS
         [Description("Gets BHoM SizingMethod from TAS TBD SizeMethod")]
         [Input("sizingType", "TAS TBD SizingType")]
         [Output("BHoM Environmental SizingType Type enum")]
-        public static BHP.SizingMethod ToBHoM(this TBD.SizingType sizingType)
+        public static BHP.SizingMethod FromTAS(this TBD.SizingType sizingType)
         {
             if (sizingType.Equals(0))
                 return BHP.SizingMethod.NoSizing;

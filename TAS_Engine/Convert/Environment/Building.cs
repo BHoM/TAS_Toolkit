@@ -41,7 +41,7 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental Building from a TAS TBD Building")]
         [Input("tbdBuilding", "TAS TBD Building")]
         [Output("BHoM Environmental Building")]
-        public static BHE.Building ToBHoM(this TBD.Building tbdBuilding)
+        public static BHE.Building FromTAS(this TBD.Building tbdBuilding)
         {
             BHE.Building building = new BHE.Building();
             building.Name = tbdBuilding.name;

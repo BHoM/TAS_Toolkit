@@ -41,15 +41,15 @@ namespace BH.Engine.TAS
         [Description("Gets a BHoM Geomtry Polyline TAS TBD Perimeter")]
         [Input("tbdPerimeter", "TAS TBD Perimeter")]
         [Output("BHoM Geometry Polyline")]
-        public static BHG.Polyline ToBHoM(this TBD.Perimeter tbdPerimeter)
+        public static BHG.Polyline FromTAS(this TBD.Perimeter tbdPerimeter)
         {
-            return tbdPerimeter.GetFace().ToBHoM();
+            return tbdPerimeter.GetFace().FromTAS();
         }
 
         [Description("Gets a BHoM Geomtry Polyline TAS TBD Polygon")]
         [Input("tbdPolygon", "TAS TBD Polygon")]
         [Output("BHoM Geometry Polyline")]
-        public static BHG.Polyline ToBHoM(this TBD.Polygon tbdPolygon)
+        public static BHG.Polyline FromTAS(this TBD.Polygon tbdPolygon)
         {
             List<BHG.Point> pnts = new List<BHG.Point>();
 
@@ -61,7 +61,7 @@ namespace BH.Engine.TAS
 
                 while ((tPt = tbdPolygon.GetPoint(pIndex)) != null)
                 {
-                    pnts.Add(tPt.ToBHoM());
+                    pnts.Add(tPt.FromTAS());
                     pIndex++;
                 }
 

@@ -41,10 +41,10 @@ namespace BH.Engine.TAS
         {
             List<BHEG.Profile> bHoMProfiles = new List<BHEG.Profile>();
 
-            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticUL).ToBHoM(BHEG.ProfileCategory.Thermostat));
-            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticUL).ToBHoM(BHEG.ProfileCategory.Thermostat));
-            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticHUL).ToBHoM(BHEG.ProfileCategory.Humidistat));
-            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticHLL).ToBHoM(BHEG.ProfileCategory.Humidistat));
+            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticUL).FromTAS(BHEG.ProfileCategory.Thermostat));
+            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticUL).FromTAS(BHEG.ProfileCategory.Thermostat));
+            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticHUL).FromTAS(BHEG.ProfileCategory.Humidistat));
+            bHoMProfiles.Add(tbdThermostat.GetProfile((int)TBD.Profiles.ticHLL).FromTAS(BHEG.ProfileCategory.Humidistat));
 
             return bHoMProfiles;
         }
@@ -55,14 +55,14 @@ namespace BH.Engine.TAS
         {
             List<BHEG.Profile> bHoMProfiles = new List<BHEG.Profile>();
 
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticI).ToBHoM(BHEG.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticV).ToBHoM(BHEG.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticLG).ToBHoM(BHEG.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticOSG).ToBHoM(BHEG.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticOLG).ToBHoM(BHEG.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticESG).ToBHoM(BHEG.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticELG).ToBHoM(BHEG.ProfileCategory.Gain));
-            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticCOG).ToBHoM(BHEG.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticI).FromTAS(BHEG.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticV).FromTAS(BHEG.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticLG).FromTAS(BHEG.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticOSG).FromTAS(BHEG.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticOLG).FromTAS(BHEG.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticESG).FromTAS(BHEG.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticELG).FromTAS(BHEG.ProfileCategory.Gain));
+            bHoMProfiles.Add(tbdInternalGain.GetProfile((int)TBD.Profiles.ticCOG).FromTAS(BHEG.ProfileCategory.Gain));
 
 
             return bHoMProfiles;

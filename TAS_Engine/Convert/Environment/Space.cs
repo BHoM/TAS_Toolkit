@@ -43,7 +43,7 @@ namespace BH.Engine.TAS
         [Description("Gets BHoM Space from TAS TBD Zone")]
         [Input("tbdSpace", "TAS TBD Zone")]
         [Output("BHoM Environmental Space object")]
-        public static BHE.Space ToBHoM(this TBD.zone tbdSpace, TBD.TBDDocument tbdDocument)
+        public static BHE.Space FromTAS(this TBD.zone tbdSpace, TBD.TBDDocument tbdDocument)
         {
             BHE.Space space = new BHE.Space();
             space.Name = tbdSpace.name + tbdSpace.number.ToString();
@@ -75,8 +75,8 @@ namespace BH.Engine.TAS
             spaceAnalyticalProperties.DaylightFactor = tbdSpace.daylightFactor;
             spaceAnalyticalProperties.FacadeLength = tbdSpace.facadeLength;
             spaceAnalyticalProperties.FixedConvectionCoefficient = tbdSpace.fixedConvectionCoefficient;
-            spaceAnalyticalProperties.SizeCoolingMethod =((TBD.SizingType)tbdSpace.sizeCooling).ToBHoM();
-            spaceAnalyticalProperties.SizeHeatingMethod = ((TBD.SizingType)tbdSpace.sizeCooling).ToBHoM();
+            spaceAnalyticalProperties.SizeCoolingMethod =((TBD.SizingType)tbdSpace.sizeCooling).FromTAS();
+            spaceAnalyticalProperties.SizeHeatingMethod = ((TBD.SizingType)tbdSpace.sizeCooling).FromTAS();
             space.Fragments.Add(spaceAnalyticalProperties);
 
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
