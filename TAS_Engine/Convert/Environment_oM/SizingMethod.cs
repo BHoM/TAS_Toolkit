@@ -39,7 +39,7 @@ namespace BH.Engine.TAS
     public static partial class Convert
     {
         [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.SizingMethod from TAS TBD SizeMethod")]
-        [Input("tbdSiziMethod", "TAS TBD SizingType")]
+        [Input("sizingType", "TAS TBD SizingType")]
         [Output("BHoM Environmental SizingType Type enum")]
         public static BHP.SizingMethod ToBHoM(this TBD.SizingType sizingType)
         {

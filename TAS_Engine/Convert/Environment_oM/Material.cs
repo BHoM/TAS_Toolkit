@@ -136,7 +136,7 @@ namespace BH.Engine.TAS
         }
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Material from a BHoM Environmental Material")]
-        [Input("material", "BHoM Environmental Material")]
+        [Input("tbdMaterial", "BHoM Environmental Material")]
         [Output("TAS TBD Material")]
         public static TBD.material ToTAS(this BHPMC.Layer layer, TBD.material tbdMaterial)
         {
