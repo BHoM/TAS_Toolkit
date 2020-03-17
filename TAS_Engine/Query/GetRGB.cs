@@ -43,11 +43,11 @@ namespace BH.Engine.TAS
         //}
 
         // From Tas to display in .net/dynamo
-        public static System.Drawing.Color GetRGB(uint UInt)
+        public static System.Drawing.Color GetRGB(uint uInt)
         {
-            byte b = (byte)(UInt >> 16);
-            byte g = (byte)(UInt >> 8);
-            byte r = (byte)(UInt >> 0);
+            byte b = (byte)(uInt >> 16);
+            byte g = (byte)(uInt >> 8);
+            byte r = (byte)(uInt >> 0);
 
             return System.Drawing.Color.FromArgb(r, b, g);
         }
