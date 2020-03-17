@@ -42,7 +42,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental Construction from a TAS TBD Construction")]
+        [Description("Gets a BHoM Environmental Construction from a TAS TBD Construction")]
         [Input("tbdConstruction", "TAS TBD Construction")]
         [Output("BHoM Environmental Construction")]
         public static BHPC.Construction ToBHoM(this TBD.Construction tbdConstruction)
@@ -73,7 +73,7 @@ namespace BH.Engine.TAS
             return construction;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Construction from a BHoM Environmental Construction")]
+        [Description("Gets a TAS TBD Construction from a BHoM Environmental Construction")]
         [Input("construction", "BHoM Environmental Construction")]
         [Output("TAS TBD Construction")]
         public static TBD.Construction ToTAS(this BHPC.IConstruction construction, TBD.Construction tbdConstruction)
@@ -81,7 +81,7 @@ namespace BH.Engine.TAS
             return ToTAS(construction as dynamic, tbdConstruction);
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Construction from a BHoM Environmental Construction")]
+        [Description("Gets a TAS TBD Construction from a BHoM Environmental Construction")]
         [Input("construction", "BHoM Environmental Construction")]
         [Output("TAS TBD Construction")]
         public static TBD.Construction ToTAS(this BHPC.Construction construction, TBD.Construction tbdConstruction)

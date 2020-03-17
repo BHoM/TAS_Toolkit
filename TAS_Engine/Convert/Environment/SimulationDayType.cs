@@ -37,7 +37,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.SimulationDayType from TAS TBD Day Type")]
+        [Description("Gets BH.oM.Environment.Elements.SimulationDayType from TAS TBD Day Type")]
         [Input("tbdDayType", "TAS TBD day type")]
         [Output("BHoM Environmental Simulation Day Type enum")]
         public static BHE.SimulationDayType ToBHoM(this TBD.dayType tbdDayType)

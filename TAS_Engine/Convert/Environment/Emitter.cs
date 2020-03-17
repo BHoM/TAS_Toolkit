@@ -37,7 +37,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.Emitter from TAS TBD Emitter")]
+        [Description("Gets BHoM Emitter from TAS TBD Emitter")]
         [Input("tbdEmitter", "TAS TBD Emitter")]
         [Output("BHoM Environmental Emitter object")]
         public static BHE.Emitter ToBHoM(this TBD.Emitter tbdEmitter)
@@ -60,7 +60,7 @@ namespace BH.Engine.TAS
             return emitter;            
         }
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.EmitterType from TAS TBD EmitterTypes")]
+        [Description("Gets BHoM EmitterType from TAS TBD EmitterTypes")]
         [Input("tbdEmitterType", "TAS TBD EmitterTypes object")]
         [Output("BHoM Environmental EmitterType enum value")]
         public static BHE.EmitterType ToBHoM(this TBD.EmitterTypes tbdEmitterType)
@@ -78,7 +78,7 @@ namespace BH.Engine.TAS
             }
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD Emitter from BH.oM.Environment.Elements.Emitter")]
+        [Description("Gets TAS TBD Emitter from BH.oM.Environment.Elements.Emitter")]
         [Input("emitter", "BHoM Environmental Emitter object")]
         [Output("TAS TBD Emitter")]
         public static TBD.Emitter ToTAS(this BHE.Emitter emitter, TBD.Emitter tbdEmitter)
@@ -104,7 +104,7 @@ namespace BH.Engine.TAS
             return tbdEmitter;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD EmitterTypes from BH.oM.Environment.Elements.EmitterType")]
+        [Description("Gets TAS TBD EmitterTypes from BHoM EmitterType")]
         [Input("emitterType", "BHoM Environmental EmitterType enum value")]
         [Output("TAS TBD EmitterType enum value")]
         public static TBD.EmitterTypes ToTAS(this BHE.EmitterType emitterType)

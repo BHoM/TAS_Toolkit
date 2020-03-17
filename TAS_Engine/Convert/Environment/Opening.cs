@@ -40,7 +40,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental Opening from a TAS TBD Opening Polygon")]
+        [Description("Gets a BHoM Environmental Opening from a TAS TBD Opening Polygon")]
         [Input("tbdPolygon", "tbdPolygon that represents an opening")]
         [Output("BHoM Environmental Opening")]
         public static BHE.Opening ToBHoMOpening(this TBD.Polygon tbdPolygon, TBD.RoomSurface roomSurface, TASSettings tasSettings)
@@ -90,7 +90,7 @@ namespace BH.Engine.TAS
             return opening;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Polygon from a BHoM Environmental Opening")]
+        [Description("Gets a TAS TBD Polygon from a BHoM Environmental Opening")]
         [Input("opening", "BHoM Environmental Opening")]
         [Output("TAS TBD Polygon")]
         public static TBD.Polygon ToTAS(this BHE.Opening opening, TBD.Polygon tbdPolygon)

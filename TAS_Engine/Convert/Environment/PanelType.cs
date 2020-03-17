@@ -39,7 +39,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental PanelType from a TAS TBD BuildingElementType")]
+        [Description("Gets a BHoM Environmental PanelType from a TAS TBD BuildingElementType")]
         [Input("tbdType", "TAS TBD BuildingElementType")]
         [Output("panelType", "BHoM Environmental PanelType")]
         public static BHE.PanelType ToBHoM(this TBD.BuildingElementType tbdType)
@@ -89,7 +89,7 @@ namespace BH.Engine.TAS
             }
         }
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental OpeningType from a TAS TBD BuildingElementType")]
+        [Description("Gets a BHoM Environmental OpeningType from a TAS TBD BuildingElementType")]
         [Input("tbdType", "TAS TBD BuildingElementType")]
         [Output("openingType", "BHoM Environmental OpeningType")]
         public static BHE.OpeningType ToBHoMOpeningType(this TBD.BuildingElementType tbdType)
@@ -122,7 +122,7 @@ namespace BH.Engine.TAS
             }
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElementType from a BHoM Environmental BuildingElementType")]
+        [Description("Gets a TAS TBD BuildingElementType from a BHoM Environmental BuildingElementType")]
         [Input("element", "BHoM Environmental BuildingElement")]
         [Input("spaces", "Collection of BHoM Environmental BuildingElements that define a set of spaces for the building")]
         [Output("TAS TBD BuildingElementType")]
@@ -148,7 +148,7 @@ namespace BH.Engine.TAS
             return tbdType;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets an int representing a TAS TBD BuildingElementType from a string defining the type")]
+        [Description("Gets an int representing a TAS TBD BuildingElementType from a string defining the type")]
         [Input("type", "String naming the type of building element")]
         [Output("int representation of a TAS TBD BuildingElementType")]
         public static int ToTBDSurfaceType(string type)
@@ -204,7 +204,7 @@ namespace BH.Engine.TAS
             }
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElementType from a BHoM Environmental BuildingElementType")]
+        [Description("Gets a TAS TBD BuildingElementType from a BHoM Environmental BuildingElementType")]
         [Input("bHoMBuildingElementTyp", "Set the BuildingElementType")]
         [Output("TAS TBD BuildingElementType")]
         public static TBD.BuildingElementType ToTAS(this BHE.PanelType bHoMBuildingElementType)
@@ -255,7 +255,7 @@ namespace BH.Engine.TAS
             }
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElementType from a BHoM Environmental OpeningType")]
+        [Description("Gets a TAS TBD BuildingElementType from a BHoM Environmental OpeningType")]
         [Input("bHoMBuildingElementType", "BHoM Environmental OpeningType")]
         [Output("TAS TBD BuildingElementType")]
         public static TBD.BuildingElementType ToTAS(this BHE.OpeningType bHoMBuildingElementType)

@@ -37,7 +37,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.InternalCondition from TAS TBD InternalCondition")]
+        [Description("Gets BHoM InternalCondition from TAS TBD InternalCondition")]
         [Input("tbdCondition", "TAS TBD InternalCondition")]
         [Output("BHoM Environmental InternalCondition object")]
         public static BHEG.InternalCondition ToBHoM(this TBD.InternalCondition tbdCondition)
@@ -69,7 +69,7 @@ namespace BH.Engine.TAS
             return internalCondition;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD InternalCondition from BH.oM.Environment.Elements.InternalCondition")]
+        [Description("Gets TAS TBD InternalCondition from BHoM InternalCondition")]
         [Input("internalCondition", "BHoM Environmental InternalCondition object")]
         [Output("TAS TBD InternalCondition")]
         public static TBD.InternalCondition ToTAS(this BHEG.InternalCondition internalCondition, TBD.InternalCondition tbdCondition, TBD.Calendar tbdCalendar)
