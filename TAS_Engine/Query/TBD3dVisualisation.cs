@@ -46,7 +46,7 @@ namespace BH.Engine.TAS
         [Input("tbdFile", "The full file path of the TBD file")]
         [Input("run", "Set to true when you want to run the component, default false")]
         [Output("success", "True if TBD file has been successfully run, false otherwise")]
-        public static bool TBD3dVisulisation(string tbdFile, bool run = false)
+        public static bool TBD3dVisualisation(string tbdFile, bool run = false)
         {
 
             if (!run) return false;

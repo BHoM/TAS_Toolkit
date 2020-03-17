@@ -30,7 +30,7 @@ using BHE = BH.oM.Environment.Elements;
 
 namespace BH.Engine.TAS
 {
-    public static partial class Query
+    public static partial class Modify
     {
         /***************************************************/
         /**** Public Methods                            ****/

@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
@@ -27,32 +27,27 @@ using System.Text;
 using System.Threading.Tasks;
 using BHG = BH.oM.Geometry;
 using BHEE = BH.oM.Environment.Elements;
+
 using BH.Engine.Environment;
-using BH.oM.Geometry;
 
 namespace BH.Engine.TAS
 {
     public static partial class Query
     {
-        /***************************************************/
-        public static bool ElementIsOpening(this TBD.BuildingElementType tbdType)
+        public static double LTValue(this TBD.buildingElement tbdBuildingElement, int decimals = 3)
         {
-            switch (tbdType)
+            TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
+            if (aConstruction == null)
+                return 0;
+
+            TBD.ConstructionTypes aConstructionTypes = aConstruction.type;
+            if (aConstructionTypes == TBD.ConstructionTypes.tcdTransparentConstruction)
             {
-                case TBD.BuildingElementType.ROOFLIGHT:
-                case TBD.BuildingElementType.DOORELEMENT:
-                case TBD.BuildingElementType.VEHICLEDOOR:
-                case TBD.BuildingElementType.GLAZING:
-                case TBD.BuildingElementType.CURTAINWALL:
-                case TBD.BuildingElementType.FRAMEELEMENT:
-                    return true;
-                case TBD.BuildingElementType.NOBETYPE:
-                case TBD.BuildingElementType.NULLELEMENT:
-                    return false;
-                default:
-                    return false;
+                object aObject = aConstruction.GetGlazingValues();
+                List<float> aValueList = Convert.ToFloatList(aObject);
+                return Math.Round(aValueList[0], decimals);
             }
+            return 0;
         }
     }
 }
-

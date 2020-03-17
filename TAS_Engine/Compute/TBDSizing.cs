@@ -47,7 +47,7 @@ namespace BH.Engine.TAS
         [Input("tbdFile", "The full file path of the TBD file")]
         [Input("run", "Set to true when you want to run the component, default false")]
         [Output("success", "True if sizing has been successfully run, false otherwise")]
-        public static bool TBDDesignDaySizing(string tbdFile, bool run = false)
+        public static bool TBDSizing(string tbdFile, bool run = false)
         {
 
             if (!run) return false;
@@ -83,7 +83,7 @@ namespace BH.Engine.TAS
         [Input("autoViewResults", "Set to true when you want to open results when simulation complete, default false")]
         [Input("run", "Set to true when you want to run the component, default false")]
         [Output("success", "True if simulation has been successfully run, false otherwise")]
-        public static bool TBDDynamicSimulation(string tbdFile, int startDay = 0, int endDay = 365, bool autoViewResults = false, bool run = false)
+        public static bool TBDSizing(string tbdFile, int startDay = 0, int endDay = 365, bool autoViewResults = false, bool run = false)
         {
 
             if (!run) return false;

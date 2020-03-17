@@ -61,7 +61,7 @@ namespace BH.Engine.TAS
                 opening.Fragments.Add(environmentContextProperties);
 
                 opening.Name = environmentContextProperties.TypeName;
-                opening.Type = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoMOpeningType().FixType(tbdElement, tbdSurface);
+                opening.Type = ((TBD.BuildingElementType)tbdElement.BEType).ToBHoMOpeningType().FixBuildingElementType(tbdElement, tbdSurface);
                 opening.OpeningConstruction = tbdElement.GetConstruction().ToBHoM();
 
                 //BuildingElementAnalyticalProperties

@@ -142,17 +142,28 @@
     <Compile Include="Create\ToTBD\Panel.cs" />
     <Compile Include="Modify\FixBuildingElementType.cs" />
     <Compile Include="Modify\Round.cs" />
-    <Compile Include="Modify\SetTags.cs" />
+    <Compile Include="Modify\SetTag.cs" />
     <Compile Include="Modify\UpdateCustomDataValue.cs" />
     <Compile Include="Objects\EqualityComparers\Comparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Building.cs" />
-    <Compile Include="Query\CleanString.cs" />
+    <Compile Include="Modify\CleanString.cs" />
+    <Compile Include="Query\LTValues.cs" />
+    <Compile Include="Query\GValue.cs" />
+    <Compile Include="Query\MultiplyByFactor.cs" />
+    <Compile Include="Query\GetInternalCondition.cs" />
+    <Compile Include="Query\GetHourlyValues.cs" />
+    <Compile Include="Query\HasDayType.cs" />
+    <Compile Include="Query\GetZones.cs" />
+    <Compile Include="Query\GetUnique.cs" />
+    <Compile Include="Query\GetDayTypeArray.cs" />
     <Compile Include="Query\ConstructionThickness.cs" />
     <Compile Include="Compute\TBDSizing.cs" />
+    <Compile Include="Query\OpeningIsFrame.cs" />
     <Compile Include="Query\TBD3dVisualisation.cs" />
     <Compile Include="Query\ElementIsOpening.cs" />
-    <Compile Include="Query\ListValues.cs" />
+    <Compile Include="Query\GetSingleValueLowerLimit.cs" />
+    <Compile Include="Query\UValue.cs" />
     <Compile Include="Query\Profiles.cs" />
     <Compile Include="Query\BuildingElement.cs" />
     <Compile Include="Query\GetSurfaceType.cs" />
@@ -162,7 +173,7 @@
     <Compile Include="Query\PlanPerimeter.cs" />
     <Compile Include="Query\GetNumberOfPeople.cs" />
     <Compile Include="Query\SurfaceType.cs" />
-    <Compile Include="Query\ThermostatLimits.cs" />
+    <Compile Include="Query\GetSingleValueUpperLimit.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="stdole">
