@@ -129,7 +129,7 @@ namespace BH.Engine.TAS
         }
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD InternalGain from BH.oM.Environment.Elements.InternalGain")]
-        [Input("internalGain", "BHoM Environmental InternalGain object")]
+        [Input("internalGains", "BHoM Environmental InternalGain object")]
         [Output("TAS TBD InternalGain")]
         //public static TBD.InternalGain ToTAS(this List<BHE.Gain> internalGains)
         public static TBD.InternalGain ToTAS(this List<BHE.IGain> internalGains, TBD.InternalGain tbdInternalGain)

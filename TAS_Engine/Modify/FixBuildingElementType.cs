@@ -36,7 +36,7 @@ namespace BH.Engine.TAS
         /***************************************************/
 
         [Description("Sets Tag for BHoMObject.")]
-        [Input("bHoMObject", "BHoMObject")]
+        [Input("bHoMBuildingElementType", "BHoMObject")]
         [Input("tag", "tag to be set")]
         [Output("IBHoMObject")]
         public static OpeningType FixType(this OpeningType bHoMBuildingElementType, TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)

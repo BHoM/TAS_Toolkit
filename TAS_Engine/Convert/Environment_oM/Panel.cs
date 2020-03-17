@@ -45,7 +45,7 @@ namespace BH.Engine.TAS
     public static partial class Convert
     {
         [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental BuildingElement from a TAS TBD BuildingElement and TAS TBD ZoneSurface")]
-        [Input("tbdBuildingElement", "TAS TBD BuildingElement")]
+        [Input("tbdElement", "TAS TBD BuildingElement")]
         [Input("tbdSurface", "TAS TBD ZoneSurface")]
         [Output("BHoM Environmental BuildingElement")]
         public static BHE.Panel ToBHoM(this TBD.buildingElement tbdElement, TBD.zoneSurface tbdSurface, TASSettings tasSettings)
@@ -198,7 +198,7 @@ namespace BH.Engine.TAS
         }
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD ZoneSurface from a BHoM Environmental BuildingElement")]
-        [Input("buildingElement", "BHoM Environmental BuildingElement")]
+        [Input("element", "BHoM Environmental BuildingElement")]
         [Output("TAS TBD ZoneSurface")]
         public static TBD.zoneSurfaceClass ToTASSurface(this BHE.Panel element)
         {

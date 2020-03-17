@@ -205,7 +205,7 @@ namespace BH.Engine.TAS
         }
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElementType from a BHoM Environmental BuildingElementType")]
-        [Input("type", "BHoM Environmental BuildingElementType")]
+        [Input("bHoMBuildingElementTyp", "Set the BuildingElementType")]
         [Output("TAS TBD BuildingElementType")]
         public static TBD.BuildingElementType ToTAS(this BHE.PanelType bHoMBuildingElementType)
         {
@@ -256,7 +256,7 @@ namespace BH.Engine.TAS
         }
 
         [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElementType from a BHoM Environmental OpeningType")]
-        [Input("type", "BHoM Environmental OpeningType")]
+        [Input("bHoMBuildingElementType", "BHoM Environmental OpeningType")]
         [Output("TAS TBD BuildingElementType")]
         public static TBD.BuildingElementType ToTAS(this BHE.OpeningType bHoMBuildingElementType)
         {

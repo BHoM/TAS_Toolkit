@@ -41,9 +41,9 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Geomtry Polyline TAS TBD Perimeter")]
         [Input("tbdPerimeter", "TAS TBD Perimeter")]
         [Output("BHoM Geometry Polyline")]
-        public static BHG.Polyline ToBHoM(this TBD.Perimeter tbdPerimter)
+        public static BHG.Polyline ToBHoM(this TBD.Perimeter tbdPerimeter)
         {
-            return tbdPerimter.GetFace().ToBHoM();
+            return tbdPerimeter.GetFace().ToBHoM();
         }
 
         [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Geomtry Polyline TAS TBD Polygon")]
