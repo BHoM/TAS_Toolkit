@@ -38,7 +38,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a list of BHoM Architectural Levels from a TAS TBD Building")]
+        [Description("Gets a list of BHoM Architectural Levels from a TAS TBD Building")]
         [Input("tbdBuilding", "TAS TBD Building")]
         [Output("BHoM Architectural Levels")]
         public static List<BHA.Level> ToBHoMLevels(this TBD.Building tbdBuilding)
@@ -56,7 +56,7 @@ namespace BH.Engine.TAS
             return levels;
         }
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Architectural Level from a TAS TBD Building Storey")]
+        [Description("Gets a BHoM Architectural Level from a TAS TBD Building Storey")]
         [Input("tbdStorey", "TAS TBD Building Storey")]
         [Output("BHoM Architectural Level")]
         public static BHA.Level ToBHoM(this TBD.BuildingStorey tbdStorey)
@@ -74,7 +74,7 @@ namespace BH.Engine.TAS
             return level;
         }
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Architectural Level from a TAS T3D Floor")]
+        [Description("Gets a BHoM Architectural Level from a TAS T3D Floor")]
         [Input("tbdFloor", "TAS T3D Floor")]
         [Output("BHoM Architectural Level")]
         public static BHA.Level ToBHoM(this TAS3D.Floor tbdFloor)
@@ -98,7 +98,7 @@ namespace BH.Engine.TAS
             return tbdLevels; 
         }
         */
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Building Storey from a BHoM Architecture Level")]
+        [Description("Gets a TAS TBD Building Storey from a BHoM Architecture Level")]
         [Input("level", "BHoM Architecture Level")]
         [Output("TAS TBD Building Storey")]
         public static TBD.BuildingStoreyClass ToTAS(this BHA.Level level)

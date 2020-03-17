@@ -35,10 +35,10 @@ namespace BH.Engine.TAS
         /**** Public Methods                            ****/
         /***************************************************/
 
-        [Description("Sets Tag for BHoMObject.")]
-        [Input("bHoMBuildingElementType", "BHoMObject")]
-        [Input("tag", "tag to be set")]
-        [Output("IBHoMObject")]
+        [Description("Sets opening type for TBD Building element.")]
+        [Input("bHoMBuildingElementType", "Set the opening type to give the openings")]
+        [Input("tbdBuildingElement", "TBD opening elements")]
+        [Output("bHoMBuildingElements with a set type")]
         public static OpeningType FixType(this OpeningType bHoMBuildingElementType, TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)
         {
             if (bHoMBuildingElementType == OpeningType.Frame)

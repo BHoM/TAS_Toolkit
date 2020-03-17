@@ -43,7 +43,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental Material from a TAS TBD Material")]
+        [Description("Gets a BHoM Environmental Material from a TAS TBD Material")]
         [Input("tbdMaterial", "TAS TBD Material")]
         [Output("BHoM Environmental Material")]
         public static BHPMC.Layer ToBHoM(this TBD.material tbdMaterial, TBD.Construction tbdConstruction)
@@ -62,7 +62,7 @@ namespace BH.Engine.TAS
             return layer;
         }
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental MaterialProperties from a TAS TBD Material")]
+        [Description("Gets a BHoM Environmental MaterialProperties from a TAS TBD Material")]
         [Input("tbdMaterial", "TAS TBD Material")]
         [Output("BHoM Environmental MaterialProperties")]
         public static BHM.IEnvironmentMaterial ToBHoMProperties(this TBD.material tbdMaterial, TBD.Construction tbdConstruction)
@@ -118,7 +118,7 @@ namespace BH.Engine.TAS
             }
         }
 
-        [Description("BH.Engine.TAS.Convert ToTASType => gets a TAS TBD MaterialType from a BHoM Environmental MaterialType")]
+        [Description("Gets a TAS TBD MaterialType from a BHoM Environmental MaterialType")]
         [Input("material", "BHoM Material")]
         [Output("TAS Material Type", "TAS TBD MaterialType")]
         public static TBD.MaterialTypes ToTASType(this BHPM.Material material)
@@ -135,7 +135,7 @@ namespace BH.Engine.TAS
                 return TBD.MaterialTypes.tcdOpaqueLayer;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Material from a BHoM Environmental Material")]
+        [Description("Gets a TAS TBD Material from a BHoM Environmental Material")]
         [Input("tbdMaterial", "BHoM Environmental Material")]
         [Output("TAS TBD Material")]
         public static TBD.material ToTAS(this BHPMC.Layer layer, TBD.material tbdMaterial)

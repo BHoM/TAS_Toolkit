@@ -40,7 +40,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.Space from TAS TBD Zone")]
+        [Description("Gets BHoM Space from TAS TBD Zone")]
         [Input("tbdSpace", "TAS TBD Zone")]
         [Output("BHoM Environmental Space object")]
         public static BHE.Space ToBHoM(this TBD.zone tbdSpace, TBD.TBDDocument tbdDocument)
@@ -109,7 +109,7 @@ namespace BH.Engine.TAS
             return space;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD Zone from BH.oM.Environment.Elements.Space")]
+        [Description("Gets TAS TBD Zone from BHoM Space")]
         [Input("space", "BHoM Environmental InternalCondition object")]
         [Output("TAS TBD Zone")]
         public static TBD.zone ToTAS(this BHE.Space space, TBD.zone tbdSpace)

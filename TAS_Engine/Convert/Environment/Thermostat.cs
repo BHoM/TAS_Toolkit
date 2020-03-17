@@ -37,7 +37,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.Thermostat from TAS TBD Thermostat")]
+        [Description("Gets BHoM Thermostat from TAS TBD Thermostat")]
         [Input("tbdThermostat", "TAS TBD Thermostat")]
         [Output("BHoM Environmental Thermostat object")]
         public static BHE.Thermostat ToBHoM(this TBD.Thermostat tbdThermostat)
@@ -61,7 +61,7 @@ namespace BH.Engine.TAS
             return thermostat;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD Thermostat from BH.oM.Environment.Elements.Thermostat")]
+        [Description("Gets TAS TBD Thermostat from BHoM Thermostat")]
         [Input("thermostat", "BHoM Environmental Thermostat object")]
         [Output("TAS TBD Thermostat")]
         public static TBD.Thermostat ToTAS(this BHE.Thermostat thermostat, TBD.Thermostat tbdThermostat)

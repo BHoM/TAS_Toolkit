@@ -197,7 +197,7 @@ namespace BH.Engine.TAS
 
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD ZoneSurface from a BHoM Environmental BuildingElement")]
+        [Description("Gets a TAS TBD ZoneSurface from a BHoM Environmental BuildingElement")]
         [Input("element", "BHoM Environmental BuildingElement")]
         [Output("TAS TBD ZoneSurface")]
         public static TBD.zoneSurfaceClass ToTASSurface(this BHE.Panel element)

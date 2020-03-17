@@ -38,7 +38,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets BH.oM.Environment.Elements.InternalGain from TAS TBD InternalGain")]
+        [Description("Gets BHoM InternalGain from TAS TBD InternalGain")]
         [Input("tbdInternalGain", "TAS TBD InternalGain")]
         [Output("BHoM Environmental InternalGain object")]
         public static List<BHE.IGain> ToBHoM(this TBD.InternalGain tbdInternalGain)
@@ -128,7 +128,7 @@ namespace BH.Engine.TAS
             return gains;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets TAS TBD InternalGain from BH.oM.Environment.Elements.InternalGain")]
+        [Description("Gets TAS TBD InternalGain from BHoM InternalGain")]
         [Input("internalGains", "BHoM Environmental InternalGain object")]
         [Output("TAS TBD InternalGain")]
         //public static TBD.InternalGain ToTAS(this List<BHE.Gain> internalGains)

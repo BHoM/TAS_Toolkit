@@ -37,7 +37,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Geomtry Point TAS TBD Point")]
+        [Description("Gets a BHoM Geomtry Point TAS TBD Point")]
         [Input("tbdPoint", "TAS TBD Point")]
         [Output("BHoM Geometry Point")]
         public static BHG.Point ToBHoM(this TBD.TasPoint tbdPoint)
@@ -50,7 +50,7 @@ namespace BH.Engine.TAS
             };
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Point from a BHoM Geometry Point")]
+        [Description("Gets a TAS TBD Point from a BHoM Geometry Point")]
         [Input("point", "BHoM Geomtry Point")]
         [Output("TAS TBD Point")]
         public static TBD.TasPoint ToTAS(this BHG.Point point, TBD.TasPoint tbdPoint)

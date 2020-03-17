@@ -37,7 +37,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental Profile from a TAS TBD Profile")]
+        [Description("Gets a BHoM Environmental Profile from a TAS TBD Profile")]
         [Input("tbdProfile", "TAS TBD Profile")]
         [Input("profileType", "BHoM Environmental Profile Type")]
         [Output("BHoM Environmental Profile")]
@@ -75,7 +75,7 @@ namespace BH.Engine.TAS
             return profile;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Profile from a BHoM Environmental Profile")]
+        [Description("Gets a TAS TBD Profile from a BHoM Environmental Profile")]
         [Input("profile", "BHoM Environmental Profile")]
         [Output("TAS TBD Profile")]
         public static TBD.profile ToTAS(this BHE.Profile profile, TBD.profile tbdProfile)

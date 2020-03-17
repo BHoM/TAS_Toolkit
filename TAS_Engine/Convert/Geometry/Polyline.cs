@@ -38,7 +38,7 @@ namespace BH.Engine.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Geomtry Polyline TAS TBD Perimeter")]
+        [Description("Gets a BHoM Geomtry Polyline TAS TBD Perimeter")]
         [Input("tbdPerimeter", "TAS TBD Perimeter")]
         [Output("BHoM Geometry Polyline")]
         public static BHG.Polyline ToBHoM(this TBD.Perimeter tbdPerimeter)
@@ -46,7 +46,7 @@ namespace BH.Engine.TAS
             return tbdPerimeter.GetFace().ToBHoM();
         }
 
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Geomtry Polyline TAS TBD Polygon")]
+        [Description("Gets a BHoM Geomtry Polyline TAS TBD Polygon")]
         [Input("tbdPolygon", "TAS TBD Polygon")]
         [Output("BHoM Geometry Polyline")]
         public static BHG.Polyline ToBHoM(this TBD.Polygon tbdPolygon)
@@ -78,7 +78,7 @@ namespace BH.Engine.TAS
             return new BHG.Polyline { ControlPoints = pnts };
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Perimeter from a BHoM Geometry Polyline")]
+        [Description("Gets a TAS TBD Perimeter from a BHoM Geometry Polyline")]
         [Input("polyline", "BHoM Geomtry Polyline")]
         [Output("TAS TBD Perimeter")]
         public static TBD.Perimeter ToTAS(this BHG.Polyline polyline, TBD.Perimeter tbdPerimeter)
@@ -91,7 +91,7 @@ namespace BH.Engine.TAS
             return tbdPerimeter;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Polygon from a BHoM Geometry Polyline")]
+        [Description("Gets a TAS TBD Polygon from a BHoM Geometry Polyline")]
         [Input("polyline", "BHoM Geomtry Polyline")]
         [Output("TAS TBD Polygon")]
         public static TBD.Polygon ToTASPolygon(this BHG.Polyline polyline, TBD.Polygon tbdPolygon)
