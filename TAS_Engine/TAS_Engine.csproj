@@ -137,7 +137,6 @@
     <Compile Include="Convert\Geometry\Polyline.cs" />
     <Compile Include="Convert\ToList.cs" />
     <Compile Include="Create\TASSettings.cs" />
-    <Compile Include="Create\SetHour.cs" />
     <Compile Include="Create\ToTBD\BHoMObject.cs" />
     <Compile Include="Create\ToTBD\Panel.cs" />
     <Compile Include="Modify\FixBuildingElementType.cs" />
