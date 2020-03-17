@@ -39,7 +39,7 @@ namespace BH.Engine.TAS
         [Input("bHoMBuildingElementType", "Set the opening type to give the openings")]
         [Input("tbdBuildingElement", "TBD opening elements")]
         [Output("bHoMBuildingElements with a set type")]
-        public static OpeningType FixType(this OpeningType bHoMBuildingElementType, TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)
+        public static OpeningType FixBuildingElementType(this OpeningType bHoMBuildingElementType, TBD.buildingElement tbdBuildingElement, TBD.zoneSurface tbdZoneSurface)
         {
             if (bHoMBuildingElementType == OpeningType.Frame)
             {

@@ -30,37 +30,6 @@ namespace BH.Engine.TAS
 {
     public static partial class Query
     {
-        public static double GValue(this TBD.buildingElement tbdBuildingElement, int decimals = 3)
-        {
-            TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
-            if (aConstruction == null)
-                return -1;
-            TBD.ConstructionTypes aConstructionTypes = aConstruction.type;
-            if (aConstructionTypes == TBD.ConstructionTypes.tcdTransparentConstruction)
-            {
-                object aObject = aConstruction.GetGlazingValues();
-                List<float> aValueList = Convert.ToFloatList(aObject);
-                return Math.Round(aValueList[5], decimals);
-            }
-            return 0;
-        }
-
-        public static double LTValue(this TBD.buildingElement tbdBuildingElement, int decimals = 3)
-        {
-            TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();
-            if (aConstruction == null)
-                return 0;
-
-            TBD.ConstructionTypes aConstructionTypes = aConstruction.type;
-            if (aConstructionTypes == TBD.ConstructionTypes.tcdTransparentConstruction)
-            {
-                object aObject = aConstruction.GetGlazingValues();
-                List<float> aValueList = Convert.ToFloatList(aObject);
-                return Math.Round(aValueList[0], decimals);
-            }
-            return 0;
-        }
-
         public static double UValue(this TBD.buildingElement tbdBuildingElement, int decimals = 3)
         {
             TBD.Construction aConstruction = tbdBuildingElement.GetConstruction();

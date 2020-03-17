@@ -35,20 +35,15 @@ namespace BH.Engine.TAS
     public static partial class Query
     {
         /***************************************************/
-        public static bool ElementIsOpening(this TBD.BuildingElementType tbdType)
+        public static bool OpeningIsFrame(this BHEE.OpeningType openingType)
         {
-            switch (tbdType)
+            switch(openingType)
             {
-                case TBD.BuildingElementType.ROOFLIGHT:
-                case TBD.BuildingElementType.DOORELEMENT:
-                case TBD.BuildingElementType.VEHICLEDOOR:
-                case TBD.BuildingElementType.GLAZING:
-                case TBD.BuildingElementType.CURTAINWALL:
-                case TBD.BuildingElementType.FRAMEELEMENT:
+                case oM.Environment.Elements.OpeningType.Frame:
+                case BHEE.OpeningType.RooflightWithFrame:
+                case BHEE.OpeningType.WindowWithFrame:
                     return true;
-                case TBD.BuildingElementType.NOBETYPE:
-                case TBD.BuildingElementType.NULLELEMENT:
-                    return false;
+
                 default:
                     return false;
             }

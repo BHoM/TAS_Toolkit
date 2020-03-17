@@ -34,101 +34,6 @@ namespace BH.Engine.TAS
 {
     public static partial class Query
     {
-
-        private static TBD.dayType[] GetDayTypeArray(TBD.TBDDocument tbdDocument)
-        {
-            TBD.dayType[] aDayTypeArray = new TBD.dayType[365];
-
-            TBD.Calendar aCalendar = tbdDocument.Building.GetCalendar();
-            for (int i = 0; i < 365; i++)
-                aDayTypeArray[i] = aCalendar.days(i + 1).dayType;
-
-            return aDayTypeArray;
-        }
-
-        private static List<TBD.dayType> GetUnique(IEnumerable<TBD.dayType> dayTypes)
-        {
-            List<TBD.dayType> aDayTypeList = new List<TBD.dayType>();
-            foreach (TBD.dayType aDayType in dayTypes)
-                if (aDayTypeList.Find(x => x.name == aDayType.name) == null)
-                    aDayTypeList.Add(aDayType);
-            return aDayTypeList;
-        }
-
-        public static List<TBD.zone> GetZones(TBD.TBDDocument tbdDocument)
-        {
-            if (tbdDocument == null)
-                return null;
-
-            List<TBD.zone> aZoneList = new List<TBD.zone>();
-
-            int aIndex = 0;
-            TBD.zone aZone = tbdDocument.Building.GetZone(aIndex);
-            while (aZone != null)
-            {
-                aZoneList.Add(aZone);
-                aIndex++;
-                aZone = tbdDocument.Building.GetZone(aIndex);
-            }
-
-            return aZoneList;
-        }
-
-        private static bool HasDayType(TBD.InternalCondition internalCondition, TBD.dayType dayType)
-        {
-            int aIndex = 0;
-            TBD.dayType aDayType = internalCondition.GetDayType(aIndex);
-            while (aDayType != null)
-            {
-                if (aDayType.name == dayType.name)
-                    return true;
-
-                aIndex++;
-                aDayType = internalCondition.GetDayType(aIndex);
-            }
-
-            return false;
-        }
-
-        private static TBD.InternalCondition GetInternalCondition(TBD.zone zone, TBD.dayType dayType)
-        {
-            if (zone == null)
-                return null;
-
-
-            int aIndex = 0;
-            TBD.InternalCondition aInternalCondition = zone.GetIC(aIndex);
-            while (aInternalCondition != null)
-            {
-                if (HasDayType(aInternalCondition, dayType))
-                    return aInternalCondition;
-
-                aIndex++;
-                aInternalCondition = zone.GetIC(aIndex);
-            }
-
-            return null; ;
-
-        }
-
-        public static double[] GetHourlyValues(TBD.profile profile)
-        {
-            double[] aResult = new double[24];
-
-            for (int i = 1; i <= 24; i++)
-                aResult[i - 1] = profile.hourlyValues[i];
-
-            return aResult;
-        }
-
-        public static double[] MultiplyByFactor(double[] x, double factor)
-        {
-            if (x == null) throw new ArgumentNullException();
-            return x.Select(r => r * factor).ToArray();
-        }
-
-        /***************************************************/
-
         public static double[] GetNumberOfPeople(TBD.TBDDocument tbdDocument, TBD.zone tbdZone)
         {
 
@@ -223,13 +128,8 @@ namespace BH.Engine.TAS
             return aYearlyValues;
 
         }
-
         /***************************************************/
     }
-
-
-
-
 }
 
 

@@ -32,43 +32,6 @@ namespace BH.Engine.TAS
 {
     public static partial class Query
     {
-        [Description("Get Single Upper Limit")]
-        [Input("tbdICThermostat", "tbd IC Thermostat")]
-        [Output("maxUL", "return max UpperLimit value")]
-        public static float GetSingleValueUpperLimit(this TBD.Thermostat tbdICThermostat)
-        {
-            float maxUL = 150;
-
-            if (tbdICThermostat == null)
-                return -1;
-
-            TBD.profile tbdUpperLimitProfile = tbdICThermostat.GetProfile((int)TBD.Profiles.ticUL);
-            switch (tbdUpperLimitProfile.type)
-            {
-                case TBD.ProfileTypes.ticValueProfile:
-                    maxUL = tbdUpperLimitProfile.value;
-                    break;
-                case TBD.ProfileTypes.ticHourlyProfile:
-                    for (int i = 1; i <= 24; i++)
-                    {
-                        if (tbdUpperLimitProfile.hourlyValues[i] <= maxUL)
-                            maxUL = tbdUpperLimitProfile.hourlyValues[i];
-                    }
-
-                    break;
-                case TBD.ProfileTypes.ticYearlyProfile:
-                    for (int i = 1; i <= 8760; i++)
-                    {
-                        if (tbdUpperLimitProfile.yearlyValues[i] >= maxUL)
-                            maxUL = tbdUpperLimitProfile.yearlyValues[i];
-                    }
-                    break;
-                    // case other profile types etc.
-            }
-
-            return maxUL;
-        }
-
         [Description("Get Single Lower Limit")]
         [Input("tbdICThermostat", "tbd IC Thermostat")]
         [Output("minLL", "return max lowerLimit value")]

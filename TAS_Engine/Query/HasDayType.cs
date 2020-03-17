@@ -1,4 +1,4 @@
-/*
+﻿/*
  * This file is part of the Buildings and Habitats object Model (BHoM)
  * Copyright (c) 2015 - 2020, the respective contributors. All rights reserved.
  *
@@ -27,32 +27,28 @@ using System.Text;
 using System.Threading.Tasks;
 using BHG = BH.oM.Geometry;
 using BHEE = BH.oM.Environment.Elements;
+
 using BH.Engine.Environment;
-using BH.oM.Geometry;
 
 namespace BH.Engine.TAS
 {
     public static partial class Query
     {
-        /***************************************************/
-        public static bool ElementIsOpening(this TBD.BuildingElementType tbdType)
+        private static bool HasDayType(TBD.InternalCondition internalCondition, TBD.dayType dayType)
         {
-            switch (tbdType)
+            int aIndex = 0;
+            TBD.dayType aDayType = internalCondition.GetDayType(aIndex);
+            while (aDayType != null)
             {
-                case TBD.BuildingElementType.ROOFLIGHT:
-                case TBD.BuildingElementType.DOORELEMENT:
-                case TBD.BuildingElementType.VEHICLEDOOR:
-                case TBD.BuildingElementType.GLAZING:
-                case TBD.BuildingElementType.CURTAINWALL:
-                case TBD.BuildingElementType.FRAMEELEMENT:
+                if (aDayType.name == dayType.name)
                     return true;
-                case TBD.BuildingElementType.NOBETYPE:
-                case TBD.BuildingElementType.NULLELEMENT:
-                    return false;
-                default:
-                    return false;
+
+                aIndex++;
+                aDayType = internalCondition.GetDayType(aIndex);
             }
+
+            return false;
         }
+
     }
 }
-

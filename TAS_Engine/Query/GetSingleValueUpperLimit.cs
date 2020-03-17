@@ -25,33 +25,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BHG = BH.oM.Geometry;
-using BHEE = BH.oM.Environment.Elements;
-using BH.Engine.Environment;
-using BH.oM.Geometry;
+using System.ComponentModel;
+using BH.oM.Reflection.Attributes;
 
 namespace BH.Engine.TAS
 {
     public static partial class Query
     {
-        /***************************************************/
-        public static bool ElementIsOpening(this TBD.BuildingElementType tbdType)
+        [Description("Get Single Upper Limit")]
+        [Input("tbdICThermostat", "tbd IC Thermostat")]
+        [Output("maxUL", "return max UpperLimit value")]
+        public static float GetSingleValueUpperLimit(this TBD.Thermostat tbdICThermostat)
         {
-            switch (tbdType)
+            float maxUL = 150;
+
+            if (tbdICThermostat == null)
+                return -1;
+
+            TBD.profile tbdUpperLimitProfile = tbdICThermostat.GetProfile((int)TBD.Profiles.ticUL);
+            switch (tbdUpperLimitProfile.type)
             {
-                case TBD.BuildingElementType.ROOFLIGHT:
-                case TBD.BuildingElementType.DOORELEMENT:
-                case TBD.BuildingElementType.VEHICLEDOOR:
-                case TBD.BuildingElementType.GLAZING:
-                case TBD.BuildingElementType.CURTAINWALL:
-                case TBD.BuildingElementType.FRAMEELEMENT:
-                    return true;
-                case TBD.BuildingElementType.NOBETYPE:
-                case TBD.BuildingElementType.NULLELEMENT:
-                    return false;
-                default:
-                    return false;
+                case TBD.ProfileTypes.ticValueProfile:
+                    maxUL = tbdUpperLimitProfile.value;
+                    break;
+                case TBD.ProfileTypes.ticHourlyProfile:
+                    for (int i = 1; i <= 24; i++)
+                    {
+                        if (tbdUpperLimitProfile.hourlyValues[i] <= maxUL)
+                            maxUL = tbdUpperLimitProfile.hourlyValues[i];
+                    }
+
+                    break;
+                case TBD.ProfileTypes.ticYearlyProfile:
+                    for (int i = 1; i <= 8760; i++)
+                    {
+                        if (tbdUpperLimitProfile.yearlyValues[i] >= maxUL)
+                            maxUL = tbdUpperLimitProfile.yearlyValues[i];
+                    }
+                    break;
+                    // case other profile types etc.
             }
+
+            return maxUL;
         }
     }
 }

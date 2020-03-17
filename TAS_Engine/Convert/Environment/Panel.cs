@@ -59,7 +59,7 @@ namespace BH.Engine.TAS
             if(tbdElementType.ElementIsOpening())
             {
                 //Find out what the fix was - frame or pane?
-                BHE.OpeningType fixedOpeningType = tbdElementType.ToBHoMOpeningType().FixType(tbdElement, tbdSurface);
+                BHE.OpeningType fixedOpeningType = tbdElementType.ToBHoMOpeningType().FixBuildingElementType(tbdElement, tbdSurface);
                 element.CustomData.Add("OpeningIsFrame", fixedOpeningType.OpeningIsFrame());
             }
 
@@ -157,7 +157,7 @@ namespace BH.Engine.TAS
 
             //AddingExtended Properties for a frame
 
-            BHE.OpeningType elementOpeningType = tbdElementType.ToBHoMOpeningType().FixType(tbdElement, tbdSurface);
+            BHE.OpeningType elementOpeningType = tbdElementType.ToBHoMOpeningType().FixBuildingElementType(tbdElement, tbdSurface);
             if (elementOpeningType == BHE.OpeningType.RooflightWithFrame || elementOpeningType == BHE.OpeningType.WindowWithFrame)
             {
                 if(element.Openings.FirstOrDefault() != null)
