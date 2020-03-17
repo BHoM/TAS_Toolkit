@@ -40,7 +40,7 @@ namespace BH.Engine.TAS
         [Description("Gets BHoM InternalCondition from TAS TBD InternalCondition")]
         [Input("tbdCondition", "TAS TBD InternalCondition")]
         [Output("BHoM Environmental InternalCondition object")]
-        public static BHEG.InternalCondition ToBHoM(this TBD.InternalCondition tbdCondition)
+        public static BHEG.InternalCondition FromTAS(this TBD.InternalCondition tbdCondition)
         {
             if (tbdCondition == null) return null;
 
@@ -57,14 +57,14 @@ namespace BH.Engine.TAS
             TBD.dayType tbdDayType = null;
             while ((tbdDayType = tbdCondition.GetDayType(getTypeIndex)) != null)
             {
-                internalCondition.DayTypes.Add(tbdDayType.ToBHoM());
+                internalCondition.DayTypes.Add(tbdDayType.FromTAS());
                 getTypeIndex++;
             }
 
-            internalCondition.Emitters.Add(tbdCondition.GetHeatingEmitter().ToBHoM());
-            internalCondition.Emitters.Add(tbdCondition.GetCoolingEmitter().ToBHoM());
-            internalCondition.Gains = tbdCondition.GetInternalGain().ToBHoM();
-            internalCondition.Thermostat = tbdCondition.GetThermostat().ToBHoM();
+            internalCondition.Emitters.Add(tbdCondition.GetHeatingEmitter().FromTAS());
+            internalCondition.Emitters.Add(tbdCondition.GetCoolingEmitter().FromTAS());
+            internalCondition.Gains = tbdCondition.GetInternalGain().FromTAS();
+            internalCondition.Thermostat = tbdCondition.GetThermostat().FromTAS();
 
             return internalCondition;
         }

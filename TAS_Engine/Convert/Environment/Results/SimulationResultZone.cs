@@ -42,7 +42,7 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental Simulation Result from a TAS TSD Zone Simulation")]
         [Input("tsdData", "TAS TSD Zone Data")]
         [Output("BHoM Environmental Simulation Result")]
-        public static BHR.SimulationResult ToBHoM(this TSD.ZoneData tsdData, BHR.ProfileResultUnit unitType, BHR.ProfileResultType resultType, int hour, int day)
+        public static BHR.SimulationResult FromTAS(this TSD.ZoneData tsdData, BHR.ProfileResultUnit unitType, BHR.ProfileResultType resultType, int hour, int day)
         {
             TSD.tsdZoneArray? zoneType= resultType.ToTASSpaceType();
             if (zoneType == null)

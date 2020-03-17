@@ -42,7 +42,7 @@ namespace BH.Engine.TAS
         [Description("Gets a BHoM Environmental PanelType from a TAS TBD BuildingElementType")]
         [Input("tbdType", "TAS TBD BuildingElementType")]
         [Output("panelType", "BHoM Environmental PanelType")]
-        public static BHE.PanelType ToBHoM(this TBD.BuildingElementType tbdType)
+        public static BHE.PanelType FromTAS(this TBD.BuildingElementType tbdType)
         {
             switch (tbdType)
             {
@@ -92,7 +92,7 @@ namespace BH.Engine.TAS
         [Description("Gets a BHoM Environmental OpeningType from a TAS TBD BuildingElementType")]
         [Input("tbdType", "TAS TBD BuildingElementType")]
         [Output("openingType", "BHoM Environmental OpeningType")]
-        public static BHE.OpeningType ToBHoMOpeningType(this TBD.BuildingElementType tbdType)
+        public static BHE.OpeningType FromTASOpeningType(this TBD.BuildingElementType tbdType)
         {
             switch (tbdType)
             {

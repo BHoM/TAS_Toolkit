@@ -40,7 +40,7 @@ namespace BH.Engine.TAS
         [Description("Gets BHoM Thermostat from TAS TBD Thermostat")]
         [Input("tbdThermostat", "TAS TBD Thermostat")]
         [Output("BHoM Environmental Thermostat object")]
-        public static BHE.Thermostat ToBHoM(this TBD.Thermostat tbdThermostat)
+        public static BHE.Thermostat FromTAS(this TBD.Thermostat tbdThermostat)
         {
             if (tbdThermostat == null) return null;
 

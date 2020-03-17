@@ -100,7 +100,7 @@ namespace BH.Adapter.TAS
             while (building.GetZone(zoneIndex) != null)
             {
                 TBD.zone zone = m_tbdDocument.Building.GetZone(zoneIndex);
-                spaces.Add(Engine.TAS.Convert.ToBHoM(zone, m_tbdDocument));
+                spaces.Add(Engine.TAS.Convert.FromTAS(zone, m_tbdDocument));
                 zoneIndex++;
             }
 
@@ -113,7 +113,7 @@ namespace BH.Adapter.TAS
         {
             TBD.Building building = m_tbdDocument.Building;
             List<Building> buildings = new List<Building>();
-            buildings.Add(Engine.TAS.Convert.ToBHoM(building));
+            buildings.Add(Engine.TAS.Convert.FromTAS(building));
 
             return buildings;
         }
@@ -124,7 +124,7 @@ namespace BH.Adapter.TAS
         {
             TBD.Building tbdBuilding = m_tbdDocument.Building;
             List<BH.oM.Architecture.Elements.Level> levels = new List<BH.oM.Architecture.Elements.Level>();
-            levels = Engine.TAS.Convert.ToBHoMLevels(tbdBuilding);
+            levels = Engine.TAS.Convert.FromTASLevels(tbdBuilding);
 
             return levels;
         }
@@ -180,7 +180,7 @@ namespace BH.Adapter.TAS
                 {
                     //check to exlude tine area
                     if (zoneSrf.internalArea > 0 || zoneSrf.area > 0.2)
-                        buildingElements.Add(zoneSrf.buildingElement.ToBHoM(zoneSrf, _tasSettings));
+                        buildingElements.Add(zoneSrf.buildingElement.FromTAS(zoneSrf, _tasSettings));
                     zoneSurfaceIndex++;
                 }
                 zoneIndex++;
@@ -237,7 +237,7 @@ namespace BH.Adapter.TAS
             while (building.GetConstruction(buildingElementIndex) != null)
             {
                 TBD.Construction construction = m_tbdDocument.Building.GetConstruction(buildingElementIndex);
-                constructions.Add(Engine.TAS.Convert.ToBHoM(construction)); //ToDo: FIX THIS
+                constructions.Add(Engine.TAS.Convert.FromTAS(construction)); //ToDo: FIX THIS
                 buildingElementIndex++;
             }
 
@@ -255,7 +255,7 @@ namespace BH.Adapter.TAS
             while (building.GetIC(internalConditionIndex) != null)
             {
                 TBD.InternalCondition internalCondition = m_tbdDocument.Building.GetIC(internalConditionIndex);
-                internalConditions.Add(Engine.TAS.Convert.ToBHoM(internalCondition));
+                internalConditions.Add(Engine.TAS.Convert.FromTAS(internalCondition));
                 internalConditionIndex++;
             }
 
@@ -292,7 +292,7 @@ namespace BH.Adapter.TAS
                 {
                     TBD.material tbdMaterial = building.GetConstruction(constructionIndex).materials(materialIndex);
 
-                    material.Add(Engine.TAS.Convert.ToBHoM(tbdMaterial, currConstruction));
+                    material.Add(Engine.TAS.Convert.FromTAS(tbdMaterial, currConstruction));
                     materialIndex++;
                 }
 

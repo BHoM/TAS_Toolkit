@@ -40,7 +40,7 @@ namespace BH.Engine.TAS
         [Description("Gets a BHoM Geomtry Point TAS TBD Point")]
         [Input("tbdPoint", "TAS TBD Point")]
         [Output("BHoM Geometry Point")]
-        public static BHG.Point ToBHoM(this TBD.TasPoint tbdPoint)
+        public static BHG.Point FromTAS(this TBD.TasPoint tbdPoint)
         {
             return new BHG.Point
             {

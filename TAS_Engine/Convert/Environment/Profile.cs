@@ -41,7 +41,7 @@ namespace BH.Engine.TAS
         [Input("tbdProfile", "TAS TBD Profile")]
         [Input("profileType", "BHoM Environmental Profile Type")]
         [Output("BHoM Environmental Profile")]
-        public static BHE.Profile ToBHoM(this TBD.profile tbdProfile, BHE.ProfileCategory profileType)
+        public static BHE.Profile FromTAS(this TBD.profile tbdProfile, BHE.ProfileCategory profileType)
         {
             BHE.Profile profile = new BHE.Profile();
 

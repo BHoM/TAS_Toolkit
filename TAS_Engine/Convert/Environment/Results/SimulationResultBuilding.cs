@@ -42,7 +42,7 @@ namespace BH.Engine.TAS
         [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental Simulation Result from a TAS TSD Building Simulation")]
         [Input("tsdData", "TAS TSD Building Data")]
         [Output("BHoM Environmental Simulation Result")]
-        public static BHR.SimulationResult ToBHoM(this TSD.BuildingData tsdData, BHR.ProfileResultUnit unitType, BHR.ProfileResultType resultType, int hour, int day)
+        public static BHR.SimulationResult FromTAS(this TSD.BuildingData tsdData, BHR.ProfileResultUnit unitType, BHR.ProfileResultType resultType, int hour, int day)
         {
             TSD.tsdBuildingArray? buildingType = resultType.ToTASBuildingType();
             if(buildingType == null)

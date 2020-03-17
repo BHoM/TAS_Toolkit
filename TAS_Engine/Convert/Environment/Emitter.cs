@@ -40,7 +40,7 @@ namespace BH.Engine.TAS
         [Description("Gets BHoM Emitter from TAS TBD Emitter")]
         [Input("tbdEmitter", "TAS TBD Emitter")]
         [Output("BHoM Environmental Emitter object")]
-        public static BHE.Emitter ToBHoM(this TBD.Emitter tbdEmitter)
+        public static BHE.Emitter FromTAS(this TBD.Emitter tbdEmitter)
         {
             if (tbdEmitter == null) return null;
 
@@ -50,7 +50,7 @@ namespace BH.Engine.TAS
             emitter.ViewCoefficient = tbdEmitter.viewCoefficient;
             emitter.SwitchOffOutsideTemperature = tbdEmitter.offOutsideTemp;
             emitter.MaximumOutsideTemperature = tbdEmitter.maxOutsideTemp;
-            emitter.Type = tbdEmitter.emitterType.ToBHoM();
+            emitter.Type = tbdEmitter.emitterType.FromTAS();
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("EmitterDescription", tbdEmitter.description);
@@ -63,7 +63,7 @@ namespace BH.Engine.TAS
         [Description("Gets BHoM EmitterType from TAS TBD EmitterTypes")]
         [Input("tbdEmitterType", "TAS TBD EmitterTypes object")]
         [Output("BHoM Environmental EmitterType enum value")]
-        public static BHE.EmitterType ToBHoM(this TBD.EmitterTypes tbdEmitterType)
+        public static BHE.EmitterType FromTAS(this TBD.EmitterTypes tbdEmitterType)
         {
             switch(tbdEmitterType)
             {
