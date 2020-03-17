@@ -205,7 +205,7 @@ namespace BH.Engine.TAS
         }
 
         [Description("Gets a TAS TBD BuildingElementType from a BHoM Environmental BuildingElementType")]
-        [Input("bHoMBuildingElementTyp", "Set the BuildingElementType")]
+        [Input("bHoMBuildingElementType", "Set the BuildingElementType")]
         [Output("TAS TBD BuildingElementType")]
         public static TBD.BuildingElementType ToTAS(this BHE.PanelType bHoMBuildingElementType)
         {
