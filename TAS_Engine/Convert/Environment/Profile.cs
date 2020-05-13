@@ -41,29 +41,24 @@ namespace BH.Engine.TAS
         [Input("tbdProfile", "TAS TBD Profile")]
         [Input("profileType", "BHoM Environmental Profile Type")]
         [Output("BHoM Environmental Profile")]
-        public static BHE.Profile FromTAS(this TBD.profile tbdProfile, BHE.ProfileCategory profileType)
+        public static BHE.Profile FromTAS(this TBD.profile tbdProfile, BHE.ProfileType profileType)
         {
             BHE.Profile profile = new BHE.Profile();
 
             profile.Name = tbdProfile.name;
-            profile.Category = profileType;
-            profile.MultiplicationFactor = tbdProfile.factor;
-            profile.SetBackValue = tbdProfile.setbackValue;
+            profile.ProfileType = profileType;
 
             switch (tbdProfile.type)
             {
                 case TBD.ProfileTypes.ticValueProfile:
-                    profile.ProfileType = BHE.ProfileType.Value;
-                    profile.Values.Add(tbdProfile.value);
+                    profile.HourlyValues.Add(tbdProfile.value);
                     break;
                 case TBD.ProfileTypes.ticHourlyProfile:
-                    profile.ProfileType = BHE.ProfileType.Hourly;
                     for (int i = 1; i < 25; i++)
-                        profile.Values.Add(tbdProfile.hourlyValues[i]);
+                        profile.HourlyValues.Add(tbdProfile.hourlyValues[i]);
                     break;
                 case TBD.ProfileTypes.ticYearlyProfile:
-                    profile.ProfileType = BHE.ProfileType.Yearly;
-                    profile.Values = ToDoubleList(tbdProfile.GetYearlyValues());
+                    profile.HourlyValues = ToDoubleList(tbdProfile.GetYearlyValues());
                     break;
             }
 
@@ -83,23 +78,6 @@ namespace BH.Engine.TAS
             if (profile == null) return tbdProfile;
 
             tbdProfile.name = profile.Name;
-            tbdProfile.factor = (float)profile.MultiplicationFactor;
-            tbdProfile.setbackValue = (float)profile.SetBackValue;
-
-            switch (profile.ProfileType)
-            {
-                case BHE.ProfileType.Value:
-                    tbdProfile.value = (float)profile.Values[0];
-                    break;
-                case BHE.ProfileType.Hourly:
-                    for (int i = 0; i < 24; i++)
-                        tbdProfile.hourlyValues[i + 1] = (float)profile.Values[i];
-                    break;
-                case BHE.ProfileType.Yearly:
-                    for (int i = 0; i < 8760; i++)
-                        tbdProfile.yearlyValues[i + 1] = (float)profile.Values[i];
-                    break;
-            }
 
             Dictionary<string, object> tasData = profile.CustomData;
 
