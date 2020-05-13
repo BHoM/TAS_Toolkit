@@ -60,7 +60,7 @@ namespace BH.Engine.TAS
             lightGain.ViewCoefficient = tbdInternalGain.lightingViewCoefficient;
 
             TBD.profile tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticLG);
-            BHE.Profile aProfile = tbdProfile.FromTAS(BHE.ProfileCategory.Gain);
+            BHE.Profile aProfile = tbdProfile.FromTAS(BHE.ProfileType.EquipmentGain);
             lightGain.Profile = aProfile;
             lightGain.CustomData = tasData;
             gains.Add(lightGain);
@@ -74,10 +74,10 @@ namespace BH.Engine.TAS
             TBD.profile tbdProfileLat = tbdInternalGain.GetProfile((int)TBD.Profiles.ticOLG);
             occupantGain.Latent = tbdProfileLat.factor; //Unit W/m2 latent gain
             double aPeopleDesity = (occupantGain.Sensible + occupantGain.Latent) / tbdInternalGain.personGain; //Unit people/m2
-            aProfile = tbdProfile.FromTAS(BHE.ProfileCategory.Gain);
+            aProfile = tbdProfile.FromTAS(BHE.ProfileType.PeopleGain);
 
-            for (int i = 0; i < aProfile.Values.Count; i++)
-                aProfile.Values[i] = aProfile.Values[i] * aPeopleDesity;
+            for (int i = 0; i < aProfile.HourlyValues.Count; i++)
+                aProfile.HourlyValues[i] = aProfile.HourlyValues[i] * aPeopleDesity;
 
             occupantGain.RadiantFraction = tbdInternalGain.occupantRadProp;
             occupantGain.ViewCoefficient = tbdInternalGain.occupantViewCoefficient;
@@ -93,7 +93,7 @@ namespace BH.Engine.TAS
             equipGain.ViewCoefficient = tbdInternalGain.equipmentViewCoefficient;
 
             tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticESG);
-            aProfile = tbdProfile.FromTAS(BHE.ProfileCategory.Gain);
+            aProfile = tbdProfile.FromTAS(BHE.ProfileType.EquipmentGain);
             equipGain.Profile = aProfile;
 
             equipGain.CustomData = tasData;
@@ -105,7 +105,7 @@ namespace BH.Engine.TAS
             pollGain.Name = "P " + tbdInternalGain.name;
 
             tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticCOG);
-            aProfile = tbdProfile.FromTAS(BHE.ProfileCategory.Gain);
+            aProfile = tbdProfile.FromTAS(BHE.ProfileType.Infiltration);
             pollGain.Profile = aProfile;
 
             pollGain.CustomData = tasData;
@@ -116,7 +116,7 @@ namespace BH.Engine.TAS
             infGain.Name = "I " + tbdInternalGain.name;
 
             tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticI);
-            aProfile = tbdProfile.FromTAS(BHE.ProfileCategory.Gain);
+            aProfile = tbdProfile.FromTAS(BHE.ProfileType.Infiltration);
             infGain.Profile = aProfile;
 
             infGain.CustomData = tasData;
