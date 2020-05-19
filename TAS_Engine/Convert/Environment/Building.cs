@@ -45,8 +45,8 @@ namespace BH.Engine.TAS
         {
             BHE.Building building = new BHE.Building();
             building.Name = tbdBuilding.name;
-            building.Latitude = tbdBuilding.latitude;
-            building.Longitude = tbdBuilding.longitude;
+            building.Location.Latitude = tbdBuilding.latitude;
+            building.Location.Longitude = tbdBuilding.longitude;
             building.Elevation = tbdBuilding.maxBuildingAltitude;
             //building.Elevation = tbdBuilding.GetWeatherYear().altitude; //Consider switching to this if maxBuildingAltitude does not work
 
@@ -108,8 +108,8 @@ namespace BH.Engine.TAS
 
             if (building == null) return tbdBuilding;
             tbdBuilding.name = building.Name;
-            tbdBuilding.latitude = (float)building.Latitude;
-            tbdBuilding.longitude = (float)building.Longitude;
+            tbdBuilding.latitude = (float)building.Location.Latitude;
+            tbdBuilding.longitude = (float)building.Location.Longitude;
             tbdBuilding.maxBuildingAltitude = (float)building.Elevation;
 
             Dictionary<string, object> tasData = building.CustomData;
