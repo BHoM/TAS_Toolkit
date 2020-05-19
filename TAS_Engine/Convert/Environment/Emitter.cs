@@ -47,7 +47,6 @@ namespace BH.Engine.TAS
             BHE.Equipment emitter = new BHE.Equipment();
             emitter.Name = tbdEmitter.name;
             emitter.RadiantFraction = tbdEmitter.radiantProportion;
-            emitter.ViewCoefficient = tbdEmitter.viewCoefficient;
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("EmitterDescription", tbdEmitter.description);
@@ -86,7 +85,6 @@ namespace BH.Engine.TAS
 
             tbdEmitter.name = emitter.Name;
             tbdEmitter.radiantProportion = (float)emitter.RadiantFraction;
-            tbdEmitter.viewCoefficient = (float)emitter.ViewCoefficient;
 
             Dictionary<string, object> tasData = emitter.CustomData;
 
