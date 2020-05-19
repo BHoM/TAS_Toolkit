@@ -57,7 +57,6 @@ namespace BH.Engine.TAS
             BHE.Lighting lightGain = new BHE.Lighting();
             lightGain.Name = "L " + tbdInternalGain.name;
             lightGain.RadiantFraction = tbdInternalGain.lightingRadProp;
-            lightGain.ViewCoefficient = tbdInternalGain.lightingViewCoefficient;
 
             TBD.profile tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticLG);
             BHE.Profile aProfile = tbdProfile.FromTAS(BHE.ProfileType.EquipmentGain);
@@ -80,7 +79,6 @@ namespace BH.Engine.TAS
                 aProfile.HourlyValues[i] = aProfile.HourlyValues[i] * aPeopleDesity;
 
             occupantGain.RadiantFraction = tbdInternalGain.occupantRadProp;
-            occupantGain.ViewCoefficient = tbdInternalGain.occupantViewCoefficient;
 
             occupantGain.Profile = aProfile;
             occupantGain.CustomData = tasData;
@@ -90,7 +88,6 @@ namespace BH.Engine.TAS
             BHE.Equipment equipGain = new BHE.Equipment();
             equipGain.Name = "Equipment " + tbdInternalGain.name;
             equipGain.RadiantFraction = tbdInternalGain.equipmentRadProp;
-            equipGain.ViewCoefficient = tbdInternalGain.equipmentViewCoefficient;
 
             tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticESG);
             aProfile = tbdProfile.FromTAS(BHE.ProfileType.EquipmentGain);
