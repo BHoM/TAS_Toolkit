@@ -189,13 +189,6 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private bool Create(IEnumerable<BHE.Gains.InternalCondition> internalConditions)
-        {
-            foreach (BHE.Gains.InternalCondition internalCondition in internalConditions)
-                internalCondition.ToTAS(m_tbdDocument.Building.AddIC(null), m_tbdDocument.Building.GetCalendar());
-            return true;
-        }
-
         private bool Create(IEnumerable<object> objects)
         {
             return true;

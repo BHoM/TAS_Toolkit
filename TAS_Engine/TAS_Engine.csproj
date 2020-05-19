@@ -120,7 +120,6 @@
     <Compile Include="Convert\Environment\PanelType.cs" />
     <Compile Include="Convert\Environment\Construction.cs" />
     <Compile Include="Convert\Environment\Emitter.cs" />
-    <Compile Include="Convert\Environment\InternalCondition.cs" />
     <Compile Include="Convert\Environment\InternalGain.cs" />
     <Compile Include="Convert\Environment\Material.cs" />
     <Compile Include="Convert\Environment\Opening.cs" />
