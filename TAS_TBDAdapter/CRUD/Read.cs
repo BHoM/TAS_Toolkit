@@ -66,8 +66,6 @@ namespace BH.Adapter.TAS
                 return ReadLevels();
             else if (type == typeof(Construction))
                 return ReadConstruction();
-            else if (type == typeof(InternalCondition))
-                return ReadInternalCondition();
             else
                 return Read(); //Read everything
         }
@@ -242,24 +240,6 @@ namespace BH.Adapter.TAS
             }
 
             return constructions;
-        }
-
-        /***************************************************/
-
-        public List<InternalCondition> ReadInternalCondition(List<string> ids = null)
-        {
-            TBD.Building building = m_tbdDocument.Building;
-            List<InternalCondition> internalConditions = new List<InternalCondition>();
-
-            int internalConditionIndex = 0;
-            while (building.GetIC(internalConditionIndex) != null)
-            {
-                TBD.InternalCondition internalCondition = m_tbdDocument.Building.GetIC(internalConditionIndex);
-                internalConditions.Add(Engine.TAS.Convert.FromTAS(internalCondition));
-                internalConditionIndex++;
-            }
-
-            return internalConditions;
         }
 
         /***************************************************/
