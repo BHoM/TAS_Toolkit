@@ -40,17 +40,14 @@ namespace BH.Engine.TAS
         [Description("Gets BHoM Emitter from TAS TBD Emitter")]
         [Input("tbdEmitter", "TAS TBD Emitter")]
         [Output("BHoM Environmental Emitter object")]
-        public static BHE.Emitter FromTAS(this TBD.Emitter tbdEmitter)
+        public static BHE.Equipment FromTAS(this TBD.Emitter tbdEmitter)
         {
             if (tbdEmitter == null) return null;
 
-            BHE.Emitter emitter = new BHE.Emitter();
+            BHE.Equipment emitter = new BHE.Equipment();
             emitter.Name = tbdEmitter.name;
-            emitter.RadiantProportion = tbdEmitter.radiantProportion;
+            emitter.RadiantFraction = tbdEmitter.radiantProportion;
             emitter.ViewCoefficient = tbdEmitter.viewCoefficient;
-            emitter.SwitchOffOutsideTemperature = tbdEmitter.offOutsideTemp;
-            emitter.MaximumOutsideTemperature = tbdEmitter.maxOutsideTemp;
-            emitter.Type = tbdEmitter.emitterType.FromTAS();
 
             Dictionary<string, object> tasData = new Dictionary<string, object>();
             tasData.Add("EmitterDescription", tbdEmitter.description);
@@ -81,18 +78,15 @@ namespace BH.Engine.TAS
         [Description("Gets TAS TBD Emitter from BH.oM.Environment.Elements.Emitter")]
         [Input("emitter", "BHoM Environmental Emitter object")]
         [Output("TAS TBD Emitter")]
-        public static TBD.Emitter ToTAS(this BHE.Emitter emitter, TBD.Emitter tbdEmitter)
+        public static TBD.Emitter ToTAS(this BHE.Equipment emitter, TBD.Emitter tbdEmitter)
         {
             //TODO:Gain list (Heating and Cooling factors) are not pushed. The View Coefficient, Radiant Proportion, Temperatures are pushed. Capacity Compensation is not pushed.
 
             if (emitter == null) return tbdEmitter;
 
             tbdEmitter.name = emitter.Name;
-            tbdEmitter.radiantProportion = (float)emitter.RadiantProportion;
+            tbdEmitter.radiantProportion = (float)emitter.RadiantFraction;
             tbdEmitter.viewCoefficient = (float)emitter.ViewCoefficient;
-            tbdEmitter.offOutsideTemp = (float)emitter.SwitchOffOutsideTemperature;
-            tbdEmitter.maxOutsideTemp = (float)emitter.MaximumOutsideTemperature;
-            tbdEmitter.emitterType = emitter.Type.ToTAS();
 
             Dictionary<string, object> tasData = emitter.CustomData;
 

@@ -61,8 +61,6 @@ namespace BH.Engine.TAS
                 getTypeIndex++;
             }
 
-            internalCondition.Emitters.Add(tbdCondition.GetHeatingEmitter().FromTAS());
-            internalCondition.Emitters.Add(tbdCondition.GetCoolingEmitter().FromTAS());
             internalCondition.Gains = tbdCondition.GetInternalGain().FromTAS();
             internalCondition.Thermostat = tbdCondition.GetThermostat().FromTAS();
 
@@ -106,18 +104,6 @@ namespace BH.Engine.TAS
 
                 tbdCondition.SetDayType(tbdDayType, true);
             }
-
-            TBD.Emitter heatingEmitter = tbdCondition.GetHeatingEmitter();
-            heatingEmitter = internalCondition.Emitters.Where(x => x.Type == BHEG.EmitterType.Heating).First().ToTAS(heatingEmitter);
-
-            TBD.Emitter coolingEmitter = tbdCondition.GetCoolingEmitter();
-            coolingEmitter = internalCondition.Emitters.Where(x => x.Type == BHEG.EmitterType.Cooling).First().ToTAS(coolingEmitter);
-
-            TBD.InternalGain internalGain = tbdCondition.GetInternalGain();
-            internalGain = internalCondition.Gains.ToTAS(internalGain);
-
-            TBD.Thermostat thermostat = tbdCondition.GetThermostat();
-            thermostat = internalCondition.Thermostat.ToTAS(thermostat);
 
             return tbdCondition;
         }
