@@ -98,25 +98,19 @@ namespace BH.Engine.TAS
             {
                 case TBD.BuildingElementType.ROOFLIGHT:
                     return BHE.OpeningType.Rooflight;
-
                 case TBD.BuildingElementType.DOORELEMENT:
                     return BHE.OpeningType.Door;
                 case TBD.BuildingElementType.VEHICLEDOOR:
                     return BHE.OpeningType.VehicleDoor;
-
                 case TBD.BuildingElementType.GLAZING:
                     return BHE.OpeningType.Glazing;
-
                 case TBD.BuildingElementType.CURTAINWALL:
                     return BHE.OpeningType.CurtainWall;
-
                 case TBD.BuildingElementType.FRAMEELEMENT:
                     return BHE.OpeningType.Frame;
-
                 case TBD.BuildingElementType.NOBETYPE:
                 case TBD.BuildingElementType.NULLELEMENT:
-                    return BHE.OpeningType.Undefined;
-
+                    return BHE.OpeningType.Hole;
                 default:
                     return BHE.OpeningType.Window;
             }
@@ -269,24 +263,21 @@ namespace BH.Engine.TAS
                     return TBD.BuildingElementType.ROOFLIGHT;
                 case BHE.OpeningType.RooflightWithFrame:
                     return TBD.BuildingElementType.ROOFLIGHT;
-
                 case BHE.OpeningType.CurtainWall:
                     return TBD.BuildingElementType.CURTAINWALL;
-
                 case BHE.OpeningType.Frame:
                     return TBD.BuildingElementType.FRAMEELEMENT;
                 case BHE.OpeningType.Door:
                     return TBD.BuildingElementType.DOORELEMENT;
                 case BHE.OpeningType.VehicleDoor:
                     return TBD.BuildingElementType.VEHICLEDOOR;
-
                 case BHE.OpeningType.Glazing:
                     return TBD.BuildingElementType.GLAZING;
                 case BHE.OpeningType.Window:
                     return TBD.BuildingElementType.GLAZING;
                 case BHE.OpeningType.WindowWithFrame:
                     return TBD.BuildingElementType.GLAZING;
-
+                case BHE.OpeningType.Hole:
                 default:
                     return TBD.BuildingElementType.NULLELEMENT;
             }
