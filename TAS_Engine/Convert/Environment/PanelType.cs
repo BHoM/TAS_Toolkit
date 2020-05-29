@@ -77,7 +77,7 @@ namespace BH.Engine.TAS
 
                 case TBD.BuildingElementType.NOBETYPE:
                 case TBD.BuildingElementType.NULLELEMENT:
-                    return BHE.PanelType.Undefined;
+                    return BHE.PanelType.Air;
 
                 case TBD.BuildingElementType.SHADEELEMENT:
                     return BHE.PanelType.Shade;
@@ -243,7 +243,7 @@ namespace BH.Engine.TAS
                     return TBD.BuildingElementType.SHADEELEMENT;
                 case BHE.PanelType.SolarPanel:
                     return TBD.BuildingElementType.SOLARPANEL;
-
+                case BHE.PanelType.Air:
                 default:
                     return TBD.BuildingElementType.NULLELEMENT;
             }
