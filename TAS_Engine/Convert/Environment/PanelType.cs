@@ -35,7 +35,7 @@ using System.ComponentModel;
 using BH.Engine.Environment;
 using BHP = BH.oM.Environment.Fragments;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
     {

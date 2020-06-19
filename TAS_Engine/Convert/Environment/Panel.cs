@@ -40,11 +40,11 @@ using System.ComponentModel;
 using BH.Engine.Environment;
 using BH.oM.TAS.Settings;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental BuildingElement from a TAS TBD BuildingElement and TAS TBD ZoneSurface")]
+        [Description("BH.Engine.Adapters.TAS.Convert ToBHoM => gets a BHoM Environmental BuildingElement from a TAS TBD BuildingElement and TAS TBD ZoneSurface")]
         [Input("tbdElement", "TAS TBD BuildingElement")]
         [Input("tbdSurface", "TAS TBD ZoneSurface")]
         [Output("BHoM Environmental BuildingElement")]
@@ -87,7 +87,7 @@ namespace BH.Engine.TAS
 
             buildingElementContextProperties.IsAir = tbdElement.ghost != 0;
             buildingElementContextProperties.IsGround = tbdElement.ground != 0;
-            buildingElementContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdElement.colour).ToString();
+            buildingElementContextProperties.Colour = BH.Engine.Adapters.TAS.Query.GetRGB(tbdElement.colour).ToString();
             buildingElementContextProperties.Reversed = tbdSurface.reversed != 0;
             element.Fragments.Add(buildingElementContextProperties);
 
@@ -167,7 +167,7 @@ namespace BH.Engine.TAS
             return element;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD BuildingElement from a BHoM Environmental BuildingElement")]
+        [Description("BH.Engine.Adapters.TAS.Convert ToTAS => gets a TAS TBD BuildingElement from a BHoM Environmental BuildingElement")]
         [Input("buildingElement", "BHoM Environmental BuildingElement")]
         [Output("TAS TBD BuildingElement")]
         public static TBD.buildingElement ToTAS(this BHE.Panel buildingElement, TBD.buildingElement tbdBuildingElement, TBD.Construction tbdConstruction)

@@ -30,7 +30,7 @@ using BHEE = BH.oM.Environment.Elements;
 
 using BH.Engine.Environment;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Query
     {

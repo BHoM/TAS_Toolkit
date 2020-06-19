@@ -32,7 +32,7 @@ using BH.oM.Environment.Gains;
 using BH.oM.Environment.Fragments;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Environment;
-using BH.Engine.TAS;
+using BH.Engine.Adapters.TAS;
 using BHP = BH.oM.Environment.Fragments;
 using BH.oM.Physical.Constructions;
 using BH.oM.Physical.Materials;
@@ -98,7 +98,7 @@ namespace BH.Adapter.TAS
             while (building.GetZone(zoneIndex) != null)
             {
                 TBD.zone zone = m_tbdDocument.Building.GetZone(zoneIndex);
-                spaces.Add(Engine.TAS.Convert.FromTAS(zone, m_tbdDocument));
+                spaces.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(zone, m_tbdDocument));
                 zoneIndex++;
             }
 
@@ -111,7 +111,7 @@ namespace BH.Adapter.TAS
         {
             TBD.Building building = m_tbdDocument.Building;
             List<Building> buildings = new List<Building>();
-            buildings.Add(Engine.TAS.Convert.FromTAS(building));
+            buildings.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(building));
 
             return buildings;
         }
@@ -122,7 +122,7 @@ namespace BH.Adapter.TAS
         {
             TBD.Building tbdBuilding = m_tbdDocument.Building;
             List<BH.oM.Architecture.Elements.Level> levels = new List<BH.oM.Architecture.Elements.Level>();
-            levels = Engine.TAS.Convert.FromTASLevels(tbdBuilding);
+            levels = BH.Engine.Adapters.TAS.Convert.FromTASLevels(tbdBuilding);
 
             return levels;
         }
@@ -235,7 +235,7 @@ namespace BH.Adapter.TAS
             while (building.GetConstruction(buildingElementIndex) != null)
             {
                 TBD.Construction construction = m_tbdDocument.Building.GetConstruction(buildingElementIndex);
-                constructions.Add(Engine.TAS.Convert.FromTAS(construction)); //ToDo: FIX THIS
+                constructions.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(construction)); //ToDo: FIX THIS
                 buildingElementIndex++;
             }
 
@@ -272,7 +272,7 @@ namespace BH.Adapter.TAS
                 {
                     TBD.material tbdMaterial = building.GetConstruction(constructionIndex).materials(materialIndex);
 
-                    material.Add(Engine.TAS.Convert.FromTAS(tbdMaterial, currConstruction));
+                    material.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(tbdMaterial, currConstruction));
                     materialIndex++;
                 }
 

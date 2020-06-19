@@ -34,11 +34,11 @@ using BHP = BH.oM.Environment.Fragments;
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental Building from a TAS TBD Building")]
+        [Description("BH.Engine.Adapters.TAS.Convert ToBHoM => gets a BHoM Environmental Building from a TAS TBD Building")]
         [Input("tbdBuilding", "TAS TBD Building")]
         [Output("BHoM Environmental Building")]
         public static BHE.Building FromTAS(this TBD.Building tbdBuilding)
@@ -98,7 +98,7 @@ namespace BH.Engine.TAS
             return building;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Building from a BHoM Environmental Building")]
+        [Description("BH.Engine.Adapters.TAS.Convert ToTAS => gets a TAS TBD Building from a BHoM Environmental Building")]
         [Input("building", "BHoM Environmental Building")]
         [Output("TAS TBD Building")]
         public static TBD.Building ToTAS(this BHE.Building building, TBD.Building tbdBuilding)

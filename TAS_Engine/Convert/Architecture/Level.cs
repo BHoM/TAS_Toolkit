@@ -34,7 +34,7 @@ using BH.Engine.Geometry;
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
     {
@@ -87,7 +87,7 @@ namespace BH.Engine.TAS
             return level;
         }
         /*
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TBD Building from a list of BHoM Architecture Levels")]
+        [Description("BH.Engine.Adapters.TAS.Convert ToTAS => gets a TAS TBD Building from a list of BHoM Architecture Levels")]
         [Input("levels","BHoM Architectural Levels")]
         [Output("TAS TBD Building")]
         public static TBD.BuildingStoreyClass ToTAS(this List<BHA.Level> levels)

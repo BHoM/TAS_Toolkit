@@ -35,11 +35,11 @@ using BHER = BH.Engine.Reflection.Compute;
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TSD Building Array from a BHoM Environmental Profile Result Type")]
+        [Description("BH.Engine.Adapters.TAS.Convert ToTAS => gets a TAS TSD Building Array from a BHoM Environmental Profile Result Type")]
         [Input("resultType", "BHoM Environmental Profile Result Type")]
         [Output("TAS TSB Building Array")]
         public static TSD.tsdBuildingArray? ToTASBuildingType(this BHR.ProfileResultType resultType)
@@ -75,7 +75,7 @@ namespace BH.Engine.TAS
             }
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TSD Surface Array from a BHoM Environmental Profile Result Type")]
+        [Description("BH.Engine.Adapters.TAS.Convert ToTAS => gets a TAS TSD Surface Array from a BHoM Environmental Profile Result Type")]
         [Input("resultType", "BHoM Environmental Profile Result Type")]
         [Output("TAS TSB Surface Array")]
         public static TSD.tsdSurfaceArray? ToTASSurfaceType(this BHR.ProfileResultType resultType)
@@ -122,7 +122,7 @@ namespace BH.Engine.TAS
             }
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TSD Zone Array from a BHoM Environmental Profile Result Type")]
+        [Description("BH.Engine.Adapters.TAS.Convert ToTAS => gets a TAS TSD Zone Array from a BHoM Environmental Profile Result Type")]
         [Input("resultType", "BHoM Environmental Profile Result Type")]
         [Output("TAS TSB Zone Array")]
         public static TSD.tsdZoneArray? ToTASSpaceType(this BHR.ProfileResultType resultType)

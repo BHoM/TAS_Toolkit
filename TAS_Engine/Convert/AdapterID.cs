@@ -26,7 +26,7 @@ using BHE = BH.oM.Environment;
 using BH.Engine.Geometry;
 using TBD;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
     {

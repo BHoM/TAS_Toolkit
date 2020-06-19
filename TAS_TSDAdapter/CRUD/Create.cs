@@ -31,7 +31,7 @@ using BHG = BH.oM.Geometry;
 using System.Runtime.InteropServices;
 using BH.Engine.Environment;
 using TSD;
-using BH.Engine.TAS;
+using BH.Engine.Adapters.TAS;
 
 using BH.oM.Adapter;
 
