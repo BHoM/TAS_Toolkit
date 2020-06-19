@@ -33,7 +33,7 @@ using BH.oM.Environment.Fragments;
 using BHG = BH.oM.Geometry;
 using BH.Engine;
 using TSD;
-using BH.Engine.TAS;
+using BH.Engine.Adapters.TAS;
 using BH.oM.Environment.Results;
 
 using BH.oM.Adapter;
@@ -71,7 +71,7 @@ namespace BH.Adapter.TAS
             TSD.BuildingData tsdBuildingData = tsdDocument.SimulationData.GetBuildingData();
             List<IBHoMObject> buildingResults = new List<IBHoMObject>();
             
-            buildingResults.Add(Engine.TAS.Convert.FromTAS(tsdBuildingData, ProfileResultUnits, ProfileResultType, Hour, Day));
+            buildingResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(tsdBuildingData, ProfileResultUnits, ProfileResultType, Hour, Day));
 
             return buildingResults;
         }
@@ -100,7 +100,7 @@ namespace BH.Adapter.TAS
 
             while ((zoneData = tsdDocument.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
             {
-                spaceResults.Add(Engine.TAS.Convert.FromTAS(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
+                spaceResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
                 zoneIndex++;
             }
 
@@ -120,7 +120,7 @@ namespace BH.Adapter.TAS
                 int zoneIndex = 1;
                 while ((zoneData = heatData.GetZoneData(zoneIndex)) != null)
                 {
-                    spaceResults.Add(Engine.TAS.Convert.FromTAS(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
+                    spaceResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
                     zoneIndex++;
                 }
                 heatingIndex++;
@@ -142,7 +142,7 @@ namespace BH.Adapter.TAS
                 int zoneIndex = 1;
                 while ((zoneData = coolData.GetZoneData(zoneIndex)) != null)
                 {
-                    spaceResults.Add(Engine.TAS.Convert.FromTAS(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
+                    spaceResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
                     zoneIndex++;
                 }
                 coolingIndex++;
@@ -164,7 +164,7 @@ namespace BH.Adapter.TAS
                 TSD.SurfaceData srfData = null;
                 while((srfData = zoneData.GetSurfaceData(srfIndex)) != null)
                 {
-                    buildingElementResults.Add(Engine.TAS.Convert.FromTAS(srfData, ProfileResultUnits, ProfileResultType, Hour, Day));
+                    buildingElementResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(srfData, ProfileResultUnits, ProfileResultType, Hour, Day));
                     srfIndex++;
                 }
                 zoneIndex++;

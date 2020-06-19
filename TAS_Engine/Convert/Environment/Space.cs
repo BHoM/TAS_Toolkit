@@ -36,7 +36,7 @@ using BHP = BH.oM.Environment.Fragments;
 
 using BH.Engine.Environment;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
     {
@@ -64,7 +64,7 @@ namespace BH.Engine.TAS
 
             //SpaceContextProperties
             BHP.SpaceContextFragment spaceContextProperties = new BHP.SpaceContextFragment();
-            spaceContextProperties.Colour = BH.Engine.TAS.Query.GetRGB(tbdSpace.colour).ToString();
+            spaceContextProperties.Colour = BH.Engine.Adapters.TAS.Query.GetRGB(tbdSpace.colour).ToString();
             spaceContextProperties.IsExternal = tbdSpace.external != 0;
 
             //spaceContextProperties.ConnectedElements = tbdSpace.external != 0;

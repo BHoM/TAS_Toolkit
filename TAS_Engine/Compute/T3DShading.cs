@@ -38,12 +38,12 @@ using BH.oM.Environment.Elements;
 using BH.oM.Environment.Fragments;
 using System;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Compute
     {
 
-        //[Description("BH.Engine.TAS Compute - Run Design Day Sizing")]
+        //[Description("BH.Engine.Adapters.TAS Compute - Run Design Day Sizing")]
         //[Input("tbdFile", "The full file path of the TBD file")]
         //[Input("run", "Set to true when you want to run the component, default false")]
         //[Output("success", "True if TBD file has been successfully run, false otherwise")]

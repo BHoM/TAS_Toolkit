@@ -58,7 +58,7 @@ using BHA = BH.oM.Architecture;
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 using BHP = BH.oM.Environment.Fragments;
-using BH.Engine.TAS;
+using BH.Engine.Adapters.TAS;
 
 using BH.oM.Adapter;
 
@@ -214,11 +214,11 @@ namespace BH.Adapter.TAS
                tbdPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tbdPolygon);
                //Set the building Element
                tbdZoneSrf.buildingElement = Engine.TAS.Convert.ToTas(element, be, m_TBDDocument.Building);
-               //tasZoneSrf.type = BH.Engine.TAS.Query.GetSurfaceType(element, spaces);
+               //tasZoneSrf.type = BH.Engine.Adapters.TAS.Query.GetSurfaceType(element, spaces);
                tbdZoneSrf.orientation = (float)BH.Engine.Environment.Query.Azimuth(element.BuildingElementGeometry, new BHG.Vector());
-               //tasZoneSrf.orientation = BH.Engine.TAS.Query.GetOrientation(element.BuildingElementGeometry, bHoMSpace);
+               //tasZoneSrf.orientation = BH.Engine.Adapters.TAS.Query.GetOrientation(element.BuildingElementGeometry, bHoMSpace);
                tbdZoneSrf.inclination = (float)BH.Engine.Environment.Query.Tilt(element.BuildingElementGeometry);
-               //tasZoneSrf.inclination = BH.Engine.TAS.Query.GetInclination(element.BuildingElementGeometry, bHoMSpace);
+               //tasZoneSrf.inclination = BH.Engine.Adapters.TAS.Query.GetInclination(element.BuildingElementGeometry, bHoMSpace);
            }
            return true;
        }
@@ -237,12 +237,12 @@ namespace BH.Adapter.TAS
                 //BuildingElementGeometry is removed from element.
                 tbdZoneSrf = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry, tbdZoneSrf);
                 //MD assign type to be fixed!
-                tbdZoneSrf.type = BH.Engine.TAS.Query.SurfaceType(element); 
+                tbdZoneSrf.type = BH.Engine.Adapters.TAS.Query.SurfaceType(element); 
                 //Add roomSrf, create face, get its controlpoints and convert to TAS
                 TBD.Polygon tbdPolygon = tbdRoom.AddSurface().CreatePerimeter().CreateFace();
                 tbdPolygon = Engine.TAS.Convert.ToTas(element.BuildingElementGeometry.ICurve(), tbdPolygon);
                 //We have to add a building element to the zonesurface before we save the file. Otherwise we end up with a corrupt file!
-                TBD.buildingElement be = BH.Engine.TAS.Query.BuildingElement(m_TBDDocument.Building, element.Name);
+                TBD.buildingElement be = BH.Engine.Adapters.TAS.Query.BuildingElement(m_TBDDocument.Building, element.Name);
                 if (be == null)
                 {
                     be = m_TBDDocument.Building.AddBuildingElement();
@@ -250,11 +250,11 @@ namespace BH.Adapter.TAS
                      Engine.TAS.Convert.ToTas(element, be, m_TBDDocument.Building);
                 }
                 tbdZoneSrf.buildingElement = be;
-                //tasZoneSrf.type = BH.Engine.TAS.Query.GetSurfaceType(element, spaces);
+                //tasZoneSrf.type = BH.Engine.Adapters.TAS.Query.GetSurfaceType(element, spaces);
                 tbdZoneSrf.orientation = (float)BH.Engine.Environment.Query.Azimuth(element.BuildingElementGeometry, new BHG.Vector());
-                //tasZoneSrf.orientation = BH.Engine.TAS.Query.GetOrientation(element.BuildingElementGeometry, bHoMSpace);
+                //tasZoneSrf.orientation = BH.Engine.Adapters.TAS.Query.GetOrientation(element.BuildingElementGeometry, bHoMSpace);
                 tbdZoneSrf.inclination = (float)BH.Engine.Environment.Query.Tilt(element.BuildingElementGeometry);
-                //tasZoneSrf.inclination = BH.Engine.TAS.Query.GetInclination(element.BuildingElementGeometry, bHoMSpace);
+                //tasZoneSrf.inclination = BH.Engine.Adapters.TAS.Query.GetInclination(element.BuildingElementGeometry, bHoMSpace);
             }
             return true;
         */

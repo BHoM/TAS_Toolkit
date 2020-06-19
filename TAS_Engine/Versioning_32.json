@@ -1,0 +1,18 @@
+{
+  "Namespace": {
+    "ToNew": {
+      "BH.Engine.XML":  "BH.Engine.Adapters.TAS"
+    },
+    "ToOld": {
+      "BH.Engine.Adapters.XML": "BH.Engine.TAS"
+    }
+  },
+  "Type": {
+    "ToNew": {
+      
+    },
+    "ToOld": {
+      
+    }
+  }
+}

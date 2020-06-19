@@ -38,7 +38,7 @@ using System.ComponentModel;
 using BHPC = BH.oM.Physical.Constructions;
 using BH.Engine.Environment;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
     {

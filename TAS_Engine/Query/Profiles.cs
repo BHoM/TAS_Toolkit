@@ -30,7 +30,7 @@ using BHEG = BH.oM.Environment.Gains;
 using BH.Engine.Environment;
 using BH.oM.Geometry;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Query
     {

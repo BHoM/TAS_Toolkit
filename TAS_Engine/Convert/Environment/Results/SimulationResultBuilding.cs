@@ -35,11 +35,11 @@ using BHER = BH.Engine.Reflection.Compute;
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
     {
-        [Description("BH.Engine.TAS.Convert ToBHoM => gets a BHoM Environmental Simulation Result from a TAS TSD Building Simulation")]
+        [Description("BH.Engine.Adapters.TAS.Convert ToBHoM => gets a BHoM Environmental Simulation Result from a TAS TSD Building Simulation")]
         [Input("tsdData", "TAS TSD Building Data")]
         [Output("BHoM Environmental Simulation Result")]
         public static BHR.SimulationResult FromTAS(this TSD.BuildingData tsdData, BHR.ProfileResultUnit unitType, BHR.ProfileResultType resultType, int hour, int day)
@@ -87,7 +87,7 @@ namespace BH.Engine.TAS
             return result;
         }
 
-        [Description("BH.Engine.TAS.Convert ToTAS => gets a TAS TSD Building Data object from a BHoM Environmental Simulation Result")]
+        [Description("BH.Engine.Adapters.TAS.Convert ToTAS => gets a TAS TSD Building Data object from a BHoM Environmental Simulation Result")]
         [Input("result", "BHoM Environmental Simulation Result")]
         [Output("TAS TSD Building Data")]
         public static TSD.BuildingData ToTASBuilding(this BHR.SimulationResult result)

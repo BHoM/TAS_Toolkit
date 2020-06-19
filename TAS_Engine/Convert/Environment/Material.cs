@@ -39,7 +39,7 @@ using BHPMC = BH.oM.Physical.Constructions;
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
     {

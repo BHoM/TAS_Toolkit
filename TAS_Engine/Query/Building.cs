@@ -33,13 +33,13 @@ using BH.oM.Geometry;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Query
     {
 
         ///***************************************************/
-        //[Description("BH.Engine.TAS Query- Get TBD Building  from TBD File")]
+        //[Description("BH.Engine.Adapters.TAS Query- Get TBD Building  from TBD File")]
         //[Input("tbdFile", "The full file path of the TBD file")]
         //[Input("run", "Set to true when you want to run the component, default false")]
         //[Output("tbdBuilding", "return building")]

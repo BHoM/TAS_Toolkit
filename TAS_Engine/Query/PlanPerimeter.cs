@@ -32,7 +32,7 @@ using BH.Engine.Environment;
 using BHE = BH.oM.Environment;
 using BH.Engine.Geometry;
 
-namespace BH.Engine.TAS
+namespace BH.Engine.Adapters.TAS
 {
     public static partial class Query
     {
