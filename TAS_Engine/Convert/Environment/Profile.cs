@@ -41,12 +41,11 @@ namespace BH.Engine.Adapters.TAS
         [Input("tbdProfile", "TAS TBD Profile")]
         [Input("profileType", "BHoM Environmental Profile Type")]
         [Output("BHoM Environmental Profile")]
-        public static BHE.Profile FromTAS(this TBD.profile tbdProfile, BHE.ProfileType profileType)
+        public static BHE.Profile FromTAS(this TBD.profile tbdProfile)
         {
             BHE.Profile profile = new BHE.Profile();
 
             profile.Name = tbdProfile.name;
-            profile.ProfileType = profileType;
 
             switch (tbdProfile.type)
             {
