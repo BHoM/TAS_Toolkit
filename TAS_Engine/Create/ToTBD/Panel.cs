@@ -48,7 +48,11 @@ namespace BH.Engine.Adapters.TAS
 
             Plane aPlane = Geometry.Create.Plane(aPoint_Max_1, Geometry.Create.Vector(0, 0, 1));
             ICurve aCurve = Geometry.Modify.Project(curve as dynamic, aPlane);
-            Panel aBuildingElement = Environment.Create.Panel(externalEdges: aCurve.ToEdges());
+            Panel aBuildingElement = new Panel()
+            {
+                ExternalEdges = aCurve.ToEdges(),
+            };
+
             return aBuildingElement;
         }
 
