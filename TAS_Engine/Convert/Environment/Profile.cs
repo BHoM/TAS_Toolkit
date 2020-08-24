@@ -27,7 +27,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using BHA = BH.oM.Architecture;
-using BHE = BH.oM.Environment.Gains;
+using BHE = BH.oM.Environment.SpaceCriteria;
 using BHG = BH.oM.Geometry;
 
 using BH.oM.Reflection.Attributes;

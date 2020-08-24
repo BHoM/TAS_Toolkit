@@ -26,7 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BHG = BH.oM.Geometry;
-using BHEG = BH.oM.Environment.Gains;
+using BHEG = BH.oM.Environment.SpaceCriteria;
 using BH.Engine.Environment;
 using BH.oM.Geometry;
 
