@@ -28,7 +28,7 @@ using System.Linq;
 using BH.oM.Base;
 using BHE = BH.oM.Environment;
 using BH.oM.Environment.Elements;
-using BH.oM.Environment.Gains;
+using BH.oM.Environment.SpaceCriteria;
 using BH.oM.Environment.Fragments;
 using BH.Engine.Adapters.TAS;
 using BHP = BH.oM.Environment.Fragments;
