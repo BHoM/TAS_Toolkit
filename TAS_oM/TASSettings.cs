@@ -24,7 +24,7 @@ using System;
 using System.Collections.Generic;
 using BH.oM.Base;
 
-namespace BH.oM.TAS.Settings
+namespace BH.oM.Adapters.TAS
 {
     public class TASSettings : BHoMObject
     {

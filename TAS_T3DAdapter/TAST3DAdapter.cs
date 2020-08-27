@@ -29,7 +29,7 @@ using BH.oM.Base;
 
 using TAS3D;
 
-using BH.oM.TAS;
+using BH.oM.Adapters.TAS;
 
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
