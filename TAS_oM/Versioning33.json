@@ -1,0 +1,18 @@
+{
+    "Namespace": {
+        "ToNew": {
+            "BH.oM.Adapters.TAS": "BH.oM.Adapters.TAS"
+        },
+        "ToOld": {
+            "BH.oM.Adapters.TAS": "BH.oM.Mongo"
+        }
+    },
+    "Type": {
+        "ToNew": {
+            "BH.oM.Adapters.TAS.Settings.TASSettings": "BH.oM.Adapters.TAS.TASSettings"
+        },
+        "ToOld": {
+            "BH.oM.Adapters.TAS.TASSettings": "BH.oM.Adapters.TAS.Settings.TASSettings"
+        }
+    }
+}

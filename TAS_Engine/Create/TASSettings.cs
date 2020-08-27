@@ -26,7 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using BH.oM.TAS.Settings;
+using BH.oM.Adapters.TAS;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;

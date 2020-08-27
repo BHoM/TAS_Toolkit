@@ -80,11 +80,11 @@ namespace BH.Adapter.TAS
         {
             switch(tsdResultType)
             {
-                case oM.TAS.TSDResultType.Simulation:
+                case oM.Adapters.TAS.TSDResultType.Simulation:
                     return ReadSpaceSimulationResults();
-                case oM.TAS.TSDResultType.HeatingDesignDay:
+                case oM.Adapters.TAS.TSDResultType.HeatingDesignDay:
                     return ReadSpaceHeatingResults();
-                case oM.TAS.TSDResultType.CoolingDesignDay:
+                case oM.Adapters.TAS.TSDResultType.CoolingDesignDay:
                     return ReadSpaceCoolingResults();
             }
 

@@ -26,11 +26,10 @@ using System.Linq;
 using System.Reflection;
 using BH.oM.Data.Requests;
 using BH.oM.Base;
-using BH.oM.TAS.Settings;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 
-using BH.oM.TAS;
+using BH.oM.Adapters.TAS;
 
 namespace BH.Adapter.TAS
 {
