@@ -28,8 +28,8 @@ using BH.oM.Data.Requests;
 using BH.oM.Base;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
-
 using BH.oM.Adapters.TAS;
+using BH.oM.Adapters.TAS.Settings;
 
 namespace BH.Adapter.TAS
 {

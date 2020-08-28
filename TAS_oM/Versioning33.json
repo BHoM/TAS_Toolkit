@@ -1,18 +1,19 @@
 {
     "Namespace": {
         "ToNew": {
-            "BH.oM.Adapters.TAS": "BH.oM.Adapters.TAS"
+            "BH.oM.TAS": "BH.oM.Adapters.TAS",
+            "BH.oM.TAS.Settings": "BH.oM.Adapters.TAS.Settings"
+
         },
         "ToOld": {
-            "BH.oM.Adapters.TAS": "BH.oM.Mongo"
+            "BH.oM.Adapters.TAS": "BH.oM.TAS",
+            "BH.oM.Adapters.TAS.Settings": "BH.oM.TAS.Settings"
         }
     },
     "Type": {
         "ToNew": {
-            "BH.oM.Adapters.TAS.Settings.TASSettings": "BH.oM.Adapters.TAS.TASSettings"
         },
         "ToOld": {
-            "BH.oM.Adapters.TAS.TASSettings": "BH.oM.Adapters.TAS.Settings.TASSettings"
         }
     }
 }

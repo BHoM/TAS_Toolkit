@@ -25,16 +25,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
 using BH.Engine.Environment;
 using BH.oM.Adapters.TAS;
-
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
+using BH.oM.Adapters.TAS.Settings;
 
 namespace BH.Engine.Adapters.TAS
 {

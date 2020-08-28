@@ -32,8 +32,8 @@ using BH.Engine;
 using BH.oM.Environment.Results;
 using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
-
 using BH.oM.Adapters.TAS;
+using BH.oM.Adapters.TAS.Settings;
 
 namespace BH.Adapter.TAS
 {
