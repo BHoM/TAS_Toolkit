@@ -80,7 +80,7 @@ namespace BH.Engine.Adapters.TAS
             spaceAnalyticalProperties.SizeHeatingMethod = ((TBD.SizingType)tbdSpace.sizeCooling).FromTAS();
             space.Fragments.Add(spaceAnalyticalProperties);
 
-            //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
+            //Extended Properties
 
             TASSpaceData tasData = new TASSpaceData();
             tasData.Colour = System.Convert.ToUInt32(tbdSpace.colour);
@@ -132,25 +132,28 @@ namespace BH.Engine.Adapters.TAS
                 tbdSpace.maxCoolingLoad = (float)loads.CoolingLoad;
             }
 
-            Dictionary<string, object> tasData = space.CustomData;
-
-            if (tasData != null)
+            TASSpaceData tasFragment = space.FindFragment<TASSpaceData>(typeof(TASSpaceData));
+            if (tasFragment != null)
             {
-                tbdSpace.colour = (tasData.ContainsKey("SpaceColour") ? System.Convert.ToUInt32(tasData["SpaceColour"]) : 0);
-                tbdSpace.daylightFactor = (tasData.ContainsKey("DaylightFactor") ? (float)System.Convert.ToDouble(tasData["DaylightFactor"]) : 0);
-                tbdSpace.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
-                tbdSpace.exposedPerimeter = (tasData.ContainsKey("ExposedPerimeter") ? (float)System.Convert.ToDouble(tasData["ExposedPerimeter"]) : 0);
-                tbdSpace.external = (tasData.ContainsKey("External") ? System.Convert.ToInt32(tasData["External"]) : 0);
-                tbdSpace.facadeLength = (tasData.ContainsKey("FacadeLength") ? (float)System.Convert.ToDouble(tasData["FacadeLength"]) : 0);
-                tbdSpace.fixedConvectionCoefficient = (tasData.ContainsKey("FixedConvectionCoefficient") ? (float)System.Convert.ToDouble(tasData["FixedConvectionCoefficient"]) : 0);
-                tbdSpace.floorArea = (tasData.ContainsKey("FloorArea") ? (float)System.Convert.ToDouble(tasData["FloorArea"]) : 0);
-                tbdSpace.GUID = (tasData.ContainsKey("GUID") ? tasData["GUID"].ToString() : "");
-                tbdSpace.length = (tasData.ContainsKey("Length") ? (float)System.Convert.ToDouble(tasData["Length"]) : 0);
-                tbdSpace.sizeCooling = (tasData.ContainsKey("SizeCooling") ? System.Convert.ToInt32(tasData["SizeCooling"]) : 0);
-                tbdSpace.sizeHeating = (tasData.ContainsKey("SizeHeating") ? System.Convert.ToInt32(tasData["SizeHeating"]) : 0);
-                //tbdSpace.variableConvectionCoefficient = (tasData.ContainsKey("variableConvectionCoefficient") ? tasData["variableConvectionCoefficient"].ToString() : "");
-                tbdSpace.volume = (tasData.ContainsKey("Volume") ? (float)System.Convert.ToDouble(tasData["Volume"]) : 0);
-                tbdSpace.wallFloorAreaRatio = (tasData.ContainsKey("WallFloorAreaRatio") ? (float)System.Convert.ToDouble(tasData["WallFloorAreaRatio"]) : 0);
+                tbdSpace.colour = tasFragment.Colour;
+                tbdSpace.daylightFactor = (float)tasFragment.DaylightFactor;
+                tbdSpace.exposedPerimeter = (float)tasFragment.ExposedPerimeter;
+                tbdSpace.external = tasFragment.External;
+                tbdSpace.facadeLength = (float)tasFragment.FacadeLength;
+                tbdSpace.fixedConvectionCoefficient = (float)tasFragment.FixedConvectionCoefficient;
+                tbdSpace.floorArea = (float)tasFragment.FloorArea;
+                tbdSpace.GUID = tasFragment.TASID;
+                tbdSpace.length = (float)tasFragment.Length;
+                tbdSpace.sizeCooling = tasFragment.SizeCooling;
+                tbdSpace.sizeHeating = tasFragment.SizeHeating;
+                tbdSpace.volume = (float)tasFragment.Volume;
+                tbdSpace.wallFloorAreaRatio = (float)tasFragment.WallFloorAreaRatio;
+            }
+
+            TASDescription tasDescription = space.FindFragment<TASDescription>(typeof(TASDescription));
+            if (tasFragment != null)
+            {
+                tbdSpace.description = tasDescription.Description;
             }
 
             return tbdSpace;

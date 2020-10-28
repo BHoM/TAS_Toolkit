@@ -18,8 +18,8 @@ namespace BH.oM.Adapters.TAS.Fragments
         public virtual double FloorArea { get; set; } = 0.0;
         public virtual string TASID { get; set; } = "";
         public virtual double Length { get; set; } = 0.0;
-        public virtual double SizeCooling { get; set; } = 0.0;
-        public virtual double SizeHeating { get; set; } = 0.0;
+        public virtual int SizeCooling { get; set; } = 0;
+        public virtual int SizeHeating { get; set; } = 0;
         public virtual double Volume { get; set; } = 0.0;
         public virtual double WallFloorAreaRatio { get; set; } = 0.0;
     }
