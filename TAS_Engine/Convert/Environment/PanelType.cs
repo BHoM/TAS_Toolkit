@@ -123,14 +123,15 @@ namespace BH.Engine.Adapters.TAS
         public static TBD.BuildingElementType ToTASBuildingElementType(this BHE.Panel element, List<List<BHE.Panel>> spaces = null)
         {
             TBD.BuildingElementType tbdType = TBD.BuildingElementType.NULLELEMENT;
-            if (element == null) return tbdType;
-            if (spaces == null) spaces = new List<List<BHE.Panel>>();
+            if (element == null) 
+                return tbdType;
+
+            if (spaces == null)
+                spaces = new List<List<BHE.Panel>>();
             
             int adjacentSpaces = element.AdjacentSpaces(spaces).Count;
             if (adjacentSpaces == 0)
                 tbdType = TBD.BuildingElementType.SHADEELEMENT;
-
-
             else
                 tbdType = TBD.BuildingElementType.NULLELEMENT;
 
@@ -187,7 +188,6 @@ namespace BH.Engine.Adapters.TAS
                     return 19;
                 case "Vehicle Door":
                     return 20;
-
                 default:
                     return 0; //Adiabatic
             }
