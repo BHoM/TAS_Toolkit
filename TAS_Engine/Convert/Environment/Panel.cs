@@ -206,17 +206,6 @@ namespace BH.Engine.Adapters.TAS
         {
             //ToDo: Finish this, connect the geometry to the zoneSurface and other additional data as appropriate
 
-            /*TBD.zoneSurfaceClass tbdBuildingElement = new TBD.zoneSurfaceClass();
-            if (buildingElement == null) return tbdBuildingElement;
-
-            if (buildingElement.CustomData.ContainsKey("SpaceID"))
-                tbdBuildingElement.zone.name = buildingElement.CustomData["SpaceID"].ToString();
-
-            if (buildingElement.CustomData.ContainsKey("AdjacentSpaceID"))
-                tbdBuildingElement.linkSurface.zone.name = buildingElement.CustomData["AdjacentSpaceID"].ToString();
-
-            return tbdBuildingElement;*/
-
             throw new NotImplementedException("Not yet implemented");
         }
     }
