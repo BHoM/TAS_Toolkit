@@ -36,6 +36,7 @@ using System.ComponentModel;
 using BH.Engine.Environment;
 using BH.oM.Adapters.TAS;
 using BH.oM.Adapters.TAS.Settings;
+using BH.oM.Adapters.TAS.Fragments;
 
 namespace BH.Engine.Adapters.TAS
 {
@@ -50,14 +51,19 @@ namespace BH.Engine.Adapters.TAS
             BHE.Panel element = new BHE.Panel();
 
             TBD.BuildingElementType tbdElementType = ((TBD.BuildingElementType)tbdElement.BEType);
+            TASPanelData tasData = new TASPanelData();
+            tasData.PanelIsOpening = tbdElementType.ElementIsOpening();
+            element.Fragments.Add(tasData);
+
+
             //Add a flag on the element for the final read
-            element.CustomData.Add("ElementIsOpening", tbdElementType.ElementIsOpening());
 
             if(tbdElementType.ElementIsOpening())
             {
                 //Find out what the fix was - frame or pane?
                 BHE.OpeningType fixedOpeningType = tbdElementType.FromTASOpeningType().FixBuildingElementType(tbdElement, tbdSurface);
-                element.CustomData.Add("OpeningIsFrame", fixedOpeningType.OpeningIsFrame());
+                tasData.OpeningIsFrame = fixedOpeningType.OpeningIsFrame();
+                element.Fragments.Add(tasData);
             }
 
             BHE.PanelType elementType = ((TBD.BuildingElementType)tbdElement.BEType).FromTAS();
@@ -142,15 +148,15 @@ namespace BH.Engine.Adapters.TAS
                 }
             }
 
-            element.CustomData.Add("SurfaceGUID", tbdSurface.GUID.RemoveBrackets());
-            element.CustomData.Add("SurfaceName", "Z_" + tbdSurface.zone.number + "_" + tbdSurface.number + "_" + tbdSurface.zone.name);
-            element.CustomData.Add("SurfaceType", tbdSurface.type);
-            element.CustomData.Add("SurfaceArea", tbdSurface.area.Round());
-            element.CustomData.Add("SurfaceInternalArea", tbdSurface.internalArea.Round());
-            element.CustomData.Add("ElementWidth", tbdElement.width.Round());
-            element.CustomData.Add("MaterialLayersThickness", tbdElement.GetConstruction().ConstructionThickness().Round());
+            tasData.TASID = tbdSurface.GUID.RemoveBrackets();
+            tasData.TASName = "Z_" + tbdSurface.zone.number + "_" + tbdSurface.number + "_" + tbdSurface.zone.name;
+            tasData.Type = System.Convert.ToString(tbdSurface.type);
+            tasData.Area = tbdSurface.area.Round();
+            tasData.InternalArea = tbdSurface.internalArea.Round();
+            tasData.Width = tbdElement.width.Round();
+            tasData.MaterialLayersThickness = tbdElement.GetConstruction().ConstructionThickness().Round();
 
-            element.CustomData = element.CustomData;
+            element.Fragments.Add(tasData);
 
             //AddingExtended Properties for a frame
 

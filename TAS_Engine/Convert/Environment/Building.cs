@@ -30,9 +30,12 @@ using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
 using BHP = BH.oM.Environment.Fragments;
+using BH.oM.Adapters.TAS.Fragments;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
+
+using BH.Engine.Base;
 
 namespace BH.Engine.Adapters.TAS
 {
@@ -82,18 +85,10 @@ namespace BH.Engine.Adapters.TAS
 
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
-            Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("BuildingGUID", tbdBuilding.GUID.RemoveBrackets());
-            tasData.Add("BuildingDescription", tbdBuilding.description);
-            tasData.Add("BuildingNorthAngle", tbdBuilding.northAngle);
-            tasData.Add("BuildingPath3DFile", tbdBuilding.path3DFile);
-            tasData.Add("BuildingPeakCooling", tbdBuilding.peakCooling);
-            tasData.Add("BuildingPeakHeating", tbdBuilding.peakHeating);
-            tasData.Add("BuildingTBDGUID", tbdBuilding.TBDGUID);
-            tasData.Add("BuildingTimeZone", tbdBuilding.timeZone);
-            tasData.Add("BuildingYear", tbdBuilding.year);
-
-            building.CustomData = tasData;
+            TASBuilding tasData = new TASBuilding();
+            tasData.ID = tbdBuilding.GUID.RemoveBrackets();
+            tasData.TASID = tbdBuilding.TBDGUID;
+            building.Fragments.Add(tasData);
 
             return building;
         }
@@ -112,22 +107,36 @@ namespace BH.Engine.Adapters.TAS
             tbdBuilding.longitude = (float)building.Location.Longitude;
             tbdBuilding.maxBuildingAltitude = (float)building.Elevation;
 
-            Dictionary<string, object> tasData = building.CustomData;
-            if (tasData != null)
+            TASBuilding tasFragment = building.FindFragment<TASBuilding>(typeof(TASBuilding));
+            if(tasFragment != null)
             {
-                tbdBuilding.description = (tasData.ContainsKey("BuildingDescription") ? tasData["BuildingDescription"].ToString() : "");
-                tbdBuilding.northAngle = (tasData.ContainsKey("BuildingNorthAngle") ? (float)System.Convert.ToDouble(tasData["BuildingNorthAngle"]) : 0);
-                tbdBuilding.path3DFile = (tasData.ContainsKey("BuildingPath3DFile") ? tasData["BuildingPath3DFile"].ToString() : "");
-                tbdBuilding.peakCooling = (tasData.ContainsKey("BuildingPeakCooling") ? (float)System.Convert.ToDouble(tasData["BuildingPeakCooling"]) : 0);
-                tbdBuilding.peakHeating = (tasData.ContainsKey("BuildingPeakHeating") ? (float)System.Convert.ToDouble(tasData["BuildingPeakHeating"]) : 0);
-                tbdBuilding.GUID = (tasData.ContainsKey("BuildingTBDGUID") ? tasData["BuildingTBDGUID"].ToString() : "");
-                tbdBuilding.timeZone = (tasData.ContainsKey("BuildingTimeZone") ? (float)System.Convert.ToDouble(tasData["BuildingTimeZone"]) : 0);
-                if (tasData.ContainsKey("BuildingYear"))
-                {
-                    short year = System.Convert.ToInt16(tasData["BuildingYear"]);
-                    tbdBuilding.year = year;
-                }
+                tbdBuilding.GUID = tasFragment.ID;
+                tbdBuilding.TBDGUID = tasFragment.TASID;
+                tbdBuilding.path3DFile = tasFragment.PathFile;
             }
+
+            BHP.OriginContextFragment environmentContextFragment = new BHP.OriginContextFragment();
+            if (environmentContextFragment != null)
+            {
+                tbdBuilding.description = environmentContextFragment.Description;
+            }
+
+            BHP.BuildingResultFragment buildingResultsFragment= building.FindFragment<BHP.BuildingResultFragment>(typeof(BHP.BuildingResultFragment));
+            if (buildingResultsFragment != null)
+            {
+                tbdBuilding.peakCooling = (float)System.Convert.ToDouble(buildingResultsFragment.PeakCooling);
+                tbdBuilding.peakHeating = (float)System.Convert.ToDouble(buildingResultsFragment.PeakHeating);
+            }
+            //buildingResultsProperties.PeakCooling = tbdBuilding.peakCooling;
+            //buildingResultsProperties.PeakHeating = tbdBuilding.peakHeating;
+            //building.Fragments.Add(buildingResultsProperties);
+            BHP.BuildingAnalyticalFragment analyticalFragment = building.FindFragment<BHP.BuildingAnalyticalFragment>(typeof(BHP.BuildingAnalyticalFragment));
+            if (analyticalFragment != null)
+            {
+                tbdBuilding.northAngle = (float)System.Convert.ToDouble(analyticalFragment.NorthAngle);
+                tbdBuilding.timeZone = (float)System.Convert.ToDouble(analyticalFragment.GMTOffset);
+            }
+
             return tbdBuilding;
         }
     }

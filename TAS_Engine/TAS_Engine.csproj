@@ -48,6 +48,10 @@
       <HintPath>C:\ProgramData\BHoM\Assemblies\BHoM.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="BHoM_Engine">
+      <HintPath>..\..\..\..\..\..\..\ProgramData\BHoM\Assemblies\BHoM_Engine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Data_oM">
       <HintPath>C:\ProgramData\BHoM\Assemblies\Data_oM.dll</HintPath>
       <Private>False</Private>
@@ -136,12 +140,10 @@
     <Compile Include="Convert\Geometry\Polyline.cs" />
     <Compile Include="Convert\ToList.cs" />
     <Compile Include="Create\TASSettings.cs" />
-    <Compile Include="Create\ToTBD\BHoMObject.cs" />
     <Compile Include="Create\ToTBD\Panel.cs" />
     <Compile Include="Modify\FixBuildingElementType.cs" />
     <Compile Include="Modify\Round.cs" />
     <Compile Include="Modify\SetTag.cs" />
-    <Compile Include="Modify\UpdateCustomDataValue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\Building.cs" />
     <Compile Include="Modify\CleanString.cs" />
@@ -165,11 +167,9 @@
     <Compile Include="Query\BuildingElement.cs" />
     <Compile Include="Query\GetSurfaceType.cs" />
     <Compile Include="Query\GetRGB.cs" />
-    <Compile Include="Query\IsExternal.cs" />
     <Compile Include="Query\MinElevation.cs" />
     <Compile Include="Query\PlanPerimeter.cs" />
     <Compile Include="Query\GetNumberOfPeople.cs" />
-    <Compile Include="Query\SurfaceType.cs" />
     <Compile Include="Query\GetSingleValueUpperLimit.cs" />
   </ItemGroup>
   <ItemGroup>

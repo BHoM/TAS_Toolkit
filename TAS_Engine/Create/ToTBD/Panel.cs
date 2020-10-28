@@ -55,16 +55,6 @@ namespace BH.Engine.Adapters.TAS
 
             return aBuildingElement;
         }
-
-        public static Panel BuildingElement(int elementID)
-        {
-            Panel aBuildingElement = new Panel()
-            {
-            };
-
-            aBuildingElement.CustomData.Add(Convert.TBDAdapterID, elementID);
-            return aBuildingElement;
-        }
     }
 }
 

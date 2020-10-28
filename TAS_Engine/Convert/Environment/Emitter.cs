@@ -32,6 +32,7 @@ using BHG = BH.oM.Geometry;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
+using BH.oM.Adapters.TAS.Fragments;
 
 namespace BH.Engine.Adapters.TAS
 {
@@ -48,10 +49,10 @@ namespace BH.Engine.Adapters.TAS
             emitter.Name = tbdEmitter.name;
             emitter.RadiantFraction = tbdEmitter.radiantProportion;
 
-            Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("EmitterDescription", tbdEmitter.description);
 
-            emitter.CustomData = tasData;
+            TASDescription tasData = new TASDescription();
+            tasData.Description = tbdEmitter.description.RemoveBrackets();
+            emitter.Fragments.Add(tasData);
 
             return emitter;            
         }

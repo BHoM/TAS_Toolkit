@@ -35,6 +35,7 @@ using System.ComponentModel;
 using BHP = BH.oM.Environment.Fragments;
 
 using BH.Engine.Environment;
+using BH.oM.Adapters.TAS.Fragments;
 
 namespace BH.Engine.Adapters.TAS
 {
@@ -81,22 +82,24 @@ namespace BH.Engine.Adapters.TAS
 
             //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
 
-            Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("SpaceColour", tbdSpace.colour);
-            tasData.Add("DaylightFactor", tbdSpace.daylightFactor);
-            tasData.Add("Description", tbdSpace.description);
-            tasData.Add("ExposedPerimeter", tbdSpace.exposedPerimeter);
-            tasData.Add("External", tbdSpace.external);
-            tasData.Add("FacadeLength", tbdSpace.facadeLength);
-            tasData.Add("FixedConvectionCoefficient", tbdSpace.fixedConvectionCoefficient);
-            tasData.Add("FloorArea", tbdSpace.floorArea);
-            tasData.Add("GUID", tbdSpace.GUID.RemoveBrackets());
-            tasData.Add("Length", tbdSpace.length);
-            tasData.Add("SizeCooling", tbdSpace.sizeCooling);
-            tasData.Add("SizeHeating", tbdSpace.sizeHeating);
-            tasData.Add("Volume", tbdSpace.volume);
-            tasData.Add("WallFloorAreaRatio", tbdSpace.wallFloorAreaRatio);
+            TASSpaceData tasData = new TASSpaceData();
+            tasData.Colour = System.Convert.ToUInt32(tbdSpace.colour);
+            tasData.DaylightFactor = tbdSpace.daylightFactor;
+            tasData.ExposedPerimeter = tbdSpace.exposedPerimeter;
+            tasData.External = tbdSpace.external;
+            tasData.FacadeLength = tbdSpace.facadeLength;
+            tasData.FixedConvectionCoefficient = tbdSpace.fixedConvectionCoefficient;
+            tasData.FloorArea = tbdSpace.floorArea;
+            tasData.TASID = tbdSpace.GUID.RemoveBrackets();
+            tasData.Length = tbdSpace.length;
+            tasData.SizeCooling = tbdSpace.sizeCooling;
+            tasData.SizeHeating = tbdSpace.sizeHeating;
+            tasData.Volume = tbdSpace.volume;
+            tasData.WallFloorAreaRatio = tbdSpace.wallFloorAreaRatio;
 
+            TASDescription tasDescription = new TASDescription();
+            tasDescription.Description = tbdSpace.description;
+            
             //Proces to extract Number of people directly into space if needed
             //double[] YearlyPeopleSensibleSepcificGain = Query.GetNumberOfPeople(tbdDocument, tbdSpace);
             //double MaxSpecificSensibleGain = YearlyPeopleSensibleSepcificGain.Max();
@@ -104,7 +107,8 @@ namespace BH.Engine.Adapters.TAS
             //double MaxSpecificLatentGain = YearlyPeopleLatenteSepcificGain.Max();
             //double NumberOfPeople = PeopleDesity / tbdSpace.floorArea;
 
-            space.CustomData = tasData;
+            space.Fragments.Add(tasData);
+            space.Fragments.Add(tasDescription);
 
             return space;
         }

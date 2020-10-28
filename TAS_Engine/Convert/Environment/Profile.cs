@@ -32,6 +32,7 @@ using BHG = BH.oM.Geometry;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
+using BH.oM.Adapters.TAS.Fragments;
 
 namespace BH.Engine.Adapters.TAS
 {
@@ -61,12 +62,15 @@ namespace BH.Engine.Adapters.TAS
                     break;
             }
 
-            Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("ProfileDescription", tbdProfile.description);
-
-            profile.CustomData = tasData;
+            TASDescription tasData = new TASDescription();
+            tasData.Description = tbdProfile.description.RemoveBrackets();
+            profile.Fragments.Add(tasData);
 
             return profile;
+
+
+
+
         }
 
         [Description("Gets a TAS TBD Profile from a BHoM Environmental Profile")]

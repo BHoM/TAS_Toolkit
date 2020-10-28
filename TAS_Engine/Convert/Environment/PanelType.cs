@@ -130,12 +130,7 @@ namespace BH.Engine.Adapters.TAS
             if (adjacentSpaces == 0)
                 tbdType = TBD.BuildingElementType.SHADEELEMENT;
 
-            if (element.CustomData.ContainsKey("SAM_BuildingElementType"))
-            {
-                object obj = element.CustomData["SAM_BuildingElementType"];
-                if (obj != null)
-                    tbdType = (TBD.BuildingElementType)ToTBDSurfaceType(obj.ToString());
-            }
+
             else
                 tbdType = TBD.BuildingElementType.NULLELEMENT;
 

@@ -34,6 +34,7 @@ using BH.oM.Adapters.TAS;
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 using BH.oM.Adapters.TAS.Settings;
+using BH.oM.Adapters.TAS.Fragments;
 
 namespace BH.Engine.Adapters.TAS
 {
@@ -81,8 +82,10 @@ namespace BH.Engine.Adapters.TAS
 
                 if (roomSurface.parentSurface != null && roomSurface.parentSurface.zoneSurface != null && roomSurface.parentSurface.zoneSurface.buildingElement != null)
                 {
-                    opening.CustomData.Add("TAS_ParentBuildingElementGUID", roomSurface.parentSurface.zoneSurface.GUID.RemoveBrackets());
-                    opening.CustomData.Add("TAS_ParentBuildingElementName", roomSurface.parentSurface.zoneSurface.buildingElement.name);
+                    TASOpeningData tasData = new TASOpeningData();
+                    tasData.ParentGUID = roomSurface.parentSurface.zoneSurface.GUID.RemoveBrackets();
+                    tasData.ParentName = roomSurface.parentSurface.zoneSurface.buildingElement.name;
+                    opening.Fragments.Add(tasData);
                 }
             }
 
@@ -106,7 +109,6 @@ namespace BH.Engine.Adapters.TAS
             openingAsElement.Fragments = opening.Fragments;
             openingAsElement.BHoM_Guid = opening.BHoM_Guid;
             openingAsElement.Name = opening.Name;
-            openingAsElement.CustomData = opening.CustomData;
 
             tbdBuildingElement = openingAsElement.ToTAS(tbdBuildingElement, tbdConstruction);
 

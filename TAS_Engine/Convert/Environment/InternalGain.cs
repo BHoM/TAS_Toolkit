@@ -33,6 +33,7 @@ using TBD;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
+using BH.oM.Adapters.TAS.Fragments;
 
 namespace BH.Engine.Adapters.TAS
 {
@@ -47,11 +48,13 @@ namespace BH.Engine.Adapters.TAS
 
             List<BHE.IGain> gains = new List<BHE.IGain>();
 
-            Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("InternalGainActivityID", tbdInternalGain.activityID);
-            tasData.Add("InternalGainDescription", tbdInternalGain.description);
-            tasData.Add("InternalDomesticHotWater", tbdInternalGain.domesticHotWater);
-            tasData.Add("targetIlluminance", tbdInternalGain.targetIlluminance);
+            TASInternalGainData tasData = new TASInternalGainData();
+            tasData.ActivityID = System.Convert.ToInt32(tbdInternalGain.activityID);
+            tasData.DomesticHotWater = System.Convert.ToDouble(tbdInternalGain.domesticHotWater);
+            tasData.TargetIlluminance = System.Convert.ToDouble(tbdInternalGain.targetIlluminance);
+
+            TASDescription tASDescription = new TASDescription();
+            tASDescription.Description = tbdInternalGain.description.RemoveBrackets();
 
             //Lighting
             BHE.Lighting lightGain = new BHE.Lighting();
@@ -61,7 +64,8 @@ namespace BH.Engine.Adapters.TAS
             TBD.profile tbdProfile = tbdInternalGain.GetProfile((int)TBD.Profiles.ticLG);
             BHE.Profile aProfile = tbdProfile.FromTAS();
             lightGain.Profile = aProfile;
-            lightGain.CustomData = tasData;
+            lightGain.Fragments.Add(tasData);
+            lightGain.Fragments.Add(tASDescription);
             gains.Add(lightGain);
 
             //Occupancy
@@ -81,7 +85,8 @@ namespace BH.Engine.Adapters.TAS
             occupantGain.RadiantFraction = tbdInternalGain.occupantRadProp;
 
             occupantGain.Profile = aProfile;
-            occupantGain.CustomData = tasData;
+            occupantGain.Fragments.Add(tasData);
+            occupantGain.Fragments.Add(tASDescription);
             gains.Add(occupantGain);
 
             //Equipment
@@ -93,7 +98,8 @@ namespace BH.Engine.Adapters.TAS
             aProfile = tbdProfile.FromTAS();
             equipGain.Profile = aProfile;
 
-            equipGain.CustomData = tasData;
+            equipGain.Fragments.Add(tasData);
+            equipGain.Fragments.Add(tASDescription);
             gains.Add(equipGain);
 
 
@@ -105,7 +111,8 @@ namespace BH.Engine.Adapters.TAS
             aProfile = tbdProfile.FromTAS();
             pollGain.Profile = aProfile;
 
-            pollGain.CustomData = tasData;
+            pollGain.Fragments.Add(tasData);
+            pollGain.Fragments.Add(tASDescription);
             gains.Add(pollGain);
 
             //Infiltration
@@ -116,7 +123,8 @@ namespace BH.Engine.Adapters.TAS
             aProfile = tbdProfile.FromTAS();
             infGain.Profile = aProfile;
 
-            infGain.CustomData = tasData;
+            infGain.Fragments.Add(tasData);
+            infGain.Fragments.Add(tASDescription);
             gains.Add(infGain);
 
 

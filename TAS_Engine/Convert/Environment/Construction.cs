@@ -37,6 +37,7 @@ using System.ComponentModel;
 
 using BHPC = BH.oM.Physical.Constructions;
 using BH.Engine.Environment;
+using BH.oM.Adapters.TAS.Fragments;
 
 namespace BH.Engine.Adapters.TAS
 {
@@ -65,12 +66,13 @@ namespace BH.Engine.Adapters.TAS
 
             //construction.FFactor = tbdConstruction.FFactor;
 
-            Dictionary<string, object> tasData = new Dictionary<string, object>();
-            tasData.Add("Description", tbdConstruction.description);
 
-            construction.CustomData = tasData;
+            TASDescription tasData = new TASDescription();
+            tasData.Description = tbdConstruction.description.RemoveBrackets();
+            construction.Fragments.Add(tasData);
 
             return construction;
+
         }
 
         [Description("Gets a TAS TBD Construction from a BHoM Environmental Construction")]
