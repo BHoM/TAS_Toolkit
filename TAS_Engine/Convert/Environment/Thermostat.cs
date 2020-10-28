@@ -34,6 +34,8 @@ using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 using BH.oM.Adapters.TAS.Fragments;
 
+using BH.Engine.Base;
+
 namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
@@ -53,13 +55,10 @@ namespace BH.Engine.Adapters.TAS
             TASThermostatData tasData = new TASThermostatData();
             TASDescription tasDescription = new TASDescription();
 
-            if (tasData != null)
-            {
-                tasData.RadiantProportion = tbdThermostat.radiantProportion;
-                tasDescription.Description = tbdThermostat.description;
-                thermostat.Fragments.Add(tasData);
-                thermostat.Fragments.Add(tasDescription);
-            }
+            tasData.RadiantProportion = tbdThermostat.radiantProportion;
+            tasDescription.Description = tbdThermostat.description;
+            thermostat.Fragments.Add(tasData);
+            thermostat.Fragments.Add(tasDescription);
 
             thermostat.Profiles = tbdThermostat.Profiles();
             return thermostat;
@@ -76,13 +75,18 @@ namespace BH.Engine.Adapters.TAS
             tbdThermostat.controlRange = (float)thermostat.ControlRange;
             tbdThermostat.proportionalControl = (thermostat.ProportionalControl ? 1 : 0);
 
-            Dictionary<string, object> tasData = thermostat.CustomData;
-
-            if (tasData != null)
+            TASDescription tasFragment = thermostat.FindFragment<TASDescription>(typeof(TASDescription));
+            if (tasFragment != null)
             {
-                tbdThermostat.radiantProportion = (tasData.ContainsKey("RadiantProportion") ? (float)System.Convert.ToDouble(tasData["RadiantProportion"]) : 0);
-                tbdThermostat.description = (tasData.ContainsKey("Description") ? tasData["Description"].ToString() : "");
+                tbdThermostat.description = tasFragment.Description;
             }
+
+            TASThermostatData thermostatData = thermostat.FindFragment<TASThermostatData>(typeof(TASThermostatData));
+            if (thermostatData != null)
+            {
+                tbdThermostat.radiantProportion = (float)thermostatData.RadiantProportion;
+            }
+
             return tbdThermostat;
         }
     }
