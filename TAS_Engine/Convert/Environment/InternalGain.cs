@@ -35,6 +35,8 @@ using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 using BH.oM.Adapters.TAS.Fragments;
 
+using BH.Engine.Base;
+
 namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
@@ -147,41 +149,11 @@ namespace BH.Engine.Adapters.TAS
                 if (internalGain.GetType() == typeof(BHE.Lighting))
                 {
                     tbdInternalGain.name = internalGain.Name;
-                    BHE.Lighting lightingGain = new BHE.Lighting();
-                    Dictionary<string, object> lightingData = internalGain.CustomData;
-                    if (lightingData != null)
-                        tbdInternalGain.lightingRadProp = (lightingData.ContainsKey("LightingRadiation") ? (float)System.Convert.ToDouble(lightingData["LightingRadiation"]) : 0);
-                        tbdInternalGain.lightingViewCoefficient = (lightingData.ContainsKey("LightViewCoefficient") ? (float)System.Convert.ToDouble(lightingData["LightViewCoefficient"]) : 0);
-                    Dictionary<string, object> lightingData2 = lightingGain.CustomData;
-                    if (lightingData2 != null)
-                        tbdInternalGain.lightingRadProp = (lightingData2.ContainsKey("LightingRadiation") ? (float)System.Convert.ToDouble(lightingData2["LightingRadiation"]) : 0);
-                        tbdInternalGain.lightingViewCoefficient = (lightingData2.ContainsKey("LightViewCoefficient") ? (float)System.Convert.ToDouble(lightingData2["LightViewCoefficient"]) : 0);
                 }
                 if (internalGain.GetType() == typeof(BHE.Equipment))
                 {
                     tbdInternalGain.name = internalGain.Name;
-                    BHE.Equipment equipmentLatentGain = new BHE.Equipment();
-                    Dictionary<string, object> equipmentData = internalGain.CustomData;
-                    if (equipmentData != null)
-                        tbdInternalGain.equipmentRadProp = (equipmentData.ContainsKey("EquipmentRadiation") ? (float)System.Convert.ToDouble(equipmentData["EquipmentRadiation"]) : 0);
-                        tbdInternalGain.equipmentViewCoefficient = (equipmentData.ContainsKey("EquipmentViewCoefficient") ? (float)System.Convert.ToDouble(equipmentData["EquipmentViewCoefficient"]) : 0);
-                    Dictionary<string, object> equipmentData2 = equipmentLatentGain.CustomData;
-                    if (equipmentData2 != null)
-                        tbdInternalGain.equipmentRadProp = (equipmentData2.ContainsKey("EquipmentRadiation") ? (float)System.Convert.ToDouble(equipmentData2["EquipmentRadiation"]) : 0);
-                        tbdInternalGain.equipmentViewCoefficient = (equipmentData2.ContainsKey("EquipmentViewCoefficient") ? (float)System.Convert.ToDouble(equipmentData2["EquipmentViewCoefficient"]) : 0);
                 }
-
-                //Dictionary<string, object> tasData = internalGain.CustomData;	                
-                //List<BHE.Gain> gains = new List<BHE.Gain>();	
-                //foreach (BHE.Gain internalGain in internalGains)	
-                //{	                
-                //    Dictionary<string, object> tasData = new Dictionary<string, object>();	                
-                //    tasData.Add("InternalGainActivityID", tbdInternalGain.activityID);	
-                //    tasData.Add("InternalGainDescription", tbdInternalGain.description);	
-                //    tasData.Add("InternalDomesticHotWater", tbdInternalGain.domesticHotWater);	
-                //    tasData.Add("targetIlluminance", tbdInternalGain.targetIlluminance);	
-                //}	                
-
 
                 //Lighting	                  
                 //TBD.InternalGain lightGain = new TBD.InternalGain();	                
