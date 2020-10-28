@@ -34,6 +34,8 @@ using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 using BH.oM.Adapters.TAS.Fragments;
 
+using BH.Engine.Base;
+
 namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
@@ -67,10 +69,6 @@ namespace BH.Engine.Adapters.TAS
             profile.Fragments.Add(tasData);
 
             return profile;
-
-
-
-
         }
 
         [Description("Gets a TAS TBD Profile from a BHoM Environmental Profile")]
@@ -82,11 +80,10 @@ namespace BH.Engine.Adapters.TAS
 
             tbdProfile.name = profile.Name;
 
-            Dictionary<string, object> tasData = profile.CustomData;
-
-            if (tasData != null)
+            TASDescription tasFragment = profile.FindFragment<TASDescription>(typeof(TASDescription));
+            if (tasFragment != null)
             {
-                tbdProfile.description = (tasData.ContainsKey("ProfileDescriptionUL") ? tasData["ProfileDescriptionUL"].ToString() : "");
+                tbdProfile.description = tasFragment.Description;
             }
 
             return tbdProfile;
