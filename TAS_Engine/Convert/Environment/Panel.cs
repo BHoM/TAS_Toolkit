@@ -53,17 +53,13 @@ namespace BH.Engine.Adapters.TAS
             TBD.BuildingElementType tbdElementType = ((TBD.BuildingElementType)tbdElement.BEType);
             TASPanelData tasData = new TASPanelData();
             tasData.PanelIsOpening = tbdElementType.ElementIsOpening();
-            element.Fragments.Add(tasData);
-
 
             //Add a flag on the element for the final read
-
             if(tbdElementType.ElementIsOpening())
             {
                 //Find out what the fix was - frame or pane?
                 BHE.OpeningType fixedOpeningType = tbdElementType.FromTASOpeningType().FixBuildingElementType(tbdElement, tbdSurface);
                 tasData.OpeningIsFrame = fixedOpeningType.OpeningIsFrame();
-                element.Fragments.Add(tasData);
             }
 
             BHE.PanelType elementType = ((TBD.BuildingElementType)tbdElement.BEType).FromTAS();
@@ -72,7 +68,9 @@ namespace BH.Engine.Adapters.TAS
             element.Name = tbdElement.name;
             element.Type = elementType;
             element.Construction = elementConstruction;
-            
+
+            element.Fragments.Add(tasData);
+
             //EnvironmentContextProperties
             BHP.OriginContextFragment environmentContextProperties = new BHP.OriginContextFragment();
             environmentContextProperties.ElementID = tbdSurface.GUID.RemoveBrackets();
@@ -159,7 +157,6 @@ namespace BH.Engine.Adapters.TAS
             element.Fragments.Add(tasData);
 
             //AddingExtended Properties for a frame
-
             BHE.OpeningType elementOpeningType = tbdElementType.FromTASOpeningType().FixBuildingElementType(tbdElement, tbdSurface);
             if (elementOpeningType == BHE.OpeningType.RooflightWithFrame || elementOpeningType == BHE.OpeningType.WindowWithFrame)
             {
@@ -180,8 +177,10 @@ namespace BH.Engine.Adapters.TAS
 
             BHP.OriginContextFragment envContextProperties = buildingElement.FindFragment<BHP.OriginContextFragment>(typeof(BHP.OriginContextFragment));
             if (envContextProperties != null)
+            {
                 tbdBuildingElement.GUID = envContextProperties.ElementID;
                 tbdBuildingElement.description = envContextProperties.Description;
+            }
 
             tbdBuildingElement.BEType = (int)buildingElement.Type.ToTAS();
 
