@@ -39,6 +39,9 @@ using BH.oM.Physical.Materials;
 
 using BH.oM.Adapter;
 
+using BH.Engine.Base;
+using BH.oM.Adapters.TAS.Fragments;
+
 namespace BH.Adapter.TAS
 {
     public partial class TasTBDAdapter : BHoMAdapter
@@ -147,10 +150,10 @@ namespace BH.Adapter.TAS
                     {
                         TBD.RoomSurface currRoomSrf = zonesurface.GetRoomSurface(roomSurfaceIndex);
 
-                        if (currRoomSrf.GetPerimeter() != null)
-                            //bHoMPanels.Add(Engine.TAS.Convert.ToBHoM(currRoomSrf));
+                        //if (currRoomSrf.GetPerimeter() != null)
+                            //panels.Add(BH.Engine.Adapters.TAS.Convert.(currRoomSrf));
 
-                            roomSurfaceIndex++;
+                        roomSurfaceIndex++;
                     }
 
                     panelIndex++;
@@ -185,11 +188,23 @@ namespace BH.Adapter.TAS
             }
 
             //Clean up building elements with openings and constructions
-            List<Panel> nonOpeningElements = buildingElements.Where(x => !((bool)x.CustomData["ElementIsOpening"])).ToList();
+            List<Panel> nonOpeningElements = buildingElements.Where(x =>
+            {
+                TASPanelData fragment = x.FindFragment<TASPanelData>(typeof(TASPanelData));
+                return fragment.PanelIsOpening;
+            }).ToList();
 
-            List<Panel> frameElements = buildingElements.Where(x => ((bool)x.CustomData["ElementIsOpening"]) && ((bool)x.CustomData["OpeningIsFrame"])).ToList();
+            List<Panel> frameElements = buildingElements.Where(x =>
+            {
+                TASPanelData fragment = x.FindFragment<TASPanelData>(typeof(TASPanelData));
+                return fragment.PanelIsOpening && fragment.OpeningIsFrame;
+            }).ToList();
 
-            List<Panel> panes = buildingElements.Where(x => ((bool)x.CustomData["ElementIsOpening"]) && !((bool)x.CustomData["OpeningIsFrame"])).ToList();
+            List<Panel> panes = buildingElements.Where(x =>
+            {
+                TASPanelData fragment = x.FindFragment<TASPanelData>(typeof(TASPanelData));
+                return fragment.PanelIsOpening && !fragment.OpeningIsFrame;
+            }).ToList();
 
             foreach (Panel element in nonOpeningElements)
             {
@@ -199,7 +214,14 @@ namespace BH.Adapter.TAS
 
                 element.Openings = new List<Opening>();
 
-                List<Panel> frames = frameElements.Where(x => x.Openings.Where(y => y.CustomData.ContainsKey("TAS_ParentBuildingElementGUID") && y.CustomData["TAS_ParentBuildingElementGUID"].ToString() == elementID).Count() > 0).ToList();
+                List<Panel> frames = frameElements.Where(x =>
+                {
+                    return x.Openings.Where(y =>
+                    {
+                        TASOpeningData fragment = y.FindFragment<TASOpeningData>(typeof(TASOpeningData));
+                        return fragment.ParentGUID == elementID;
+                    }).Count() > 0;
+                }).ToList();
 
                 foreach (Panel frame in frames)
                 {
