@@ -32,6 +32,7 @@ using BHG = BH.oM.Geometry;
 
 using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
+using BH.oM.Adapters.TAS.Fragments;
 
 namespace BH.Engine.Adapters.TAS
 {
@@ -49,12 +50,15 @@ namespace BH.Engine.Adapters.TAS
             thermostat.ControlRange = tbdThermostat.controlRange;
             thermostat.ProportionalControl = tbdThermostat.proportionalControl != 0;
 
-            Dictionary<string, object> tasData = thermostat.CustomData;
+            TASThermostatData tasData = new TASThermostatData();
+            TASDescription tasDescription = new TASDescription();
 
             if (tasData != null)
             {
-                tasData.Add("RadiantProportion", tbdThermostat.radiantProportion);
-                tasData.Add("Description", tbdThermostat.description);
+                tasData.RadiantProportion = tbdThermostat.radiantProportion;
+                tasDescription.Description = tbdThermostat.description;
+                thermostat.Fragments.Add(tasData);
+                thermostat.Fragments.Add(tasDescription);
             }
 
             thermostat.Profiles = tbdThermostat.Profiles();
