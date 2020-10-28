@@ -83,25 +83,28 @@ namespace BH.Engine.Adapters.TAS
             buildingResultsProperties.PeakHeating = tbdBuilding.peakHeating;
             building.Fragments.Add(buildingResultsProperties);
 
-            //Extended Poroperties-------------------------------------------------------------------------------------------------------------------------
+            //Extended Properties
 
             TASBuilding tasData = new TASBuilding();
             tasData.ID = tbdBuilding.GUID.RemoveBrackets();
             tasData.TASID = tbdBuilding.TBDGUID;
+            tasData.PathFile = tbdBuilding.path3DFile;
             building.Fragments.Add(tasData);
 
             return building;
         }
 
-        [Description("BH.Engine.Adapters.TAS.Convert ToTAS => gets a TAS TBD Building from a BHoM Environmental Building")]
+        [Description("Gets a TAS TBD Building from a BHoM Environmental Building")]
         [Input("building", "BHoM Environmental Building")]
-        [Output("TAS TBD Building")]
+        [Output("tasTBDBuilding")]
         public static TBD.Building ToTAS(this BHE.Building building, TBD.Building tbdBuilding)
         {
             //TODO:Add BuildingHeightAdjustmentFactor, MeanHeightOfSurroundings, TerrainType, NumberOfPreconditioningDays, GroundSolarReflectance, ExternalPollutant
             //TODO:Check if Longitude, Latitude, NorthAngle, Timezone, Path3Dfile, BuildingYear is pushed
 
-            if (building == null) return tbdBuilding;
+            if (building == null) 
+                return tbdBuilding;
+
             tbdBuilding.name = building.Name;
             tbdBuilding.latitude = (float)building.Location.Latitude;
             tbdBuilding.longitude = (float)building.Location.Longitude;
@@ -127,9 +130,7 @@ namespace BH.Engine.Adapters.TAS
                 tbdBuilding.peakCooling = (float)System.Convert.ToDouble(buildingResultsFragment.PeakCooling);
                 tbdBuilding.peakHeating = (float)System.Convert.ToDouble(buildingResultsFragment.PeakHeating);
             }
-            //buildingResultsProperties.PeakCooling = tbdBuilding.peakCooling;
-            //buildingResultsProperties.PeakHeating = tbdBuilding.peakHeating;
-            //building.Fragments.Add(buildingResultsProperties);
+
             BHP.BuildingAnalyticalFragment analyticalFragment = building.FindFragment<BHP.BuildingAnalyticalFragment>(typeof(BHP.BuildingAnalyticalFragment));
             if (analyticalFragment != null)
             {

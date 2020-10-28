@@ -39,6 +39,8 @@ using BHPC = BH.oM.Physical.Constructions;
 using BH.Engine.Environment;
 using BH.oM.Adapters.TAS.Fragments;
 
+using BH.Engine.Base;
+
 namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
@@ -134,14 +136,10 @@ namespace BH.Engine.Adapters.TAS
                 mIndex++;
             }
 
-            if (construction.CustomData != null)
+            TASDescription tasFragment = construction.FindFragment<TASDescription>(typeof(TASDescription));
+            if (tasFragment != null)
             {
-                Dictionary<string, object> tasData = construction.CustomData;
-
-                if (tasData != null)
-                {
-                    tbdConstruction.description = (tasData.ContainsKey("Description") ? (tasData["Description"] != null ? tasData["Description"].ToString() : "") : "");
-                }
+                tbdConstruction.description = tasFragment.Description;
             }
 
             return tbdConstruction;

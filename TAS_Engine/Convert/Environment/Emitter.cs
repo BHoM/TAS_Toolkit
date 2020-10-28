@@ -34,6 +34,8 @@ using BH.oM.Reflection.Attributes;
 using System.ComponentModel;
 using BH.oM.Adapters.TAS.Fragments;
 
+using BH.Engine.Base;
+
 namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
@@ -87,11 +89,10 @@ namespace BH.Engine.Adapters.TAS
             tbdEmitter.name = emitter.Name;
             tbdEmitter.radiantProportion = (float)emitter.RadiantFraction;
 
-            Dictionary<string, object> tasData = emitter.CustomData;
-
-            if (tasData != null)
+            TASDescription tasFragment = emitter.FindFragment<TASDescription>(typeof(TASDescription));
+            if (tasFragment != null)
             {
-                tbdEmitter.description = (tasData.ContainsKey("EmitterDescription") ? tasData["EmitterDescription"].ToString() : "");
+                tbdEmitter.description = tasFragment.Description;
             }
 
             return tbdEmitter;
