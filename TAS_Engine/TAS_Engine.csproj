@@ -117,7 +117,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compute\T3DShading.cs" />
-    <Compile Include="Convert\AdapterID.cs" />
     <Compile Include="Convert\Architecture\Level.cs" />
     <Compile Include="Convert\Environment\Building.cs" />
     <Compile Include="Convert\Environment\Panel.cs" />
