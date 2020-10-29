@@ -62,7 +62,6 @@ namespace BH.Adapter.TAS
 
             if (!CheckInputCombinations()) return;
 
-            AdapterIdName = BH.Engine.Adapters.TAS.Convert.TSDAdapterID;
         }
 
         private bool CheckInputCombinations()
