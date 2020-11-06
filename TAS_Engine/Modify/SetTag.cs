@@ -26,6 +26,8 @@ using System.Collections.Generic;
 using BH.oM.Base;
 using BH.oM.Reflection.Attributes;
 
+using BH.Engine.Base;
+
 namespace BH.Engine.Adapters.TAS
 {
     public static partial class Modify
@@ -43,7 +45,7 @@ namespace BH.Engine.Adapters.TAS
             if (bHoMObject == null)
                 return null;
 
-            IBHoMObject aIBHoMObject = bHoMObject.GetShallowClone();
+            IBHoMObject aIBHoMObject = bHoMObject.ShallowClone();
 
             if (aIBHoMObject.Tags == null)
                 aIBHoMObject.Tags = new HashSet<string>();
