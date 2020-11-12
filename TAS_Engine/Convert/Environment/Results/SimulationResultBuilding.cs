@@ -82,7 +82,7 @@ namespace BH.Engine.Adapters.TAS
 
             BHR.SimulationResult result = new BHR.SimulationResult();
             result.SimulationResultType = BHR.SimulationResultType.BuildingResult;
-            result.SimulationResults.Add(BH.Engine.Environment.Create.ProfileResult(tsdData.name, resultType, unitType, results));
+            result.SimulationResults.Add(new BHR.ProfileResult { Name = tsdData.name, Type = resultType, Unit = unitType, Results = results });
 
             return result;
         }
