@@ -31,6 +31,8 @@ using BH.oM.Reflection.Attributes;
 using BH.oM.Adapters.TAS;
 using BH.oM.Adapters.TAS.Settings;
 using BH.oM.Adapter;
+using BH.Adapter.TAS;
+using BH.Engine.Adapter;
 
 namespace BH.Adapter.TAS
 {
@@ -41,7 +43,7 @@ namespace BH.Adapter.TAS
         /***************************************************/
 
         [Description("Produces an TAS Adapter to allow interopability with TAS tBD files and the BHoM")]
-        [Input("tBDFilePath", "Path to tBD file")]
+        [Input("fileSettings", "Input the file settings to get the file name and directory the TAS TBD Adapter should use")]
         [Input("tasSettings", "Input additional settings the adapter should use")]
         [Output("adapter", "Adapter to TAS tBD")]
         public TasTBDAdapter(FileSettings fileSettings, TASSettings tasSettings = null)
@@ -51,7 +53,7 @@ namespace BH.Adapter.TAS
                 BH.Engine.Reflection.Compute.RecordError("Please set some TAS Settings on the TAS Adapter");
                 return;
             }
-            tbdFilePath = fileSettings.FileName;
+            tbdFilePath = fileSettings.GetFullFileName();
 
             _tasSettings = tasSettings;
 
