@@ -35,13 +35,14 @@ using BH.oM.Reflection.Attributes;
 using BH.oM.Adapters.TAS;
 using BH.oM.Adapters.TAS.Settings;
 using BH.oM.Adapter;
+using BH.Engine.Adapter;
 
 namespace BH.Adapter.TAS
 {
     public partial class TasTSDAdapter : BHoMAdapter
     {
         [Description("Produces an TAS Adapter to allow interopability with TAS tSD files and the BHoM")]
-        [Input("tSDFilePath", "Path to tSD file")]
+        [Input("fileSettings", "Input the file settings to get the file name and directory the TAS TSD Adapter should use")]
         [Input("tsdResultQuery", "TSD retult type, defaults to Simulation")]
         [Input("simType", "Simulation result type, defaults to BuildingResult")]
         [Input("resultUnit", "Profile result unit, defaults to Yearly")]
@@ -52,7 +53,7 @@ namespace BH.Adapter.TAS
         [Output("adapter", "adapter for TAS tSD")]
         public TasTSDAdapter(FileSettings fileSettings, TSDResultType tsdResultQuery = TSDResultType.Simulation, SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnit resultUnit = ProfileResultUnit.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = -1, int day = -1, TASSettings tasSettings = null)
         {
-            tsdFilePath = fileSettings.FileName;
+            tsdFilePath = fileSettings.GetFullFileName();
             tsdResultType = tsdResultQuery;
             SimulationResultType = simType;
             ProfileResultUnits = resultUnit;
