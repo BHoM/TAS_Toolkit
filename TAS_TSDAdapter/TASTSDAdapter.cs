@@ -34,6 +34,7 @@ using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 using BH.oM.Adapters.TAS;
 using BH.oM.Adapters.TAS.Settings;
+using BH.oM.Adapter;
 
 namespace BH.Adapter.TAS
 {
@@ -48,10 +49,10 @@ namespace BH.Adapter.TAS
         [Input("hour", "Hour between 1 and 24 inclusive for Hourly Results")]
         [Input("day", "Day between 1 and 365 inclusive for Daily results")]
         [Input("tasSettings", "Input additional settings the adapter should use.")]
-        [Output("adapter","adapter for TAS tSD")]
-        public TasTSDAdapter(string tSDFilePath = "", TSDResultType tsdResultQuery = TSDResultType.Simulation, SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnit resultUnit = ProfileResultUnit.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = -1, int day = -1, TASSettings tasSettings = null)
+        [Output("adapter", "adapter for TAS tSD")]
+        public TasTSDAdapter(FileSettings fileSettings, TSDResultType tsdResultQuery = TSDResultType.Simulation, SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnit resultUnit = ProfileResultUnit.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = -1, int day = -1, TASSettings tasSettings = null)
         {
-            tsdFilePath = tSDFilePath;
+            tsdFilePath = fileSettings.FileName;
             tsdResultType = tsdResultQuery;
             SimulationResultType = simType;
             ProfileResultUnits = resultUnit;

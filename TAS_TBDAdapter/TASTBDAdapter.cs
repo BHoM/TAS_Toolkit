@@ -30,6 +30,7 @@ using System.ComponentModel;
 using BH.oM.Reflection.Attributes;
 using BH.oM.Adapters.TAS;
 using BH.oM.Adapters.TAS.Settings;
+using BH.oM.Adapter;
 
 namespace BH.Adapter.TAS
 {
@@ -43,15 +44,15 @@ namespace BH.Adapter.TAS
         [Input("tBDFilePath", "Path to tBD file")]
         [Input("tasSettings", "Input additional settings the adapter should use")]
         [Output("adapter", "Adapter to TAS tBD")]
-        public TasTBDAdapter(string tBDFilePath = "", TASSettings tasSettings = null)
+        public TasTBDAdapter(FileSettings fileSettings, TASSettings tasSettings = null)
         {
-            if(tasSettings == null)
+            if (tasSettings == null)
             {
                 BH.Engine.Reflection.Compute.RecordError("Please set some TAS Settings on the TAS Adapter");
                 return;
             }
-            //TBD application
-            tbdFilePath = tBDFilePath;
+            tbdFilePath = fileSettings.FileName;
+
             _tasSettings = tasSettings;
 
             m_AdapterSettings.DefaultPushType = oM.Adapter.PushType.CreateOnly;
@@ -121,5 +122,3 @@ namespace BH.Adapter.TAS
 
     /***************************************************/
 }
-
-
