@@ -51,7 +51,6 @@ namespace BH.Adapter.TAS
         [Input("day", "Day between 1 and 365 inclusive for Daily results")]
         [Input("tasSettings", "Input additional settings the adapter should use.")]
         [Output("adapter", "adapter for TAS tSD")]
-        [PreviousVersion("4.0", "BH.Adapter.TAS.TasTSDAdapter(System.string, BH.oM.Adapters.TAS.TSDResultType, BH.oM.Environment.Results.SimulationResultType, BH.oM.Environment.Results.ProfileResultUnit, BH.oM.Environment.Results.ProfileResultType, System.Int32, System.Int32, BH.oM.Adapters.TAS.Settings.TASSettings")]
         public TasTSDAdapter(FileSettings fileSettings, TSDResultType tsdResultQuery = TSDResultType.Simulation, SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnit resultUnit = ProfileResultUnit.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = -1, int day = -1, TASSettings tasSettings = null)
         {
             tsdFilePath = fileSettings.GetFullFileName();

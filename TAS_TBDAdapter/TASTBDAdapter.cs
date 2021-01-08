@@ -46,7 +46,6 @@ namespace BH.Adapter.TAS
         [Input("fileSettings", "Input the file settings to get the file name and directory the TAS TBD Adapter should use")]
         [Input("tasSettings", "Input additional settings the adapter should use")]
         [Output("adapter", "Adapter to TAS tBD")]
-        [PreviousVersion("4.0", "BH.Adapter.TAS.TasTBDAdapter(System.string, BH.oM.Adapters.TAS.Settings.TASSettings")]
         public TasTBDAdapter(FileSettings fileSettings, TASSettings tasSettings = null)
         {
             if (tasSettings == null)
