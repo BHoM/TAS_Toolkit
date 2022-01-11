@@ -36,7 +36,7 @@ using BH.Engine.Environment;
 using BHPM = BH.oM.Physical.Materials;
 using BHPMC = BH.oM.Physical.Constructions;
 
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using System.ComponentModel;
 
 namespace BH.Engine.Adapters.TAS

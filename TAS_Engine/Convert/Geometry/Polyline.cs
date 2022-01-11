@@ -31,7 +31,7 @@ using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
 using BH.Engine.Adapters.TAS;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using System.ComponentModel;
 
 namespace BH.Engine.Adapters.TAS
@@ -71,7 +71,7 @@ namespace BH.Engine.Adapters.TAS
             }
             catch (Exception ex)
             {
-                BH.Engine.Reflection.Compute.RecordError(ex.ToString());
+                BH.Engine.Base.Compute.RecordError(ex.ToString());
 
             }
 

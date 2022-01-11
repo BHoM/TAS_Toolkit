@@ -27,7 +27,7 @@ using System.Reflection;
 using BH.oM.Data.Requests;
 using BH.oM.Base;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using BH.oM.Adapters.TAS;
 using BH.oM.Adapters.TAS.Settings;
 using BH.oM.Adapter;
@@ -50,7 +50,7 @@ namespace BH.Adapter.TAS
         {
             if (tasSettings == null)
             {
-                BH.Engine.Reflection.Compute.RecordError("Please set some TAS Settings on the TAS Adapter");
+                BH.Engine.Base.Compute.RecordError("Please set some TAS Settings on the TAS Adapter");
                 return;
             }
             tbdFilePath = fileSettings.GetFullFileName();
@@ -82,7 +82,7 @@ namespace BH.Adapter.TAS
                 m_tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
 
             else
-                BH.Engine.Reflection.Compute.RecordError("The TBD file does not exist");
+                BH.Engine.Base.Compute.RecordError("The TBD file does not exist");
             return m_tbdDocument;
         }
 
@@ -96,7 +96,7 @@ namespace BH.Adapter.TAS
                 m_tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
 
             else
-                BH.Engine.Reflection.Compute.RecordError("The TBD file does not exist");
+                BH.Engine.Base.Compute.RecordError("The TBD file does not exist");
             return m_tbdDocument;
         }
 

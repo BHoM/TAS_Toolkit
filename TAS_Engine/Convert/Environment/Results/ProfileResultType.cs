@@ -30,9 +30,8 @@ using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment.Elements;
 using BHR = BH.oM.Environment.Results;
 using BHG = BH.oM.Geometry;
-using BHER = BH.Engine.Reflection.Compute;
 
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using System.ComponentModel;
 
 namespace BH.Engine.Adapters.TAS

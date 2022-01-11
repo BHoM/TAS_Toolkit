@@ -48,7 +48,7 @@ namespace BH.Adapter.TAS
             }
             catch (Exception e)
             {
-                BH.Engine.Reflection.Compute.RecordError(e.ToString());
+                BH.Engine.Base.Compute.RecordError(e.ToString());
                 CloseTbdDocument(false);
                 return null;
             }

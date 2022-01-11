@@ -49,7 +49,7 @@ namespace BH.Adapter.TAS
             }
             catch (Exception ex)
             {
-                BH.Engine.Reflection.Compute.RecordError(ex.ToString());
+                BH.Engine.Base.Compute.RecordError(ex.ToString());
                 CloseTsdDocument();
                 return null;
             }

@@ -32,7 +32,7 @@ using BHEE = BH.oM.Environment.Elements;
 using BHM = BH.oM.Environment.MaterialFragments;
 using BHG = BH.oM.Geometry;
 using BHP = BH.oM.Environment.Fragments;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using System.ComponentModel;
 
 using BHPC = BH.oM.Physical.Constructions;

@@ -30,9 +30,8 @@ using BHA = BH.oM.Architecture;
 using BHE = BH.oM.Environment.Elements;
 using BHR = BH.oM.Environment.Results;
 using BHG = BH.oM.Geometry;
-using BHER = BH.Engine.Reflection.Compute;
 
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using System.ComponentModel;
 
 namespace BH.Engine.Adapters.TAS
@@ -47,7 +46,7 @@ namespace BH.Engine.Adapters.TAS
             TSD.tsdBuildingArray? buildingType = resultType.ToTASBuildingType();
             if(buildingType == null)
             {
-                BHER.RecordError("That Result Type is not valid for Building results - please choose a different result type");
+                BH.Engine.Base.Compute.RecordError("That Result Type is not valid for Building results - please choose a different result type");
                 return null;
             }
 
@@ -61,7 +60,7 @@ namespace BH.Engine.Adapters.TAS
                 case BHR.ProfileResultUnit.Daily:
                     if (day < 1 || day > 365)
                     {
-                        BHER.RecordError("Please set a day between 1 and 365 inclusive");
+                        BH.Engine.Base.Compute.RecordError("Please set a day between 1 and 365 inclusive");
                         return null;
                     }
                     object dayRes = tsdData.GetDailyBuildingResult(day, (int)buildingType.Value);
@@ -70,13 +69,13 @@ namespace BH.Engine.Adapters.TAS
                 case BHR.ProfileResultUnit.Hourly:
                     if(hour < 1 || hour > 24)
                     {
-                        BHER.RecordError("Please set an hour between 1 and 24 inclusive");
+                        BH.Engine.Base.Compute.RecordError("Please set an hour between 1 and 24 inclusive");
                         return null;
                     }
                     results.Add(tsdData.GetHourlyBuildingResult(hour, (int)buildingType.Value));
                     break;
                 default:
-                    BHER.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
+                    BH.Engine.Base.Compute.RecordError("That unit type is not valid for pulling results from TAS TSD. Please select a different result unit type");
                     return null;
             }
 

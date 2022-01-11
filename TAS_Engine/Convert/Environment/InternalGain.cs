@@ -31,7 +31,7 @@ using BHE = BH.oM.Environment.SpaceCriteria;
 using BHG = BH.oM.Geometry;
 using TBD;
 
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using System.ComponentModel;
 using BH.oM.Adapters.TAS.Fragments;
 
