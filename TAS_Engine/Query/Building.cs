@@ -31,7 +31,7 @@ using BHEE = BH.oM.Environment.Elements;
 using BH.Engine.Environment;
 using BH.oM.Geometry;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 
 namespace BH.Engine.Adapters.TAS
 {
@@ -49,7 +49,7 @@ namespace BH.Engine.Adapters.TAS
 
         //    if (string.IsNullOrEmpty(tbdFile))
         //    {
-        //        BH.Engine.Reflection.Compute.RecordError("Please provide a valid TBD file path");
+        //        BH.Engine.Base.Compute.RecordError("Please provide a valid TBD file path");
         //        return null; ;
         //    }
 

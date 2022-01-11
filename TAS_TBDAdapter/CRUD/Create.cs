@@ -55,7 +55,7 @@ using BH.Engine.Environment;
 using System.Text;
 using System.Threading.Tasks;
 using BHA = BH.oM.Architecture;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using System.ComponentModel;
 using BHP = BH.oM.Environment.Fragments;
 using BH.Engine.Adapters.TAS;

@@ -28,7 +28,7 @@ using TBD;
 using TSD;
 
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -54,7 +54,7 @@ namespace BH.Engine.Adapters.TAS
 
             if (string.IsNullOrEmpty(tbdFile))
             {
-                BH.Engine.Reflection.Compute.RecordError("Please provide a valid TBD file path");
+                BH.Engine.Base.Compute.RecordError("Please provide a valid TBD file path");
                 return false;
             }
 
@@ -92,7 +92,7 @@ namespace BH.Engine.Adapters.TAS
 
             if (string.IsNullOrEmpty(tbdFile))
             {
-                BH.Engine.Reflection.Compute.RecordError("Please provide a valid TBD file path");
+                BH.Engine.Base.Compute.RecordError("Please provide a valid TBD file path");
                 return false;
             }
 

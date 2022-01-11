@@ -32,7 +32,7 @@ using TAS3D;
 using BH.oM.Adapters.TAS;
 
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 
 using System.Runtime.InteropServices;
 
@@ -45,7 +45,7 @@ namespace BH.Adapter.TAS
         /***************************************************/
         public TasT3DAdapter()
         {
-            BH.Engine.Reflection.Compute.RecordError("The TAS3D Adapter has not been fully implemented yet and cannot be used. For queries please contact the CODEOWNERS");
+            BH.Engine.Base.Compute.RecordError("The TAS3D Adapter has not been fully implemented yet and cannot be used. For queries please contact the CODEOWNERS");
             throw new NotImplementedException();
         }
 
@@ -88,7 +88,7 @@ namespace BH.Adapter.TAS
                 t3dDocument.Create();
 
             else
-                BH.Engine.Reflection.Compute.RecordError("The TBD file does not exist");
+                BH.Engine.Base.Compute.RecordError("The TBD file does not exist");
             return t3dDocument;
         }
 

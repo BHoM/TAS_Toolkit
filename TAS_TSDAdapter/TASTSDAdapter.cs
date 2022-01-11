@@ -31,7 +31,7 @@ using BH.oM.Base;
 using BH.Engine;
 using BH.oM.Environment.Results;
 using System.ComponentModel;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using BH.oM.Adapters.TAS;
 using BH.oM.Adapters.TAS.Settings;
 using BH.oM.Adapter;
@@ -70,57 +70,57 @@ namespace BH.Adapter.TAS
         {
             if (tsdFilePath == "")
             {
-                BH.Engine.Reflection.Compute.RecordError("Please provide a valid TSD input file path");
+                BH.Engine.Base.Compute.RecordError("Please provide a valid TSD input file path");
                 return false;
             }
 
             if (tsdResultType == TSDResultType.Undefined)
             {
-                BH.Engine.Reflection.Compute.RecordError("Result output cannot be undefined");
+                BH.Engine.Base.Compute.RecordError("Result output cannot be undefined");
                 return false;
             }
             if (SimulationResultType == SimulationResultType.Undefined)
             {
-                BH.Engine.Reflection.Compute.RecordError("Simulation type cannot be undefined");
+                BH.Engine.Base.Compute.RecordError("Simulation type cannot be undefined");
                 return false;
             }
             if (ProfileResultUnits == ProfileResultUnit.Undefined)
             {
-                BH.Engine.Reflection.Compute.RecordError("Unit type cannot be undefined");
+                BH.Engine.Base.Compute.RecordError("Unit type cannot be undefined");
                 return false;
             }
             if (ProfileResultType == ProfileResultType.Undefined)
             {
-                BH.Engine.Reflection.Compute.RecordError("Result type cannot be undefined");
+                BH.Engine.Base.Compute.RecordError("Result type cannot be undefined");
                 return false;
             }
 
             if ((tsdResultType == TSDResultType.CoolingDesignDay || tsdResultType == TSDResultType.HeatingDesignDay) && (SimulationResultType == SimulationResultType.BuildingResult || SimulationResultType == SimulationResultType.BuildingElementResult))
             {
-                BH.Engine.Reflection.Compute.RecordError("Heating and Cooling Design Day results are only available on Space Result Types");
+                BH.Engine.Base.Compute.RecordError("Heating and Cooling Design Day results are only available on Space Result Types");
                 return false;
             }
 
             if (ProfileResultUnits == ProfileResultUnit.Daily && (Day < 1 || Day > 365))
             {
-                BH.Engine.Reflection.Compute.RecordError("Please select a day between 1 and 365 inclusive for Daily Results");
+                BH.Engine.Base.Compute.RecordError("Please select a day between 1 and 365 inclusive for Daily Results");
                 return false;
             }
 
             if (ProfileResultUnits == ProfileResultUnit.Hourly && (Hour < 1 || Hour > 24))
             {
-                BH.Engine.Reflection.Compute.RecordError("Please select an hour between 1 and 24 inclusive for Hourly Results");
+                BH.Engine.Base.Compute.RecordError("Please select an hour between 1 and 24 inclusive for Hourly Results");
                 return false;
             }
 
             if (ProfileResultUnits == ProfileResultUnit.Yearly && (Hour != -1 || Day != -1))
             {
-                BH.Engine.Reflection.Compute.RecordWarning("Day and Hour inputs are not used when pulling Yearly Results");
+                BH.Engine.Base.Compute.RecordWarning("Day and Hour inputs are not used when pulling Yearly Results");
             }
 
             if (_tasSettings == null)
             {
-                BH.Engine.Reflection.Compute.RecordError("Please set some TAS Settings on the TAS Adapter");
+                BH.Engine.Base.Compute.RecordError("Please set some TAS Settings on the TAS Adapter");
                 return false;
             }
 
@@ -156,7 +156,7 @@ namespace BH.Adapter.TAS
                 tsdDocument.create(tsdFilePath); //What if an existing file has the same name?
 
             else
-                BH.Engine.Reflection.Compute.RecordError("The TSD file does not exist");
+                BH.Engine.Base.Compute.RecordError("The TSD file does not exist");
             return tsdDocument;
         }
         //TODO: Do we need both of these?
@@ -171,7 +171,7 @@ namespace BH.Adapter.TAS
                 tsdDocument.create(tsdFilePath); //What if an existing file has the same name?
 
             else
-                BH.Engine.Reflection.Compute.RecordError("The TSD file does not exist");
+                BH.Engine.Base.Compute.RecordError("The TSD file does not exist");
             return tsdDocument;
         }
 

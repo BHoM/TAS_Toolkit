@@ -31,7 +31,7 @@ using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
 using BHP = BH.oM.Environment.Fragments;
 using BHPC = BH.oM.Physical.Constructions;
-using BH.oM.Reflection.Attributes;
+using BH.oM.Base.Attributes;
 using System.ComponentModel;
 using BH.Engine.Environment;
 using BH.oM.Adapters.TAS;
@@ -141,7 +141,7 @@ namespace BH.Engine.Adapters.TAS
                 }
                 catch (Exception e)
                 {
-                    BH.Engine.Reflection.Compute.RecordWarning("An error occurred in building buildingElement ID - " + element.BHoM_Guid + " - error was: " + e.ToString());
+                    BH.Engine.Base.Compute.RecordWarning("An error occurred in building buildingElement ID - " + element.BHoM_Guid + " - error was: " + e.ToString());
                     element.ExternalEdges = Geometry.Create.PolyCurve(panelCurve).ICollapseToPolyline(BH.oM.Geometry.Tolerance.Angle).CleanPolyline(tasSettings.AngleTolerance, tasSettings.MinimumSegmentLength).ToEdges();
                 }
             }
