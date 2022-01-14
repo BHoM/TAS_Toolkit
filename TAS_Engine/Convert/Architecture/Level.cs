@@ -26,7 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using BHA = BH.oM.Architecture.Elements;
+using BHS = BH.oM.Spatial.SettingOut;
 using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
@@ -41,9 +41,9 @@ namespace BH.Engine.Adapters.TAS
         [Description("Gets a list of BHoM Architectural Levels from a TAS TBD Building")]
         [Input("tbdBuilding", "TAS TBD Building")]
         [Output("BHoM Architectural Levels")]
-        public static List<BHA.Level> FromTASLevels(this TBD.Building tbdBuilding)
+        public static List<BHS.Level> FromTASLevels(this TBD.Building tbdBuilding)
         {
-            List<BHA.Level> levels = new List<BHA.Level>();
+            List<BHS.Level> levels = new List<BHS.Level>();
 
             int storeyIndex = 0;
             TBD.BuildingStorey storey = null;
@@ -59,9 +59,9 @@ namespace BH.Engine.Adapters.TAS
         [Description("Gets a BHoM Architectural Level from a TAS TBD Building Storey")]
         [Input("tbdStorey", "TAS TBD Building Storey")]
         [Output("BHoM Architectural Level")]
-        public static BHA.Level FromTAS(this TBD.BuildingStorey tbdStorey)
+        public static BHS.Level FromTAS(this TBD.BuildingStorey tbdStorey)
         {
-            BHA.Level level = new BHA.Level();
+            BHS.Level level = new BHS.Level();
 
             if (tbdStorey.GetPerimeter(0) != null)
             {
@@ -77,9 +77,9 @@ namespace BH.Engine.Adapters.TAS
         [Description("Gets a BHoM Architectural Level from a TAS T3D Floor")]
         [Input("tbdFloor", "TAS T3D Floor")]
         [Output("BHoM Architectural Level")]
-        public static BHA.Level FromTAS(this TAS3D.Floor tbdFloor)
+        public static BHS.Level FromTAS(this TAS3D.Floor tbdFloor)
         {
-            BHA.Level level = new BHA.Level();
+            BHS.Level level = new BHS.Level();
 
             level.Name = tbdFloor.name;
             level.Elevation = tbdFloor.level.Round();
@@ -90,7 +90,7 @@ namespace BH.Engine.Adapters.TAS
         [Description("BH.Engine.Adapters.TAS.Convert ToTAS => gets a TAS TBD Building from a list of BHoM Architecture Levels")]
         [Input("levels","BHoM Architectural Levels")]
         [Output("TAS TBD Building")]
-        public static TBD.BuildingStoreyClass ToTAS(this List<BHA.Level> levels)
+        public static TBD.BuildingStoreyClass ToTAS(this List<BHS.Level> levels)
         {
             TBD.BuildingStoreyClass tbdLevels = new TBD.BuildingStoreyClass();
             if (levels == null) return tbdLevels;
@@ -101,7 +101,7 @@ namespace BH.Engine.Adapters.TAS
         [Description("Gets a TAS TBD Building Storey from a BHoM Architecture Level")]
         [Input("level", "BHoM Architecture Level")]
         [Output("TAS TBD Building Storey")]
-        public static TBD.BuildingStoreyClass ToTAS(this BHA.Level level)
+        public static TBD.BuildingStoreyClass ToTAS(this BHS.Level level)
         {
             TBD.BuildingStoreyClass tbdLevel = new TBD.BuildingStoreyClass();
             if (level == null) return tbdLevel;
