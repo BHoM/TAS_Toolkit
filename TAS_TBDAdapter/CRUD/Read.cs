@@ -65,7 +65,7 @@ namespace BH.Adapter.TAS
             //  return ReadElementsProperties();
             else if (type == typeof(Layer))
                 return ReadMaterials();
-            else if (type == typeof(BH.oM.Architecture.Elements.Level))
+            else if (type == typeof(BH.oM.Spatial.SettingOut.Level))
                 return ReadLevels();
             else if (type == typeof(Construction))
                 return ReadConstruction();
@@ -121,10 +121,10 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private List<BH.oM.Architecture.Elements.Level> ReadLevels(List<string> ids = null)
+        private List<BH.oM.Spatial.SettingOut.Level> ReadLevels(List<string> ids = null)
         {
             TBD.Building tbdBuilding = m_tbdDocument.Building;
-            List<BH.oM.Architecture.Elements.Level> levels = new List<BH.oM.Architecture.Elements.Level>();
+            List<BH.oM.Spatial.SettingOut.Level> levels = new List<BH.oM.Spatial.SettingOut.Level>();
             levels = BH.Engine.Adapters.TAS.Convert.FromTASLevels(tbdBuilding);
 
             return levels;
