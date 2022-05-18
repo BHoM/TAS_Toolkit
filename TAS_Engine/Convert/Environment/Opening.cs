@@ -36,6 +36,8 @@ using System.ComponentModel;
 using BH.oM.Adapters.TAS.Settings;
 using BH.oM.Adapters.TAS.Fragments;
 
+using BH.Engine.Data;
+
 namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
@@ -66,10 +68,10 @@ namespace BH.Engine.Adapters.TAS
 
                 //BuildingElementAnalyticalProperties
                 BH.oM.Environment.Fragments.PanelAnalyticalFragment buildingElementAnalyticalProperties = new oM.Environment.Fragments.PanelAnalyticalFragment();
-                buildingElementAnalyticalProperties.Altitude = tbdSurface.altitude.Round();
-                buildingElementAnalyticalProperties.AltitudeRange = tbdSurface.altitudeRange.Round();
-                buildingElementAnalyticalProperties.Inclination = tbdSurface.inclination.Round();
-                buildingElementAnalyticalProperties.Orientation = tbdSurface.orientation.Round();
+                buildingElementAnalyticalProperties.Altitude = ((double)tbdSurface.altitude).Round();
+                buildingElementAnalyticalProperties.AltitudeRange = ((double)tbdSurface.altitudeRange).Round();
+                buildingElementAnalyticalProperties.Inclination = ((double)tbdSurface.inclination).Round();
+                buildingElementAnalyticalProperties.Orientation = ((double)tbdSurface.orientation).Round();
                 buildingElementAnalyticalProperties.GValue = tbdElement.GValue().Round();
                 buildingElementAnalyticalProperties.LTValue = tbdElement.LTValue().Round();
                 buildingElementAnalyticalProperties.UValue = tbdElement.UValue().Round();
