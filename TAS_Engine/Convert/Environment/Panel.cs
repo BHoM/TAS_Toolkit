@@ -39,6 +39,8 @@ using BH.oM.Adapters.TAS.Settings;
 using BH.oM.Adapters.TAS.Fragments;
 using BH.Engine.Base;
 
+using BH.Engine.Data;
+
 namespace BH.Engine.Adapters.TAS
 {
     public static partial class Convert
@@ -95,10 +97,10 @@ namespace BH.Engine.Adapters.TAS
 
             //BuildingElementAnalyticalProperties
             BHP.PanelAnalyticalFragment buildingElementAnalyticalProperties = new BHP.PanelAnalyticalFragment();
-            buildingElementAnalyticalProperties.Altitude = tbdSurface.altitude.Round();
-            buildingElementAnalyticalProperties.AltitudeRange = tbdSurface.altitudeRange.Round();
-            buildingElementAnalyticalProperties.Inclination = tbdSurface.inclination.Round();
-            buildingElementAnalyticalProperties.Orientation = tbdSurface.orientation.Round();
+            buildingElementAnalyticalProperties.Altitude = ((double)tbdSurface.altitude).Round();
+            buildingElementAnalyticalProperties.AltitudeRange = ((double)tbdSurface.altitudeRange).Round();
+            buildingElementAnalyticalProperties.Inclination = ((double)tbdSurface.inclination).Round();
+            buildingElementAnalyticalProperties.Orientation = ((double)tbdSurface.orientation).Round();
             buildingElementAnalyticalProperties.GValue = tbdElement.GValue().Round();
             buildingElementAnalyticalProperties.LTValue = tbdElement.LTValue().Round();
             buildingElementAnalyticalProperties.UValue = tbdElement.UValue().Round();
@@ -150,9 +152,9 @@ namespace BH.Engine.Adapters.TAS
             tasData.TASID = tbdSurface.GUID.RemoveBrackets();
             tasData.TASName = "Z_" + tbdSurface.zone.number + "_" + tbdSurface.number + "_" + tbdSurface.zone.name;
             tasData.Type = System.Convert.ToString(tbdSurface.type);
-            tasData.Area = tbdSurface.area.Round();
-            tasData.InternalArea = tbdSurface.internalArea.Round();
-            tasData.Width = tbdElement.width.Round();
+            tasData.Area = ((double)tbdSurface.area).Round();
+            tasData.InternalArea = ((double)tbdSurface.internalArea).Round();
+            tasData.Width = ((double)tbdElement.width).Round();
             tasData.MaterialLayersThickness = tbdElement.GetConstruction().ConstructionThickness().Round();
 
             element.Fragments.Add(tasData);

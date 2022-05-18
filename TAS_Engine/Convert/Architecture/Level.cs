@@ -30,6 +30,7 @@ using BHS = BH.oM.Spatial.SettingOut;
 using BHE = BH.oM.Environment.Elements;
 using BHG = BH.oM.Geometry;
 using BH.Engine.Geometry;
+using BH.Engine.Data;
 
 using BH.oM.Base.Attributes;
 using System.ComponentModel;
