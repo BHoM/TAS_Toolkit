@@ -44,7 +44,7 @@ namespace BH.Adapter.TAS
     public partial class TasTBDAdapter : BHoMAdapter
     {
         /***************************************************/
-        /**** Protected Methods                         ****/
+        /**** Protected Interface methods               ****/
         /***************************************************/
 
         protected override bool ICreate<T>(IEnumerable<T> objects, ActionConfig actionConfig = null)
@@ -60,28 +60,7 @@ namespace BH.Adapter.TAS
         }
 
         /***************************************************/
-
-        public static void ClearCOMObject(object Object)
-        {
-            if (Object == null) return;
-            int intrefcount = 0;
-            do
-            {
-                intrefcount = Marshal.FinalReleaseComObject(Object);
-            } while (intrefcount > 0);
-            Object = null;
-        }
-
-
-        /***************************************************/
-        /**** Create methods                            ****/
-        /***************************************************/
-
-        private bool Create(IEnumerable<IBHoMObject> objects)
-        {
-            return true;
-        }
-
+        /**** Private methods                           ****/
         /***************************************************/
 
         private bool Create(IEnumerable<BHE.Elements.Space> spaces)
@@ -165,10 +144,13 @@ namespace BH.Adapter.TAS
         }
 
         /***************************************************/
+        /**** Fallback methods                          ****/
+        /***************************************************/
 
         private bool Create(IEnumerable<object> objects)
         {
-            return true;
+            BH.Engine.Base.Compute.RecordError($"The type: {objects.GetType()} cannot be pushed to a TBD file.");
+            return false;
         }
 
         /***************************************************/
