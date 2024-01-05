@@ -9,6 +9,5 @@ namespace BH.Adapter.TAS
 {
     public interface ITASFile
     {
-        public 
     }
 }

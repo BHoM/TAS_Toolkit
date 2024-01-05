@@ -38,6 +38,14 @@ namespace BH.Adapter.TAS
     {
         public override List<object> Push(IEnumerable<object> objects = null, string tag = "", PushType pushType = PushType.AdapterDefault, ActionConfig actionConfig = null)
         {
+            if (actionConfig == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TASActionConfig to use this adapter.");
+                return new List<object>();
+            }
+
+
+
             GetTbdDocument();
 
             List<object> objs = base.Push(objects, tag, pushType, actionConfig);

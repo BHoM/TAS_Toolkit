@@ -9,7 +9,7 @@ namespace BH.Adapter.TAS
 {
     public static partial class Compute
     {
-        private static void ClearCOMObject(object obj)
+        public static void ClearCOMObject(object obj)
         {
             if (obj == null) return;
             int intrefcount;

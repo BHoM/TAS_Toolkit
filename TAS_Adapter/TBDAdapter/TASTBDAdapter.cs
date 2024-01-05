@@ -113,7 +113,7 @@ namespace BH.Adapter.TAS
                 if (m_tbdDocument != null)
                 {
                     // issue with closing files and not closing 
-                    ClearCOMObject(m_tbdDocument);
+                    BH.Adapter.TAS.Compute.ClearCOMObject(m_tbdDocument);
                     m_tbdDocument = null;
                 }
 
