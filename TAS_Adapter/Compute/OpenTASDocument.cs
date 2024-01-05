@@ -31,19 +31,23 @@ namespace BH.Adapter.TAS
             else if (type == typeof(TBDDocument))
             {
                 TBDDocument document = new TBDDocument();
+
                 if (File.Exists(file.GetFullFileName()))
                     document.Document.open(file.GetFullFileName());
                 else
                     document.Document.create(file.GetFullFileName());
+
                 return document;
             }
             else if (type == typeof(TSDDocument))
             {
                 TSDDocument document = new TSDDocument();
+
                 if (File.Exists(file.GetFullFileName()))
                     document.Document.open(file.GetFullFileName());
                 else
                     document.Document.create(file.GetFullFileName());
+
                 return document;
             }
             else
