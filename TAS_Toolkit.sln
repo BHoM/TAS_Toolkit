@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_Engine", "TAS_Engine\TAS_Engine.csproj", "{9938088D-650C-4C9B-B1FD-C0457357F836}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_oM", "TAS_oM\TAS_oM.csproj", "{70CE1292-BF2C-4679-839C-1CCCA3629D45}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_T3DAdapter", "TAS_T3DAdapter\TAS_T3DAdapter.csproj", "{25219677-E2A3-4F45-9301-2E9D5CCEC510}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TAS_Adapter", "TAS_Adapter\TAS_Adapter.csproj", "{2FAD86DE-AF5C-4B44-BE15-A3949FE829F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{25219677-E2A3-4F45-9301-2E9D5CCEC510}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{25219677-E2A3-4F45-9301-2E9D5CCEC510}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{25219677-E2A3-4F45-9301-2E9D5CCEC510}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FAD86DE-AF5C-4B44-BE15-A3949FE829F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FAD86DE-AF5C-4B44-BE15-A3949FE829F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FAD86DE-AF5C-4B44-BE15-A3949FE829F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FAD86DE-AF5C-4B44-BE15-A3949FE829F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,5 +55,8 @@ Global
 		{4A134184-DD14-4280-90E6-13210BBCF296} = {59D2AE01-04B2-4BCD-B4E5-05C0BCDC1970}
 		{08845C64-BF74-45C2-A939-E56158563899} = {59D2AE01-04B2-4BCD-B4E5-05C0BCDC1970}
 		{25219677-E2A3-4F45-9301-2E9D5CCEC510} = {59D2AE01-04B2-4BCD-B4E5-05C0BCDC1970}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {896A0965-583C-41A0-A901-E94C4F265BAD}
 	EndGlobalSection
 EndGlobal
