@@ -70,7 +70,3 @@ namespace BH.Adapter.TAS
         }
     }
 }
-
-
-
-
