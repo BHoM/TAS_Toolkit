@@ -98,6 +98,7 @@ namespace BH.Adapter.TAS
             }
         }
 
+         /***************************************************/
 
         protected IEnumerable<IBHoMObject> Read(Type type, TSDDocument document, TASTSDConfig actionConfig)
         {

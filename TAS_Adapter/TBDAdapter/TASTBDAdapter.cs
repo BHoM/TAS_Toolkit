@@ -41,7 +41,7 @@ namespace BH.Adapter.TAS
         /**** Constructors                              ****/
         /***************************************************/
 
-        [Description("Produces an TAS Adapter to allow interopability with TAS tBD files and the BHoM")]
+        [Description("Produces an TAS Adapter to allow interoperability with TAS TBD files and the BHoM")]
         [Output("adapter", "Adapter to TAS tBD")]
         public TasTBDAdapter()
         {
