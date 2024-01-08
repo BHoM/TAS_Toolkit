@@ -29,7 +29,6 @@ using BH.oM.Base;
 using System.ComponentModel;
 using BH.oM.Base.Attributes;
 using BH.oM.Adapters.TAS;
-using BH.oM.Adapters.TAS.Settings;
 using BH.oM.Adapter;
 using BH.Adapter.TAS;
 using BH.Engine.Adapter;
@@ -46,6 +45,7 @@ namespace BH.Adapter.TAS
         [Input("fileSettings", "Input the file settings to get the file name and directory the TAS TBD Adapter should use")]
         [Input("tasSettings", "Input additional settings the adapter should use")]
         [Output("adapter", "Adapter to TAS tBD")]
+        [PreviousVersion("7.0", "BH.Adapter.TAS.TasTBDAdapter(BH.oM.Adapter.FileSettings, BH.oM.TAS.Settings.TASSettings)")]
         public TasTBDAdapter()
         {
             m_AdapterSettings.DefaultPushType = oM.Adapter.PushType.CreateOnly;

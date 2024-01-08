@@ -29,6 +29,9 @@ using System.Threading.Tasks;
 using BH.oM.Data.Requests;
 using BH.oM.Adapter;
 using BH.oM.Base;
+using BH.oM.Adapters.TAS;
+using System.IO;
+using BH.Engine.Adapter;
 
 namespace BH.Adapter.TAS
 {
@@ -36,31 +39,53 @@ namespace BH.Adapter.TAS
     {
         public override IEnumerable<object> Pull(IRequest request, PullType pullType = PullType.AdapterDefault, ActionConfig actionConfig = null)
         {
+            if (actionConfig == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TASTBDConfig ActionConfig to use this adapter.");
+                return new List<object>();
+            }
+
+            TASTSDConfig config = (TASTSDConfig)actionConfig;
+            if (config == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TASTBDConfig ActionConfig to use this adapter.");
+                return new List<object>();
+            }
+            else if (!config.ValidateInput())
+            {
+                return new List<object>();
+            }
+
+            if (config.TSDFile == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TBDFile FileSettings object to use this adapter.");
+                return new List<object>();
+            }
+            else if (!File.Exists(config.TSDFile.GetFullFileName()))
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid existing TBD file to read from.");
+            }
+
+            TSDDocument document = (TSDDocument)Compute.OpenTASDocument(typeof(TSDDocument), config.TSDFile);
+            
             try
             {
-                GetTsdDocument(); //Open the TBD Document for pulling data from
+                IEnumerable<object> objects = IRead(null, document, config);
 
-                IEnumerable<object> res = base.Pull(request, pullType, actionConfig);
+                Compute.ICloseTASDocument(document, true);
 
-                CloseTsdDocument(false);
-
-                return res;
-
+                return objects;
             }
             catch (Exception ex)
             {
-                BH.Engine.Base.Compute.RecordError(ex.ToString());
-                CloseTsdDocument();
-                return null;
+                BH.Engine.Base.Compute.RecordError($"An error occurred when trying to read the TSD File: {ex}.");
             }
             finally
             {
-                CloseTsdDocument();
+                Compute.ICloseTASDocument(document, false);
             }
+
+            return null;
         }
     }
 }
-
-
-
-

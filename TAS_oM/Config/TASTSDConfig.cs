@@ -1,4 +1,5 @@
 ﻿using BH.oM.Adapter;
+using BH.oM.Environment.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,22 @@ namespace BH.oM.Adapters.TAS
 {
     public class TASTSDConfig : ActionConfig, ITASConfig
     {
-        //TODO - fill with all inputs to the TASTSDAdapter
+        //Simulation Result Settings
+        public virtual FileSettings TSDFile { get; set; } = null;
+
+        public TSDResultType ResultQuery { get; set; } = TSDResultType.Simulation;
+
+        public SimulationResultType SimulationType { get; set; } = SimulationResultType.BuildingResult;
+
+        public ProfileResultUnit ResultUnit { get; set; } = ProfileResultUnit.Yearly;
+
+        public ProfileResultType ResultType { get; set; } = ProfileResultType.TemperatureExternal;
+
+        public int Hour { get; set; } = -1;
+
+        public int Day { get; set; } = -1;
+
+        //TAS Settings
         public virtual double DistanceTolerance { get; set; } = BH.oM.Geometry.Tolerance.Distance;
         public virtual double PlanarTolerance { get; set; } = BH.oM.Geometry.Tolerance.Distance;
         public virtual double MinimumSegmentLength { get; set; } = BH.oM.Geometry.Tolerance.Distance;

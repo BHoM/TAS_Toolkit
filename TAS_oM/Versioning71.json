@@ -1,0 +1,5 @@
+﻿{
+  "MessageForDeleted": {
+    "BH.oM.TAS.Settings.TASSettings": "The TAS Settings objects have been raplaced by ActionConfigs that are specific to their respective adapters, and are no longer used as an input to TAS Adapters."
+  }
+}

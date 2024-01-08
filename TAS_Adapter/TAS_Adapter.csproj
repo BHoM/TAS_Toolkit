@@ -161,6 +161,7 @@
     <Compile Include="TSDAdapter\CRUD\Create.cs" />
     <Compile Include="TSDAdapter\CRUD\Read.cs" />
     <Compile Include="TSDAdapter\TASTSDAdapter.cs" />
+    <Compile Include="TSDAdapter\ValidateInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TAS_Engine\TAS_Engine.csproj">

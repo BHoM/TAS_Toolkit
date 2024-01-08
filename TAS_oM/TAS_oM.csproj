@@ -78,10 +78,10 @@
     <Compile Include="Fragments\TASSpaceData.cs" />
     <Compile Include="Fragments\TASThermostatData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Config\TASSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Versioning33.json" />
+    <None Include="Versioning71.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
