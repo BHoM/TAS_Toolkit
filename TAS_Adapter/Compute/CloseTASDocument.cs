@@ -8,13 +8,20 @@ namespace BH.Adapter.TAS
 {
     public static partial class Compute
     {
-        //TODO - make method separators
+        /***************************************************/
+        /**** Public Interface methods                  ****/
+        /***************************************************/
+
         public static bool ICloseTASDocument(ITASFile document, bool save)
         {
             return CloseTASDocument(document as dynamic, save);
         }
 
-        public static void CloseTASDocument(T3DDocument document, bool save)
+        /***************************************************/
+        /**** Private methods                           ****/
+        /***************************************************/
+
+        private static void CloseTASDocument(T3DDocument document, bool save)
         {
             if (save)
                 document.Document.Save(document.FilePath);
@@ -23,7 +30,9 @@ namespace BH.Adapter.TAS
             ClearCOMObject(document.Document);
         }
 
-        public static void CloseTASDocument(TBDDocument document, bool save)
+        /***************************************************/
+
+        private static void CloseTASDocument(TBDDocument document, bool save)
         {
             if (save)
                 document.Document.save();
@@ -32,13 +41,24 @@ namespace BH.Adapter.TAS
             ClearCOMObject(document.Document);
         }
 
-        public static void CloseTASDocument(TSDDocument document, bool save)
+        /***************************************************/
+
+        private static void CloseTASDocument(TSDDocument document, bool save)
         {
             if (save)
                 document.Document.save();
 
             document.Document.close();
             ClearCOMObject(document.Document);
+        }
+
+        /***************************************************/
+        /**** Fallback methods                          ****/
+        /***************************************************/
+
+        private static void CloseTASDocument(ITASFile document, bool save)
+        {
+            BH.Engine.Base.Compute.RecordError("An error occurred while closing and saving the TAS document.");
         }
     }
 }

@@ -44,7 +44,7 @@ namespace BH.Adapter.TAS
     public partial class TasTBDAdapter : BHoMAdapter
     {
         /***************************************************/
-        /**** Protected Interface methods               ****/
+        /**** Public Interface methods                  ****/
         /***************************************************/
 
         public bool ICreate<T>(IEnumerable<T> objects, TBDDocument document, ActionConfig actionConfig = null)
@@ -63,7 +63,6 @@ namespace BH.Adapter.TAS
                 space.ToTAS(document.Document.Building.AddZone());
             }
             return true;
-
         }
 
         /***************************************************/

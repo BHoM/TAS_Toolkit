@@ -60,13 +60,11 @@ namespace BH.Adapter.TAS
                 return new List<object>();
             }
 
-            //GetTbdDocument();
             TBDDocument tbdFile = TAS.Compute.OpenTASDocument(typeof(TBDDocument), config.TBDFile) as TBDDocument;
 
             bool success = ICreate(objects, tbdFile, config);
-            //List<object> objs = base.Push(objects, tag, pushType, actionConfig);
 
-            CloseTbdDocument();
+            Compute.ICloseTASDocument(tbdFile, true);
 
             return success ? objects.ToList() : new List<object>();
         }

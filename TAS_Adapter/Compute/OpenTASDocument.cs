@@ -17,42 +17,36 @@ namespace BH.Adapter.TAS
         {
             if (type == typeof(T3DDocument))
             {
-                T3DDocument document = new T3DDocument()
-                {
-                    FilePath = file.GetFullFileName(),
-                };
+                TAS3D.T3DDocument document = new TAS3D.T3DDocument();
 
                 if (File.Exists(file.GetFullFileName()))
-                    document.Document.Open(file.GetFullFileName());
+                    document.Open(file.GetFullFileName());
                 else
-                    document.Document.Create();
+                    document.Create();
 
-                return document;
+                return new T3DDocument() { Document = document, FilePath = file.GetFullFileName() };
             }
             else if (type == typeof(TBDDocument))
             {
-                TBD.TBDDocument tempDocument = new TBD.TBDDocument();
-                //TBDDocument document = new TBDDocument();
+                TBD.TBDDocument document = new TBD.TBDDocument();
 
                 if (File.Exists(file.GetFullFileName()))
-                    tempDocument.open(file.GetFullFileName());
-                    //document.Document.open(file.GetFullFileName());
+                    document.open(file.GetFullFileName());
                 else
-                    tempDocument.create(file.GetFullFileName());
-                    //document.Document.create(file.GetFullFileName());
+                    document.create(file.GetFullFileName());
 
-                return new TBDDocument() { Document = tempDocument };
+                return new TBDDocument() { Document = document };
             }
             else if (type == typeof(TSDDocument))
             {
-                TSDDocument document = new TSDDocument();
+                TSD.TSDDocument document = new TSD.TSDDocument();
 
                 if (File.Exists(file.GetFullFileName()))
-                    document.Document.open(file.GetFullFileName());
+                    document.open(file.GetFullFileName());
                 else
-                    document.Document.create(file.GetFullFileName());
+                    document.create(file.GetFullFileName());
 
-                return document;
+                return new TSDDocument() { Document = document };
             }
             else
             {

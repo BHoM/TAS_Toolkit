@@ -50,69 +50,7 @@ namespace BH.Adapter.TAS
         {
             m_AdapterSettings.DefaultPushType = oM.Adapter.PushType.CreateOnly;
         }
-
-        /***************************************************/
-        /**** Private Fields                            ****/
-        /***************************************************/
-
-        private TBD.TBDDocument m_tbdDocument = null;
-        private string tbdFilePath = null;
-
-        /***************************************************/
-        /**** Private Methods                           ****/
-        /***************************************************/
-
-        private TBD.TBDDocument GetTbdDocument()
-        {
-            m_tbdDocument = new TBD.TBDDocument();
-            if (!String.IsNullOrEmpty(tbdFilePath) && System.IO.File.Exists(tbdFilePath))
-                m_tbdDocument.open(tbdFilePath);
-
-            else if (!String.IsNullOrEmpty(tbdFilePath))
-                m_tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
-
-            else
-                BH.Engine.Base.Compute.RecordError("The TBD file does not exist");
-            return m_tbdDocument;
-        }
-
-        private TBD.TBDDocument GetTbdDocumentReadOnly()
-        {
-            m_tbdDocument = new TBD.TBDDocument();
-            if (!String.IsNullOrEmpty(tbdFilePath) && System.IO.File.Exists(tbdFilePath))
-                m_tbdDocument.openReadOnly(tbdFilePath);
-
-            else if (!String.IsNullOrEmpty(tbdFilePath))
-                m_tbdDocument.create(tbdFilePath); //TODO: what if an existing file has the same name? 
-
-            else
-                BH.Engine.Base.Compute.RecordError("The TBD file does not exist");
-            return m_tbdDocument;
-        }
-
-        // we close and save TBD
-        private void CloseTbdDocument(bool save = true)
-        {
-            if (m_tbdDocument != null)
-            {
-                if (save == true)
-                    m_tbdDocument.save();
-
-                m_tbdDocument.close();
-
-                if (m_tbdDocument != null)
-                {
-                    // issue with closing files and not closing 
-                    BH.Adapter.TAS.Compute.ClearCOMObject(m_tbdDocument);
-                    m_tbdDocument = null;
-                }
-
-            }
-
-        }
     }
-
-    /***************************************************/
 }
 
 
