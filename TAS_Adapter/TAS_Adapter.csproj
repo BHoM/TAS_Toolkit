@@ -139,11 +139,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="T3DAdapter\AdapterActions\Pull.cs" />
-    <Compile Include="T3DAdapter\AdapterActions\Push.cs" />
-    <Compile Include="T3DAdapter\CRUD\Read.cs" />
-    <Compile Include="T3DAdapter\RemoveUnusedZones.cs" />
-    <Compile Include="T3DAdapter\TAST3DAdapter.cs" />
     <Compile Include="TBDAdapter\AdapterActions\Pull.cs" />
     <Compile Include="TBDAdapter\AdapterActions\Push.cs" />
     <Compile Include="Compute\ClearCOMObject.cs" />
@@ -162,7 +157,7 @@
     <Compile Include="TSDAdapter\CRUD\Create.cs" />
     <Compile Include="TSDAdapter\CRUD\Read.cs" />
     <Compile Include="TSDAdapter\TASTSDAdapter.cs" />
-    <Compile Include="TSDAdapter\ValidateInput.cs" />
+    <Compile Include="Compute\ValidateInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TAS_Engine\TAS_Engine.csproj">
