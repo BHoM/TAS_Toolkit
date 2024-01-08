@@ -43,7 +43,7 @@ namespace BH.Adapter.TAS
 
         [Description("Produces an TAS Adapter to allow interopability with TAS tBD files and the BHoM")]
         [Output("adapter", "Adapter to TAS tBD")]
-        [PreviousVersion("7.0", "BH.Adapter.TAS.TasTBDAdapter(BH.oM.Adapter.FileSettings, BH.oM.TAS.Settings.TASSettings)")]
+        [PreviousVersion("7.0", "BH.Adapter.TAS.TasTBDAdapter(BH.oM.Adapter.FileSettings, BH.oM.Adapters.TAS.Settings.TASSettings)")]
         public TasTBDAdapter()
         {
             m_AdapterSettings.DefaultPushType = oM.Adapter.PushType.CreateOnly;
