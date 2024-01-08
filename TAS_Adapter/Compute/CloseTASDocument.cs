@@ -21,17 +21,6 @@ namespace BH.Adapter.TAS
         /**** Private methods                           ****/
         /***************************************************/
 
-        private static void CloseTASDocument(T3DDocument document, bool save)
-        {
-            if (save)
-                document.Document.Save(document.FilePath);
-
-            document.Document.Close();
-            ClearCOMObject(document.Document);
-        }
-
-        /***************************************************/
-
         private static void CloseTASDocument(TBDDocument document, bool save)
         {
             if (save)

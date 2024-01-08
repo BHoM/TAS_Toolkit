@@ -13,46 +13,30 @@ namespace BH.Adapter.TAS
 {
     public static partial class Compute
     {
-        public static ITASFile OpenTASDocument(Type type, FileSettings file)
+        public static TBDDocument OpenTASDocument(this TBDDocument document, FileSettings file)
         {
-            if (type == typeof(T3DDocument))
-            {
-                TAS3D.T3DDocument document = new TAS3D.T3DDocument();
+            TBD.TBDDocument tempDocument = new TBD.TBDDocument();
 
-                if (File.Exists(file.GetFullFileName()))
-                    document.Open(file.GetFullFileName());
-                else
-                    document.Create();
-
-                return new T3DDocument() { Document = document, FilePath = file.GetFullFileName() };
-            }
-            else if (type == typeof(TBDDocument))
-            {
-                TBD.TBDDocument document = new TBD.TBDDocument();
-
-                if (File.Exists(file.GetFullFileName()))
-                    document.open(file.GetFullFileName());
-                else
-                    document.create(file.GetFullFileName());
-
-                return new TBDDocument() { Document = document };
-            }
-            else if (type == typeof(TSDDocument))
-            {
-                TSD.TSDDocument document = new TSD.TSDDocument();
-
-                if (File.Exists(file.GetFullFileName()))
-                    document.open(file.GetFullFileName());
-                else
-                    document.create(file.GetFullFileName());
-
-                return new TSDDocument() { Document = document };
-            }
+            if (File.Exists(file.GetFullFileName()))
+                tempDocument.open(file.GetFullFileName());
             else
-            {
-                BH.Engine.Base.Compute.RecordError($"The type: {type.FullName} is not supported for retreiving TAS documents");
-                return null;
-            }
+                tempDocument.create(file.GetFullFileName());
+
+            document.Document = tempDocument;
+            return document;
+        }
+
+        public static TSDDocument OpenTASDocument(this TSDDocument document, FileSettings file)
+        {
+            TSD.TSDDocument tempDocument = new TSD.TSDDocument();
+
+            if (File.Exists(file.GetFullFileName()))
+                tempDocument.open(file.GetFullFileName());
+            else
+                tempDocument.create(file.GetFullFileName());
+
+            document.Document = tempDocument;
+            return document;
         }
     }
 }

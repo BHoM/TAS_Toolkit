@@ -67,7 +67,7 @@ namespace BH.Adapter.TAS
                 type = filterRequest.Type;
             }
 
-            TBDDocument document = (TBDDocument)TAS.Compute.OpenTASDocument(typeof(TBDDocument), config.TBDFile); //Open the TBD Document for pulling data from
+            TBDDocument document = new TBDDocument().OpenTASDocument(config.TBDFile); //Open the TBD Document for pulling data from
 
             try
             {
