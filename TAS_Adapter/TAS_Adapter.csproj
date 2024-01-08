@@ -139,21 +139,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TBDAdapter\AdapterActions\Pull.cs" />
-    <Compile Include="TBDAdapter\AdapterActions\Push.cs" />
     <Compile Include="Compute\ClearCOMObject.cs" />
     <Compile Include="Compute\CloseTASDocument.cs" />
     <Compile Include="Compute\OpenTASDocument.cs" />
     <Compile Include="TBDAdapter\CRUD\Create.cs" />
     <Compile Include="TBDAdapter\CRUD\Read.cs" />
     <Compile Include="Objects\ITASFile.cs" />
-    <Compile Include="Objects\T3DDocument.cs" />
     <Compile Include="Objects\TBDDocument.cs" />
     <Compile Include="Objects\TSDDocument.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TBDAdapter\TASTBDAdapter.cs" />
-    <Compile Include="TSDAdapter\AdapterActions\Pull.cs" />
-    <Compile Include="TSDAdapter\AdapterActions\Push.cs" />
     <Compile Include="TSDAdapter\CRUD\Create.cs" />
     <Compile Include="TSDAdapter\CRUD\Read.cs" />
     <Compile Include="TSDAdapter\TASTSDAdapter.cs" />

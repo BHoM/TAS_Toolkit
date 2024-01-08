@@ -38,6 +38,7 @@ using BHP = BH.oM.Environment.Fragments;
 using BH.Engine.Adapters.TAS;
 
 using BH.oM.Adapter;
+using BH.oM.Adapters.TAS;
 
 namespace BH.Adapter.TAS
 {
@@ -47,9 +48,34 @@ namespace BH.Adapter.TAS
         /**** Public Interface methods                  ****/
         /***************************************************/
 
-        protected bool ICreate<T>(IEnumerable<T> objects, TBDDocument document, ActionConfig actionConfig = null)
+        protected override bool ICreate<T>(IEnumerable<T> objects, ActionConfig actionConfig = null)
         {
-            return Create(objects as dynamic, document);
+            if (actionConfig == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TASTBDConfig ActionConfig to use this adapter.");
+                return false;
+            }
+
+            TASTBDConfig config = (TASTBDConfig)actionConfig;
+            if (config == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TASTBDConfig ActionConfig to use this adapter.");
+                return false;
+            }
+
+            if (config.TBDFile == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TBDFile FileSettings object to use this adapter.");
+                return false;
+            }
+
+            TBDDocument tbdFile = new TBDDocument().OpenTASDocument(config.TBDFile);
+
+            bool success = Create(objects as dynamic, tbdFile);
+
+            Compute.ICloseTASDocument(tbdFile, true);
+
+            return success;
         }
 
         /***************************************************/

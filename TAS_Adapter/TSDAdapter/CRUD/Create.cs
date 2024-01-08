@@ -39,15 +39,10 @@ namespace BH.Adapter.TAS
 {
     public partial class TasTSDAdapter : BHoMAdapter
     {
-        //These methods are never called, but will be left in as they are half-complete.
         protected override bool ICreate<T>(IEnumerable<T> objects, ActionConfig actionConfig = null)
         {
-            bool success = true;
-            if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
-            {
-                //success = CreateCollection(objects as dynamic);
-            }
-            return success;
+            BH.Engine.Base.Compute.RecordError("Pushing to TSD files is not yet implemented.");
+            return false;
         }
     }
 }

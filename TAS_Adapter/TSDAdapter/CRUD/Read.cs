@@ -39,6 +39,8 @@ using BH.oM.Environment.Results;
 using BH.oM.Adapter;
 using TCD;
 using BH.oM.Adapters.TAS;
+using BH.Engine.Adapter;
+using System.IO;
 
 namespace BH.Adapter.TAS
 {
@@ -48,7 +50,56 @@ namespace BH.Adapter.TAS
         /**** Public Methods                            ****/
         /***************************************************/
 
-        protected IEnumerable<IBHoMObject> IRead(Type type, TSDDocument document, TASTSDConfig actionConfig)
+        protected override IEnumerable<IBHoMObject> IRead(Type type, IList ids, ActionConfig actionConfig = null)
+        {
+            IEnumerable<IBHoMObject> objects = new List<IBHoMObject>();
+            if (actionConfig == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TASTBDConfig ActionConfig to use this adapter.");
+                return objects;
+            }
+
+            TASTSDConfig config = (TASTSDConfig)actionConfig;
+            if (config == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TASTBDConfig ActionConfig to use this adapter.");
+                return objects;
+            }
+            else if (!config.ValidateInput())
+            {
+                return objects;
+            }
+
+            if (config.TSDFile == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TBDFile FileSettings object to use this adapter.");
+                return objects;
+            }
+            else if (!File.Exists(config.TSDFile.GetFullFileName()))
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid existing TBD file to read from.");
+            }
+
+            TSDDocument document = new TSDDocument().OpenTASDocument(config.TSDFile);
+
+            try
+            {
+                objects = Read(null, document, config);
+
+                Compute.ICloseTASDocument(document, true);
+
+                return objects;
+            }
+            catch (Exception ex)
+            {
+                BH.Engine.Base.Compute.RecordError($"An error occurred when reading or saving the TAS file: {ex}.");
+                Compute.ICloseTASDocument(document, false);
+                return objects;
+            }
+        }
+
+
+        protected IEnumerable<IBHoMObject> Read(Type type, TSDDocument document, TASTSDConfig actionConfig)
         {
             switch (actionConfig.SimulationType)
             {

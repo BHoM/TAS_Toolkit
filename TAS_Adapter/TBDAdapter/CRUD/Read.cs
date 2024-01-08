@@ -42,6 +42,9 @@ using BH.oM.Adapter;
 using BH.Engine.Base;
 using BH.oM.Adapters.TAS.Fragments;
 using BH.oM.Adapters.TAS;
+using BH.Engine.Adapter;
+using BH.oM.Data.Requests;
+using System.IO;
 
 namespace BH.Adapter.TAS
 {
@@ -51,29 +54,68 @@ namespace BH.Adapter.TAS
         /**** Public Methods                            ****/
         /***************************************************/
 
-        protected IEnumerable<IBHoMObject> IRead(Type type, TBDDocument document, TASTBDConfig actionConfig)
+        protected override IEnumerable<IBHoMObject> IRead(Type type, IList ids, ActionConfig actionConfig = null)
         {
-            if (type == typeof(Building))
-                return ReadBuilding(document);
-            else if (type == typeof(Panel))
-                return ReadBuildingElements(document, actionConfig);
-            else if (type == typeof(Space))
-                return ReadSpaces(document);
-            //else if (type == typeof(BuildingElement))
-            //    return ReadPanels();
-            //else if (type == typeof(ElementProperties))
-            //  return ReadElementsProperties();
-            else if (type == typeof(Layer))
-                return ReadMaterials(document);
-            else if (type == typeof(BH.oM.Spatial.SettingOut.Level))
-                return ReadLevels(document);
-            else if (type == typeof(Construction))
-                return ReadConstruction(document);
-            else if (type == null)
-                return Read(document, actionConfig); //Read everything
-            else
-                BH.Engine.Base.Compute.RecordError($"Reading elements of type: {type} is not currently supported.");
-            return new List<IBHoMObject>();
+            List<IBHoMObject> objects = new List<IBHoMObject>();
+            if (actionConfig == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TASTBDConfig ActionConfig to use this adapter.");
+                return objects;
+            }
+
+            TASTBDConfig config = (TASTBDConfig)actionConfig;
+            if (config == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TASTBDConfig ActionConfig to use this adapter.");
+                return objects;
+            }
+
+            if (config.TBDFile == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TBDFile FileSettings object to use this adapter.");
+                return objects;
+            }
+            else if (!File.Exists(config.TBDFile.GetFullFileName()))
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid existing TBD file to read from.");
+            }
+
+            TBDDocument document = new TBDDocument().OpenTASDocument(config.TBDFile); //Open the TBD Document for pulling data from
+
+            try
+            {
+                if (type == typeof(Building))
+                    objects.AddRange(ReadBuilding(document));
+                else if (type == typeof(Panel))
+                    objects.AddRange(ReadBuildingElements(document, config));
+                else if (type == typeof(Space))
+                    objects.AddRange(ReadSpaces(document));
+                //else if (type == typeof(BuildingElement))
+                //    return ReadPanels();
+                //else if (type == typeof(ElementProperties))
+                //  return ReadElementsProperties();
+                else if (type == typeof(Layer))
+                    objects.AddRange(ReadMaterials(document));
+                else if (type == typeof(BH.oM.Spatial.SettingOut.Level))
+                    objects.AddRange(ReadLevels(document));
+                else if (type == typeof(Construction))
+                    objects.AddRange(ReadConstruction(document));
+                else if (type == null)
+                    objects.AddRange(Read(document, config)); //Read everything
+                else
+                    BH.Engine.Base.Compute.RecordError($"Reading elements of type: {type} is not currently supported.");
+
+                Compute.ICloseTASDocument(document, true);
+
+                return objects;
+            }
+            catch (Exception e)
+            {
+                BH.Engine.Base.Compute.RecordError($"An error occurred when reading or saving the TAS file: {e}.");
+                Compute.ICloseTASDocument(document, false);
+                return objects;
+            }
+
         }
 
         /***************************************************/
@@ -169,7 +211,7 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        public List<Panel> ReadBuildingElements(TBDDocument document, TASTBDConfig actionConfig)
+        private List<Panel> ReadBuildingElements(TBDDocument document, TASTBDConfig actionConfig)
         {
             TBD.Building building = document.Document.Building;
             List<Panel> buildingElements = new List<Panel>();
@@ -251,7 +293,7 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        public List<Construction> ReadConstruction(TBDDocument document)
+        private List<Construction> ReadConstruction(TBDDocument document)
         {
             TBD.Building building = document.Document.Building;
             List<Construction> constructions = new List<Construction>();
