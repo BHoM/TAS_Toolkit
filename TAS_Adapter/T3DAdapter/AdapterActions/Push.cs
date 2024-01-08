@@ -61,7 +61,7 @@ namespace BH.Adapter.TAS
 
             bool success = true;
 
-            document.Document.ImportGBXML(config.GBXMLFile.GetFullFileName(), 1, (FixNormals ? 1 : 0), 1); //Overwrite existing file (first '1') and create zones from spaces (second '1')
+            document.Document.ImportGBXML(config.GBXMLFile.GetFullFileName(), 1, (config.FixNormals ? 1 : 0), 1); //Overwrite existing file (first '1') and create zones from spaces (second '1')
             Compute.RemoveUnusedZones(document);
 
             Compute.ICloseTASDocument(document, true);
