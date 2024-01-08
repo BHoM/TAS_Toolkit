@@ -8,6 +8,6 @@ namespace BH.Adapter.TAS
 {
     public class TBDDocument : ITASFile
     {
-        public virtual TBD.TBDDocument Document { get; set; } = new TBD.TBDDocument();
+        public TBD.TBDDocument Document { get; set; } = null;
     }
 }

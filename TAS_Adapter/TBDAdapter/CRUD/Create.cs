@@ -47,27 +47,20 @@ namespace BH.Adapter.TAS
         /**** Protected Interface methods               ****/
         /***************************************************/
 
-        protected override bool ICreate<T>(IEnumerable<T> objects, ActionConfig actionConfig = null)
+        public bool ICreate<T>(IEnumerable<T> objects, TBDDocument document, ActionConfig actionConfig = null)
         {
-            bool success = true;
-
-            if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
-            {
-                success = Create(objects as dynamic);
-            }
-
-            return success;
+            return Create(objects as dynamic, document);
         }
 
         /***************************************************/
         /**** Private methods                           ****/
         /***************************************************/
 
-        private bool Create(IEnumerable<BHE.Elements.Space> spaces)
+        private bool Create(IEnumerable<BHE.Elements.Space> spaces, TBDDocument document)
         {
             foreach (BHE.Elements.Space space in spaces)
             {
-                space.ToTAS(m_tbdDocument.Building.AddZone());
+                space.ToTAS(document.Document.Building.AddZone());
             }
             return true;
 
@@ -75,24 +68,25 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private bool Create(IEnumerable<BH.oM.Environment.Elements.Building> buildings)
+        private bool Create(IEnumerable<BH.oM.Environment.Elements.Building> buildings, TBDDocument document)
         {
             foreach(BH.oM.Environment.Elements.Building building in buildings)
-                building.ToTAS(m_tbdDocument.Building);
+                building.ToTAS(document.Document.Building);
             return true;
         }
 
         /***************************************************/
 
-        private bool Create(IEnumerable<BHE.Elements.Panel> buildingElements, TBD.Construction tbdConstruction=null)
+        private bool Create(IEnumerable<BHE.Elements.Panel> buildingElements, TBDDocument document)
         {
+            TBD.Construction tbdConstruction;
 
             List<BHE.Elements.Panel> elements = buildingElements.ToList();
 
             Dictionary<string, TBD.Construction> tbdConstructions = new Dictionary<string, TBD.Construction>();
             foreach (BH.oM.Physical.Constructions.Construction construction in elements.UniqueConstructions())
             {
-                tbdConstruction = m_tbdDocument.Building.AddConstruction(null);
+                tbdConstruction = document.Document.Building.AddConstruction(null);
                 tbdConstructions.Add(construction.UniqueConstructionName(), construction.ToTAS(tbdConstruction));
             }
 
@@ -104,7 +98,7 @@ namespace BH.Adapter.TAS
                     tasCon = tbdDocument.Building.AddConstruction(null);
                 else
                     tasCon = tbdConstructions.Where(x => x.Key == elementProperties.Construction.UniqueConstructionName()).FirstOrDefault().Value;*/
-                buildingElement.ToTAS(m_tbdDocument.Building.AddBuildingElement(), tasCon);
+                buildingElement.ToTAS(document.Document.Building.AddBuildingElement(), tasCon);
 
                 foreach(BHE.Elements.Opening opening in buildingElement.Openings)
                 {
@@ -114,7 +108,7 @@ namespace BH.Adapter.TAS
                     else
                         tasCon = tbdConstructions.Where(x => x.Key == elementProperties.Construction.UniqueConstructionName()).FirstOrDefault().Value;
                         */
-                    opening.ToTAS(m_tbdDocument.Building.AddBuildingElement(), tasCon);
+                    opening.ToTAS(document.Document.Building.AddBuildingElement(), tasCon);
                 }
             }
             return true;
@@ -122,20 +116,20 @@ namespace BH.Adapter.TAS
       
         /***************************************************/
 
-        private bool Create(IEnumerable<BH.oM.Physical.Constructions.Construction> constructions)
+        private bool Create(IEnumerable<BH.oM.Physical.Constructions.Construction> constructions, TBDDocument document)
         {
             foreach(BH.oM.Physical.Constructions.Construction construction in constructions)
-                construction.ToTAS(m_tbdDocument.Building.AddConstruction(null));
+                construction.ToTAS(document.Document.Building.AddConstruction(null));
 
             return true;
         }
         
         /***************************************************/
 
-        private bool Create(IEnumerable<BH.oM.Physical.Constructions.Layer> layers, TBD.Construction tbdConstruction = null)
+        private bool Create(IEnumerable<BH.oM.Physical.Constructions.Layer> layers, TBDDocument document, TBD.Construction tbdConstruction = null)
         {
             if (tbdConstruction == null)
-                tbdConstruction = m_tbdDocument.Building.AddConstruction(null);
+                tbdConstruction = document.Document.Building.AddConstruction(null);
 
             foreach(BH.oM.Physical.Constructions.Layer layer in layers)
                 layer.ToTAS(tbdConstruction.AddMaterial());
@@ -147,7 +141,7 @@ namespace BH.Adapter.TAS
         /**** Fallback methods                          ****/
         /***************************************************/
 
-        private bool Create(IEnumerable<object> objects)
+        private bool Create(IEnumerable<object> objects, TBDDocument document)
         {
             BH.Engine.Base.Compute.RecordError($"The type: {objects.GetType()} cannot be pushed to a TBD file.");
             return false;

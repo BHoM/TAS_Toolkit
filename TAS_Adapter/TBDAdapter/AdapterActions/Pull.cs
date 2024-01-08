@@ -25,10 +25,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.IO;
 using BH.oM.Data.Requests;
 using BH.oM.Adapter;
 using BH.oM.Base;
+using BH.oM.Adapters.TAS;
+using BH.Engine.Adapter;
 
 namespace BH.Adapter.TAS
 {
@@ -36,26 +38,55 @@ namespace BH.Adapter.TAS
     {
         public override IEnumerable<object> Pull(IRequest request, PullType pullType = PullType.AdapterDefault, ActionConfig actionConfig = null)
         {
+            if (actionConfig == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TASTBDConfig ActionConfig to use this adapter.");
+                return new List<object>();
+            }
+
+            TASTBDConfig config = (TASTBDConfig)actionConfig;
+            if (config == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TASTBDConfig ActionConfig to use this adapter.");
+                return new List<object>();
+            }
+
+            if (config.TBDFile == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TBDFile FileSettings object to use this adapter.");
+                return new List<object>();
+            }
+            else if (!File.Exists(config.TBDFile.GetFullFileName())) {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid existing TBD file to read from.");
+            }
+
+            FilterRequest filterRequest = request as FilterRequest;
+            Type type = null;
+            if (filterRequest != null)
+            {
+                type = filterRequest.Type;
+            }
+
+            TBDDocument document = (TBDDocument)TAS.Compute.OpenTASDocument(typeof(TBDDocument), config.TBDFile); //Open the TBD Document for pulling data from
+
             try
             {
-                GetTbdDocumentReadOnly(); //Open the TBD Document for pulling data from
+                IEnumerable<object> objects = IRead(type, document, config);
 
-                IEnumerable<object> res = base.Pull(request, pullType, actionConfig);
+                Compute.ICloseTASDocument(document, true);
 
-                CloseTbdDocument(false);
-
-                return res;
+                return objects;
             }
             catch (Exception e)
             {
-                BH.Engine.Base.Compute.RecordError(e.ToString());
-                CloseTbdDocument(false);
-                return null;
+                BH.Engine.Base.Compute.RecordError($"An error occurred during the read operation: {e}.");
             }
             finally
             {
-                CloseTbdDocument(false);
+                Compute.ICloseTASDocument(document, false);
             }
+
+            return null;
         }
     }
 }

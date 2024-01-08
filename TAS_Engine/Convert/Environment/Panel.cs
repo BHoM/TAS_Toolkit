@@ -49,7 +49,7 @@ namespace BH.Engine.Adapters.TAS
         [Input("tbdElement", "TAS TBD BuildingElement")]
         [Input("tbdSurface", "TAS TBD ZoneSurface")]
         [Output("BHoM Environmental BuildingElement")]
-        public static BHE.Panel FromTAS(this TBD.buildingElement tbdElement, TBD.zoneSurface tbdSurface, TASSettings tasSettings)
+        public static BHE.Panel FromTAS(this TBD.buildingElement tbdElement, TBD.zoneSurface tbdSurface, ITASConfig tasSettings)
         {
             BHE.Panel element = new BHE.Panel();
 

@@ -45,7 +45,7 @@ namespace BH.Engine.Adapters.TAS
         [Description("Gets a BHoM Environmental Opening from a TAS TBD Opening Polygon")]
         [Input("tbdPolygon", "tbdPolygon that represents an opening")]
         [Output("BHoM Environmental Opening")]
-        public static BHE.Opening FromTASOpening(this TBD.Polygon tbdPolygon, TBD.RoomSurface roomSurface, TASSettings tasSettings)
+        public static BHE.Opening FromTASOpening(this TBD.Polygon tbdPolygon, TBD.RoomSurface roomSurface, ITASConfig tasSettings)
         {
             BHE.Opening opening = new oM.Environment.Elements.Opening();
             //roomSurface.parentSurface
