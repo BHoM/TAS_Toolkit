@@ -76,7 +76,10 @@ namespace BH.Adapter.TAS
             return new List<IBHoMObject>();
         }
 
-        public List<IBHoMObject> Read(TBDDocument document, TASTBDConfig actionConfig)
+        /***************************************************/
+        /**** Private Methods                           ****/
+        /***************************************************/
+        private List<IBHoMObject> Read(TBDDocument document, TASTBDConfig actionConfig)
         {
             List<IBHoMObject> bhomObjects = new List<IBHoMObject>();
 
@@ -89,8 +92,6 @@ namespace BH.Adapter.TAS
             return bhomObjects;
         }
 
-        /***************************************************/
-        /**** Private Methods                           ****/
         /***************************************************/
 
         private List<Space> ReadSpaces(TBDDocument document)
@@ -247,7 +248,6 @@ namespace BH.Adapter.TAS
             return nonOpeningElements;
         }
 
-
         /***************************************************/
 
         public List<Construction> ReadConstruction(TBDDocument document)
@@ -304,8 +304,6 @@ namespace BH.Adapter.TAS
             }
             return material;
         }
-
-        /***************************************************/
     }
 }
 

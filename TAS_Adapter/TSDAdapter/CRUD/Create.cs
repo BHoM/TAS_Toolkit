@@ -48,6 +48,7 @@ namespace BH.Adapter.TAS
             }
             return success;
         }
+
         public static void ClearCOMObject(object Object)
         {
             if (Object == null) return;
@@ -88,6 +89,7 @@ namespace BH.Adapter.TAS
             
             return true;
         }
+
         /*
         private bool Create(BHE.Properties.BuildingElementProperties buildingElementProperties)
         {
