@@ -37,6 +37,8 @@ using BH.Engine.Adapters.TAS;
 using BH.oM.Environment.Results;
 
 using BH.oM.Adapter;
+using TCD;
+using BH.oM.Adapters.TAS;
 
 namespace BH.Adapter.TAS
 {
@@ -46,68 +48,72 @@ namespace BH.Adapter.TAS
         /**** Public Methods                            ****/
         /***************************************************/
 
-        protected override IEnumerable<IBHoMObject> IRead(Type type, IList indices = null, ActionConfig actionConfig = null)
+        protected IEnumerable<IBHoMObject> IRead(Type type, TSDDocument document, TASTSDConfig actionConfig)
         {
-            return ReadResults();
-        }
-
-        private List<IBHoMObject> ReadResults()
-        {
-            switch(SimulationResultType)
+            switch (actionConfig.SimulationType)
             {
                 case SimulationResultType.BuildingResult:
-                    return ReadBuildingResults();
+                    return ReadBuildingResults(document, actionConfig);
                 case SimulationResultType.SpaceResult:
-                    return ReadSpaceResults();
+                    return ReadSpaceResults(document, actionConfig);
                 case SimulationResultType.BuildingElementResult:
-                    return ReadBuildingElementResults();
+                    return ReadBuildingElementResults(document, actionConfig);
                 default:
                     return new List<IBHoMObject>();
             }
         }
-        
-        public List<IBHoMObject> ReadBuildingResults(List<string> ids = null)
+
+        /***************************************************/
+
+        public List<IBHoMObject> ReadBuildingResults(TSDDocument document, TASTSDConfig actionConfig)
         {
-            TSD.BuildingData tsdBuildingData = tsdDocument.SimulationData.GetBuildingData();
-            List<IBHoMObject> buildingResults = new List<IBHoMObject>();
-            
-            buildingResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(tsdBuildingData, ProfileResultUnits, ProfileResultType, Hour, Day));
+            TSD.BuildingData tsdBuildingData = document.Document.SimulationData.GetBuildingData();
+            List<IBHoMObject> buildingResults = new List<IBHoMObject>
+            {
+                BH.Engine.Adapters.TAS.Convert.FromTAS(tsdBuildingData, actionConfig.ResultUnit, actionConfig.ResultType, actionConfig.Hour, actionConfig.Day)
+            };
 
             return buildingResults;
         }
-        
-        public List<IBHoMObject> ReadSpaceResults(List<string> ids=null)
+
+        /***************************************************/
+
+        public List<IBHoMObject> ReadSpaceResults(TSDDocument document, TASTSDConfig actionConfig)
         {
-            switch(tsdResultType)
+            switch(actionConfig.ResultQuery)
             {
-                case oM.Adapters.TAS.TSDResultType.Simulation:
-                    return ReadSpaceSimulationResults();
-                case oM.Adapters.TAS.TSDResultType.HeatingDesignDay:
-                    return ReadSpaceHeatingResults();
-                case oM.Adapters.TAS.TSDResultType.CoolingDesignDay:
-                    return ReadSpaceCoolingResults();
+                case TSDResultType.Simulation:
+                    return ReadSpaceSimulationResults(document, actionConfig);
+                case TSDResultType.HeatingDesignDay:
+                    return ReadSpaceHeatingResults(document, actionConfig);
+                case TSDResultType.CoolingDesignDay:
+                    return ReadSpaceCoolingResults(document, actionConfig);
             }
 
             return new List<IBHoMObject>();
         }
 
-        public List<IBHoMObject> ReadSpaceSimulationResults()
+        /***************************************************/
+
+        public List<IBHoMObject> ReadSpaceSimulationResults(TSDDocument document, TASTSDConfig actionConfig)
         {
             List<IBHoMObject> spaceResults = new List<IBHoMObject>();
 
             int zoneIndex = 1;
             TSD.ZoneData zoneData = null;
 
-            while ((zoneData = tsdDocument.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
+            while ((zoneData = document.Document.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
             {
-                spaceResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
+                spaceResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(zoneData, actionConfig.ResultUnit, actionConfig.ResultType, actionConfig.Hour, actionConfig.Day));
                 zoneIndex++;
             }
 
             return spaceResults;
         }
 
-        public List<IBHoMObject> ReadSpaceHeatingResults()
+        /***************************************************/
+
+        public List<IBHoMObject> ReadSpaceHeatingResults(TSDDocument document, TASTSDConfig actionConfig)
         {
             List<IBHoMObject> spaceResults = new List<IBHoMObject>();
 
@@ -115,12 +121,12 @@ namespace BH.Adapter.TAS
             TSD.HeatingDesignData heatData = null;
             TSD.ZoneData zoneData = null;
 
-            while ((heatData = tsdDocument.SimulationData.GetHeatingDesignData(heatingIndex)) != null)
+            while ((heatData = document.Document.SimulationData.GetHeatingDesignData(heatingIndex)) != null)
             {
                 int zoneIndex = 1;
                 while ((zoneData = heatData.GetZoneData(zoneIndex)) != null)
                 {
-                    spaceResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
+                    spaceResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(zoneData, actionConfig.ResultUnit, actionConfig.ResultType, actionConfig.Hour, actionConfig.Day));
                     zoneIndex++;
                 }
                 heatingIndex++;
@@ -129,7 +135,9 @@ namespace BH.Adapter.TAS
             return spaceResults;
         }
 
-        public List<IBHoMObject> ReadSpaceCoolingResults()
+        /***************************************************/
+
+        public List<IBHoMObject> ReadSpaceCoolingResults(TSDDocument document, TASTSDConfig actionConfig)
         {
             List<IBHoMObject> spaceResults = new List<IBHoMObject>();
 
@@ -137,12 +145,12 @@ namespace BH.Adapter.TAS
             TSD.CoolingDesignData coolData = null;
             TSD.ZoneData zoneData = null;
 
-            while ((coolData = tsdDocument.SimulationData.GetCoolingDesignData(coolingIndex)) != null)
+            while ((coolData = document.Document.SimulationData.GetCoolingDesignData(coolingIndex)) != null)
             {
                 int zoneIndex = 1;
                 while ((zoneData = coolData.GetZoneData(zoneIndex)) != null)
                 {
-                    spaceResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(zoneData, ProfileResultUnits, ProfileResultType, Hour, Day));
+                    spaceResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(zoneData, actionConfig.ResultUnit, actionConfig.ResultType, actionConfig.Hour, actionConfig.Day));
                     zoneIndex++;
                 }
                 coolingIndex++;
@@ -151,20 +159,22 @@ namespace BH.Adapter.TAS
             return spaceResults;
         }
 
-        public List<IBHoMObject> ReadBuildingElementResults(List<string> ids=null)
+        /***************************************************/
+
+        public List<IBHoMObject> ReadBuildingElementResults(TSDDocument document, TASTSDConfig actionConfig)
         {
             List<IBHoMObject> buildingElementResults = new List<IBHoMObject>();
 
             int zoneIndex = 1;
             TSD.ZoneData zoneData = null;
 
-            while ((zoneData = tsdDocument.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
+            while ((zoneData = document.Document.SimulationData.GetBuildingData().GetZoneData(zoneIndex)) != null)
             {
                 int srfIndex = 1;
                 TSD.SurfaceData srfData = null;
                 while((srfData = zoneData.GetSurfaceData(srfIndex)) != null)
                 {
-                    buildingElementResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(srfData, ProfileResultUnits, ProfileResultType, Hour, Day));
+                    buildingElementResults.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(srfData, actionConfig.ResultUnit, actionConfig.ResultType, actionConfig.Hour, actionConfig.Day));
                     srfIndex++;
                 }
                 zoneIndex++;

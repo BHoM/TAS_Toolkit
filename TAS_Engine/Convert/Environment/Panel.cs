@@ -35,7 +35,6 @@ using BH.oM.Base.Attributes;
 using System.ComponentModel;
 using BH.Engine.Environment;
 using BH.oM.Adapters.TAS;
-using BH.oM.Adapters.TAS.Settings;
 using BH.oM.Adapters.TAS.Fragments;
 using BH.Engine.Base;
 

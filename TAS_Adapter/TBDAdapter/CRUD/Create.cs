@@ -47,7 +47,7 @@ namespace BH.Adapter.TAS
         /**** Public Interface methods                  ****/
         /***************************************************/
 
-        public bool ICreate<T>(IEnumerable<T> objects, TBDDocument document, ActionConfig actionConfig = null)
+        protected bool ICreate<T>(IEnumerable<T> objects, TBDDocument document, ActionConfig actionConfig = null)
         {
             return Create(objects as dynamic, document);
         }

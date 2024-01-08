@@ -36,11 +36,8 @@ namespace BH.Adapter.TAS
     {
         public override List<object> Push(IEnumerable<object> objects = null, string tag = "", PushType pushType = PushType.AdapterDefault, ActionConfig actionConfig = null)
         {
-            throw new NotImplementedException("Pushing to TAS TSD files has not been implemented yet");
+            BH.Engine.Base.Compute.RecordError("Pushing to TSD files is not yet implemented.");
+            return new List<object>();
         }
     }
 }
-
-
-
-

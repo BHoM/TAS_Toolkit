@@ -33,7 +33,6 @@ using BH.oM.Environment.Results;
 using System.ComponentModel;
 using BH.oM.Base.Attributes;
 using BH.oM.Adapters.TAS;
-using BH.oM.Adapters.TAS.Settings;
 using BH.oM.Adapter;
 using BH.Engine.Adapter;
 
@@ -51,144 +50,9 @@ namespace BH.Adapter.TAS
         [Input("day", "Day between 1 and 365 inclusive for Daily results")]
         [Input("tasSettings", "Input additional settings the adapter should use.")]
         [Output("adapter", "adapter for TAS tSD")]
-        public TasTSDAdapter(FileSettings fileSettings, TSDResultType tsdResultQuery = TSDResultType.Simulation, SimulationResultType simType = SimulationResultType.BuildingResult, ProfileResultUnit resultUnit = ProfileResultUnit.Yearly, ProfileResultType resultType = ProfileResultType.TemperatureExternal, int hour = -1, int day = -1, TASSettings tasSettings = null)
+        public TasTSDAdapter()
         {
-            tsdFilePath = fileSettings.GetFullFileName();
-            tsdResultType = tsdResultQuery;
-            SimulationResultType = simType;
-            ProfileResultUnits = resultUnit;
-            ProfileResultType = resultType;
-            Hour = hour;
-            Day = day;
-            _tasSettings = tasSettings;
-
-            if (!CheckInputCombinations()) return;
-
-        }
-
-        private bool CheckInputCombinations()
-        {
-            if (tsdFilePath == "")
-            {
-                BH.Engine.Base.Compute.RecordError("Please provide a valid TSD input file path");
-                return false;
-            }
-
-            if (tsdResultType == TSDResultType.Undefined)
-            {
-                BH.Engine.Base.Compute.RecordError("Result output cannot be undefined");
-                return false;
-            }
-            if (SimulationResultType == SimulationResultType.Undefined)
-            {
-                BH.Engine.Base.Compute.RecordError("Simulation type cannot be undefined");
-                return false;
-            }
-            if (ProfileResultUnits == ProfileResultUnit.Undefined)
-            {
-                BH.Engine.Base.Compute.RecordError("Unit type cannot be undefined");
-                return false;
-            }
-            if (ProfileResultType == ProfileResultType.Undefined)
-            {
-                BH.Engine.Base.Compute.RecordError("Result type cannot be undefined");
-                return false;
-            }
-
-            if ((tsdResultType == TSDResultType.CoolingDesignDay || tsdResultType == TSDResultType.HeatingDesignDay) && (SimulationResultType == SimulationResultType.BuildingResult || SimulationResultType == SimulationResultType.BuildingElementResult))
-            {
-                BH.Engine.Base.Compute.RecordError("Heating and Cooling Design Day results are only available on Space Result Types");
-                return false;
-            }
-
-            if (ProfileResultUnits == ProfileResultUnit.Daily && (Day < 1 || Day > 365))
-            {
-                BH.Engine.Base.Compute.RecordError("Please select a day between 1 and 365 inclusive for Daily Results");
-                return false;
-            }
-
-            if (ProfileResultUnits == ProfileResultUnit.Hourly && (Hour < 1 || Hour > 24))
-            {
-                BH.Engine.Base.Compute.RecordError("Please select an hour between 1 and 24 inclusive for Hourly Results");
-                return false;
-            }
-
-            if (ProfileResultUnits == ProfileResultUnit.Yearly && (Hour != -1 || Day != -1))
-            {
-                BH.Engine.Base.Compute.RecordWarning("Day and Hour inputs are not used when pulling Yearly Results");
-            }
-
-            if (_tasSettings == null)
-            {
-                BH.Engine.Base.Compute.RecordError("Please set some TAS Settings on the TAS Adapter");
-                return false;
-            }
-
-            return true;
-        }
-
-        /***************************************************/
-        /**** Private Fields                            ****/
-        /***************************************************/
-
-        private TSD.TSDDocument tsdDocument = null;
-        private string tsdFilePath = null;
-        private TSDResultType tsdResultType = TSDResultType.Undefined;
-        private SimulationResultType SimulationResultType = SimulationResultType.Undefined;
-        private ProfileResultUnit ProfileResultUnits = ProfileResultUnit.Undefined;
-        private ProfileResultType ProfileResultType = ProfileResultType.Undefined;
-        private int Hour = 1;
-        private int Day = 1;
-        private TASSettings _tasSettings { get; set; } = null;
-
-        /***************************************************/
-        /**** Private Methods                           ****/
-        /***************************************************/
-
-        //To get the TSD Document
-        private TSD.TSDDocument GetTsdDocument()
-        {
-            tsdDocument = new TSD.TSDDocument();
-            if (!String.IsNullOrEmpty(tsdFilePath) && System.IO.File.Exists(tsdFilePath))
-                tsdDocument.open(tsdFilePath);
-
-            else if (!String.IsNullOrEmpty(tsdFilePath))
-                tsdDocument.create(tsdFilePath); //What if an existing file has the same name?
-
-            else
-                BH.Engine.Base.Compute.RecordError("The TSD file does not exist");
-            return tsdDocument;
-        }
-        //TODO: Do we need both of these?
-        //To get the TSD Document
-        private TSD.TSDDocument GetTsdDocumentReadOnly()
-        {
-            tsdDocument = new TSD.TSDDocument();
-            if (!String.IsNullOrEmpty(tsdFilePath) && System.IO.File.Exists(tsdFilePath))
-                tsdDocument.openReadOnly(tsdFilePath);
-
-            else if (!String.IsNullOrEmpty(tsdFilePath))
-                tsdDocument.create(tsdFilePath); //What if an existing file has the same name?
-
-            else
-                BH.Engine.Base.Compute.RecordError("The TSD file does not exist");
-            return tsdDocument;
-        }
-
-        //Close and save the TSD Document
-        private void CloseTsdDocument(bool save = true)
-        {
-            if (tsdDocument != null)
-            {
-                if (save == true)
-                    tsdDocument.save();
-                tsdDocument.close();
-                if (tsdDocument != null)
-                {
-                    ClearCOMObject(tsdDocument);
-                    tsdDocument = null;
-                }
-            }
+            m_AdapterSettings.DefaultPushType = oM.Adapter.PushType.CreateOnly;
         }
     }
 }

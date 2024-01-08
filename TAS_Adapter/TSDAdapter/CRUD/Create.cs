@@ -39,16 +39,17 @@ namespace BH.Adapter.TAS
 {
     public partial class TasTSDAdapter : BHoMAdapter
     {
+        //These methods are never called, but will be left in as they are half-complete.
         protected override bool ICreate<T>(IEnumerable<T> objects, ActionConfig actionConfig = null)
         {
             bool success = true;
             if (typeof(IBHoMObject).IsAssignableFrom(typeof(T)))
             {
-                success = CreateCollection(objects as dynamic);
+                //success = CreateCollection(objects as dynamic);
             }
             return success;
         }
-
+        /*
         public static void ClearCOMObject(object Object)
         {
             if (Object == null) return;
@@ -69,6 +70,7 @@ namespace BH.Adapter.TAS
             }
             return success;
         }
+
         private bool CreateCollection(IEnumerable<BHE.Elements.Space> spaces)
         {
             bool success = true;
@@ -89,7 +91,7 @@ namespace BH.Adapter.TAS
             
             return true;
         }
-
+        
         /*
         private bool Create(BHE.Properties.BuildingElementProperties buildingElementProperties)
         {
@@ -120,8 +122,3 @@ namespace BH.Adapter.TAS
 
     }
 }
-
-
-
-
-
