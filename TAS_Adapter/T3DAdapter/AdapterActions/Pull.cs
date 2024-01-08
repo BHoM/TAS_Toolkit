@@ -29,6 +29,7 @@ using System.Threading.Tasks;
 using BH.oM.Data.Requests;
 using BH.oM.Adapter;
 using BH.oM.Base;
+using BH.oM.Adapters.TAS;
 
 namespace BH.Adapter.TAS
 {
@@ -36,30 +37,34 @@ namespace BH.Adapter.TAS
     {
         public override IEnumerable<object> Pull(IRequest request, PullType pullType = PullType.AdapterDefault, ActionConfig actionConfig = null)
         {
+            if (actionConfig == null)
+            {
+                BH.Engine.Base.Compute.RecordError("To use this adapter, you must provide a valid TAST3DConfig");
+                return new List<object>();
+            }
+
+            TAST3DConfig config = (TAST3DConfig)actionConfig;
+            if (config == null)
+            {
+                BH.Engine.Base.Compute.RecordError("To use this adapter, you must provide a valid TAST3DConfig");
+                return new List<object>();
+            }
+
+            T3DDocument document = (T3DDocument)Compute.OpenTASDocument(typeof(T3DDocument), config.T3DFile);
             try
             {
-                GetT3DDocument(); //Open the TBD Document for pulling data from
-
                 IEnumerable<object> res = base.Pull(request, pullType, actionConfig);
 
-                CloseT3DDocument(false);
+                Compute.ICloseTASDocument(document, false);
 
                 return res;
             }
             catch (Exception e)
             {
-                BH.Engine.Base.Compute.RecordError(e.ToString());
-                CloseT3DDocument();
-                return null;
+                BH.Engine.Base.Compute.RecordError($"An error occurred when trying to read the T3D file: {e}.");
+                Compute.ICloseTASDocument(document, false);
             }
-            finally
-            {
-                CloseT3DDocument();
-            }
+            return null;
         }
     }
 }
-
-
-
-

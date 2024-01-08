@@ -9,8 +9,10 @@ namespace BH.oM.Adapters.TAS
 {
     public class TASTBDConfig : ActionConfig, ITASConfig
     {
-        //TODO - fill with all inputs to the TASTBDAdapter
+        //TASTBD properties
         public virtual FileSettings TBDFile { get; set; } = null;
+
+        //TASSettings properties
         public virtual double DistanceTolerance { get; set; } = BH.oM.Geometry.Tolerance.Distance;
         public virtual double PlanarTolerance { get; set; } = BH.oM.Geometry.Tolerance.Distance;
         public virtual double MinimumSegmentLength { get; set; } = BH.oM.Geometry.Tolerance.Distance;

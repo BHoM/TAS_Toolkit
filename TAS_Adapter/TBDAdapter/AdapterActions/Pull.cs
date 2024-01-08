@@ -79,10 +79,7 @@ namespace BH.Adapter.TAS
             }
             catch (Exception e)
             {
-                BH.Engine.Base.Compute.RecordError($"An error occurred during the read operation: {e}.");
-            }
-            finally
-            {
+                BH.Engine.Base.Compute.RecordError($"An error occurred when reading or saving the TAS file: {e}.");
                 Compute.ICloseTASDocument(document, false);
             }
 
