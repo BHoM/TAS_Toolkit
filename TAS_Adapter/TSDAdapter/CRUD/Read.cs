@@ -78,6 +78,7 @@ namespace BH.Adapter.TAS
             else if (!File.Exists(config.TSDFile.GetFullFileName()))
             {
                 BH.Engine.Base.Compute.RecordError("You must provide a valid existing TBD file to read from.");
+                return objects;
             }
 
             TSDDocument document = new TSDDocument().OpenTASDocument(config.TSDFile);
