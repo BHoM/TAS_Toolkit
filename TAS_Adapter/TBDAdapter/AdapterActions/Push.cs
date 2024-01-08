@@ -60,7 +60,7 @@ namespace BH.Adapter.TAS
                 return new List<object>();
             }
 
-            TBDDocument tbdFile = TAS.Compute.OpenTASDocument(typeof(TBDDocument), config.TBDFile) as TBDDocument;
+            TBDDocument tbdFile = new TBDDocument().OpenTASDocument(config.TBDFile);
 
             bool success = ICreate(objects, tbdFile, config);
 

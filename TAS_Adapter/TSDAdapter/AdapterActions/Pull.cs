@@ -66,7 +66,7 @@ namespace BH.Adapter.TAS
                 BH.Engine.Base.Compute.RecordError("You must provide a valid existing TBD file to read from.");
             }
 
-            TSDDocument document = (TSDDocument)Compute.OpenTASDocument(typeof(TSDDocument), config.TSDFile);
+            TSDDocument document = new TSDDocument().OpenTASDocument(config.TSDFile);
             
             try
             {
