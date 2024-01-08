@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TAS3D
+using TAS3D;
 
 namespace BH.Adapter.TAS
 {

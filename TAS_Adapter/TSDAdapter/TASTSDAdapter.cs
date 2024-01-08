@@ -41,22 +41,11 @@ namespace BH.Adapter.TAS
     public partial class TasTSDAdapter : BHoMAdapter
     {
         [Description("Produces an TAS Adapter to allow interopability with TAS tSD files and the BHoM")]
-        [Input("fileSettings", "Input the file settings to get the file name and directory the TAS TSD Adapter should use")]
-        [Input("tsdResultQuery", "TSD retult type, defaults to Simulation")]
-        [Input("simType", "Simulation result type, defaults to BuildingResult")]
-        [Input("resultUnit", "Profile result unit, defaults to Yearly")]
-        [Input("resultType", "Profile result type, defaults to TemperatureExternal")]
-        [Input("hour", "Hour between 1 and 24 inclusive for Hourly Results")]
-        [Input("day", "Day between 1 and 365 inclusive for Daily results")]
-        [Input("tasSettings", "Input additional settings the adapter should use.")]
         [Output("adapter", "adapter for TAS tSD")]
+        [PreviousVersion("7.0", "BH.Adapter.TAS.TasTSDAdapter()")] //TODO get the previous method versioning key
         public TasTSDAdapter()
         {
             m_AdapterSettings.DefaultPushType = oM.Adapter.PushType.CreateOnly;
         }
     }
 }
-
-
-
-

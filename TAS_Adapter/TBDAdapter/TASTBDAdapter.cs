@@ -42,8 +42,6 @@ namespace BH.Adapter.TAS
         /***************************************************/
 
         [Description("Produces an TAS Adapter to allow interopability with TAS tBD files and the BHoM")]
-        [Input("fileSettings", "Input the file settings to get the file name and directory the TAS TBD Adapter should use")]
-        [Input("tasSettings", "Input additional settings the adapter should use")]
         [Output("adapter", "Adapter to TAS tBD")]
         [PreviousVersion("7.0", "BH.Adapter.TAS.TasTBDAdapter(BH.oM.Adapter.FileSettings, BH.oM.TAS.Settings.TASSettings)")]
         public TasTBDAdapter()
