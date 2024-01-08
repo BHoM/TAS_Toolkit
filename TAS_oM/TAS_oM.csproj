@@ -38,6 +38,8 @@
   <ItemGroup>
     <Reference Include="Adapter_oM">
       <HintPath>$(ProgramData)\BHoM\Assemblies\Adapter_oM.dll</HintPath>
+      <Private>False</Private>
+	  <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="Architecture_oM">
       <HintPath>$(ProgramData)\BHoM\Assemblies\Architecture_oM.dll</HintPath>
