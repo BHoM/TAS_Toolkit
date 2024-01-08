@@ -78,10 +78,7 @@ namespace BH.Adapter.TAS
             }
             catch (Exception ex)
             {
-                BH.Engine.Base.Compute.RecordError($"An error occurred when trying to read the TSD File: {ex}.");
-            }
-            finally
-            {
+                BH.Engine.Base.Compute.RecordError($"An error occurred when reading or saving the TAS file: {ex}.");
                 Compute.ICloseTASDocument(document, false);
             }
 

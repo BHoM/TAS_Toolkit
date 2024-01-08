@@ -29,6 +29,8 @@ using System.Threading.Tasks;
 using BH.oM.Data.Requests;
 using BH.oM.Adapter;
 using BH.oM.Base;
+using BH.oM.Adapters.TAS;
+using BH.Engine.Adapter;
 
 namespace BH.Adapter.TAS
 {
@@ -36,20 +38,34 @@ namespace BH.Adapter.TAS
     {
         public override List<object> Push(IEnumerable<object> objects = null, string tag = "", PushType pushType = PushType.AdapterDefault, ActionConfig actionConfig = null)
         {
+            if (actionConfig == null)
+            {
+                BH.Engine.Base.Compute.RecordError("To use this adapter, you must provide a valid TAST3DConfig");
+                return new List<object>();
+            }
+
+            TAST3DConfig config = (TAST3DConfig)actionConfig;
+            if (config == null)
+            {
+                BH.Engine.Base.Compute.RecordError("To use this adapter, you must provide a valid TAST3DConfig");
+                return new List<object>();
+            }
+
             // If unset, set the pushType to AdapterSettings' value (base AdapterSettings default is FullCRUD).
             if (pushType == PushType.AdapterDefault)
                 pushType = m_AdapterSettings.DefaultPushType;
 
             IEnumerable<IBHoMObject> objectsToPush = ProcessObjectsForPush(objects, actionConfig); // Note: default Push only supports IBHoMObjects.
 
-            GetT3DDocument();
+            T3DDocument document = (T3DDocument)Compute.OpenTASDocument(typeof(T3DDocument), config.T3DFile);
 
             bool success = true;
 
-            t3dDocument.ImportGBXML(GBXMLFile, 1, (FixNormals ? 1 : 0), 1); //Overwrite existing file (first '1') and create zones from spaces (second '1')
-            RemoveUnusedZones();
+            document.Document.ImportGBXML(config.GBXMLFile.GetFullFileName(), 1, (FixNormals ? 1 : 0), 1); //Overwrite existing file (first '1') and create zones from spaces (second '1')
+            Compute.RemoveUnusedZones(document);
 
-            CloseT3DDocument();
+            Compute.ICloseTASDocument(document, true);
+
             return success ? objects.ToList() : new List<object>();
         }
     }

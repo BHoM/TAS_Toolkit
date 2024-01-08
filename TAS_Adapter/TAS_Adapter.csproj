@@ -142,6 +142,7 @@
     <Compile Include="T3DAdapter\AdapterActions\Pull.cs" />
     <Compile Include="T3DAdapter\AdapterActions\Push.cs" />
     <Compile Include="T3DAdapter\CRUD\Read.cs" />
+    <Compile Include="T3DAdapter\RemoveUnusedZones.cs" />
     <Compile Include="T3DAdapter\TAST3DAdapter.cs" />
     <Compile Include="TBDAdapter\AdapterActions\Pull.cs" />
     <Compile Include="TBDAdapter\AdapterActions\Push.cs" />
