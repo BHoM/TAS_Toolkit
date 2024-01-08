@@ -184,7 +184,3 @@ namespace BH.Adapter.TAS
         }
     }
 }
-
-
-
-

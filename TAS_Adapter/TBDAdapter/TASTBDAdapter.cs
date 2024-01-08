@@ -49,7 +49,3 @@ namespace BH.Adapter.TAS
         }
     }
 }
-
-
-
-

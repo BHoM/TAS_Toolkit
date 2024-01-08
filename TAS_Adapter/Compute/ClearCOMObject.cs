@@ -11,12 +11,16 @@ namespace BH.Adapter.TAS
     {
         public static void ClearCOMObject(object obj)
         {
-            if (obj == null) return;
-            int intrefcount;
+            if (obj == null)
+                return;
+            
+            int refCount = 1;
+            
             do
             {
-                intrefcount = Marshal.FinalReleaseComObject(obj);
-            } while (intrefcount > 0);
+                refCount = Marshal.FinalReleaseComObject(obj);
+            }
+            while (refCount > 0);
         }
     }
 }
