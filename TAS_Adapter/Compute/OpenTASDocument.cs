@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TCD;
 
 namespace BH.Adapter.TAS
 {
@@ -30,14 +31,17 @@ namespace BH.Adapter.TAS
             }
             else if (type == typeof(TBDDocument))
             {
-                TBDDocument document = new TBDDocument();
+                TBD.TBDDocument tempDocument = new TBD.TBDDocument();
+                //TBDDocument document = new TBDDocument();
 
                 if (File.Exists(file.GetFullFileName()))
-                    document.Document.open(file.GetFullFileName());
+                    tempDocument.open(file.GetFullFileName());
+                    //document.Document.open(file.GetFullFileName());
                 else
-                    document.Document.create(file.GetFullFileName());
+                    tempDocument.create(file.GetFullFileName());
+                    //document.Document.create(file.GetFullFileName());
 
-                return document;
+                return new TBDDocument() { Document = tempDocument };
             }
             else if (type == typeof(TSDDocument))
             {

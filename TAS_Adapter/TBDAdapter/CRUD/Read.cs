@@ -41,6 +41,7 @@ using BH.oM.Adapter;
 
 using BH.Engine.Base;
 using BH.oM.Adapters.TAS.Fragments;
+using BH.oM.Adapters.TAS;
 
 namespace BH.Adapter.TAS
 {
@@ -50,58 +51,59 @@ namespace BH.Adapter.TAS
         /**** Public Methods                            ****/
         /***************************************************/
 
-        protected override IEnumerable<IBHoMObject> IRead(Type type, IList indices = null, ActionConfig actionConfig = null)
+        protected IEnumerable<IBHoMObject> IRead(Type type, TBDDocument document, TASTBDConfig actionConfig)
         {
-
             if (type == typeof(Building))
-                return ReadBuilding();
+                return ReadBuilding(document);
             else if (type == typeof(Panel))
-                return ReadBuildingElements();
+                return ReadBuildingElements(document, actionConfig);
             else if (type == typeof(Space))
-                return ReadSpaces();
+                return ReadSpaces(document);
             //else if (type == typeof(BuildingElement))
             //    return ReadPanels();
             //else if (type == typeof(ElementProperties))
             //  return ReadElementsProperties();
             else if (type == typeof(Layer))
-                return ReadMaterials();
+                return ReadMaterials(document);
             else if (type == typeof(BH.oM.Spatial.SettingOut.Level))
-                return ReadLevels();
+                return ReadLevels(document);
             else if (type == typeof(Construction))
-                return ReadConstruction();
+                return ReadConstruction(document);
+            else if (type == null)
+                return Read(document, actionConfig); //Read everything
             else
-                return Read(); //Read everything
+                BH.Engine.Base.Compute.RecordError($"Reading elements of type: {type} is not currently supported.");
+            return new List<IBHoMObject>();
         }
 
-        public List<IBHoMObject> Read()
+        public List<IBHoMObject> Read(TBDDocument document, TASTBDConfig actionConfig)
         {
             List<IBHoMObject> bhomObjects = new List<IBHoMObject>();
 
-            bhomObjects.AddRange(ReadBuilding());
-            bhomObjects.AddRange(ReadSpaces());
-            bhomObjects.AddRange(ReadBuildingElements());
-            bhomObjects.AddRange(ReadConstruction());
-            bhomObjects.AddRange(ReadLevels());
+            bhomObjects.AddRange(ReadBuilding(document));
+            bhomObjects.AddRange(ReadSpaces(document));
+            bhomObjects.AddRange(ReadBuildingElements(document, actionConfig));
+            bhomObjects.AddRange(ReadConstruction(document));
+            bhomObjects.AddRange(ReadLevels(document));
 
             return bhomObjects;
         }
-
 
         /***************************************************/
         /**** Private Methods                           ****/
         /***************************************************/
 
-        private List<Space> ReadSpaces(List<string> ids = null)
+        private List<Space> ReadSpaces(TBDDocument document)
         {
-            TBD.Building building = m_tbdDocument.Building;
+            TBD.Building building = document.Document.Building;
 
             List<Space> spaces = new List<Space>();
 
             int zoneIndex = 0;
             while (building.GetZone(zoneIndex) != null)
             {
-                TBD.zone zone = m_tbdDocument.Building.GetZone(zoneIndex);
-                spaces.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(zone, m_tbdDocument));
+                TBD.zone zone = document.Document.Building.GetZone(zoneIndex);
+                spaces.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(zone, document.Document));
                 zoneIndex++;
             }
 
@@ -110,9 +112,9 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private List<Building> ReadBuilding(List<string> ids = null)
+        private List<Building> ReadBuilding(TBDDocument document)
         {
-            TBD.Building building = m_tbdDocument.Building;
+            TBD.Building building = document.Document.Building;
             List<Building> buildings = new List<Building>();
             buildings.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(building));
 
@@ -121,9 +123,9 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private List<BH.oM.Spatial.SettingOut.Level> ReadLevels(List<string> ids = null)
+        private List<BH.oM.Spatial.SettingOut.Level> ReadLevels(TBDDocument document)
         {
-            TBD.Building tbdBuilding = m_tbdDocument.Building;
+            TBD.Building tbdBuilding = document.Document.Building;
             List<BH.oM.Spatial.SettingOut.Level> levels = new List<BH.oM.Spatial.SettingOut.Level>();
             levels = BH.Engine.Adapters.TAS.Convert.FromTASLevels(tbdBuilding);
 
@@ -132,18 +134,18 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private List<Panel> ReadPanels(List<string> ids = null)
+        private List<Panel> ReadPanels(TBDDocument document)
         {
 
             List<Panel> panels = new List<Panel>();
 
             int zoneIndex = 0;
-            while (m_tbdDocument.Building.GetZone(zoneIndex) != null)
+            while (document.Document.Building.GetZone(zoneIndex) != null)
             {
                 int panelIndex = 0;
-                while (m_tbdDocument.Building.GetZone(zoneIndex).GetSurface(panelIndex) != null)
+                while (document.Document.Building.GetZone(zoneIndex).GetSurface(panelIndex) != null)
                 {
-                    TBD.zoneSurface zonesurface = m_tbdDocument.Building.GetZone(zoneIndex).GetSurface(panelIndex);
+                    TBD.zoneSurface zonesurface = document.Document.Building.GetZone(zoneIndex).GetSurface(panelIndex);
 
                     int roomSurfaceIndex = 0;
                     while (zonesurface.GetRoomSurface(roomSurfaceIndex) != null)
@@ -165,9 +167,9 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        public List<Panel> ReadBuildingElements(List<string> ids = null)
+        public List<Panel> ReadBuildingElements(TBDDocument document, TASTBDConfig actionConfig)
         {
-            TBD.Building building = m_tbdDocument.Building;
+            TBD.Building building = document.Document.Building;
             List<Panel> buildingElements = new List<Panel>();
 
             int zoneIndex = 0;
@@ -181,7 +183,7 @@ namespace BH.Adapter.TAS
                 {
                     //check to exlude tine area
                     if (zoneSrf.internalArea > 0 || zoneSrf.area > 0.2)
-                        buildingElements.Add(zoneSrf.buildingElement.FromTAS(zoneSrf, _tasSettings));
+                        buildingElements.Add(zoneSrf.buildingElement.FromTAS(zoneSrf, actionConfig));
                     zoneSurfaceIndex++;
                 }
                 zoneIndex++;
@@ -248,15 +250,15 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        public List<Construction> ReadConstruction(List<string> ids = null)
+        public List<Construction> ReadConstruction(TBDDocument document)
         {
-            TBD.Building building = m_tbdDocument.Building;
+            TBD.Building building = document.Document.Building;
             List<Construction> constructions = new List<Construction>();
 
             int buildingElementIndex = 0;
             while (building.GetConstruction(buildingElementIndex) != null)
             {
-                TBD.Construction construction = m_tbdDocument.Building.GetConstruction(buildingElementIndex);
+                TBD.Construction construction = document.Document.Building.GetConstruction(buildingElementIndex);
                 constructions.Add(BH.Engine.Adapters.TAS.Convert.FromTAS(construction)); //ToDo: FIX THIS
                 buildingElementIndex++;
             }
@@ -277,9 +279,9 @@ namespace BH.Adapter.TAS
 
         /***************************************************/
 
-        private List<Layer> ReadMaterials(List<string> ids = null)
+        private List<Layer> ReadMaterials(TBDDocument document)
         {
-            TBD.Building building = m_tbdDocument.Building;
+            TBD.Building building = document.Document.Building;
 
             List<Layer> material = new List<Layer>();
 

@@ -46,17 +46,8 @@ namespace BH.Adapter.TAS
         [Input("fileSettings", "Input the file settings to get the file name and directory the TAS TBD Adapter should use")]
         [Input("tasSettings", "Input additional settings the adapter should use")]
         [Output("adapter", "Adapter to TAS tBD")]
-        public TasTBDAdapter(FileSettings fileSettings, TASSettings tasSettings = null)
+        public TasTBDAdapter()
         {
-            if (tasSettings == null)
-            {
-                BH.Engine.Base.Compute.RecordError("Please set some TAS Settings on the TAS Adapter");
-                return;
-            }
-            tbdFilePath = fileSettings.GetFullFileName();
-
-            _tasSettings = tasSettings;
-
             m_AdapterSettings.DefaultPushType = oM.Adapter.PushType.CreateOnly;
         }
 
@@ -66,7 +57,6 @@ namespace BH.Adapter.TAS
 
         private TBD.TBDDocument m_tbdDocument = null;
         private string tbdFilePath = null;
-        private TASSettings _tasSettings { get; set; } = null;
 
         /***************************************************/
         /**** Private Methods                           ****/

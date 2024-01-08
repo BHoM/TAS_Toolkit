@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BH.oM.Adapters.TAS
 {
-    public class TAST3DConfig : ActionConfig
+    public class TAST3DConfig : ActionConfig, ITASConfig
     {
         //TODO - fill with all inputs to the TAST3DAdapter
         public virtual double DistanceTolerance { get; set; } = BH.oM.Geometry.Tolerance.Distance;

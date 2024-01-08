@@ -31,6 +31,9 @@ using BH.oM.Adapter;
 using BH.oM.Base;
 
 using System.Reflection;
+using BH.oM.Adapters.TAS;
+using System.IO;
+using System.Security.AccessControl;
 
 namespace BH.Adapter.TAS
 {
@@ -40,22 +43,32 @@ namespace BH.Adapter.TAS
         {
             if (actionConfig == null)
             {
-                BH.Engine.Base.Compute.RecordError("You must provide a valid TASActionConfig to use this adapter.");
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TASTBDConfig ActionConfig to use this adapter.");
                 return new List<object>();
             }
 
+            TASTBDConfig config = (TASTBDConfig)actionConfig;
+            if (config == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TASTBDConfig ActionConfig to use this adapter.");
+                return new List<object>();
+            }
 
+            if (config.TBDFile == null)
+            {
+                BH.Engine.Base.Compute.RecordError("You must provide a valid TBDFile FileSettings object to use this adapter.");
+                return new List<object>();
+            }
 
-            GetTbdDocument();
+            //GetTbdDocument();
+            TBDDocument tbdFile = TAS.Compute.OpenTASDocument(typeof(TBDDocument), config.TBDFile) as TBDDocument;
 
-            List<object> objs = base.Push(objects, tag, pushType, actionConfig);
+            bool success = ICreate(objects, tbdFile, config);
+            //List<object> objs = base.Push(objects, tag, pushType, actionConfig);
 
             CloseTbdDocument();
 
-            return objs;
+            return success ? objects.ToList() : new List<object>();
         }
     }
 }
-
-
-
