@@ -1,5 +1,0 @@
-﻿{
-  "MessageForDeleted": {
-    "BH.Engine.Adapters.TAS.Create.TASSettings(System.double, System.double, System.double, System.double)": "The TASSettings object has been replaced by adapter specific TAS Configs."
-  }
-}

@@ -43,7 +43,6 @@ namespace BH.Adapter.TAS
     {
         [Description("Produces an TAS Adapter to allow interopability with TAS tSD files and the BHoM")]
         [Output("adapter", "adapter for TAS tSD")]
-        [PreviousVersion("7.0", "BH.Adapter.TAS.TasTSDAdapter(BH.oM.Adapter.FileSettings, BH.oM.Adapters.TAS.TSDResultType, BH.oM.Environment.Results.SimulationResultType, BH.oM.Environment.Results.ProfileResultUnit, BH.oM.Environment.Results.ProfileResultType, System.int, System.int, BH.oM.Adapters.TAS.Settings.TASSettings)")] //TODO get the previous method versioning key
         public TasTSDAdapter()
         {
             m_AdapterSettings.DefaultPushType = oM.Adapter.PushType.CreateOnly;
